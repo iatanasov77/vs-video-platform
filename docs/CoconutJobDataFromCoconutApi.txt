@@ -1,0 +1,33 @@
+"{
+	\"id\":\"S9pRnV1e3HVwVt\",
+	\"created_at\":\"2023-09-17 09:29:34 +0000\",
+	\"completed_at\":\"2023-09-17 09:30:41 +0000\",
+	\"status\":\"job.completed\",
+	\"progress\":\"100%\",
+	\"input\":{
+		\"status\":\"input.transferred\"
+	},
+	\"outputs\":[
+		{
+			\"key\":\"mp4:1080p\",
+			\"type\":\"video\",
+			\"format\":\"mp4:1080p\",
+			\"url\":\"https:\\\/\\\/fra1.digitaloceanspaces.com\\\/coconut-output\\\/video-30-1080p.mp4\",
+			\"status\":\"video.encoded\"
+		},
+		{
+			\"key\":\"mp4:720p\",
+			\"type\":\"video\",
+			\"format\":\"mp4:720p\",
+			\"url\":\"https:\\\/\\\/fra1.digitaloceanspaces.com\\\/coconut-output\\\/video-30-720p.mp4\",
+			\"status\":\"video.encoded\"
+		},
+		{
+			\"key\":\"mp4:576p\",
+			\"type\":\"video\",
+			\"format\":\"mp4:576p\",
+			\"url\":\"https:\\\/\\\/fra1.digitaloceanspaces.com\\\/coconut-output\\\/video-30-576p.mp4\",
+			\"status\":\"video.encoded\"
+		}
+	]
+}"

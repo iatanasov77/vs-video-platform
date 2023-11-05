@@ -1,0 +1,55 @@
+app_video_player_read:
+    path: /videos/{id}/read
+    controller: App\Controller\Application\VideosController::read
+    options:
+        expose: true
+        
+app_video_player_read_transcoded:
+    path: /videos-transcoded/{id}-{format}/read
+    controller: App\Controller\Application\VideosController::readTranscoded
+    options:
+        expose: true
+
+vvp_actors:
+    path: /actors
+    controller: App\Controller\Application\ActorController::index
+    
+vvp_actor_details:
+    path: /actors/{slug}
+    controller: App\Controller\Application\ActorController::details
+    
+vvp_help_center_questions:
+    path: /help-center
+    controller: App\Controller\Application\HelpCenterController::index
+    
+vvp_movies_index:
+    path: /movies/latest
+    controller: App\Controller\VideoPlatform\MoviesController::index
+    defaults:   { categorySlug: 'latest' }
+    
+vvp_movies_details:
+    path: /movies/latest/{slug}
+    controller: App\Controller\VideoPlatform\MoviesController::details
+    defaults:   { categorySlug: 'latest' }
+    
+vvp_movies_category_index:
+    path: /movies/{categorySlug}
+    controller: App\Controller\VideoPlatform\MoviesController::index
+    
+vvp_movies_category_details:
+    path: /movies/{categorySlug}/{slug}
+    controller: App\Controller\VideoPlatform\MoviesController::details
+    
+vvp_movies_dvd_collection:
+    path: /dvd-collection
+    controller: App\Controller\VideoPlatform\MoviesController::dvdCollection
+    
+vvp_movies_english_subtitles:
+    path: /english-subtitles
+    controller: App\Controller\VideoPlatform\MoviesController::englishSubtitles
+    
+vvp_movies_filter_handle:
+    path: /movies-filter/{categorySlug}
+    controller: App\Controller\VideoPlatform\MoviesController::handleMoviesFilter
+    options:
+        expose: true

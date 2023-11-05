@@ -1,0 +1,62 @@
+parameters:
+    vvp_video_platform_settings_slug: '%env(VIDEO_PLATFORM_SETTINGS)%'
+
+imports:
+    - { resource: video_providers/local_storage.yaml }
+    - { resource: video_providers/youtube.yaml }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    app_video_platform:
+        class: App\Component\VideoPlatform
+        public: true
+        arguments:
+            - '%vvp_video_platform_settings_slug%'
+            - '@router'
+            - '@vs_vvp.repository.video_platform_settings'
+            - '@oneup_flysystem.vs_vvp.filesystems.local_filesystem'
+            - '@oneup_flysystem.vs_vvp.filesystems.coconut_output_filesystem'
+            - '@oneup_flysystem.vs_vvp.filesystems.videos_user_signatured_filesystem'
+            - '@vs_vvp.digital_ocean_original_videos_adapter'
+            - '@vs_vvp.digital_ocean_coconut_output_adapter'
+            - '@vs_vvp.repository.video_category'
+            - '@vs_vvp.repository.video'
+            - '@dubture_ffmpeg.ffmpeg'
+            - '@security.token_storage'
+            - '%vs_vvp.videos_directory%'
+            - '%vs_vvp.videos_user_signatured_directory%'
+            
+    app_video_transcoder_coconut:
+        class: App\Component\Cloud\Coconut
+        arguments:
+            - '@router'
+            - '@doctrine'
+            - '@vs_vvp.repository.coconut_job'
+            - '@vs_vvp.factory.coconut_job'
+            - '@http_client'
+            - '@app_video_platform'
+            
+    app_video_storage_digitalocean_original_videos:
+        class: App\Component\Cloud\DigitalOceanOriginalVideos
+        public: true
+        arguments:
+            - '@app_video_platform'
+            
+    app_video_storage_digitalocean_coconut_output:
+        class: App\Component\Cloud\DigitalOceanCoconutOutput
+        public: true
+        arguments:
+            - '@app_video_platform'
+            
+    app_movies_filter:
+        class: App\Component\MoviesFilter
+        arguments:
+            - "@translator"
+            - '@app_video_platform'
+            - '@vs_vvp.repository.video_category'
+            - '@vs_vvp.repository.video'
+
+

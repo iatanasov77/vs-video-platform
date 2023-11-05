@@ -1,0 +1,116 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <!-- details -->
+    <section class="section section--details">
+        <!-- details background -->
+        <div class="section__details-bg"
+            data-bg="{{ asset( 'build/video-platform-theme/img/bg/details__bg.jpg' ) }}"
+        ></div>
+        <!-- end details background -->
+    
+        <!-- details content -->
+        <div class="container">
+            <div class="row">
+                <!-- title -->
+                <div class="col-12">
+                    <h1 class="section__title section__title--head">{{ movie.title }}</h1>
+                </div>
+                <!-- end title -->
+    
+                <!-- content -->
+                <div class="col-12 col-xl-6">
+                    <div class="item item--details">
+                        <!-- card cover -->
+                        <div class="item__cover">
+                            <img src="{{ movie.videoThumbnail.path | imagine_filter( 'movies_listing_thumbnail' ) }}" alt="{{ movie.title }}">
+                        </div>
+                        <!-- end card cover -->
+    
+                        <!-- card content -->
+                        <div class="item__content">
+                            <div class="item__wrap">
+                                <span class="item__rate">8.4</span>
+    
+                                <ul class="item__list">
+                                    {% if movieTags %}
+                                        {% for tag in movieTags %}
+                                            <li>{{ tag.value }}</li>
+                                        {% endfor %}
+                                     {% else %}
+                                        {% for tag in ( movie.tags | split( ',' ) ) %}
+                                            <li>{{ tag }}</li>
+                                        {% endfor %}
+                                     {% endif %}
+                                </ul>
+                            </div>
+
+                            {% if duration %}
+                                <ul class="item__meta">
+                                    <li>
+                                        <span>{{ 'vs_vvp.template.movies.running_time' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                        {{ ( duration / 60 ) | number_format( 2 ) }} 
+                                        {{ 'vs_vvp.template.movies.min' | trans( {},'VanzVideoPlayer' ) }}
+                                    </li>
+                                </ul>
+                            {% endif %}
+    
+                            <ul class="item__meta item__meta--second">
+                            {% if movie.actors.count() %}
+                                <li><span>Actors:</span>
+                                    {% for actor in movie.actors %}
+                                        <a href="{{ path( 'vvp_actor_details', {'slug': actor.slug} ) }}">{{ actor.name }}</a>
+                                    {% endfor %}
+                                </li>
+                            {% endif %}
+                            </ul>
+                        </div>
+    
+                        <div class="item__description item__description--details">
+                            {{ movie.description | raw }}
+                        </div>
+                        <!-- end card content -->
+                    </div>
+                </div>
+                <!-- end content -->
+    
+                <!-- player -->
+                <div class="col-12 col-xl-6">
+                    <video controls crossorigin
+                        {# playsinline poster="{{ movie.videoThumbnail.path | imagine_filter( 'video_thumbnail_plyr' ) }}" #}
+                        playsinline poster="{{ movie.videoThumbnail.path | imagine_filter( 'movies_listing_thumbnail' ) }}"
+                        id="player-plyr"
+                    >
+                    
+                    {% if app.environment == 'dev' or not displayOnlyTranscoded %}
+                        <!-- Original Video -->
+                        <source src="{{ path( 'app_video_player_read', {'id': movie.id} ) }}" type="video/mp4">
+                    {% endif %}
+                    
+                    {% for format, videoUrl in formats  %}
+                        <!-- Transcoded Videos -->
+                        <source src="{{ videoUrl }}" type="video/mp4" size="{{ format | number_format }}">
+                    {% endfor %}
+                        
+                    </video>
+                </div>
+                <!-- end player -->
+            </div>
+        </div>
+        <!-- end details content -->
+    </section>
+    <!-- end details -->
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {{ encore_entry_link_tags( 'js/movies-details', null, 'VideoPlatformTheme' ) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    {{ encore_entry_script_tags( 'js/movies-details', null, 'VideoPlatformTheme' ) }}
+{% endblock %}
+

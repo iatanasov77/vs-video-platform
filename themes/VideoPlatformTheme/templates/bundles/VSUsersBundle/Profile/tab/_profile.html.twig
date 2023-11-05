@@ -1,0 +1,19 @@
+<div class="row">
+    <!-- stats -->
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stats">
+            {% if currentSubscription and currentSubscription.active %}
+                <span>{{ currentSubscription.pricingPlan.title }}</span>
+                <p class="me-2">{{ currentPlanCurrencySign }}{{ currentSubscription.pricingPlan.price }}</p>
+                <span>
+                    {{ 'vs_vvp.template.my_profile.expire_at' | trans( {},'VanzVideoPlayer' ) }}:&nbsp;&nbsp;
+                    {{ currentSubscription.expireAt | date( 'F j, Y' ) }}
+                </span>
+                <img src="{{ asset( 'build/video-platform-theme/img/credit-card.svg' ) }}" alt="{{ currentSubscription.pricingPlan.title }}">
+            {% else %}
+                <span>{{ 'vs_vvp.template.my_profile.no_choosed_plan' | trans( {},'VanzVideoPlayer' ) }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <!-- end stats -->
+</div>

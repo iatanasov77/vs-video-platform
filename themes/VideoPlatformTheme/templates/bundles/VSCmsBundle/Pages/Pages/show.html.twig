@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %} 
+
+{% block content %}
+    <!-- page title -->
+    <section class="section section--first section--bg"
+        data-bg="{{ asset( 'build/video-platform-theme/img/bg/section__bg.jpg' ) }}"
+    >
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section__wrap">
+                        <!-- section title -->
+                        <h1 class="section__title section__title--head">{{ resource.title }}</h1>
+                        <!-- end section title -->
+
+                        <!-- breadcrumbs -->
+                        <ul class="breadcrumbs">
+                            {% if app.environment == 'dev' or not inMaintenance %}
+                                {{ knp_menu_render( 'breadcrumbs', {'template': 'Menu/breadcrumb.html.twig'} ) }}
+                            {% endif %}
+                            <li class="breadcrumbs__item breadcrumbs__item--active">{{ resource.title }}</li>
+                        </ul>
+                        <!-- end breadcrumbs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end page title -->
+    
+    <!-- privacy -->
+    <section class="section">
+        {{ resource.text | raw }}
+    </section>
+    <!-- end privacy -->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    {{ encore_entry_script_tags( 'js/static-page', null, 'VideoPlatformTheme' ) }}
+{% endblock %}

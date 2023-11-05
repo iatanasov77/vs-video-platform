@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{# Import Macros #}
+{% import "@VSApplication/Macros/alerts.html.twig" as alerts %}
+
+{% block content %} 
+    
+    {% for alert in app.flashes( 'success' ) %}
+        {{ alerts.success( alert ) }}
+    {% endfor %}
+    
+    {% include 'Partial/HomePage/slider.html.twig' %}
+    
+    {% include 'Partial/HomePage/latest.html.twig' %}
+
+    {% include 'Partial/HomePage/featured-movies.html.twig' %}
+    
+    {% include 'Partial/HomePage/featured-pornstars.html.twig' %}
+    
+    {% include 'Partial/HomePage/subscription-plans.html.twig' %}
+    
+    {% include 'Partial/partners.html.twig' %}
+    
+{% endblock %}
+
+{% block modals %}
+    {% include '@VSPayment/Pages/PricingPlansCheckout/plan-modal.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {{ encore_entry_link_tags( 'js/home', null, 'VideoPlatformTheme' ) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <div id="RealPaymentFormContainer" style="display: none;">
+        {% include '@VSPayment/Pages/CreditCard/Partial/StripeJsV2Form.html.twig' with {
+             'formAction': '',
+             'formMethod': 'POST'
+        } %}
+    </div>
+    
+    {{ encore_entry_script_tags( 'js/home', null, 'VideoPlatformTheme' ) }}
+{% endblock %}

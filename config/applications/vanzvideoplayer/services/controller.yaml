@@ -1,0 +1,56 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Controller\VanzVideoPlayer\:
+        resource: '../../../../src/Controller/VanzVideoPlayer'
+        tags: ['controller.service_arguments']
+        autowire: true
+    
+    App\Controller\VanzVideoPlayer\AuthController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@vs_application.context.application'
+            - '@twig'
+    
+    App\Controller\VanzVideoPlayer\DefaultController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@vs_application.context.application'
+            - '@twig'
+            
+    App\Controller\VanzVideoPlayer\YoutubePlayerController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@app_video_service_youtube'
+            - '@vs_vvp.repository.youtube_channel'
+            
+    App\Controller\VanzVideoPlayer\VideoPlayerController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@app_video_service_local_storage'
+            - '@vs_vvp.repository.video'
+            - '@app_video_transcoder_coconut'
+            
+    App\Controller\Application\VideosController:
+        arguments:
+            - '@doctrine'
+            - '@vs_users.security_bridge'
+            - '@vs_vvp.repository.video'
+            - '%vs_vvp.videos_directory%'
+            - '@oneup_flysystem.vs_vvp.downloads_filesystem_filesystem'
+            - '@oneup_flysystem.vs_vvp.coconut_output_filesystem_filesystem'
+        tags: ['controller.service_arguments']
+        
+    App\Controller\Application\ErrorController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@doctrine'
+            - '@vs_application.repository.taxonomy'
+            - '%vs_vvp.video-categories.taxonomy_code%'

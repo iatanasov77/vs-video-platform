@@ -1,0 +1,3 @@
+I. Create Infrastructure:
+   1 . Create: terraform apply -var-file="/projects/Vanz_VideoPlayer/infrastructure/terraform.d/prod/values.tfvars"
+   1 . Destroy: terraform destroy -var-file="/projects/Vanz_VideoPlayer/infrastructure/terraform.d/prod/values.tfvars"

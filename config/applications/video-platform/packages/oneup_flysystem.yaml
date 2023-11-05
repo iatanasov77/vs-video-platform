@@ -1,0 +1,20 @@
+oneup_flysystem:
+    adapters:
+        vs_vvp.videos_adapter:
+            local:
+                location: '%vs_vvp.videos_directory%'
+        vs_vvp.coconut_output_adapter:
+            local:
+                location: '%vs_vvp.coconut_output_directory%'
+        vs_vvp.videos_user_signatured_adapter:
+            local:
+                location: '%vs_vvp.videos_user_signatured_directory%'
+                
+    filesystems:
+        vs_vvp.filesystems.local:
+            adapter: vs_vvp.videos_adapter
+            alias: League\Flysystem\Filesystem
+        vs_vvp.filesystems.coconut_output:
+            adapter: vs_vvp.coconut_output_adapter
+        vs_vvp.filesystems.videos_user_signatured:
+            adapter: vs_vvp.videos_user_signatured_adapter

@@ -1,0 +1,66 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <!-- details -->
+    <section class="section section--details">
+        <!-- details background -->
+        <div class="section__details-bg"
+            data-bg="{{ asset( 'build/sugarbabes-theme/img/bg/actor__bg.jpg' ) }}"
+        ></div>
+        <!-- end details background -->
+
+        <!-- details content -->
+        <div class="container">
+            <div class="row">
+                <!-- title -->
+                <div class="col-12">
+                    <h1 class="section__title section__title--head">{{ actor.name }}</h1>
+                </div>
+                <!-- end title -->
+
+                <!-- content -->
+                <div class="col-12 col-xl-6">
+                    <div class="item item--details">
+                        <!-- card cover -->
+                        <div class="item__cover">
+                            <img src="{{ actor.photos.first().path | imagine_filter( 'actor_listing_photo' ) }}" alt="{{ actor.name }}">
+                        </div>
+                        <!-- end card cover -->
+
+                        <!-- card content -->
+                        <div class="item__content">
+                        {#
+                            <ul class="item__meta item__meta--first">
+                                <li><span>Career:</span> Actress</li>
+                                <li><span>Height:</span> 1.65 m</li>
+                                <li><span>Date of birth:</span> July 12, 1978</li>
+                                <li><span>Place of birth:</span> San Antonio, Texas, United States</li>
+                                <li><span>Age:</span> 44</li>
+                                <li><span>Zodiac:</span> Cancer</li>
+                                <li><span>Genres:</span> <a href="#">Action</a> <a href="#">Triler</a> <a href="#">Drama</a></li>
+                                <li><span>Total number of movies:</span> 109</li>
+                                <li><span>First movie:</span> <a href="details1.html">Girl Fight (2000)</a></li>
+                                <li><span>Last movie:</span> <a href="details1.html">Fast and the Furious 10 (2023)</a></li>
+                                <li><span>Best movie:</span> <a href="details1.html">Avatar</a></li>
+                            </ul>
+                        #}
+                        {{ actor.description | raw }}
+                        </div>
+                    </div>
+                </div>
+                <!-- end content -->
+            </div>
+        </div>
+        <!-- end details content -->
+    </section>
+    <!-- end details -->
+    
+    {% include 'Pages/Actors/Partial/discover.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    {{ encore_entry_script_tags( 'js/actors-details', null, 'VideoPlatformTheme' ) }}
+{% endblock %}

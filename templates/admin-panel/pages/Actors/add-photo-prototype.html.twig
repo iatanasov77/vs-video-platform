@@ -1,0 +1,27 @@
+<div class="row ">
+    {{ form_widget(form.id) }}
+    
+    {% if item.id and form.vars.value %}
+        {% set photoId = form.vars.value.id %}
+        {% set originalName = item.photos[photoId].originalName %}
+        {% set photoWidgetClass = 'form-control fieldPhoto persistedPhoto' %}
+    {% else %}
+        {% set photoId = 0 %}
+        {% set originalName = 'Choose File' %}
+        {% set photoWidgetClass = 'form-control fieldPhoto' %}
+    {% endif %}
+    
+    <div class="col-lg-10 form-field-file  mb-3">
+        {{ form_widget(form.photo, {'attr': {
+                'class': photoWidgetClass,
+                'placeholder': originalName
+            }
+        }) }}
+        <label class="input-group-text" for="actor_form_photos_{{ photoId }}_photo">{{ originalName }}</label>
+    </div>
+
+	<div class="col-lg-2  mb-3">
+	    <a href="javascript:void(0);" class="btn btn-success btnAddField"><i class="icon_plus_alt2"></i></a>
+	    <a href="javascript:void(0);" class="btn btn-danger btnRemoveField"><i class="icon_close_alt2"></i></a>
+	</div>
+</div>

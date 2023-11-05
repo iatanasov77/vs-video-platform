@@ -1,0 +1,57 @@
+vs_application:
+    menu:
+        admin_panel: Админ Панел
+
+        videos: Videos
+        list_videos: Videos Listing
+        create_new_video: Create New Video
+        edit_video: Edit Video
+        list_videos_categories: Videos Categories Listing
+        create_video_category: Create Video Category
+        edit_video_category: Edit Video Category
+        actors: Actors
+        list_actors: List Actors
+        create_new_actor: Create New Actor
+        edit_actor: Edit Actor
+        helpcenter: Help Center
+        list_questions: List Questions
+        create_new_question: Create New Question
+        edit_question: Edit Question
+        quick_links: Quick Links
+        list_quick_links: List Quick Links
+        create_new_quick_link: Create New Quick Link
+        edit_quick_link: Edit Quick Link
+        slider: Slider
+        list_slider_items: List Slier Items
+        create_new_slider_item: Create New Slier Item
+        edit_slider_item: Edit Slier Item
+        video_platform_settings: Video Platform Settings
+        list_video_platform_settings: Video Platform Settings
+        create_new_video_platform_setting: Create Setting
+        edit_video_platform_setting: Edit Setting
+        list_video_platform_storages: List Storages
+        create_new_video_platform_storage: Create Storage
+        edit_video_platform_storage: Edit Storage
+        list_coconut_settings: List Coconut Settings
+        create_new_coconut_setting: Create Coconut Setting
+        edit_coconut_setting: Edit Coconut Setting
+        youtube_provider: YouTube Provider
+        list_google_projects: Google Projects
+        create_google_project: Create Google Project
+        update_google_project: Update Google Project
+        list_youtube_channels: YouTube Channels
+        create_youtube_channel: Create YouTube Channel
+        update_youtube_channel: Update YouTube Channel
+        
+        site_main:
+            home: Начало
+            movies: Филми
+            pornstars: Порно звезди
+            actors: Актьори
+            pricing_plans: Ценови планове
+            
+        site_footer:
+            contacts: Контакти
+            faq: FAQ
+            pricing_plans: Ценови планове
+

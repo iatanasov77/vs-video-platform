@@ -1,0 +1,691 @@
+vs_application_instalator:
+    resources:
+        instalation_info:
+            classes:
+                model: App\Entity\Application\InstalationInfo
+vs_application:
+    resources:
+        application:
+            classes:
+                model: App\Entity\Application\Application
+        settings:
+            classes:
+                model: App\Entity\Application\Settings
+        taxonomy:
+            classes:
+                model: App\Entity\Application\Taxonomy
+        taxon:
+            classes:
+                model: App\Entity\Application\Taxon
+            translation:
+                classes:
+                    model: App\Entity\Application\TaxonTranslation
+        taxon_image:
+            classes:
+                model: App\Entity\Application\TaxonImage
+        translation:
+            classes:
+                model: App\Entity\Application\Translation
+        logentry:
+            classes:
+                model: App\Entity\Application\LogEntry
+        locale:
+            classes:
+                model: App\Entity\Application\Locale
+        cookie_consent_translation:
+            classes:
+                model: App\Entity\Application\CookieConsentTranslation
+        tags_whitelist_context:
+            classes:
+                model: App\Entity\Application\TagsWhitelistContext
+        tags_whitelist_tag:
+            classes:
+                model: App\Entity\Application\TagsWhitelistTag
+         
+    menu:
+        mainSystemMenu:
+            settings:
+                name: vs_application.menu.settings
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    locales:
+                        name: vs_application.menu.available_locales
+                        route: vs_application_locale_index
+                    create_locale:
+                        name: vs_application.menu.create_new_locale
+                        route: vs_application_locale_create
+                        display: false
+                    update_locale:
+                        name: vs_application.menu.edit_locale
+                        route: vs_application_locale_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    cookie_consent_translations:
+                        name: vs_application.menu.cookie_consent_translations
+                        route: vs_application_cookie_consent_translation_index
+                    create_cookie_consent_translation:
+                        name: vs_application.menu.create_new_cookie_consent_translation
+                        route: vs_application_cookie_consent_translation_create
+                        display: false
+                    update_cookie_consent_translation:
+                        name: vs_application.menu.edit_cookie_consent_translation
+                        route: vs_application_cookie_consent_translation_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    tags_whitelist_contexts:
+                        name: vs_application.menu.tags_whitelist_contexts
+                        route: vs_application_tags_whitelist_context_index
+                    create_tags_whitelist_context:
+                        name: vs_application.menu.create_new_tags_whitelist_context
+                        route: vs_application_tags_whitelist_context_create
+                        display: true
+                    update_tags_whitelist_context:
+                        name: vs_application.menu.edit_tags_whitelist_context
+                        route: vs_application_tags_whitelist_context_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    settings:
+                        name: vs_application.menu.preferences
+                        route: vs_application_settings_index
+            taxonomy:
+                name: vs_application.menu.taxonomy
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    list:
+                        name: vs_application.menu.list_taxonomies
+                        route: vs_application_taxonomy_index
+                    create:
+                        name: vs_application.menu.create_new_taxonomy
+                        route: vs_application_taxonomy_create
+                        display: true
+                    update:
+                        name: vs_application.menu.edit_taxonomy
+                        route: vs_application_taxonomy_update
+                        routeParameters:
+                          id: int
+                        display: false
+            user_management:
+                name: vs_application.menu.user_management
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    users_list:
+                        name: vs_application.menu.users_list
+                        route: vs_users_users_index
+                    user_create:
+                        name: vs_application.menu.create_user
+                        route: vs_users_users_create
+                    user_update:
+                        name: vs_application.menu.update_user
+                        route: vs_users_users_update
+                        routeParameters:
+                          id: int
+                        display: false
+                        
+                    user_roles_list:
+                        name: vs_application.menu.user_roles
+                        route: vs_users_user_roles_index
+                    user_roles_create:
+                        name: vs_application.menu.create_role
+                        route: vs_users_user_roles_create
+                    user_roles_update:
+                        name: vs_application.menu.update_role
+                        route: vs_users_user_roles_update
+                        routeParameters:
+                          id: int
+                        display: false
+                        
+        mainCmsMenu:
+            cms:
+                name: vs_application.menu.static_pages
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    list:
+                        name: vs_application.menu.list_pages
+                        route: vs_cms_pages_index
+                    create:
+                        name: vs_application.menu.create_new_page
+                        route: vs_cms_pages_create
+                        display: true
+                    update:
+                        name: vs_application.menu.edit_page
+                        route: vs_cms_pages_update
+                        routeParameters:
+                          id: int
+                        display: false
+                        
+                    category_list:
+                        name: vs_application.menu.page_categories
+                        route: vs_cms_page_categories_index
+                    category_create:
+                        name: vs_application.menu.create_new_page_category
+                        route: vs_cms_page_categories_create
+                        display: true
+                    category_update:
+                        name: vs_application.menu.edit_page_category
+                        route: vs_cms_page_categories_update
+                        routeParameters:
+                          id: int
+                        display: false
+                        
+            cms_toc:
+                name: vs_application.menu.table_of_contents
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                    breadcrumb_route: vs_cms_document_index
+                childs:
+                    list:
+                        name: vs_application.menu.document_lists
+                        route: vs_cms_document_index
+                    create:
+                        name: vs_application.menu.create_new_document
+                        route: vs_cms_document_create
+                        display: true
+                    update:
+                        name: vs_application.menu.edit_document
+                        route: vs_cms_document_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    category_list:
+                        name: vs_application.menu.document_categories
+                        route: vs_cms_document_categories_index
+                    category_create:
+                        name: vs_application.menu.create_new_document_category
+                        route: vs_cms_document_categories_create
+                        display: true
+                    category_update:
+                        name: vs_application.menu.edit_document_category
+                        route: vs_cms_document_categories_update
+                        routeParameters:
+                          id: int
+                        display: false
+            filemanager_vankosoft:
+                name: vs_application.menu.vankoSoft_file_manager
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    list_filemanagers:
+                        name: vs_application.menu.list_filemanagers
+                        route: "vs_cms_file_manager_index"
+                        display: true
+                    create_filemanager:
+                        name: vs_application.menu.create_new_filemanager
+                        route: "vs_cms_file_manager_create"
+                        display: true
+                    update_filemanager:
+                        name: vs_application.menu.edit_filemanager
+                        route: "vs_cms_file_manager_update"
+                        routeParameters:
+                          id: int
+                        display: false
+            
+            filemanager_artgris:
+                name: vs_application.menu.artgris_file_manager
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    browse:
+                        name: vs_application.menu.browse_files
+                        route: vs_cms_filemanager_artgris_list
+                        #uri: "/filemanager/?conf=default"
+                    upload:
+                        name: vs_application.menu.upload_a_file
+                        route: vs_cms_filemanager_artgris_upload
+                        
+        mainUsersSubscriptionsMenu:
+            newsletter:
+                name: vs_application.menu.newsletter
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    mailchimp_audiences_list:
+                        name: vs_application.menu.list_mailchimp_audiences
+                        route: vs_users_subscriptions_mailchimp_audiences_index
+                    mailchimp_audiences_create:
+                        name: vs_application.menu.create_new_mailchimp_audience
+                        route: vs_users_subscriptions_mailchimp_audiences_create
+            
+            paid_services:
+                name: vs_application.menu.paid_services
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    paid_services_category_index:
+                        name: vs_application.menu.categories
+                        route: vs_users_subscriptions_payed_service_category_index
+                    paid_services_category_create:
+                        name: vs_application.menu.create_a_category
+                        route: vs_users_subscriptions_payed_service_category_create
+                    paid_services_category_update:
+                        name: vs_application.menu.edit_a_category
+                        route: vs_users_subscriptions_payed_service_category_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    paid_services_index:
+                        name: vs_application.menu.paid_services
+                        route: vs_users_subscriptions_payed_service_index
+                    paid_services_create:
+                        name: vs_application.menu.create_a_paid_service
+                        route: vs_users_subscriptions_payed_service_create
+                    paid_services_update:
+                        name: vs_application.menu.edit_a_paid_service
+                        route: vs_users_subscriptions_payed_service_update
+                        routeParameters:
+                          id: int
+                        display: false
+        
+        mainPaymentMenu:
+            currency_config:
+                name: vs_application.menu.currency
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    currency_index:
+                        name: vs_application.menu.currencies
+                        route: vs_payment_currency_index
+                    currency_create:
+                        name: vs_application.menu.create_new_currency
+                        route: vs_payment_currency_create
+                    currency_update:
+                        name: vs_application.menu.edit_currency
+                        route: vs_payment_currency_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    exchange_rate_index:
+                        name: vs_application.menu.exchange_rates
+                        route: vs_payment_exchange_rate_index
+                    exchange_rate_create:
+                        name: vs_application.menu.create_new_exchange_rate
+                        route: vs_payment_exchange_rate_create
+                    exchange_rate_update:
+                        name: vs_application.menu.edit_exchange_rate
+                        route: vs_payment_exchange_rate_update
+                        routeParameters:
+                          id: int
+                        display: false
+                
+            gateway_config:
+                name: vs_application.menu.gateway_config
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    gateways_index:
+                        name: vs_application.menu.gateways
+                        route: vs_payment_gateway_config_index
+                    gateways_create:
+                        name: vs_application.menu.create_new_gateway
+                        route: vs_payment_gateways_config
+                    gateways_config:
+                        name: vs_application.menu.edit_a_gateway
+                        route: vs_payment_gateways_config
+                        routeParameters:
+                          gatewayName: string
+                        display: false
+            payment_methods:
+                name: vs_application.menu.payment_methods
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    payment_methods_index:
+                        name: vs_application.menu.payment_methods
+                        route: vs_payment_payment_method_index
+                    payment_methods_create:
+                        name: vs_application.menu.create_new_payment_method
+                        route: vs_payment_methods_config
+                    payment_methods_config:
+                        name: vs_application.menu.edit_a_payment_method
+                        route: vs_payment_methods_config
+                        routeParameters:
+                          id: int
+                        display: false
+            catalog:
+                name: vs_application.menu.catalog
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    catalog_category_index:
+                        name: vs_application.menu.catalog_categories
+                        route: vs_payment_product_category_index
+                    catalog_category_create:
+                        name: vs_application.menu.create_catalog_category
+                        route: vs_payment_product_category_create
+                    catalog_category_update:
+                        name: vs_application.menu.edit_catalog_category
+                        route: vs_payment_product_category_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    catalog_product_index:
+                        name: vs_application.menu.catalog_products
+                        route: vs_payment_product_index
+                    catalog_product_create:
+                        name: vs_application.menu.create_catalog_product
+                        route: vs_payment_product_create
+                    catalog_product_update:
+                        name: vs_application.menu.edit_catalog_product
+                        route: vs_payment_product_update
+                        routeParameters:
+                          id: int
+                        display: false
+                        
+            pricing_plans:
+                name: vs_application.menu.pricing_plans
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    pricing_plan_category_index:
+                        name: vs_application.menu.pricing_plan_categories
+                        route: vs_payment_pricing_plan_category_index
+                    pricing_plan_category_create:
+                        name: vs_application.menu.create_pricing_plan_category
+                        route: vs_payment_pricing_plan_category_create
+                    pricing_plan_category_update:
+                        name: vs_application.menu.edit_pricing_plan_category
+                        route: vs_payment_pricing_plan_category_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    pricing_plan_index:
+                        name: vs_application.menu.pricing_plans_listing
+                        route: vs_payment_pricing_plan_index
+                    pricing_plan_create:
+                        name: vs_application.menu.create_pricing_plan
+                        route: vs_payment_pricing_plan_create
+                    pricing_plan_update:
+                        name: vs_application.menu.edit_pricing_plan
+                        route: vs_payment_pricing_plan_update
+                        routeParameters:
+                          id: int
+                        display: false
+                        
+            orders:
+                name: vs_application.menu.orders
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    orders:
+                        name: vs_application.menu.orders
+                        route: vs_payment_order_index
+                    recieved_payments:
+                        name: vs_application.menu.recieved_payments
+                        route: vs_payment_payment_index
+            
+            paid_subscriptions:
+                name: vs_application.menu.paid_subscriptions
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                childs:
+                    pricing_plan_subscriptions:
+                        name: vs_application.menu.pricing_plan_subscriptions
+                        route: vs_payment_pricing_plan_subscriptions_index
+                        
+        
+        mainVideoPlayerMenu:
+            settings:
+                name: vs_application.menu.video_platform_settings
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                    breadcrumb_route: vs_vvp_video_platform_settings_index
+                childs:
+                    list_settings:
+                        name: vs_application.menu.list_video_platform_settings
+                        route: vs_vvp_video_platform_settings_index
+                    create_settings:
+                        name: vs_application.menu.create_new_video_platform_setting
+                        route: vs_vvp_video_platform_settings_create
+                        display: true
+                    update_settings:
+                        name: vs_application.menu.edit_video_platform_setting
+                        route: vs_vvp_video_platform_settings_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    list_storage:
+                        name: vs_application.menu.list_video_platform_storages
+                        route: vs_vvp_video_platform_storage_index
+                    create_storags:
+                        name: vs_application.menu.create_new_video_platform_storage
+                        route: vs_vvp_video_platform_storage_create
+                        display: true
+                    update_storags:
+                        name: vs_application.menu.edit_video_platform_storage
+                        route: vs_vvp_video_platform_storage_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    list_coconut_settings:
+                        name: vs_application.menu.list_coconut_settings
+                        route: vs_vvp_coconut_settings_index
+                    create_coconut_settings:
+                        name: vs_application.menu.create_new_coconut_setting
+                        route: vs_vvp_coconut_settings_create
+                        display: true
+                    update_coconut_settings:
+                        name: vs_application.menu.edit_coconut_setting
+                        route: vs_vvp_coconut_settings_update
+                        routeParameters:
+                          id: int
+                        display: false
+                        
+            youtube_provider:
+                name: vs_application.menu.youtube_provider
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                    breadcrumb_route: vs_vvp_google_cloud_project_index
+                childs:
+                    list_google_projects:
+                        name: vs_application.menu.list_google_projects
+                        route: vs_vvp_google_cloud_project_index
+                    create_google_project:
+                        name: vs_application.menu.create_google_project
+                        route: vs_vvp_google_cloud_project_create
+                        display: true
+                    update_google_project:
+                        name: vs_application.menu.update_google_project
+                        route: vs_vvp_google_cloud_project_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    list_youtube_channels:
+                        name: vs_application.menu.list_youtube_channels
+                        route: vs_vvp_youtube_channel_index
+                    create_youtube_channel:
+                        name: vs_application.menu.create_youtube_channel
+                        route: vs_vvp_youtube_channel_create
+                        display: true
+                    update_youtube_channel:
+                        name: vs_application.menu.update_youtube_channel
+                        route: vs_vvp_youtube_channel_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    
+            actors:
+                name: vs_application.menu.actors
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                    breadcrumb_route: vs_vvp_actor_index
+                childs:
+                    list:
+                        name: vs_application.menu.list_actors
+                        route: vs_vvp_actor_index
+                    create:
+                        name: vs_application.menu.create_new_actor
+                        route: vs_vvp_actor_create
+                        display: true
+                    update:
+                        name: vs_application.menu.edit_actor
+                        route: vs_vvp_actor_update
+                        routeParameters:
+                          id: int
+                        display: false
+                        
+            local_videos:
+                name: vs_application.menu.videos
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                    breadcrumb_route: vs_vvp_video_index
+                childs:
+                    list:
+                        name: vs_application.menu.list_videos
+                        route: vs_vvp_video_index
+                    create:
+                        name: vs_application.menu.create_new_video
+                        route: vs_vvp_video_create
+                        display: true
+                    update:
+                        name: vs_application.menu.edit_video
+                        route: vs_vvp_video_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    
+                    category_list:
+                        name: vs_application.menu.list_videos_categories
+                        route: vs_vvp_video_category_index
+                    category_create:
+                        name: vs_application.menu.create_video_category
+                        route: vs_vvp_video_category_create
+                        display: true
+                    category_update:
+                        name: vs_application.menu.edit_video_category
+                        route: vs_vvp_video_category_update
+                        routeParameters:
+                          id: int
+                        display: false
+                        
+            helpcenter_questions:
+                name: vs_application.menu.helpcenter
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                    breadcrumb_route: vs_vvp_helpcenter_question_index
+                childs:
+                    list:
+                        name: vs_application.menu.list_questions
+                        route: vs_vvp_helpcenter_question_index
+                    create:
+                        name: vs_application.menu.create_new_question
+                        route: vs_vvp_helpcenter_question_create
+                        display: true
+                    update:
+                        name: vs_application.menu.edit_question
+                        route: vs_vvp_helpcenter_question_update
+                        routeParameters:
+                          id: int
+                        display: false
+                        
+            quick_links:
+                name: vs_application.menu.quick_links
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                    breadcrumb_route: vs_vvp_quick_link_index
+                childs:
+                    list:
+                        name: vs_application.menu.list_quick_links
+                        route: vs_vvp_quick_link_index
+                    create:
+                        name: vs_application.menu.create_new_quick_link
+                        route: vs_vvp_quick_link_create
+                        display: true
+                    update:
+                        name: vs_application.menu.edit_quick_link
+                        route: vs_vvp_quick_link_update
+                        routeParameters:
+                          id: int
+                        display: false
+                        
+            slider:
+                name: vs_application.menu.slider
+                uri: "javascript:;"
+                attributes:
+                    iconClass: icon_genius
+                    breadcrumb_route: vs_vvp_slider_index
+                childs:
+                    list:
+                        name: vs_application.menu.list_slider_items
+                        route: vs_vvp_slider_index
+                    create:
+                        name: vs_application.menu.create_new_slider_item
+                        route: vs_vvp_slider_create
+                        display: true
+                    update:
+                        name: vs_application.menu.edit_slider_item
+                        route: vs_vvp_slider_update
+                        routeParameters:
+                          id: int
+                        display: false
+        
+        profileMenu:
+            contact:
+                name: vs_application.menu.contact
+                route: vs_application_contact
+                attributes:
+                    iconClass: "fas fa-user mr-2"
+                    target: '_self'
+            
+            profile:
+                name: vs_application.menu.my_profile
+                route: vs_users_profile_show
+                attributes:
+                    iconClass: "fas fa-user mr-2"
+                    target: '_self'
+                    
+            documentation:
+                name: vs_application.menu.documentation
+                uri: "http://vankosoft.org/projects/vankosoft-application-project/documentation"
+                attributes:
+                    iconClass: "fas fa-cog mr-2"
+                    target: '_blank'
+                    
+            language:
+                name: vs_application.menu.language
+                uri: "javascript:;"
+                attributes:
+                    id: language
+                    iconClass: "fas fa-language mr-2"
+                    target: '_self'
+                        
+            divider_1:
+                isDivider: true
+            
+            logout:
+                name: vs_application.menu.logout
+                route: vs_application_logout
+                attributes:
+                    iconClass: "fas fa-power-off mr-2"
+                    divider_prepend: false
+                    divider_append: true
+                    target: '_self'
+            
+

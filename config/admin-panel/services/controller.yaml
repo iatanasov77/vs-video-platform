@@ -1,0 +1,96 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        
+    App\Controller\AdminPanel\:
+        resource: '../../../src/Controller/AdminPanel'
+        tags: ['controller.service_arguments']
+        autowire: true
+        
+    App\Controller\AdminPanel\DefaultController:
+        tags: ['controller.service_arguments']
+
+    App\Controller\Application\DebugController:
+        tags: ['controller.service_arguments']
+        
+    App\Controller\AdminPanel\ErrorController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@doctrine'
+            - '@vs_application.repository.taxonomy'
+            - '%vs_vvp.video-categories.taxonomy_code%'
+            
+    App\Controller\AdminPanel\VideoCategoryExtController:
+        arguments:
+            - '@vs_vvp.repository.video_category'
+            - '%vs_vvp.video-categories.taxonomy_code%'
+        tags: ['controller.service_arguments']
+        
+    App\Controller\AdminPanel\VideoExtController:
+        arguments:
+            - '@doctrine'
+            - '@vs_application.repository.taxonomy'
+            - '@vs_application.repository.taxon'
+            - '@vs_users.security_bridge'
+            - '@vs_vvp.repository.video'
+            - '@vs_vvp.factory.video'
+            - '@vs_vvp.repository.video_category'
+            - '%vs_vvp.videos_directory%'
+            - '@event_dispatcher'
+            - '@vs_vvp.repository.video_thumbnail'
+            - '@vs_vvp.repository.video_file'
+            - '@oneup_flysystem.vs_vvp.filesystems.local_filesystem'
+            - '@oneup_flysystem.vs_vvp.filesystems.coconut_output_filesystem'
+            - '@vs_vvp.repository.actor'
+            - '@app_video_platform'
+            - '@vs_vvp.repository.video_tag'
+        tags: ['controller.service_arguments']
+        
+    App\Controller\AdminPanel\VideoServicesController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@doctrine'
+            - '@vs_vvp.repository.video'
+            #- '@app_video_service_local_storage'
+            - '@app_video_transcoder_coconut'
+            - '@liip_imagine.cache.manager'
+            
+    App\Controller\AdminPanel\CloudActions\CoconutController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@app_video_transcoder_coconut'
+            - '@vs_vvp.repository.video'
+            
+    App\Controller\AdminPanel\ActorExtController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@doctrine'
+            - '@vs_vvp.repository.actor'
+            
+    App\Controller\AdminPanel\HelpCenterQuestionExtController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@doctrine'
+            - '@vs_vvp.repository.helpcenter_question'
+            
+    App\Controller\AdminPanel\QuickLinkExtController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@doctrine'
+            - '@vs_vvp.repository.quick_link'
+            
+    App\Controller\AdminPanel\SliderExtController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@doctrine'
+            - '@vs_vvp.repository.slider'
+
+

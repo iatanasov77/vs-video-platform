@@ -1,0 +1,74 @@
+<!-- content -->
+<section class="content">
+    <div class="content__head">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- content title -->
+                    <h2 class="content__title">{{ 'vs_vvp.template.home_page.recently_updated' | trans( {},'VanzVideoPlayer' ) }}</h2>
+                    <!-- end content title -->
+
+                    <!-- content tabs nav -->
+                    <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
+                        
+                        <li class="nav-item" role="presentation">
+                            <button id="1-tab" class="active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab" aria-controls="tab-1" aria-selected="true">
+                                New items
+                            </button>
+                        </li>
+
+                    {#
+                        <li class="nav-item" role="presentation">
+                            <button id="2-tab" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab" aria-controls="tab-2" aria-selected="false">
+                                Movies
+                            </button>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <button id="3-tab" data-bs-toggle="tab" data-bs-target="#tab-3" type="button" role="tab" aria-controls="tab-3" aria-selected="false">
+                                TV Shows
+                            </button>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <button id="4-tab" data-bs-toggle="tab" data-bs-target="#tab-4" type="button" role="tab" aria-controls="tab-4" aria-selected="false">
+                                Anime
+                            </button>
+                        </li>
+                    #}
+                    
+                    </ul>
+                    <!-- end content tabs nav -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+    
+        <!-- content tabs -->
+        <div class="tab-content">
+            
+            {% include 'Partial/HomePage/RecentlyUpdated/new-items.html.twig' %}
+        
+        {#
+            {% include 'Partial/HomePage/RecentlyUpdated/movies.html.twig' %}
+        
+            {% include 'Partial/HomePage/RecentlyUpdated/tv-shows.html.twig' %}
+        
+            {% include 'Partial/HomePage/RecentlyUpdated/anime.html.twig' %}
+        #}
+            
+        </div>
+        <!-- end content tabs -->
+        
+        <div class="row">
+            <div class="col-12">
+                <a href="{{ path( 'vvp_movies_index' ) }}" class="section__btn">
+                    <span>{{ 'vs_vvp.template.home_page.to_catalog' | trans( {},'VanzVideoPlayer' ) }}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end content -->

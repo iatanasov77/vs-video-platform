@@ -1,0 +1,122 @@
+sylius_resource:
+    resources:
+        vs_vvp.video_category:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoCategory
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                #repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                repository: Vankosoft\ApplicationBundle\Repository\TaxonDescendentRepository
+                controller: App\Controller\AdminPanel\VideoCategoryController
+                form:       App\Form\VideoCategoryForm
+                
+        vs_vvp.video:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\Video
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                controller: App\Controller\AdminPanel\VideoController
+                form:       App\Form\VideoForm
+                
+        vs_vvp.video_file:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoFile
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.video_thumbnail:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoThumbnail
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.coconut_job:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\CoconutJob
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.helpcenter_question:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\HelpCenterQuestion
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.actor:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\Actor
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: App\Repository\ActorsRepository
+                
+        vs_vvp.actor_photo:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\ActorPhoto
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.quick_link:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\QuickLink
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.slider:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\Slider
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.slider_photo:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\SliderPhoto
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.video_platform_settings:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoPlatformSettings
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.video_platform_storage:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoPlatformStorage
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.google_cloud_project:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\GoogleCloudProject
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.youtube_channel:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\YoutubeChannel
+                interface:  Sylius\Component\Resource\Model\ResourceInterface
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+    #######################################################################################################################
+    # Override default settings
+    # -------------------------
+    # You Can To Override Many Resource Parameters For All Resources (Including VankoSoft Bundles)
+    # View Available Settings in 
+    #     \Sylius\Bundle\ResourceBundle\DependencyInjection\Configuration::addSettingsSection(ArrayNodeDefinition $node)
+    #######################################################################################################################
+    settings:
+        paginate: 10
+

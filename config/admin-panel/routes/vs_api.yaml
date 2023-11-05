@@ -1,0 +1,25 @@
+vs_api_platform:
+    resource: "@VSApiBundle/Resources/config/routing/api_platform.yaml"
+    prefix:   /
+
+vs_api_users:
+    resource: "@VSApiBundle/Resources/config/routing/api.yaml"
+    prefix:   /
+
+vs_api_test_index:
+    path: /api/test-index
+    controller: App\Controller\Api\TestController::index
+    
+vs_api_coconut_webhook:
+    path: /api/coconut/webhook/{apiToken}
+    controller: App\Controller\Api\CoconutWebhookController::notification
+    
+vs_api_coconut_storage:
+    path: /api/coconut/storage
+    controller: App\Controller\Api\CoconutStorageController::index
+    
+vs_api_coconut_storage_oneup:
+    path: /api/coconut/storage-oneup/{fileName}
+    controller: App\Controller\Api\CoconutStorageController::upload
+
+

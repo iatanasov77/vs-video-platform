@@ -1,0 +1,8 @@
+Change Symfony Environment in .env File
+    APP_ENV=docker
+
+From Project Directory:
+    # docker compose up
+
+And Open in Browser:
+    http://video-platform.docker-host.lh/

@@ -1,0 +1,120 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} :: {{ 'vs_users.template.profile_show_title' | trans( {},'VSUsersBundle' ) }}{% endblock %}
+{% block pageTitle %}<i class="fa fa-user-md"></i> {{ 'vs_users.template.profile_show_title' | trans( {},'VSUsersBundle' ) }}{% endblock %}
+
+{% block content %}
+    <!-- page title -->
+    <section class="section section--first section--bg"
+        data-bg="{{ asset( 'build/video-platform-theme/img/bg/section__bg.jpg' ) }}"
+    >
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section__wrap">
+                        <!-- section title -->
+                        <h1 class="section__title section__title--head">{{ 'vs_vvp.template.my_profile.my_profile' | trans( {},'VanzVideoPlayer' ) }}</h1>
+                        <!-- end section title -->
+
+                        <!-- breadcrumbs -->
+                        <ul class="breadcrumbs">
+                            {% if app.environment == 'dev' or not inMaintenance %}
+                                {{ knp_menu_render( 'breadcrumbs', {'template': 'Menu/breadcrumb.html.twig'} ) }}
+                            {% endif %}
+                        </ul>
+                        <!-- end breadcrumbs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end page title -->
+    
+    <!-- content -->
+    <div class="content">
+        <!-- profile -->
+        <div class="profile">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="profile__content">
+                            <div class="profile__user">
+                                <div class="profile__avatar">
+                                    <img src="img/user.svg" alt="">
+                                </div>
+                                <div class="profile__meta">
+                                    <h3>{{ 'vs_vvp.template.my_profile.username' | trans( {},'VanzVideoPlayer' ) }}</h3>
+                                    <span>{{ app.user.email }}</span>
+                                </div>
+                            </div>
+
+                            <!-- content tabs nav -->
+                            <ul class="nav nav-tabs content__tabs content__tabs--profile" id="content__tabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button id="1-tab" class="active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab" aria-controls="tab-1" aria-selected="true">
+                                        {{ 'vs_vvp.template.my_profile.profile' | trans( {},'VanzVideoPlayer' ) }}
+                                    </button>
+                                </li>
+
+                                <li class="nav-item" role="presentation">
+                                    <button id="2-tab" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab" aria-controls="tab-2" aria-selected="false">
+                                        {{ 'vs_vvp.template.my_profile.subscription' | trans( {},'VanzVideoPlayer' ) }}
+                                    </button>
+                                </li>
+
+                                <li class="nav-item" role="presentation">
+                                    <button id="3-tab" data-bs-toggle="tab" data-bs-target="#tab-3" type="button" role="tab" aria-controls="tab-3" aria-selected="false">
+                                        {{ 'vs_vvp.template.my_profile.settings' | trans( {},'VanzVideoPlayer' ) }}
+                                    </button>
+                                </li>
+                            </ul>
+                            <!-- end content tabs nav -->
+
+                            <a class="profile__logout" type="button" href="{{ path( 'app_logout' ) }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,12a1,1,0,0,0,1,1h7.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H5A1,1,0,0,0,4,12ZM17,2H7A3,3,0,0,0,4,5V8A1,1,0,0,0,6,8V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V16a1,1,0,0,0-2,0v3a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V5A3,3,0,0,0,17,2Z"/></svg>
+                                <span>{{ 'vs_vvp.template.my_profile.logout' | trans( {},'VanzVideoPlayer' ) }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end profile -->
+        
+        <div class="container">
+            <!-- content tabs -->
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab" tabindex="0">
+                    {% include '@VSUsers/Profile/tab/_profile.html.twig' %}
+                </div>
+                
+                <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab" tabindex="0">
+                    {% include '@VSUsers/Profile/tab/_subscription.html.twig' %}
+                </div>
+                
+                <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab" tabindex="0">
+                    {% include '@VSUsers/Profile/tab/_settings.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block modals %}
+    {% include '@VSPayment/Pages/PricingPlansCheckout/plan-modal.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	
+	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <div id="RealPaymentFormContainer" style="display: none;">
+        {% include '@VSPayment/Pages/CreditCard/Partial/StripeJsV2Form.html.twig' with {
+             'formAction': '',
+             'formMethod': 'POST'
+        } %}
+    </div>
+    
+    {{ encore_entry_script_tags( 'js/profile', null, 'VideoPlatformTheme' ) }}
+{% endblock %}
+

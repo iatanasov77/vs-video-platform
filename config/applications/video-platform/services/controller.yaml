@@ -1,0 +1,167 @@
+parameters:
+    ########################################################
+    # Contact Page
+    ########################################################
+    vs_application.contact_email: 'support@flixgo.com'
+    vs_application.contact.show_address: true
+    vs_application.contact.show_phone: true
+    vs_application.contact.google_map: 'https://maps.google.co.uk/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=18+California,+Fresno,+CA,+United+States&amp;aq=0&amp;oq=18+California+united+state&amp;sll=39.9589,-120.955336&amp;sspn=0.007114,0.016512&amp;ie=UTF8&amp;hq=&amp;hnear=18,+Fresno,+California+93727,+United+States&amp;t=m&amp;ll=36.732762,-119.695787&amp;spn=0.017197,0.100336&amp;z=14&amp;output=embed'
+    vs_application.contact.google_large_map: 'https://maps.google.co.uk/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=18+California,+Fresno,+CA,+United+States&amp;aq=0&amp;oq=18+California+united+state&amp;sll=39.9589,-120.955336&amp;sspn=0.007114,0.016512&amp;ie=UTF8&amp;hq=&amp;hnear=18,+Fresno,+California+93727,+United+States&amp;t=m&amp;ll=36.732762,-119.695787&amp;spn=0.017197,0.100336&amp;z=14'
+
+    vs_users.register_role: 'role-registered-user'
+    vs_vvp.videos_directory: "%kernel.project_dir%/public/shared_media/gaufrette/videos"
+    
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Controller\VideoPlatform\:
+        resource: '../../../../src/Controller/VideoPlatform'
+        tags: ['controller.service_arguments']
+        autowire: true
+    
+    App\Controller\Application\DefaultController:
+        tags: ['controller.service_arguments']
+        autowire: true
+
+    App\Controller\VideoPlatform\ContactController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - {
+              contactEmail: '%vs_application.contact_email%',
+              showAddress: '%vs_application.contact.show_address%',
+              showPhone: '%vs_application.contact.show_phone%',
+              googleMap: '%vs_application.contact.google_map%',
+              googleLargeMap: '%vs_application.contact.google_large_map%'
+            }
+            - '@mailer'
+            - '@vs_users.notifications'
+            - '@doctrine'
+            
+    App\Controller\VideoPlatform\ProfileController:
+        public: true
+        autowire: true
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@doctrine'
+            - '%vs_users.model.users.class%'
+            - '@vs_users.manager.user'
+            - '@vs_users.factory.avatar_image'
+            - '@vs_cms.profile_uploader'
+            - '@vs_payment.repository.pricing_plan'
+            - '@vs_payment.repository.pricing_plan_category'
+    
+    App\Controller\VideoPlatform\RegisterController:
+        public: true
+        autowire: true
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@doctrine'
+            - '@vs_application.context.application'
+            - '@vs_users.manager.user'
+            - '@vs_users.repository.users'
+            - '@vs_users.factory.users'
+            - '@vs_users.repository.user_roles'
+            - '@mailer'
+            - '@vs_cms.repository.pages'
+            - '@security.user_authenticator'
+            - '@vs_users.security.another_login_form_authenticator'
+            - {
+                registrationForm: '%vs_users.registration_form%',
+                registerRole: '%vs_users.register_role%',
+                defaultRedirect: '%vs_users.default_redirect%',
+                mailerUser: '%vs_application.mailer_user%',
+            }
+            - '@vs_payment.repository.pricing_plan'
+        calls:
+            - setTokenGenerator: ['@?symfonycasts.verify_email.token_generator']
+            - setVerifyEmailHelper: ['@?symfonycasts.verify_email.helper']
+            
+    App\Controller\VideoPlatform\ForgotPasswordController:
+        public: true
+        autowire: true
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@doctrine'
+            - '@vs_users.repository.reset_password_request'
+            - '@vs_users.repository.users'
+            - '@mailer'
+            - '@vs_users.factory.reset_password_request'
+            - '@vs_users.manager.user'
+            - {
+                defaultRedirect: '%vs_users.default_redirect%',
+                mailerUser: '%vs_application.mailer_user%',
+            }
+        calls:
+            - setResetPasswordHelper: ['@?symfonycasts.reset_password.helper']
+
+    App\Controller\VideoPlatform\AuthController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@vs_application.context.application'
+            - '@twig'
+            - '@doctrine'
+    
+    App\Controller\VideoPlatform\DefaultController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@vs_application.context.application'
+            - '@twig'
+            - '@doctrine'
+            - '@vs_payment.repository.product_category'
+            - '@vs_payment.repository.product'
+            - '@vs_vvp.repository.slider'
+            - '%vs_vvp.slider_directory%'
+            - '@vs_vvp.repository.video'
+            - '@vs_payment.repository.pricing_plan_category'
+            
+    App\Controller\VideoPlatform\PricingPlanCheckoutController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@doctrine'
+            - '@vs_users.security_bridge'
+            - '@vs_payment.factory.order'
+            - '@vs_payment.repository.order'
+            - '@vs_payment.factory.order_item'
+            - '@vs_payment.repository.pricing_plan_category'
+            - '@vs_payment.repository.pricing_plan'
+            - '@vs_payment.repository.payment_method'
+            - '@vs_payment_payment'
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+            
+    App\Controller\Application\ActorController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@vs_vvp.repository.actor'
+            
+    App\Controller\Application\HelpCenterController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@vs_vvp.repository.helpcenter_question'
+            
+    App\Controller\VideoPlatform\MoviesController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@vs_vvp.repository.video'
+            - '@dubture_ffmpeg.ffprobe'
+            - '@app_video_transcoder_coconut'
+            - '@twig'
+            - '@app_movies_filter'
+            - '@app_video_platform'
+            
+    App\Controller\Application\VideosController:
+        arguments:
+            - '@doctrine'
+            - '@vs_users.security_bridge'
+            - '@vs_vvp.repository.video'
+            - '@app_video_platform'
+        tags: ['controller.service_arguments']

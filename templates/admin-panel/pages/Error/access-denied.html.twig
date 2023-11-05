@@ -1,0 +1,33 @@
+{% extends "@VSApplication/layout.html.twig" %}
+
+{% block title %}{{ parent() }} :: {{ 'vs_vvp.template.error_pages.title' | trans( {},'VanzVideoPlayer' ) }}{% endblock %}
+{% block pageTitle %}<i class="fa fa-user-md"></i> {{ 'vs_vvp.template.error_pages.title' | trans( {},'VanzVideoPlayer' ) }}{% endblock %}
+
+{% block content %}
+    <div class="padding">
+        <div class="row mt-5">
+            <div class="col-sm-12">
+                <h1 style="text-transform: uppercase;">{{ 'vs_vvp.template.error_pages.access_denied_message' | trans( {},'VanzVideoPlayer' ) }}</h1>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {#
+    {% include '@VSPayment/Pages/CreditCard/Partial/credit_card_css.html.twig' %}
+    #}
+    
+    <style>
+        a {
+            color: #007bff !important;
+        }
+        a:hover {
+            color: #007bff !important;
+            text-decoration: underline !important;
+        }
+    </style>
+{% endblock %}
+

@@ -1,0 +1,277 @@
+vs_vvp:
+    form:
+        published: Публикуван
+        locale: Език
+        name: Име
+        title: Заглавие
+        category: Категория
+        category_placeholder: '-- Избери Категория --'
+        error_caption: Грешка!
+        filter_by_category: Филтриране по Категория
+        
+        videos_filter:
+            filter_by_category: Филтриране по Категория
+            category_placeholder: '-- Всички Категории --'
+        
+        login:
+            email: Имейл Адрес
+            password: Парола
+            login: Вход
+            register: Регистрация
+            forgot_password: Забравена парола
+            login_page_title: Вход
+            
+        register:
+            pricing_plan_select: Ценови План
+            ricing_plan_select_placeholder:  '-- Избери Ценови План --'
+            button_register: Регистрирай Акаунт
+            agreement_text: Чрез създаване на акаунт, вие се съгласявате със
+            terms_and_conditions: правилата и условията
+            date_of_birth: Дата на Раждане
+            year: Година
+            month: Месец
+            day: Ден
+            
+        video:
+            title: Заглавие
+            tags: Тагове
+            description: Описание
+            thumbnail: Снимка
+            thumbnail_placeholder: Ъплоадни Снимка
+            video: Видео
+            video_placeholder: Ъплоадни Видео
+            actors: Actors
+            actors_placeholder: '-- Select Actors --'
+            
+        video_update:
+            title: Редакция на Видео
+            
+        helpcenter_question:
+            question: Question
+            answer: Answer
+            
+        actor:
+            name: Име
+            description: Описание
+            photos: Снимки
+            videos: Videos
+            videos_placeholder: '-- Select Videos --'
+            
+        quick_link:
+            link_text: Link Text
+            link_path: Link Path (OR Absolute Url)
+            
+        slider:
+            title: Заглавие
+            description: Описание
+            photo: Снимка
+            
+        movies_filter:
+            category_label: Категория
+            category_placeholder: Всички категории
+            quality_label: Качество
+            quality_placeholder: Всички качества
+            rating_label: Рейтинг
+            rating_placeholder: Всички рейтинги
+            orderby_label: Подредено по
+            latest: Най=нови
+            newest: Най=нови
+            oldest: Най-стари
+            apply: Приложи
+            
+        video_platform_settings:
+            settings_key: Settings Key
+            coconut_api_key: Coconut Api Key
+            coconut_storage: Coconut Storage
+            coconut_storage_placeholder: '-- Select a Coconut Storage --'
+            coconut_set_watermark: Coconut Set Watermark
+            output_formats: Output Formats
+            format: Format
+            use_ffmpeg: Use FFMpeg
+            display_only_transcoded: Display Only Transcoded
+            coconut_system_credentials: Coconut System Credentials
+            coconut_system_user: Username
+            coconut_system_password: Password
+            coconut_input_url_type: Input URL Type
+            coconut_input_settings: Coconut Input Settings
+            create_user_signed_videos: Create User Signed Videos
+            disable_videos_for_non_authenticated: Disable Videos for Non-Authenticated Users
+            application: Application
+            application_placeholder: '-- Select an Application --'
+            coconut_settings: Coconut Settings
+            coconut_settings_placeholder: '-- Select Coconut Settings --'
+            original_videos_storage: Original Videos Storage
+            original_videos_storage_placeholder: '-- Select Original Videos Storage --'
+            coconut_settings_title: Title
+            
+            settings_key_help: Used to load different Settings in Different Application Environements. ( Set it in .env File )
+            use_ffmpeg_help: Used to get Video Duration etc.
+            display_only_transcoded_help: Dont add Url to Original Video in Video Player
+            create_user_signed_videos_help: Create Presigned Videos Url to Digital Ocean Space Bucket
+            disable_videos_for_non_authenticated_help: Dont display Video Details Page to Not Loggedin Users
+            
+        video_platform_storage:
+            title: Title
+            storage_type: Storage Type
+            storage_type_placeholder: '-- Select a Storage Type --'
+            storage_settings: Storage Settings
+            settings_key: Key
+            settings_value: Value
+            
+        google_cloud_project:
+            title: Title
+            api_key: Api Key
+            client_id: Client Id
+            client_secret: Client Secret
+            
+        youtube_channel:
+            title: Title
+            channel_id: Channel Id
+            
+    template:
+        admin_menu_title: Видео Платформа
+        items_index_row_categories: Категории
+        coconut_job_status: Статус на Транскодер Задача
+        job_status_preview: Преглед Статус на Транскодер Задача
+        coconut_job_recreate: Recreate Coconut Job
+        video_preview: Преглед на Видео
+        
+        error_pages:
+            title: Възникна Грешка
+            access_denied_message: 'Нямате Достъп до Това Съдържание !!!'
+            tablature_upload_limited_message: Ъплоада на Таблатури е Ограничен
+            pay_for_unlimited: Можете да Платите за Неограничен Ъплоад на Таблатури
+            from_here: От Тук
+            
+        header:
+            #join_no    w: присъедини се
+            join_now: регистрация
+            search: Търси
+            sign_out: изход
+            sign_in: вход
+            my_profile: Моят Профил
+            
+        footer:
+            resources: Ресурси
+            about_us: За нас
+            pricing_plans: Ценови планове
+            help_center: Помощен център
+            contacts: Контакти
+            browse: Преглед
+            help: Помощ
+            account_billing: Сметка и Таксуване
+            plans_pricing: Планове и Цени
+            supported_devices: Поддържани устройства
+            accessibility: Достъпност
+            terms_and_conditions: Правила и условия
+            
+        login:
+            email: Емейл
+            password: Парола
+            sign_in: Вход
+            dont_have_an_account: "Нямате акаунт?"
+            sign_up: Регистрирай се!
+            forgot_password: Забравена парола?
+            
+        register:
+            i_agree_to_the: Съгласен съм със
+            privacy_policy: Политика за поверителност
+            sign_in: Вход!
+            already_have_an_account: "Вече имате акаунт?"
+            sign_up: Регистрирай
+            
+        actors:
+            film_actors: Филмови Актьори
+            discover: Discover
+            filmography: Filmography
+            photos: Photos
+            
+        help_center:
+            help_center: Помощен Център
+            
+        pricing_plans:
+            pricing_plans: Ценови планове
+            register: Регистрация
+            choose_plan: Избери Ценови план
+            current_plan: Текущ План
+            lower_than_active: Lower Plan
+            
+        my_profile:
+            my_profile: Моят Профил
+            username: Потребителско име
+            profile: Профил
+            subscription: Абонамент
+            settings: Настройки
+            logout: Изход
+            no_choosed_plan: No Choosed plan
+            profile_details: Profile details
+            save: Save
+            change_password: Change password
+            change: Change
+            expire_at: Expire At
+            
+        movies:
+            movies: Филми
+            running_time: Продължителност
+            min: 'мин' # Abreviation for minutes
+            
+        home_page:
+            recently_updated: Последни Ъпдейти
+            to_catalog: към каталога
+            select_your_plan: Избери План
+            
+        video_platform_settings:
+            general_settings: General Settings
+            transcoder_settings: Transcoder Settings
+            use_ffmpeg: Use FFMpeg
+            
+        list_video_categories: Видео Категории Листинг
+        list_videos: Видео Листинг
+        page_title_video_create: Създаване на Видео
+        page_title_video_update: Редакция на Видео
+        page_title_video_details: Видео Детайли
+        page_title_video_category_create: Създаване на Видео Категория
+        page_title_video_category_update: Редакция на Видео Категория
+        page_title_video_category_details: Видео Категория
+        list_actors: Актьори Листинг
+        page_title_actor_create: Създаване на Актьор
+        page_title_actor_update: Редакция на Актьор
+        page_title_actor_details: Актьор Детайли
+        list_questions: Въпроси Листинг
+        page_title_question_create: Създаване на Въпрос
+        page_title_question_update: Редакция на Въпрос
+        page_title_question_details: Въпрос Детайли
+        items_index_row_photos: Снимки
+        items_index_row_videos: Видеа
+        page_title_quick_link_listing: Списък Бързи Линкове
+        page_title_quick_link_create: Създаване на Бърз Линк
+        page_title_quick_link_update: Редакция на Бърз Линк
+        page_title_quick_link_details: Бърз Линк Детайли
+        list_slider_items: Slider Items Listing
+        page_title_slider_item_create: Create Slider Item
+        page_title_slider_item_update: Update Slider Item
+        page_title_slider_item_details: Slider Item Details
+        page_title_video_platform_settings_listing: Video Platform Settings
+        page_title_video_platform_settings_create: Create a Settings
+        page_title_video_platform_settings_update: Update Settings
+        page_title_video_platform_settings_details: Settings Details
+        page_title_video_platform_storage_listing: Video Platform Storages
+        page_title_video_platform_storage_create: Create a Storage
+        page_title_video_platform_storage_update: Update Storage
+        page_title_video_platform_storage_details: Storage Details
+        page_title_coconut_settings_listing: Coconut Settings
+        page_title_coconut_settings_create: Create a Coconut Settings
+        page_title_coconut_settings_update: Update Coconut Settings
+        page_title_coconut_settings_details: Coconut Settings Details
+        items_index_row_settings_key: Settings Key
+        items_index_row_storage: Storage
+        items_index_row_output_formats: Output Formats
+        page_title_google_project_listing: Google Projects Listing
+        page_title_google_project_create: Create Google Project
+        page_title_google_project_update: Update Google Project
+        page_title_google_project_details: Google Project Details
+        page_title_youtube_channel_listing: YouTube Channels Listing
+        page_title_youtube_channel_create: Create YouTube Channel
+        page_title_youtube_channel_update: Update YouTube Channel
+        page_title_youtube_channel_details: YouTube Channel Details
+

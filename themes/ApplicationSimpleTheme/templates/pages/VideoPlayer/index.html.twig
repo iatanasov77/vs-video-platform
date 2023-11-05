@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    {% include 'pages/VideoPlayer/partial/_video-player.html.twig' %}
+
+    <div class="container">
+        <div class="row">
+            {% for video in videos %}
+                {% include 'pages/VideoPlayer/partial/_video.html.twig' %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {{ encore_entry_link_tags( 'js/video-player', null, 'ApplicationSimpleTheme' ) }}
+{% endblock %}
+
+{% block javascripts_head %}
+    {{ parent() }}
+    
+    <script>
+        window.availableFormats    = {{ availableFormats | json_encode() | raw }}
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags( 'js/video-player', null, 'ApplicationSimpleTheme' ) }}
+{% endblock %}

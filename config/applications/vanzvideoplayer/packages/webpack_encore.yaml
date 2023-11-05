@@ -1,0 +1,13 @@
+framework:
+    assets:
+        packages:
+            default:
+                json_manifest_path: '%kernel.project_dir%/public/vanzvideoplayer/build/default/manifest.json'
+            application-simple-theme:
+                json_manifest_path: '%kernel.project_dir%/public/shared_assets/build/application-simple-theme/manifest.json'
+
+webpack_encore:
+    output_path: '%kernel.project_dir%/public/vanzvideoplayer/build/default'
+    builds:
+        defaultConfig: '%kernel.project_dir%/public/vanzvideoplayer/build/default'
+        ApplicationSimpleTheme: '%kernel.project_dir%/public/shared_assets/build/application-simple-theme'

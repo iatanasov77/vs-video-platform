@@ -1,0 +1,93 @@
+{% extends 'base-login.html.twig' %} 
+
+{% block content %}
+	<!-- registration form -->
+	{{ form_start(form, { 'attr': {'class': 'sign__form registration_form', 'id': 'registration-form'} }) }}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token( 'registration' ) }}" />
+        
+        <a href="{{ path( 'app_home' ) }}" class="sign__logo">
+            <img src="{{ asset( 'build/video-platform-theme/img/logo.svg' ) }}" alt="{{ applicationTitle }}">
+        </a>
+
+        {% if form_errors( form ) is not empty %}
+            <div class="alert alert-block alert-danger fade in">
+                <button type="button" class="close close-sm" data-bs-dismiss="alert">
+                    <i class="icon-remove"></i>
+                </button>
+                <strong>Error!</strong> {{ form_errors( form ) }}
+            </div>
+        {% endif %}
+        
+        <div class="sign__group">
+            {{ form_label(form.pricingPlan, null, {
+                'label_attr': {'class': 'label sign__label'}
+                }) 
+            }}
+            {{ form_widget( form.pricingPlan, {'attr': {'class': 'sign__select'}} ) }}
+        </div>
+        
+        <div class="sign__group control-group">
+            {{ form_label(form.birthday, null, {
+                'label_attr': {'class': 'label sign__label'}
+                }) 
+            }}
+            <div class="sign__group controls">
+                {{ form_widget(form.birthday.day, { attr: { 'class': 'sign__select sign__select_3' } }) }}
+                {{ form_widget(form.birthday.month, { attr: { 'class': 'sign__select sign__select_3' } }) }}
+                {{ form_widget(form.birthday.year, { attr: { 'class': 'sign__select sign__select_3' } }) }}
+            </div>
+        </div>
+        
+        <div class="sign__group">
+            {{ form_widget(form.firstName, {'attr': {'class': 'sign__input', 'placeholder': form.firstName.vars.label }}) }}
+        </div>
+        
+        <div class="sign__group">
+            {{ form_widget(form.lastName, {'attr': {'class': 'sign__input', 'placeholder': form.lastName.vars.label }}) }}
+        </div>
+        
+        <div class="sign__group">
+            {{ form_widget( form.email, {'attr': {'class': 'sign__input', 'placeholder': form.email.vars.label}} ) }}
+        </div>
+                    
+        <div class="sign__group mt-3">
+            {{ form_widget( form.plain_password.first, {'attr': {'class': 'sign__input', 'placeholder': form.plain_password.first.vars.label}} ) }}
+        </div>
+        
+        <div class="sign__group">
+            {{ form_widget( form.plain_password.second, {'attr': {'class': 'sign__input', 'placeholder': form.plain_password.second.vars.label}} ) }}
+        </div>
+        
+        <div class="sign__group">
+            {{ form_label(form.prefered_locale, null, {
+                'label_attr': {'class': 'label sign__label'}
+                }) 
+            }}
+            {{ form_widget( form.prefered_locale, {'attr': {'class': 'sign__select', 'placeholder': form.prefered_locale.vars.label}} ) }}
+        </div>
+        
+        <div class="sign__group sign__group--checkbox">
+            <input id="remember" name="remember" type="checkbox" required="required">
+            <label for="remember">{{ 'vs_vvp.template.register.i_agree_to_the' | trans( {},'VanzVideoPlayer' ) }} 
+                <a href="{{ path( 'vs_cms_pages_show_by_slug', {'slug': 'privacy-policy'} ) }}">
+                    {{ 'vs_vvp.template.register.privacy_policy' | trans( {},'VanzVideoPlayer' ) }}
+                </a>
+            </label>
+        </div>
+        
+        <button class="sign__btn" type="submit"><span>{{ 'vs_vvp.template.register.sign_up' | trans( {},'VanzVideoPlayer' ) }}</span></button>
+
+        <span class="sign__text">{{ 'vs_vvp.template.register.already_have_an_account' | trans( {},'VanzVideoPlayer' ) }} 
+            <a href="{{ path( 'app_login' ) }}">
+                {{ 'vs_vvp.template.register.sign_in' | trans( {},'VanzVideoPlayer' ) }}
+            </a>
+        </span>
+    {{ form_end(form, {'render_rest': false}) }}
+    <!-- registration form -->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    {{ encore_entry_script_tags( 'js/static-page', null, 'VideoPlatformTheme' ) }}
+{% endblock %}

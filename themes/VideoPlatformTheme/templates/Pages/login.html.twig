@@ -1,0 +1,53 @@
+{% extends 'base-login.html.twig' %} 
+
+{% block content %}
+    <!-- authorization form -->
+    <form class="sign__form" method="post">
+        <a href="{{ path( 'app_home' ) }}" class="sign__logo">
+            <img src="{{ asset( 'build/video-platform-theme/img/logo.svg' ) }}" alt="{{ applicationTitle }}">
+        </a>
+        
+        {% if error %}
+            <div class="alert alert-danger mt-4 float-start text-left w-100" role="alert">
+                <span>{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+            </div>
+        {% endif %}
+    
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+        
+        <div class="sign__group">
+            <input type="text" class="sign__input" placeholder="{{ 'vs_vvp.template.login.email' | trans( {},'VanzVideoPlayer' ) }}"
+                autofocus id="username" name="_username" value="{{ last_username }}"
+            />
+        </div>
+    
+        <div class="sign__group">
+            <input type="password" class="sign__input" placeholder="{{ 'vs_vvp.template.login.password' | trans( {},'VanzVideoPlayer' ) }}"
+                id="password" name="_password"
+            />
+        </div>
+    
+        <div class="sign__group sign__group--checkbox">
+            <input id="remember" type="checkbox" checked="checked"
+                name="_remember_me"
+            />
+            <label for="remember">{{ 'vs_application.form.login.remember_me' | trans( {},'VSApplicationBundle' ) }}</label>
+        </div>
+        
+        <button class="sign__btn" type="submit"><span>{{ 'vs_vvp.template.login.sign_in' | trans( {},'VanzVideoPlayer' ) }}</span></button>
+    
+        <span class="sign__text">
+            {{ 'vs_vvp.template.login.dont_have_an_account' | trans( {},'VanzVideoPlayer' ) }} 
+            <a href="{{ path( 'vs_users_register_form' ) }}">{{ 'vs_vvp.template.login.sign_up' | trans( {},'VanzVideoPlayer' ) }}</a>
+        </span>
+    
+        <span class="sign__text"><a href="{{ path( 'vs_users_forgot_password_form' ) }}">{{ 'vs_vvp.template.login.forgot_password' | trans( {},'VanzVideoPlayer' ) }}</a></span>
+    </form>
+    <!-- end authorization form -->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    {{ encore_entry_script_tags( 'js/static-page', null, 'VideoPlatformTheme' ) }}
+{% endblock %}

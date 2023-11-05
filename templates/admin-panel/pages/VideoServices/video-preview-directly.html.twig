@@ -1,0 +1,37 @@
+<div class="jumbotron">
+    <div class="container" id="VideoPlayerContainer">
+    
+        <div class="row">
+            <!-- player -->
+            <div class="col-12 col-xl-6">
+                <div class="form-group">
+                    <label for="video-player-select-format">Select Format</label>:&nbsp;&nbsp;
+                    <select id="video-player-select-format"></select>
+                </div>
+                
+                <video
+                    id="VideoPlayer"
+                    data-video-id="{{ video.id }}"
+                    data-video-slug="{{ video.slug }}"
+                    class="video-js"
+                    controls
+                    preload="auto"
+                    poster="{{ thumbnailUrl }}"
+                    data-setup="{}"
+                >
+                    <source id="VideoPlayerSource" src="{{ path( 'app_video_player_read', {'id': video.id} ) }}" type="video/mp4" />
+                
+                    <p class="vjs-no-js">
+                        To view this video please enable JavaScript, and consider upgrading to a
+                        web browser that
+                        <a href="https://videojs.com/html5-video-support/" target="_blank">
+                            supports HTML5 video
+                        </a>
+                    </p>
+                </video>
+            </div>
+            <!-- end player -->
+        </div>
+        
+    </div>
+</div>

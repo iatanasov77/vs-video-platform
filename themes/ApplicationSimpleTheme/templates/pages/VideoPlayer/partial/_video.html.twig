@@ -1,0 +1,7 @@
+<div class="col-md-4">
+    <a href="javascript:void(0);" class="btnDisplayVideo" data-videoId="{{ video.videoId }}" data-videoSlug={{ video.videoSlug }}>
+        <h5>{{ video.title }}</h5>
+        <img style="width: 90%;" src="{{ video.thumbnail }}" alt="{{ video.title }}" />
+        <p>{{ video.description | slice( 0, 30 ) ~ '...' }}</p>
+    </a>
+</div>

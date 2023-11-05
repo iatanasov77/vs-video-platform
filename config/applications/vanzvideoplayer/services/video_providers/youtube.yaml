@@ -1,0 +1,25 @@
+parameters:
+    vvp_youtube_channel_slug: '%env(YOUTUBE_CHANNEL)%'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    app_google_client:
+        class: App\Component\Cloud\Google
+        arguments:
+            - '@vs_vvp.repository.google_cloud_project'
+            - '%env(GOOGLE_PROJECT)%'
+    
+    app_video_provider_youtube:
+        class: App\Component\VideoProviders\GoogleVideoProvider
+        arguments:
+            - '@app_google_client'
+
+    app_video_service_youtube:
+        class: App\Component\VideoPlayer\VideoService
+        arguments:
+            - '@app_video_provider_youtube'
+
+

@@ -1,0 +1,49 @@
+vs_payment:
+    # Supported Storages: doctrine_orm, filesystem
+    token_storage: doctrine_orm
+    
+    resources:
+        gateway_config:
+            classes:
+                model: App\Entity\Payment\GatewayConfig
+        payment_method:
+            classes:
+                model: App\Entity\Payment\PaymentMethod
+        payment:
+            classes:
+                model: App\Entity\Payment\Payment
+        payment_token:
+            classes:
+                model: App\Entity\Payment\PaymentToken
+        order:
+            classes:
+                model: App\Entity\Payment\Order
+        order_item:
+            classes:
+                model: App\Entity\Payment\OrderItem
+        currency:
+            classes:
+                model: App\Entity\Payment\Currency
+        exchange_rate:
+            classes:
+                model: App\Entity\Payment\ExchangeRate
+        product:
+            classes:
+                model: App\Entity\Payment\Product
+                controller: App\Controller\VideoPlatform\ProductController
+        product_picture:
+            classes:
+                model: App\Entity\Payment\ProductPicture
+        product_category:
+            classes:
+                model: App\Entity\Payment\ProductCategory
+        pricing_plan_category:
+            classes:
+                model: App\Entity\Payment\PricingPlanCategory
+        pricing_plan:
+            classes:
+                model: App\Entity\Payment\PricingPlan
+        pricing_plan_subscription:
+            classes:
+                model: App\Entity\Payment\PricingPlanSubscription
+

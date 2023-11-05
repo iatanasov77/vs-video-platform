@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|slice(0, 2) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% block stylesheets %}
+        <!-- CSS -->
+        {{ encore_entry_link_tags( 'css/main', null, 'VideoPlatformTheme' ) }}
+        {{ encore_entry_link_tags( 'js/app', null, 'VideoPlatformTheme' ) }}
+    {% endblock %}
+    {% block javascripts_head %}{% endblock %}
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="{{ asset( 'build/video-platform-theme/icon/favicon-32x32.png' ) }}" sizes="32x32">
+    <link rel="apple-touch-icon" href="{{ asset( 'build/video-platform-theme/icon/favicon-32x32.png' ) }}">
+
+    <meta name="description" content="Online Movies, TV Shows & Cinema HTML Template">
+    <meta name="keywords" content="">
+    <meta name="author" content="Dmitry Volkov">
+    <title>{{ applicationTitle }}</title>
+
+</head>
+<body>
+    <div class="sign section--bg" data-bg="{{ asset( 'build/video-platform-theme/img/bg/section__bg.jpg' ) }}">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="sign__content">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% block javascripts %}
+        {{ encore_entry_script_tags( 'js/app', null, 'VideoPlatformTheme' ) }}
+    {% endblock %}
+</body>
+</html>

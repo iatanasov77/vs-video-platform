@@ -1,0 +1,24 @@
+/*
+span.textbox.textbox-invalid.combo:first-of-type {
+    display: none !important;	
+}
+*/
+
+.sub-header {
+	background-color: #fff;
+	margin-top: 10px;
+}
+
+.combobox-item input[type='checkbox'] {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+#video-preview-modal .modal-content {
+    width: 730px;
+}
+
+#video-preview-modal .video-js {
+    width: 600px !important;
+    height: 350px !important;
+}

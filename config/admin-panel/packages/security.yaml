@@ -1,0 +1,123 @@
+security:
+    password_hashers:
+        # use your user class name here
+        App\Entity\UserManagement\User:
+            # Use native password hasher, which auto-selects the best
+            # possible hashing algorithm (starting from Symfony 5.3 this is "bcrypt")
+            algorithm: auto
+            
+     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        debug_provider:
+            memory: null
+        default_provider:
+            entity:
+                class: App\Entity\UserManagement\User
+                property: username
+        api_provider:
+            entity:
+                class: App\Entity\UserManagement\User
+                property: username
+
+    # activate different ways to authenticate
+    # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+    # https://symfony.com/doc/current/security/impersonating_user.html
+    # switch_user: true
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+            
+        # API Firewall - Uncomment to Use API Firewalls
+        ################################################################################################
+        # Manual: https://symfony.com/bundles/LexikJWTAuthenticationBundle/current/index.html
+        # NOTE: API Firewall Configuration Should Be Before Main Firewall
+        #       You can Remove apiToken field from User Model in Library.
+        #       It not needed. JWT Provide Best API Authentication Solution
+        ################################################################################################
+        api_login:
+            pattern: ^/api/login
+            stateless: true
+            provider: api_provider
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api_main:
+            pattern:   ^/api
+            stateless: true
+            provider: api_provider
+            jwt: ~
+        ################################################################################################
+        
+        main:
+            lazy: true
+            #provider: debug_provider
+            provider: default_provider
+            
+            form_login:
+                enable_csrf: true
+                login_path: vs_application_login
+                check_path: vs_application_login
+                username_parameter: _username
+                password_parameter: _password
+                always_use_default_target_path: false
+                default_target_path:  '%vs_users.default_redirect%'
+            logout:
+                path: vs_application_logout
+                target: /login
+                invalidate_session: true
+                
+            # https://symfony.com/doc/current/security/remember_me.html
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 33264000 # 1 year in seconds
+                signature_properties: ['password', 'salt']
+
+            custom_authenticators:
+                - vs_users.security.login_form_authenticator
+                #- vs_api.security.api_key_authenticator
+            entry_point: vs_users.security.login_form_authenticator
+
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: []
+        ROLE_ADMIN: []
+        ROLE_APPLICATION_ADMIN: ['ROLE_VIDEO_PLATFORM_ADMIN']
+        ROLE_VIDEO_PLATFORM_ADMIN: []
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: /_wdt/.*, roles: PUBLIC_ACCESS }
+        - { path: /_profiler/.*, roles: PUBLIC_ACCESS }
+        
+        # API Routes
+        - { path: ^/api/coconut/webhook, roles: PUBLIC_ACCESS }
+        - { path: ^/api/coconut/storage, roles: PUBLIC_ACCESS }
+        - { path: ^/api-docs, roles: [ROLE_SUPER_ADMIN,ROLE_ADMIN] }
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        
+        # Web Routes
+        - { path: ^/login, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/register, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/verify, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/forgot-password, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/forgot-password/reset/, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/logout, roles: IS_AUTHENTICATED_FULLY, requires_channel: '%env(SECURE_SCHEME)%' }
+        
+        - { path: ^/_uploader/coconut_output/, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/videos-ext/, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/images/, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
+        
+        - { path: ^/users/user-roles/, roles: [ROLE_SUPER_ADMIN], requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/users/, roles: [ROLE_SUPER_ADMIN,ROLE_ADMIN], requires_channel: '%env(SECURE_SCHEME)%' }
+        
+        - { path: ^/dashboard, roles: [ROLE_SUPER_ADMIN,ROLE_ADMIN,ROLE_APPLICATION_ADMIN], requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/video-platform/, roles: [ROLE_SUPER_ADMIN,ROLE_ADMIN,ROLE_APPLICATION_ADMIN], requires_channel: '%env(SECURE_SCHEME)%' }
+        
+        - { path: ^/, roles: [ROLE_SUPER_ADMIN,ROLE_ADMIN], requires_channel: '%env(SECURE_SCHEME)%' }
+        #- { path: ^/, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
+

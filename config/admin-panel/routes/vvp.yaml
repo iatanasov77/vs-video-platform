@@ -1,0 +1,109 @@
+app_video_player_read:
+    path: /video-platform/videos-ext/{id}/read
+    controller: App\Controller\AdminPanel\VideoExtController::read
+    options:
+        expose: true
+        
+app_video_player_read_transcoded:
+    path: /video-platform/videos-transcoded/{id}-{format}/read
+    controller: App\Controller\AdminPanel\VideoExtController::readTranscoded
+    options:
+        expose: true
+
+vvp_video_save:
+    path: /video-platform/videos-ext/video_upload
+    controller: App\Controller\AdminPanel\VideoExtController::saveVideoAction
+    options:
+        expose: true
+
+vvp_access_denied:
+    path: /video-platform/error/access-denied
+    controller: App\Controller\AdminPanel\ErrorController::accessDenied
+    
+vvp_coconut_job_status:
+    path: /video-platform/coconut/{videoId}/job-status
+    controller: App\Controller\AdminPanel\VideoServicesController::coconutJobStatus
+    
+# THE OLD WAY
+vvp_video_preview_by_provider:
+    path: /video-platform/video-preview-by-provider/{id}
+    controller: App\Controller\AdminPanel\VideoServicesController::previewVideoByProvider
+    
+# THE NEW WAY
+vvp_video_preview_directly:
+    path: /video-platform/video-preview-directly/{id}
+    controller: App\Controller\AdminPanel\VideoServicesController::previewVideoDirectly
+    
+# Videos Categories Callbacks
+##################################
+vvp_videos_categories_tree_combo:
+    path: /video-platform/json/videos-categories-{taxonomyId}/easyui-combotree
+    controller: App\Controller\AdminPanel\VideoExtController::easyuiComboTreeSource
+
+vvp_videos_tree_combo_with_selected:
+    path: /video-platform/json/{videoId}/videos-categories-{taxonomyId}/easyui-combotree
+    controller: App\Controller\AdminPanel\VideoExtController::easyuiComboTreeWithSelectedSource
+
+vvp_videos_tree_combo_with_leafs:
+    path: /video-platform/json/videos-categories-{taxonomyId}/easyui-combotree-with-leafs
+    controller: App\Controller\AdminPanel\VideoExtController::easyuiComboTreeWithLeafsSource
+
+vvp_videos_actors_combo:
+    path: /video-platform/json/{videoId}/video-actors
+    controller: App\Controller\AdminPanel\VideoExtController::easyuiComboBoxActors
+    
+vvp_videos_videos_combo:
+    path: /video-platform/json/{actorId}/actor-videos
+    controller: App\Controller\AdminPanel\VideoExtController::easyuiComboBoxVideos
+
+# Cloud Actions
+######################
+vvp_coconut_recreate_job:
+    path: /video-platform/cloud-actions/coconut/recreate-job/{videoId}
+    controller: App\Controller\AdminPanel\CloudActions\CoconutController::recreateCoconutJob
+    options:
+        expose: true
+        
+# Custom Routes
+######################
+vvp_videos_categories_update_by_taxon:
+    path: /video-platform/json/update-videos-category-by-taxon/{taxonId}
+    controller: App\Controller\AdminPanel\VideoExtController::updateCategory_ByTaxonId
+    
+vvp_videos_categories_delete_by_taxon:
+    path: /video-platform/json/delete-videos-category-by-taxon/{taxonId}
+    controller: App\Controller\AdminPanel\VideoExtController::deleteCategory_ByTaxonId
+    
+vvp_videos_categories_move_by_taxon:
+    path: /video-platform/json/move-videos-category-by-taxon/{sourceTaxonId}-{destinationTaxonId}-{position}
+    controller: App\Controller\AdminPanel\VideoExtController::moveCategory_ByTaxonId
+    
+vvp_actors_form_in_locale:
+    path: /actor-actions/get-form/{locale}/{itemId}
+    controller: App\Controller\AdminPanel\ActorExtController::getForm
+    options:
+        expose: true
+        
+vvp_videos_form_in_locale:
+    path: /video-actions/get-form/{locale}/{itemId}
+    controller: App\Controller\AdminPanel\VideoExtController::getForm
+    options:
+        expose: true
+        
+vvp_help_center_form_in_locale:
+    path: /help-center-actions/get-form/{locale}/{itemId}
+    controller: App\Controller\AdminPanel\HelpCenterQuestionExtController::getForm
+    options:
+        expose: true
+        
+vvp_quick_link_form_in_locale:
+    path: /quick-link-actions/get-form/{locale}/{itemId}
+    controller: App\Controller\AdminPanel\QuickLinkExtController::getForm
+    options:
+        expose: true
+        
+vvp_slider_form_in_locale:
+    path: /slider-actions/get-form/{locale}/{itemId}
+    controller: App\Controller\AdminPanel\SliderExtController::getForm
+    options:
+        expose: true

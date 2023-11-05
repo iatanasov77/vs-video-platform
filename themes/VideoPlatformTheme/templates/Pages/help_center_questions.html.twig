@@ -1,0 +1,73 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <!-- page title -->
+    <section class="section section--first section--bg"
+        data-bg="{{ asset( 'build/video-platform-theme/img/bg/section__bg.jpg' ) }}"
+    >
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section__wrap">
+                        <!-- section title -->
+                        <h1 class="section__title section__title--head">{{ 'vs_vvp.template.help_center.help_center' | trans( {},'VanzVideoPlayer' ) }}</h1>
+                        <!-- end section title -->
+
+                        <!-- breadcrumbs -->
+                        <ul class="breadcrumbs">
+                            {% if app.environment == 'dev' or not inMaintenance %}
+                                {{ knp_menu_render( 'breadcrumbs', {'template': 'Menu/breadcrumb.html.twig'} ) }}
+                            {% endif %}
+                        </ul>
+                        <!-- end breadcrumbs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end page title -->
+
+    <!-- faq -->
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <!-- accordion -->
+                <div class="col-12">
+                    <div class="accordion" id="accordion">
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                            {% for q in questions %}
+                                <div class="accordion__card">
+                                    <button class="collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                                        {{ q.question }}
+                                        <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H5a1,1,0,0,0,0,2H19a1,1,0,0,0,0-2Z"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,11H5a1,1,0,0,0,0,2H19a1,1,0,0,0,0-2Z"/></svg>
+                                        </span>
+                                    </button>
+
+                                    <div id="collapse1" class="collapse" data-bs-parent="#accordion">
+                                        <p>{{ q.answer }}</p>
+                                    </div>
+                                </div>
+                            
+                                {% if loop.index == countFirstCol %}
+                                    </div><div class="col-12 col-lg-6">
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end accordion -->
+            </div>
+        </div>
+    </div>
+    <!-- end faq -->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    {{ encore_entry_script_tags( 'js/help-center', null, 'VideoPlatformTheme' ) }}
+{% endblock %}

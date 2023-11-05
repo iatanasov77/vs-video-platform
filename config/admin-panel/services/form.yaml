@@ -1,0 +1,131 @@
+parameters:
+    # Pages Form Options
+    ##########################################################
+    vs_cms.form.pages.ckeditor_uiColor: '#ffffff'
+    vs_cms.form.pages.ckeditor_toolbar: devpage_toolbar
+    vs_cms.form.pages.ckeditor_extraPlugins: 'liststyle, font, justify, codesnippet, lightbox'
+    vs_cms.form.pages.ckeditor_removeButtons: ''
+    vs_cms.form.pages.ckeditor_allowedContent: true # Disable Advanced Content Filter
+    vs_cms.form.pages.ckeditor_extraAllowedContent: 'div(*)'
+    
+    # TocPage Form Options
+    ##########################################################
+    vs_cms.form.toc_page.ckeditor_uiColor: '#ffffff'
+    vs_cms.form.toc_page.ckeditor_toolbar: devpage_toolbar
+    vs_cms.form.toc_page.ckeditor_extraPlugins: 'liststyle, font, justify, codesnippet, lightbox'
+    vs_cms.form.toc_page.ckeditor_removeButtons: ''
+    vs_cms.form.toc_page.ckeditor_allowedContent: true # Disable Advanced Content Filter
+    vs_cms.form.toc_page.ckeditor_extraAllowedContent: '*[*]{*}(*)'
+    
+    # Paid Services Form Options
+    ##########################################################
+    vs_users_subscriptions.form.payed_service.ckeditor_allowedContent: true # Disable Advanced Content Filter
+    vs_users_subscriptions.form.payed_service.ckeditor_extraAllowedContent:  'a(*); div(*); p(*); h2(*);'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        
+    vs_vvp.resources.video_category.form:
+        class: App\Form\VideoCategoryForm
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.video_category.class%'
+            - '@vs_application.repository.locale'
+            - '@request_stack'
+            - '@security.token_storage'
+
+    vs_vvp.resources.video.form:
+        class: App\Form\VideoForm
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.video.class%'
+            - '@vs_application.repository.locale'
+            - '@request_stack'
+            - '@security.token_storage'
+            - '%vs_vvp.model.video_category.class%'
+            - '%vs_vvp.model.actor.class%'
+            
+    vs_vvp.resources.helpcenter_question.form:
+        class: App\Form\HelpCenterQuestionForm
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.helpcenter_question.class%'
+            - '@vs_application.repository.locale'
+            - '@request_stack'
+            
+    vs_vvp.resources.actor.form:
+        class: App\Form\ActorForm
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.actor.class%'
+            - '@vs_application.repository.locale'
+            - '@request_stack'
+            - '%vs_vvp.model.video.class%'
+            
+    vs_vvp.resources.actor_photo.form:
+        class: App\Form\Type\ActorPhotoType
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.actor_photo.class%'
+            
+    vs_vvp.resources.quick_link.form:
+        class: App\Form\QuickLinkForm
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.quick_link.class%'
+            - '@vs_application.repository.locale'
+            - '@request_stack'
+
+    vs_vvp.resources.slider.form:
+        class: App\Form\SliderForm
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.slider.class%'
+            - '@vs_application.repository.locale'
+            - '@request_stack'
+            
+    vs_vvp.resources.video_platform_settings.form:
+        class: App\Form\VideoPlatformSettingsForm
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.video_platform_settings.class%'
+            
+    vs_vvp.resources.video_platform_storage.form:
+        class: App\Form\VideoPlatformStorageForm
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.video_platform_storage.class%'
+            
+    vs_vvp.resources.coconut_settings.form:
+        class: App\Form\CoconutSettingsForm
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.coconut_settings.class%'
+            
+    vs_vvp.resources.google_cloud_project.form:
+        class: App\Form\GoogleCloudProjectForm
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.google_cloud_project.class%'
+            
+    vs_vvp.resources.youtube_channel.form:
+        class: App\Form\YoutubeChannelForm
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.youtube_channel.class%'
+
+
