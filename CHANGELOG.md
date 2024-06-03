@@ -1,3 +1,9 @@
+1.0.1	|	Release date: **03.06.2024**
+============================================
+* Bug-Fixes:
+  - Fix a Doctrine Migration.
+
+
 1.0.0	|	Release date: **03.06.2024**
 ============================================
 * New Features and Improvements:
