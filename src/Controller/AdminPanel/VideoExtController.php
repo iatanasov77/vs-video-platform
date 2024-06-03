@@ -12,12 +12,15 @@ use League\Flysystem\Filesystem;
 use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use FFMpeg\FFProbe;
 
+use Vankosoft\ApiBundle\Exception\ApiLoginException;
 use Vankosoft\ApplicationBundle\Component\Status;
 use Vankosoft\ApplicationBundle\Repository\TaxonomyRepository;
 use Vankosoft\ApplicationBundle\Repository\TaxonRepository;
-use Vankosoft\ApplicationBundle\Controller\TaxonomyTreeDataTrait;
+use Vankosoft\ApplicationBundle\Controller\Traits\TaxonomyTreeDataTrait;
 use Vankosoft\UsersBundle\Security\SecurityBridge;
+use App\Component\Cloud\Exception\VideoPlatformStorageException;
 use App\Component\VideoPlatform;
 use App\Form\VideoForm;
 
@@ -27,31 +30,31 @@ class VideoExtController extends AbstractController
     use TaxonomyTreeDataTrait;
     
     /** @var ManagerRegistry */
-    private ManagerRegistry $doctrine;
+    private $doctrine;
     
     /** @var SecurityBridge */
-    private SecurityBridge $securityBridge;
+    private $securityBridge;
     
     /** @var EntityRepository */
-    private EntityRepository $videosRepository;
+    private $videosRepository;
     
     /** @var FactoryInterface */
-    private FactoryInterface $videosFactory;
+    private $videosFactory;
     
     /** @var EntityRepository */
-    private EntityRepository $videosCategoriesRepository;
+    private $videosCategoriesRepository;
     
     /** @var string */
-    private string $videosDirectory;
+    private $videosDirectory;
     
     /** @var EventDispatcherInterface */
-    private EventDispatcherInterface $eventDispatcher;
+    private $eventDispatcher;
     
     /** @var EntityRepository */
-    private EntityRepository $videoThumbnailRepository;
+    private $videoPhotosRepository;
     
     /** @var EntityRepository */
-    private EntityRepository $videoFileRepository;
+    private $videoFileRepository;
     
     /** @var Filesystem */
     private $filesystem;
@@ -60,13 +63,22 @@ class VideoExtController extends AbstractController
     private $filesystemCoconut;
     
     /** @var EntityRepository */
-    private EntityRepository $actorsRepository;
+    private $actorsRepository;
     
     /** @var VideoPlatform */
-    private VideoPlatform $videoPlatform;
+    private $videoPlatform;
     
     /** @var EntityRepository */
-    private EntityRepository $videoTagsRepository;
+    private $vsTagsWhitelistContextRepository;
+    
+    /** @var EntityRepository */
+    private $vsTagsRepository;
+    
+    /** @var FFProbe */
+    private $ffprobe;
+    
+    /** @var EntityRepository */
+    private $paidServicesRepository;
     
     //EntityRepository $taxonRepository,
     public function __construct(
@@ -79,30 +91,36 @@ class VideoExtController extends AbstractController
         EntityRepository $videosCategoriesRepository,
         string $videosDirectory,
         EventDispatcherInterface $eventDispatcher,
-        EntityRepository $videoThumbnailRepository,
+        EntityRepository $videoPhotosRepository,
         EntityRepository $videoFileRepository,
         Filesystem $filesystem,
         Filesystem $filesystemCoconut,
         EntityRepository $actorsRepository,
         VideoPlatform $videoPlatform,
-        EntityRepository $videoTagsRepository
+        EntityRepository $vsTagsWhitelistContextRepository,
+        EntityRepository $vsTagsRepository,
+        FFProbe $ffprobe,
+        EntityRepository $paidServicesRepository
     ) {
-        $this->doctrine                     = $doctrine;
-        $this->taxonomyRepository           = $taxonomyRepository;
-        $this->taxonRepository              = $taxonRepository;
-        $this->securityBridge               = $securityBridge;
-        $this->videosRepository             = $videosRepository;
-        $this->videosFactory                = $videosFactory;
-        $this->videosCategoriesRepository   = $videosCategoriesRepository;
-        $this->videosDirectory              = $videosDirectory;
-        $this->eventDispatcher              = $eventDispatcher;
-        $this->videoThumbnailRepository     = $videoThumbnailRepository;
-        $this->videoFileRepository          = $videoFileRepository;
-        $this->filesystem                   = $filesystem;
-        $this->filesystemCoconut            = $filesystemCoconut;
-        $this->actorsRepository             = $actorsRepository;
-        $this->videoPlatform                = $videoPlatform;
-        $this->videoTagsRepository          = $videoTagsRepository;
+        $this->doctrine                         = $doctrine;
+        $this->taxonomyRepository               = $taxonomyRepository;
+        $this->taxonRepository                  = $taxonRepository;
+        $this->securityBridge                   = $securityBridge;
+        $this->videosRepository                 = $videosRepository;
+        $this->videosFactory                    = $videosFactory;
+        $this->videosCategoriesRepository       = $videosCategoriesRepository;
+        $this->videosDirectory                  = $videosDirectory;
+        $this->eventDispatcher                  = $eventDispatcher;
+        $this->videoPhotosRepository            = $videoPhotosRepository;
+        $this->videoFileRepository              = $videoFileRepository;
+        $this->filesystem                       = $filesystem;
+        $this->filesystemCoconut                = $filesystemCoconut;
+        $this->actorsRepository                 = $actorsRepository;
+        $this->videoPlatform                    = $videoPlatform;
+        $this->vsTagsWhitelistContextRepository = $vsTagsWhitelistContextRepository;
+        $this->vsTagsRepository                 = $vsTagsRepository;
+        $this->ffprobe                          = $ffprobe;
+        $this->paidServicesRepository           = $paidServicesRepository;
     }
     
     public function getForm( $itemId, $locale, Request $request ): Response
@@ -119,11 +137,13 @@ class VideoExtController extends AbstractController
             $this->getParameter( 'vs_vvp.video-categories.taxonomy_code' )
         );
         
+        $tagsContext    = $this->vsTagsWhitelistContextRepository->findByTaxonCode( 'video-tags' );
+        
         return $this->render( 'admin-panel/pages/Videos/partial/video_form.html.twig', [
             'item'                  => $item,
             'form'                  => $this->createForm( VideoForm::class, $item )->createView(),
             'taxonomyId'            => $taxonomy->getId(),
-            'videoTags'             => $this->videoTagsRepository->getTags(),
+            'videoTags'             => $tagsContext->getTagsArray(),
             'oneupVideoUploader'    => $this->_oneupUploaderId(),
         ]);
     }
@@ -145,7 +165,10 @@ class VideoExtController extends AbstractController
                 }
             }
             
-            $this->videoTagsRepository->updateTags( explode( ',', $formValues['tags'] ) );
+            $tagsArray  = \json_decode( $formValues['tags'] );
+            if ( $tagsArray ) {
+                $this->updateTags( $tagsArray );
+            }
             
             $entity->setCurrentLocale( $formValues['currentLocale'] );
             $entity->setUser( $this->getUser() );
@@ -162,17 +185,25 @@ class VideoExtController extends AbstractController
             }
             
             if ( isset( $formValues['video_file'] ) && $formValues['video_file'] ) {
-                // Dispach a Sylius Resource Post Event
-                $this->eventDispatcher->dispatch( new GenericEvent( $entity ), 'vs_vvp.video.post_create' );
+                try {
+                    // Dispach a Sylius Resource Post Event
+                    $this->eventDispatcher->dispatch( new GenericEvent( $entity ), 'vs_vvp.video.post_create' );
+                } catch ( ApiLoginException $e ) {
+                    return new JsonResponse([
+                        'status'    => Status::STATUS_ERROR,
+                        'message'   => $e->getMessage()
+                    ]);
+                }
             }
             
             return new JsonResponse([
-                'status'   => Status::STATUS_OK
+                'status'    => Status::STATUS_OK
             ]);
         }
         
         return new JsonResponse([
-            'status'   => Status::STATUS_ERROR
+            'status'    => Status::STATUS_ERROR,
+            'message'   => 'Allowed Request Types: POST,PUT'
         ]);
     }
     
@@ -265,6 +296,22 @@ class VideoExtController extends AbstractController
         return new JsonResponse( $data );
     }
     
+    public function easyuiComboBoxPaidServices( $videoId, Request $request ): Response
+    {
+        $paidServices   = $this->paidServicesRepository->findAll();
+        
+        $data           = [];
+        foreach ( $paidServices as $paidService ) {
+            $data[]   = [
+                'id'        => $paidService->getId(),
+                'text'      => $paidService->getTitle(),
+                'checked'   => true,
+            ];
+        }
+        
+        return new JsonResponse( $data );
+    }
+    
     public function easyuiComboBoxVideos( $actorId, Request $request ): Response
     {
         $videos = $this->videosRepository->findAll();
@@ -307,7 +354,7 @@ class VideoExtController extends AbstractController
                     'currentLocale'     => $request->request->get( 'currentLocale' ),
                     'title'             => $request->request->get( 'title' ),
                     'description'       => $request->request->get( 'description' ),
-                    'video_thumbnail'   => \intval( $request->request->get( 'video_thumbnail' ) ),
+                    //'video_thumbnail'   => \intval( $request->request->get( 'video_thumbnail' ) ),
                     'video_file'        => \intval( $request->request->get( 'video_file' ) ),
                 ];
                 
@@ -326,31 +373,13 @@ class VideoExtController extends AbstractController
     private function saveFiles( &$entity, $formValues ): bool
     {
         $saveProcessed  = false;
-        $em             = $this->doctrine->getManager();
         
-        if ( isset( $formValues['video_thumbnail'] ) && $formValues['video_thumbnail'] ) {
-            $thumbnail  = $this->videoThumbnailRepository->find( $formValues['video_thumbnail'] );
-            $thumbnail->setOwner( $entity );
-            
-            $em->persist( $thumbnail );
-            $em->flush();
-            $entity->setVideoThumbnail( $thumbnail );
-            
-            $saveProcessed  = true;
-        }
+//         if ( isset( $formValues['video_thumbnail'] ) && $formValues['video_thumbnail'] ) {
+//             $saveProcessed  = $this->_saveVideoThumbnail( $entity, $formValues );
+//         }
         
         if ( isset( $formValues['video_file'] ) && $formValues['video_file'] ) {
-            $video  = $this->videoFileRepository->find( $formValues['video_file'] );
-            $video->setOwner( $entity );
-            
-            $storageType    = $this->videoPlatform->getOriginalVideosStorage()->getStorageType();
-            $video->setStorageType( $storageType );
-            
-            $em->persist( $video );
-            $em->flush();
-            $entity->setVideoFile( $video );
-            
-            $saveProcessed  = true;
+            $saveProcessed  = $this->_saveVideoFile( $entity, $formValues );
         }
         
         return $saveProcessed;
@@ -370,5 +399,61 @@ class VideoExtController extends AbstractController
                 return 'videos_local';
                 break;
         }
+    }
+    
+    private function _saveVideoThumbnail( &$entity, $formValues ): bool
+    {
+        $em         = $this->doctrine->getManager();
+        
+        $thumbnail  = $this->videoThumbnailRepository->find( $formValues['video_thumbnail'] );
+        $thumbnail->setOwner( $entity );
+        
+        $em->persist( $thumbnail );
+        $em->flush();
+        $entity->setVideoThumbnail( $thumbnail );
+        
+        return true;
+    }
+    
+    private function _saveVideoFile( &$entity, $formValues ): bool
+    {
+        $em     = $this->doctrine->getManager();
+        
+        $video  = $this->videoFileRepository->find( $formValues['video_file'] );
+        $video->setOwner( $entity );
+        
+        $storageType    = $this->videoPlatform->getOriginalVideosStorage()->getStorageType();
+        $video->setStorageType( $storageType );
+        
+        $storageSettings    = $this->videoPlatform->getOriginalVideosStorage()->getSettings();
+        if ( ! isset( $storageSettings['bucket'] ) ) {
+            throw new VideoPlatformStorageException( 'Video Platform Storage Not Configured Properly !!!' );
+        }
+        
+        $filmDuration       = null;
+        if ( $this->videoPlatform->getVideoPlatformSettings()->getUseFFMpeg() ) {
+            $filmDuration   = $this->ffprobe->streams(
+                $this->videoPlatform->getVideoUri( $video, $storageSettings['bucket'] )
+            )->videos()->first()->get( 'duration' );
+        }
+        $video->setDuration( $filmDuration );
+        
+        $em->persist( $video );
+        $em->flush();
+        $entity->setVideoFile( $video );
+        
+        return true;
+    }
+    
+    private function updateTags( array $tags )
+    {
+        $tagsContext    = $this->vsTagsWhitelistContextRepository->findByTaxonCode( 'video-tags' );
+        
+        $tagsArray     = [];
+        foreach ( $tags as $tag ) {
+            $tagsArray[]    = $tag->value;
+        }
+        
+        $this->vsTagsRepository->updateTags( $tagsArray, $tagsContext );
     }
 }

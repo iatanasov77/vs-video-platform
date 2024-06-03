@@ -1,0 +1,57 @@
+<div class="row ">
+    {{ form_widget(form.id) }}
+    
+    {% if item.id and form.vars.value %}
+        {% set photoId = form.vars.value.code %}
+        
+        {% if photoId in item.photos|keys %}
+            {% set originalName = item.photos[photoId].originalName %}
+        {% else %}
+            {% set originalName = 'Not Persisted File' %}
+        {% endif %}
+        
+        {% set photoWidgetClass = 'form-control fieldPhoto persistedPhoto form-field-file' %}
+    {% else %}
+        {% set photoId = '' %}
+        {% set originalName = 'Choose File' %}
+        {% set photoWidgetClass = 'form-control fieldPhoto form-field-file' %}
+    {% endif %}
+    {#  
+    {{ dump( photoId ) }}
+    #}
+    
+    <div class="form-group col-lg-2 mb-3">
+        {{ form_label(form.code, null, {
+            'label_attr': {'class': 'col-form-label'}
+            }) 
+        }}
+    
+        {{ form_widget(form.code, {'attr': {'class': 'form-control',} }) }}
+    </div>
+    
+    <div class="form-group col-lg-5 mb-3">
+        {{ form_label(form.description, null, {
+            'label_attr': {'class': 'col-form-label'}
+            }) 
+        }}
+    
+        {{ form_widget(form.description, {'attr': {'class': 'form-control',} }) }}
+    </div>
+    
+    <div class="form-group col-lg-3 mb-3">
+        {{ form_label(form.photo, null, {
+            'label_attr': {'class': 'col-form-label'}
+            }) 
+        }}
+        
+        <div class="form-field-file">
+            {{ form_widget(form.photo, {'attr': {'class': photoWidgetClass, 'placeholder': originalName} }) }}
+            <label class="input-group-text" for="video_form_photos_{{ photoId }}_photo">{{ originalName }}</label>
+        </div>
+    </div>
+
+	<div class="col-lg-2 mb-3" style="padding-top: 37px;">
+	    <a href="javascript:void(0);" class="btn btn-success btnAddField"><i class="icon_plus_alt2"></i></a>
+	    <a href="javascript:void(0);" class="btn btn-danger btnRemoveField"><i class="icon_close_alt2"></i></a>
+	</div>
+</div>

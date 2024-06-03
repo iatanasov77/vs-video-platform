@@ -1,20 +1,11 @@
 <?php namespace App\Component;
 
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-use Symfony\Component\Filesystem\Filesystem;
-use League\Flysystem\Filesystem as LeagueFilesystem;
-
-use FFMpeg\FFMpeg;
-use App\Component\VideoUploader\Adapter\GaufretteAwsS3\GaufretteAwsS3Adapter;
 use App\Component\Cloud\Exception\VideoPlatformSettingsException;
-use App\Component\Cloud\Exception\VideoPlatformStorageException;
 use App\Entity\VideoPlatformSettings;
 use App\Entity\VideoFile;
 use App\Entity\Video;
-use App\Entity\CoconutJob;
 
 final class VideoPlatform
 {
@@ -29,6 +20,15 @@ final class VideoPlatform
     const URL_INPUT_TYPE_S3             = 's3';
     const URL_INPUT_TYPE_S3_PRESIGNED   = 's3_presigned';
     
+    /** Video Photo Types */
+    const VIDEO_PHOTO_TYPE_THUMBNAIL    = 'video_thumbnail';
+    const VIDEO_PHOTO_TYPE_SLIDER       = 'video_slider_photo';
+    const VIDEO_PHOTO_TYPE_OTHER        = 'video_other_photo';
+    
+    /** Video Actor Careers */
+    const VIDEO_ACTOR_CAREER_ACTRESS    = 'vs_vvp.actor_career.video_actress';
+    const VIDEO_ACTOR_CAREER_ACTOR      = 'vs_vvp.actor_career.video_actor';
+    
     const STORAGE_TYPES = [
         self::STORAGE_TYPE_COCONUT  => 'Coconut',
         self::STORAGE_TYPE_LOCAL    => 'Local Storage',
@@ -37,98 +37,62 @@ final class VideoPlatform
     ];
     
     const INPUT_URL_TYPES = [
-        self::URL_INPUT_TYPE_LOCAL          => 'Local URL',
-        self::URL_INPUT_TYPE_S3             => 'S3 Public URL',
-        self::URL_INPUT_TYPE_S3_PRESIGNED   => 'S3 Presigned URL',
+        self::URL_INPUT_TYPE_LOCAL          => 'vs_vvp.form.video_platform_settings.input_url_type_local',
+        self::URL_INPUT_TYPE_S3             => 'vs_vvp.form.video_platform_settings.input_url_type_s3',
+        self::URL_INPUT_TYPE_S3_PRESIGNED   => 'vs_vvp.form.video_platform_settings.input_url_type_s3_presigned',
     ];
     
-    /** @var RouterInterface */
-    private $router;
+    const VIDEO_PHOTO_TYPES = [
+        self::VIDEO_PHOTO_TYPE_THUMBNAIL    => 'Video Thumbnail',
+        self::VIDEO_PHOTO_TYPE_SLIDER       => 'Slider Photo',
+        self::VIDEO_PHOTO_TYPE_OTHER        => 'Other Photo',
+    ];
+    
+    const VIDEO_ACTOR_CAREERS = [
+        self::VIDEO_ACTOR_CAREER_ACTOR      => 'Actor',
+        self::VIDEO_ACTOR_CAREER_ACTRESS    => 'Actress',
+    ];
     
     /** @var VideoPlatformSettings */
     private $videoPlatformSettings;
     
-    /** @var LeagueFilesystem */
-    private $localFilesystem;
+    /** @var VideoUrlsFactory */
+    private $urlsFactory;
     
-    /**
-     * The Filesystem used from Coconut to Store Files by Ftp
-     * 
-     * @var LeagueFilesystem
-     */
-    private $coconutFilesystem;
+    /** @var VideoStreamsFactory */
+    private $streamsFactory;
     
-    /** @var LeagueFilesystem */
-    private $userSignedVideosFilesystem;
+    /** @var VideoStorageBridge */
+    private $storageBridge;
     
-    /** @var GaufretteAwsS3Adapter */
-    private $s3OriginalVideosAdapter;
-    
-    /** @var GaufretteAwsS3Adapter */
-    private $s3CoconutOutputAdapter;
-    
-    /** @var RepositoryInterface */
-    private $moviesCategoriesRepository;
-    
-    /** @var RepositoryInterface */
-    private $moviesRepository;
-    
-    /** @var MoviesUserSignature */
-    private $userSignature;
-    
-    /** @var string */
-    private $localVideosDirectory;
+    /** @var VideoSignatory */
+    private $videoSignatory;
     
     public function __construct(
         string $settingsKey,
-        RouterInterface $router,
         RepositoryInterface $videoPlatformSettingsRepository,
-        LeagueFilesystem $localFilesystem,
-        LeagueFilesystem $coconutFilesystem,
-        LeagueFilesystem $userSignedVideosFilesystem,
-        GaufretteAwsS3Adapter $s3OriginalVideosAdapter,
-        GaufretteAwsS3Adapter $s3CoconutOutputAdapter,
-        RepositoryInterface $moviesCategoriesRepository,
-        RepositoryInterface $moviesRepository,
-        FFMpeg $ffMpeg,
-        TokenStorageInterface $tokenStorage,
-        string $localVideosDirectory,
-        string $userSignaturesDirectory,
-        ?MoviesUserSignature $userSignature = null
+        VideoUrlsFactory $urlsFactory,
+        VideoStreamsFactory $streamsFactory,
+        VideoStorageBridge $storageBridge,
+        VideoSignatory $videoSignatory
     ) {
-        $this->router           = $router;
-        
-        $videoPlatformSettings  = $videoPlatformSettingsRepository->findOneBy( ['settingsKey' => $settingsKey] );
+        $videoPlatformSettings          = $videoPlatformSettingsRepository->findOneBy( ['settingsKey' => $settingsKey] );
         if ( ! $videoPlatformSettings ) {
-            throw new VideoPlatformSettingsException( 'Video Platform Settings Not Found !!!' );
+            throw new VideoPlatformSettingsException( 'Video Platform Settings Key: "' . $settingsKey . '" Not Found !!!' );
         }
         
-        $this->videoPlatformSettings        = $videoPlatformSettings;
+        $this->videoPlatformSettings    = $videoPlatformSettings;
         
-        $this->localFilesystem              = $localFilesystem;
-        $this->coconutFilesystem            = $coconutFilesystem;
-        $this->userSignedVideosFilesystem   = $userSignedVideosFilesystem;
+        $this->urlsFactory              = $urlsFactory;
+        $this->urlsFactory->setSettings( $this->videoPlatformSettings );
         
-        $this->s3OriginalVideosAdapter      = $s3OriginalVideosAdapter;
-        $this->s3CoconutOutputAdapter       = $s3CoconutOutputAdapter;
+        $this->streamsFactory           = $streamsFactory;
+        $this->streamsFactory->setSettings( $this->videoPlatformSettings );
         
-        $this->moviesCategoriesRepository   = $moviesCategoriesRepository;
-        $this->moviesRepository             = $moviesRepository;
+        $this->storageBridge            = $storageBridge;
+        $this->storageBridge->setSettings( $this->videoPlatformSettings );
         
-        $user                               = null;
-        $token                              = $tokenStorage->getToken();
-        if ( $token ) {
-            $user   = $token->getUser();
-        }
-        $this->userSignature                = new MoviesUserSignature(
-            $ffMpeg,
-            $this,
-            $user,
-            $this->userSignedVideosFilesystem,
-            $userSignaturesDirectory
-        );
-        
-        $this->localVideosDirectory         = $localVideosDirectory;
+        $this->videoSignatory           = $videoSignatory;
     }
     
     public function getVideoPlatformSettings()
@@ -146,193 +110,45 @@ final class VideoPlatform
         return $this->videoPlatformSettings->getCoconutSettings()->getCoconutStorage();
     }
     
+    public function getSuggestionsStrategy()
+    {
+        return $this->videoPlatformSettings->getVideoSuggestionsAssociationType();
+    }
+    
     public function getVideoUri( VideoFile $videoFile, string $bucket, bool $signed = true ): string
     {
-        switch ( $videoFile->getStorageType() ) {
-            case self::STORAGE_TYPE_S3:
-            case self::STORAGE_TYPE_DO:
-                return $signed ? $this->_getPresignedS3ObjectUrl( $videoFile, $bucket ) :
-                                $this->_getS3ObjectUrl( $videoFile, $bucket );
-                
-                break;
-            case self::STORAGE_TYPE_LOCAL:
-            case self::STORAGE_TYPE_COCONUT:
-            default:
-                return $this->router->generate( 'app_video_player_read', [
-                    'id' => $videoFile->getVideo()->getId()
-                ], RouterInterface::ABSOLUTE_URL );
-        }
+        return $this->urlsFactory->getVideoUri( $videoFile, $bucket, $signed );
     }
     
     public function getTranscodedLocalUrl( $id, $format ): string
     {
-        return $this->router->generate( 'app_video_player_read_transcoded',
-            ['id' => $id, 'format' => $format ],
-            RouterInterface::ABSOLUTE_URL
-        );
+        return $this->urlsFactory->getTranscodedLocalUrl( $id, $format );
     }
     
-    public function getVideoStream( VideoFile $videoFile, string $bucket )
+    public function getOriginalVideoStream( VideoFile $videoFile )
     {
-        if ( $this->videoPlatformSettings->getCreateUserSignedVideos() ) {
-            // @NOTE User Signed Videos Not Working Yet
-            //return $this->userSignedVideosFilesystem->readStream( $this->getUserSignedVideo( $videoFile, $bucket ) );
-        }
-        
-        switch ( $videoFile->getStorageType() ) {
-            case self::STORAGE_TYPE_S3:
-            case self::STORAGE_TYPE_DO:
-                return $this->_getS3ObjectStream( $videoFile );
-                
-                break;
-            case self::STORAGE_TYPE_LOCAL:
-            case self::STORAGE_TYPE_COCONUT:
-            default:
-                return $this->_getLocalObjectStream( $videoFile );
-        }
+        return $this->streamsFactory->getOriginalVideoStream( $videoFile );
     }
     
     public function getCoconutOutputStream( $id, $format )
     {
-        $videoFilePath  = \sprintf( 'video-%s-%s.mp4', $id, $format );
-        
-        switch ( $this->getVideoPlatformSettings()->getCoconutSettings()->getCoconutStorage()->getStorageType() ) {
-            case self::STORAGE_TYPE_S3:
-            case self::STORAGE_TYPE_DO:
-                $this->s3CoconutOutputAdapter->read( $videoFilePath );
-                
-                return \fopen( "s3://{$this->s3CoconutOutputAdapter->getBucket()}/{$videoFilePath}", 'rb' );
-                
-                break;
-            default:
-                return $this->coconutFilesystem->readStream( $videoFilePath );
-        }
+        return $this->streamsFactory->getCoconutOutputStream( $id, $format );
     }
     
     public function getUserSignedVideo( VideoFile $videoFile, string $bucket ): ?string
     {
-        if ( $this->videoPlatformSettings->getUseFFMpeg() ) {
-            return $this->userSignature->getUserSignedVideo( $videoFile, $bucket );
-        }
+        $videoUri   = $this->getVideoUri( $videoFile, $bucket );
         
-        return null;
+        return $this->videoSignatory->getUserSignedVideo( $videoFile, $videoUri );
     }
     
     public function removeVideoFiles( VideoFile $videoFile, int $videoId ): void
     {
-        switch ( $this->videoPlatformSettings->getCoconutSettings()->getCoconutStorage()->getStorageType() ) {
-            case self::STORAGE_TYPE_LOCAL:
-                $fileVideo  = $this->localVideosDirectory . '/' . $videoFile->getPath();
-                
-                $filesystem = new Filesystem();
-                $filesystem->remove( $fileVideo );
-                
-                break;
-            case self::STORAGE_TYPE_S3:
-            case self::STORAGE_TYPE_DO:
-                $this->s3OriginalVideosAdapter->delete( $videoFile->getPath() );
-                
-                foreach ( \array_keys( $this->getVideoFormats( $videoFile->getVideo(), $videoId ) ) as $format ) {
-                    $formatParts    = \explode( ':', $format );
-                    $videoFilePath  = \sprintf( 'video-%s-%s.mp4', $videoId, $formatParts[1] );
-                    
-                    $this->s3CoconutOutputAdapter->delete( $videoFilePath );
-                }
-                
-                break;
-                
-            case VideoPlatform::STORAGE_TYPE_COCONUT:
-            default:
-                throw new VideoPlatformStorageException( 'Storage is Not Configured Properly !!!' );
-        }
+        $this->storageBridge->removeVideoFiles( $videoFile, $videoId );
     }
     
     public function getVideoFormats( Video $videoEntity, ?int $videoId = null ): array
     {
-        $formats            = [];
-        $coconutJobEntity   = $videoEntity->getCoconutJob();
-        $_videoId           = $videoId ?: $videoEntity->getId();
-        
-        if ( ! $coconutJobEntity ) {
-            return $formats;
-        }
-        
-        $coconutJobStatusData   = $coconutJobEntity->getJobData();
-        if ( ! $coconutJobStatusData ) {
-            return $formats;
-        }
-        
-        $jobData   = \json_decode( $coconutJobStatusData );
-        if ( \property_exists( $jobData, 'data' ) ) {
-            // Job Data From Webhook 
-            $coconutData   = $jobData->data;
-        } else {
-            // Job Data From Coconut API
-            $coconutData   = $jobData;
-        }
-        
-        if ( $coconutData->status == CoconutJob::EVENT_JOB_COMPLETED ) {
-            foreach ( $coconutData->outputs as $output ) {
-                if ( $output->key == 'httpstream' ) {
-                    continue;
-                }
-                
-                $formatParts            = \explode( ':', $output->key );
-                
-                if ( $this->videoPlatformSettings->getCreateUserSignedVideos() ) {
-                    $formats[$output->key]  = $this->_getTranscodedPresignedS3ObjectUrl( $_videoId, $formatParts[1] );
-                } else {
-                    $formats[$output->key]  = $this->getTranscodedLocalUrl( $_videoId, $formatParts[1] );
-                }
-            }
-        }
-        
-        return $formats;
-    }
-    
-    private function _getS3ObjectUrl( VideoFile $videoFile, string $bucket ): string
-    {
-        return $this->s3OriginalVideosAdapter->getS3Client()->getObjectUrl( $bucket, $videoFile->getPath() );
-    }
-    
-    private function _getPresignedS3ObjectUrl( VideoFile $videoFile, string $bucket ): string
-    {
-        //Creating a presigned URL
-        $cmd        = $this->s3OriginalVideosAdapter->getS3Client()->getCommand( 'GetObject', [
-            'Bucket'    => $bucket,
-            //'Bucket'    => $do->getBucket(),
-            'Key'       => $videoFile->getPath()
-        ]);
-        
-        $request    = $this->s3OriginalVideosAdapter->getS3Client()->createPresignedRequest( $cmd, '+1440 minutes' );
-        
-        // Get the actual presigned-url
-        return (string)$request->getUri();
-    }
-    
-    private function _getS3ObjectStream( VideoFile $videoFile )
-    {
-        $this->s3OriginalVideosAdapter->read( $videoFile->getPath() );
-        
-        return \fopen( "s3://{$this->s3OriginalVideosAdapter->getBucket()}/{$videoFile->getPath()}", 'rb' );
-    }
-    
-    private function _getLocalObjectStream( VideoFile $videoFile )
-    {
-        return $this->localFilesystem->readStream( $videoFile->getPath() );
-    }
-    
-    private function _getTranscodedPresignedS3ObjectUrl( $id, $format ): string
-    {
-        //Creating a presigned URL
-        $cmd    = $this->s3CoconutOutputAdapter->getS3Client()->getCommand( 'GetObject', [
-            'Bucket'    => $this->s3CoconutOutputAdapter->getBucket(),
-            'Key'       => \sprintf( 'video-%s-%s.mp4', $id, $format )
-        ]);
-        
-        $request = $this->s3CoconutOutputAdapter->getS3Client()->createPresignedRequest( $cmd, '+1440 minutes' );
-        
-        // Get the actual presigned-url
-        return (string)$request->getUri();
+        return $this->urlsFactory->getVideoFormats( $videoEntity, $videoId );
     }
 }

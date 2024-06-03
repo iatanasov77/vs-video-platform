@@ -2,6 +2,7 @@
 
 {# Import Macros #}
 {% import "@VSApplication/Macros/alerts.html.twig" as alerts %}
+{% import "@VSApplication/Macros/translations.html.twig" as vs_translations %}
 {% from "@VSApplication/Macros/pagination.html.twig" import pagination %}
 
 {# Override Blocs #}
@@ -23,7 +24,7 @@
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             
             {% if resources|length > 0 %}
-                <table class="table table-striped table-advance table-hover vsTableSortable">
+                <table class="table table-striped table-advance table-hover table-nowrap vsTableSortable">
                     <thead class="table-light">
                         <tr>
                             <th></th>
@@ -32,6 +33,7 @@
                             <th width="450">{{ 'vs_vvp.template.coconut_job_status' | trans( {},'VanzVideoPlayer' ) }}</th>
                             <th>{{ 'vs_vvp.template.items_index_row_categories' | trans( {},'VanzVideoPlayer' ) }}</th>
                             <th>{{ 'vs_application.template.items_index_row_published' | trans( {},'VSApplicationBundle' ) }}</th>
+                            <th>{{ 'vs_vvp.template.items_index_row_watched_by' | trans( {},'VanzVideoPlayer' ) }}</th>
                             <th>{{ 'vs_application.template.items_index_row_translations' | trans( {},'VSApplicationBundle' ) }}</th>
                             <th>{{ 'vs_application.template.items_index_row_created' | trans( {},'VSApplicationBundle' ) }}</th>
                             <th>{{ 'vs_application.template.items_index_row_updated' | trans( {},'VSApplicationBundle' ) }}</th>
@@ -44,8 +46,14 @@
                                 <tr id="{{ item.id }}" data-id="{{ item.id }}">
                                     <td>{{ loop.index }}</td>
                                     
-                                    <td><img src="{{ item.videoThumbnail.path | imagine_filter( 'index_page_thumbnail' ) }}" /></td>
-                                    <td>{{ item.title }}</td>
+                                    <td>
+                                        {% if item.getPhoto( 'video_thumbnail' ) %}
+                                            {% set videoThumbnail = item.getPhoto( 'video_thumbnail' ) %}
+                                        {% endif %}
+                                        
+                                        <img src="{{ videoThumbnail.path | imagine_filter( 'index_page_thumbnail' ) }}" />
+                                    </td>
+                                    <td>{{ item.name }}</td>
                                     
                                     <td>
                                         {% if item.coconutJob %}
@@ -81,14 +89,10 @@
                                         	<i class="fas fa-times" style="color: #ff1e1e;"></i>
                                         {% endif %}
                                     </td>
-                                    <td>
-                                        {% for locale in translations[item.id] %}
-                                            <i class="flag flag-{{ locale | split( '_' )[1] | lower }}"></i>
-                                            {% if not loop.last %}&nbsp;{% endif %}
-                                        {% endfor %}
-                                    </td>
-                                    <td>{{ item.createdAt | date( "d.m.Y" ) }}</td>
-                                    <td>{{ item.updatedAt | date( "d.m.Y" ) }}</td>
+                                    <td>{{ item.watchedByUsers.count }} users</td>
+                                    <td>{{ vs_translations.flags( translations[item.id] ) }}</td>
+                                    <td>{{ item.createdAt | date( "d.m.Y H:i:s" ) }}</td>
+                                    <td>{{ item.updatedAt | date( "d.m.Y H:i:s" ) }}</td>
                                     <td>
                                         <div class="btn-group">
                                         
@@ -138,8 +142,6 @@
             {% else %}
                 {{ alerts.info( 'vs_application.template.there_are_no_items_to_display' | trans( {},'VSApplicationBundle' ) ) }}
             {% endif %}
-        
-            {{ pagination(items) }}
         </div>
     </div>
     

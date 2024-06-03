@@ -2,6 +2,7 @@
 
 {# Import Macros #}
 {% import "@VSApplication/Macros/alerts.html.twig" as alerts %}
+{% import "@VSApplication/Macros/translations.html.twig" as vs_translations %}
 {% from "@VSApplication/Macros/pagination.html.twig" import pagination %}
 
 {# Override Blocs #}
@@ -31,14 +32,7 @@
                                 
                                 <td><img src="{{ item.photos.first().path | imagine_filter( 'index_page_thumbnail' ) }}" /></td>
                                 <td>{{ item.name }}</td>
-                                
-                                <td>
-                                    {% for locale in translations[item.id] %}
-                                        <i class="flag flag-{{ locale | split( '_' )[1] | lower }}"></i>
-                                        {% if not loop.last %}&nbsp;{% endif %}
-                                    {% endfor %}
-                                </td>
-                                
+                                <td>{{ vs_translations.flags( translations[item.id] ) }}</td>
                                 <td>{{ item.photos.count() }}</td>
                                 <td>{{ item.videos.count() }}</td>
                                 
@@ -74,8 +68,6 @@
             {% else %}
                 {{ alerts.info( 'vs_application.template.there_are_no_items_to_display' | trans( {},'VSApplicationBundle' ) ) }}
             {% endif %}
-        
-            {{ pagination(items) }}
         </div>
     </div>
     

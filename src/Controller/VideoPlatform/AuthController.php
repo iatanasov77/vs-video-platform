@@ -68,7 +68,7 @@ class AuthController extends AbstractController
     
     protected function getTemplate(): string
     {
-        $template   = 'video-platform/Pages/login.html.twig';
+        $template   = 'sugarbabes/Pages/login.html.twig';
         
         $appSettings    = $this->applicationContext->getApplication()->getSettings();
         if ( ! $appSettings->isEmpty() && $appSettings[0]->getTheme() ) {

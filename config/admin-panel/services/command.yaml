@@ -1,0 +1,23 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        
+    FFMpeg\FFProbe:
+        alias: dubture_ffmpeg.ffprobe
+        public: true
+        
+    App\Component\VideoPlatform:
+        alias: app_video_platform
+        public: true
+        
+    vs_vvp.update_video_duration:
+        autowire: false
+        class: App\Command\UpdateVideoDurationCommand
+        arguments:
+            - '@doctrine'
+            - '@dubture_ffmpeg.ffprobe'
+            - '@vs_vvp.repository.video_file'
+            - '@app_video_platform'
+        tags:
+            - 'console.command'

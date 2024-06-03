@@ -15,7 +15,7 @@ use Vankosoft\ApplicationBundle\Component\Status;
 
 use App\Component\VideoPlatform;
 use App\Entity\Video;
-use App\Entity\VideoThumbnail;
+use App\Entity\VideoPhoto;
 use App\Entity\VideoFile;
 use App\Entity\VideoCategory;
 
@@ -60,10 +60,11 @@ class VideoController extends AbstractCrudController
         $em             = $this->get( 'doctrine' )->getManager();
         
         $videoId        = $resource->getId();
-        $videoThumbnail = $resource->getVideoThumbnail();
+        //$videoThumbnail = $resource->getVideoThumbnail();
         $videoFile      = $resource->getVideoFile();
         
-        $this->removeThumbnailFile( $videoThumbnail, $videoId );
+        //$this->removeThumbnailFile( $videoThumbnail, $videoId );
+        $this->removeVideoPhotos( $resource );
         $this->removeVideoFile( $videoFile, $videoId );
         
         $em->remove( $resource );
@@ -92,7 +93,7 @@ class VideoController extends AbstractCrudController
         $translations   = $this->classInfo['action'] == 'indexAction' ? $this->getTranslations() : [];
         $allVideos      = $this->classInfo['action'] == 'indexAction' ? $this->getRepository()->findAll() : [];
         
-        $videoTags      = $this->get( 'vs_vvp.repository.video_tag' )->getTags();
+        $tagsContext    = $this->get( 'vs_application.repository.tags_whitelist_context' )->findByTaxonCode( 'video-tags' );
         
         return [
             'categories'            => $this->get( 'vs_vvp.repository.video_category' )->findAll(),
@@ -102,7 +103,7 @@ class VideoController extends AbstractCrudController
             'translations'          => $translations,
             'availableFormats'      => $this->_getVideoFormats( $allVideos ),
             'oneupVideoUploader'    => $this->_oneupUploaderId(),
-            'videoTags'             => $videoTags,
+            'videoTags'             => $tagsContext->getTagsArray(),
         ];
     }
     
@@ -110,6 +111,7 @@ class VideoController extends AbstractCrudController
     {
         $formPost   = $request->request->all( 'video_form' );
         $formLocale = $formPost['locale'];
+        //echo '<pre>'; var_dump( $formPost ); die;
         
         if ( $formLocale ) {
             $entity->setTranslatableLocale( $formLocale );
@@ -119,14 +121,30 @@ class VideoController extends AbstractCrudController
         
         $entity->setUser( $this->getAppUser() );
         
-        $thumbnailFile    = $form['thumbnail']->getData();
-        if ( $thumbnailFile ) {
-            $this->createThumbnail( $entity, $thumbnailFile );
+        $formFiles  = $request->files->get( 'video_form' );
+        $photos = $form['photos']->getData();
+        if ( ! empty( $formFiles['photos'] ) ) {
+            foreach ( $formFiles['photos'] as $photoId => $photo ) {
+                if ( ! $photos[$photoId]->getCode() ) {
+                    $photos[$photoId]->setCode( $photoId );
+                }
+                if ( ! $photo['photo'] ) {
+                    continue;
+                }
+                
+                //echo '<pre>'; var_dump( $formPost['photos'][$photoId]["code"] ); die;
+                $this->createPhoto( $entity, $photos[$photoId], $photo['photo'], $formPost['photos'][$photoId]["code"] );
+            }
         }
         
         $videoFile    = $form['video']->getData();
         if ( $videoFile ) {
             $this->createVideo( $entity, $videoFile );
+        }
+        
+        $tagsArray  = \json_decode( $formPost['tags'] );
+        if ( $tagsArray ) {
+            $this->updateTags( $tagsArray );
         }
     }
     
@@ -167,20 +185,21 @@ class VideoController extends AbstractCrudController
         }
     }
     
-    private function createThumbnail( Video &$video, File $file ): void
+    private function createPhoto( Video &$video, VideoPhoto &$videoPhoto, File $file, string $code ): void
     {
-        $videoThumbnail = $video->getVideoThumbnail() ?: $this->get( 'vs_vvp.factory.video_thumbnail' )->createNew();
-        $videoThumbnail->setOriginalName( $file->getClientOriginalName() );
-        $videoThumbnail->setVideo( $video );
+        $videoPhoto->setOriginalName( $file->getClientOriginalName() );
+        $videoPhoto->setVideo( $video );
         
         $uploadedFile   = new UploadedFile( $file->getRealPath(), $file->getBasename() );
-        $videoThumbnail->setFile( $uploadedFile );
-        $this->get( 'vs_vvp.video_uploader' )->upload( $videoThumbnail );
-        $videoThumbnail->setFile( null ); // reset File Because: Serialization of 'Symfony\Component\HttpFoundation\File\UploadedFile' is not allowed
-        
-        if ( ! $video->getVideoFile() ) {
-            $video->setVideoThumbnail( $videoThumbnail );
+        $videoPhoto->setFile( $uploadedFile );
+        $this->get( 'vs_vvp.video_photo_uploader' )->upload( $videoPhoto );
+        $videoPhoto->setFile( null ); // reset File Because: Serialization of 'Symfony\Component\HttpFoundation\File\UploadedFile' is not allowed
+    
+        if ( $code == VideoPlatform::VIDEO_PHOTO_TYPE_OTHER ) {
+            $code .= '-' . microtime();
         }
+        
+        $videoPhoto->setCode( $code );
     }
     
     private function createVideo( Video &$video, File $file ): void
@@ -211,19 +230,6 @@ class VideoController extends AbstractCrudController
         return $taxonomy;
     }
     
-    private function removeThumbnailFile( VideoThumbnail $videoThumbnail, int $videoId )
-    {
-        $thumbnailPath  = $this->getParameter( 'vs_vvp.videos_directory' ) . '/' . $videoThumbnail->getPath();
-        
-        $filesystem = new Filesystem();
-        $filesystem->remove( $thumbnailPath );
-        
-        $em = $this->get( 'doctrine' )->getManager();
-        $em->remove( $videoThumbnail );
-        $em->flush();
-        
-    }
-    
     private function removeVideoFile( VideoFile $videoFile, int $videoId )
     {
         $this->get( 'app_video_platform' )->removeVideoFiles( $videoFile, $videoId );
@@ -231,6 +237,22 @@ class VideoController extends AbstractCrudController
         $em = $this->get( 'doctrine' )->getManager();
         $em->remove( $videoFile );
         $em->flush();
+    }
+    
+    private function removeVideoPhotos( Video $video )
+    {
+        $em         = $this->get( 'doctrine' )->getManager();
+        $filesystem = new Filesystem();
+        $photosDir  = $this->getParameter( 'vs_vvp.videos_directory' );
+        
+        foreach ( $video->getPhotos() as $photo ) {
+            $photoFile  = $photosDir . '/' . $photo->getPath();
+            
+            $em->remove( $photo );
+            $em->flush();
+            
+            $filesystem->remove( $photoFile );
+        }
     }
     
     private function getTranslations()
@@ -271,5 +293,18 @@ class VideoController extends AbstractCrudController
                 return 'videos_local';
                 break;
         }
+    }
+    
+    private function updateTags( array $tags )
+    {
+        $tagsContext    = $this->get( 'vs_application.repository.tags_whitelist_context' )->findByTaxonCode( 'video-tags' );
+        $tagsRepository = $this->get( 'vs_application.repository.tags_whitelist_tag' );
+        
+        $tagsArray     = [];
+        foreach ( $tags as $tag ) {
+            $tagsArray[]    = $tag->value;
+        }
+        
+        $tagsRepository->updateTags( $tagsArray, $tagsContext );
     }
 }

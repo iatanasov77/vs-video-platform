@@ -4,6 +4,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 
 use Doctrine\Persistence\ManagerRegistry;
@@ -58,7 +59,7 @@ class VideosController extends AbstractController
         $response   = new StreamedResponse( function() use ( $oFile )
         {
             $outputStream   = \fopen( 'php://output', 'wb' );
-            $fileStream     = $this->videoPlatform->getVideoStream( $oFile, 'videos-original' );
+            $fileStream     = $this->videoPlatform->getOriginalVideoStream( $oFile );
             
             while ( ! feof( $fileStream ) ) \fwrite( $outputStream, \fread( $fileStream, 1000000 ) );
         });
@@ -68,28 +69,36 @@ class VideosController extends AbstractController
         $originalName   = $transliteratorToASCII->transliterate( $transliterator->transliterate( $oFile->getOriginalName() ) );
         //var_dump( $originalName ); die;
         
+        /* NOT ADD Content-Disposition
         $disposition    = HeaderUtils::makeDisposition(
             HeaderUtils::DISPOSITION_ATTACHMENT,
             $originalName
         );
+        $response->headers->set( 'Content-Disposition', $disposition );
+        */
         
         $response->headers->set( 'Content-Type', $oFile->getType() );
-        $response->headers->set( 'Content-Disposition', $disposition );
         
         return $response;
     }
     
     public function readTranscoded( $id, $format, Request $request ): Response
     {
-        $oVideo = $this->videosRepository->find( $request->attributes->get( 'id' ) );
+        $referer    = $request->headers->get( 'referer' );
+        //file_put_contents( '/opt/VankosoftProjects/Sugarbabes/production/var/DEBUG', $referer );
+        
+        $oVideo     = $this->videosRepository->find( $request->attributes->get( 'id' ) );
+        $detailsUrl = $this->generateUrl( 'vvp_movies_details', ['slug' => $oVideo->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL );
+        if ( ! \str_ends_with( $referer, $oVideo->getSlug() ) ) {
+            return $this->redirect( $detailsUrl );
+        }
         
         if ( ! $this->checkHasAccess( $oVideo ) ) {
             return $this->redirectToRoute( 'app_video_player_access_denied' );
         }
         
-        $oFile      = $oVideo->getVideoFile();
+        $oFile          = $oVideo->getVideoFile();
         //$fileStream = $this->videoPlatform->getCoconutOutputStream( $id, $format );
-        
         $response   = new StreamedResponse( function() use ( $id, $format )
         {
             $outputStream   = \fopen( 'php://output', 'wb' );
@@ -98,13 +107,15 @@ class VideosController extends AbstractController
             while ( ! feof( $fileStream ) ) \fwrite( $outputStream, \fread( $fileStream, 1000000 ) );
         });
         
+        /* NOT ADD Content-Disposition
         $disposition    = HeaderUtils::makeDisposition(
             HeaderUtils::DISPOSITION_ATTACHMENT,
             $oFile->getOriginalName()
         );
+        $response->headers->set( 'Content-Disposition', $disposition );
+        */
         
         $response->headers->set( 'Content-Type', $oFile->getType() );
-        $response->headers->set( 'Content-Disposition', $disposition );
         
         return $response;
     }

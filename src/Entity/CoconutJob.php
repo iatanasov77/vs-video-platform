@@ -4,10 +4,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="VVP_CoconutJobs")
- */
+#[ORM\Entity]
+#[ORM\Table(name: "VVP_CoconutJobs")]
 class CoconutJob implements ResourceInterface
 {
     use TimestampableEntity;
@@ -21,38 +19,25 @@ class CoconutJob implements ResourceInterface
     const EVENT_OUTPUT_COMPLETED    = 'output.completed';
     const EVENT_OUTPUT_FAILED       = 'output.failed';
     
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    /** @var int */
+    #[ORM\Id, ORM\Column(type: "integer"), ORM\GeneratedValue(strategy: "IDENTITY")]
     private $id;
     
-    /**
-     * @var Video
-     *
-     * @ORM\OneToOne(targetEntity="App\Entity\Video", inversedBy="coconutJob")
-     * @ORM\JoinColumn(name="video_id", referencedColumnName="id")
-     */
+    /** @var Video */
+    #[ORM\OneToOne(targetEntity: "Video", inversedBy: "coconutJob")]
+    #[ORM\JoinColumn(name: "video_id", referencedColumnName: "id")]
     private $video;
     
-    /**
-     * @ORM\Column(name="job_id", type="string", length=32, nullable=false)
-     */
+    /** @var string */
+    #[ORM\Column(name: "job_id", type: "string", length: 32)]
     private $jobId;
     
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="job_data", type="json", nullable=true)
-     */
+    /** @var array */
+    #[ORM\Column(name: "job_data", type: "json", nullable: true)]
     private $jobData;
     
-    /**
-     * @ORM\Column(name="status", type="string", length=32, nullable=false)
-     */
+    /** @var string */
+    #[ORM\Column(type: "string", length: 32)]
     private $status;
     
     public function getId()

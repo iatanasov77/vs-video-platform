@@ -11,24 +11,50 @@ services:
         autowire: true
         autoconfigure: true
 
+    app_video_urls_factory:
+        class: App\Component\VideoUrlsFactory
+        public: true
+        arguments:
+            - '@router'
+            - '@vs_vvp.digital_ocean_original_videos_adapter'
+            - '@vs_vvp.digital_ocean_coconut_output_adapter'
+            
+    app_video_streams_factory:
+        class: App\Component\VideoStreamsFactory
+        public: true
+        arguments:
+            - '@vs_vvp.digital_ocean_original_videos_adapter'
+            - '@vs_vvp.digital_ocean_coconut_output_adapter'
+            - '@oneup_flysystem.vs_vvp.filesystems.local_filesystem'
+            - '@oneup_flysystem.vs_vvp.filesystems.coconut_output_filesystem'
+            
+    app_video_signatory:
+        class: App\Component\VideoSignatory
+        public: true
+        arguments:
+            - '@dubture_ffmpeg.ffmpeg'
+            - '@security.token_storage'
+            - '@oneup_flysystem.vs_vvp.filesystems.videos_user_signatured_filesystem'
+            - '%vs_vvp.videos_user_signatured_directory%'
+    
+    app_video_storage_bridge:
+        class: App\Component\VideoStorageBridge
+        public: true
+        arguments:
+            - '@vs_vvp.digital_ocean_original_videos_adapter'
+            - '@vs_vvp.digital_ocean_coconut_output_adapter'
+            - '%vs_vvp.videos_directory%'
+            
     app_video_platform:
         class: App\Component\VideoPlatform
         public: true
         arguments:
             - '%vvp_video_platform_settings_slug%'
-            - '@router'
             - '@vs_vvp.repository.video_platform_settings'
-            - '@oneup_flysystem.vs_vvp.filesystems.local_filesystem'
-            - '@oneup_flysystem.vs_vvp.filesystems.coconut_output_filesystem'
-            - '@oneup_flysystem.vs_vvp.filesystems.videos_user_signatured_filesystem'
-            - '@vs_vvp.digital_ocean_original_videos_adapter'
-            - '@vs_vvp.digital_ocean_coconut_output_adapter'
-            - '@vs_vvp.repository.video_category'
-            - '@vs_vvp.repository.video'
-            - '@dubture_ffmpeg.ffmpeg'
-            - '@security.token_storage'
-            - '%vs_vvp.videos_directory%'
-            - '%vs_vvp.videos_user_signatured_directory%'
+            - '@app_video_urls_factory'
+            - '@app_video_streams_factory'
+            - '@app_video_storage_bridge'
+            - '@app_video_signatory'
 
     app_video_transcoder_coconut:
         class: App\Component\Cloud\Coconut
@@ -40,6 +66,7 @@ services:
             - '@vs_vvp.factory.coconut_job'
             - '@http_client'
             - '@app_video_platform'
+            - 'https://api.%vankosoft_host%'
             
     app_video_resource_listener:
         class: App\EventListener\VideoResourceEventListener

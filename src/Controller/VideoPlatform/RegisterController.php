@@ -6,30 +6,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\Component\Resource\Factory\Factory;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Vankosoft\ApplicationBundle\Component\Context\ApplicationContextInterface;
 use Vankosoft\UsersBundle\Security\UserManager;
 use Vankosoft\UsersBundle\Security\AnotherLoginFormAuthenticator;
 use Symfony\Component\IntlSubdivision\IntlSubdivision;
-
-use App\Entity\UserManagement\UserInfo;
+use Vankosoft\CatalogBundle\EventSubscriber\Event\CreateNewUserSubscriptionEvent;
 
 class RegisterController extends BaseRegisterController
 {
     use GlobalFormsTrait;
     
-    /** @var Factory */
-    private $paidSubscriptionFactory;
-    
     /** @var RepositoryInterface */
     private $pricingPlanRepository;
     
+    /** @var EventDispatcherInterface */
+    private $eventDispatcher;
+    
     public function __construct(
         ManagerRegistry $doctrine,
-        ApplicationContextInterface $applicationContext,
+        TranslatorInterface $translator,
+		ApplicationContextInterface $applicationContext,
         UserManager $userManager,
         RepositoryInterface $usersRepository,
         Factory $usersFactory,
@@ -39,10 +40,12 @@ class RegisterController extends BaseRegisterController
         UserAuthenticatorInterface $guardHandler,
         AnotherLoginFormAuthenticator $authenticator,
         array $parameters,
-        RepositoryInterface $pricingPlanRepository
+        RepositoryInterface $pricingPlanRepository,
+        EventDispatcherInterface $eventDispatcher
     ) {
         parent::__construct(
             $doctrine,
+            $translator,
             $applicationContext,
             $userManager,
             $usersRepository,
@@ -54,8 +57,9 @@ class RegisterController extends BaseRegisterController
             $authenticator,
             $parameters
         );
-
+        
         $this->pricingPlanRepository    = $pricingPlanRepository;
+        $this->eventDispatcher          = $eventDispatcher;
     }
     
     public function index( Request $request, MailerInterface $mailer ): Response
@@ -76,6 +80,32 @@ class RegisterController extends BaseRegisterController
         return $this->render( '@VSUsers/Register/register.html.twig', array_merge( $params, $this->templateParams( $this->getForm() ) ) );
     }
     
+    /*
+    public function getStatesForCountry( $countryCode, Request $request ): Response
+    {
+        $states = IntlSubdivision::getStatesAndProvincesForCountry( $countryCode );
+        
+        return new JsonResponse( $states );
+    }
+    */
+    
+    public function afterVerifyAction( Request $request ): Response
+    {
+        $user   = $this->getUser();
+        
+        if ( ! $user ) {
+            return $this->redirectToRoute( $this->params['defaultRedirect'] );
+        }
+        
+        $subscriptions  = $user->getPricingPlanSubscriptions();
+        if ( ! $subscriptions->isEmpty() ) {
+            $pricingPlanId  = $subscriptions->first()->getPricingPlan()->getId();
+            return $this->redirectToRoute( 'vs_payment_select_payment_method_form', ['pricingPlanId' => $pricingPlanId] );
+        }
+        
+        return $this->redirectToRoute( $this->params['defaultRedirect'] );
+    }
+    
     protected function handleRegisterForm( Request $request, MailerInterface $mailer )
     {
         $form   = $this->getForm();
@@ -90,59 +120,51 @@ class RegisterController extends BaseRegisterController
                 $plainPassword
             );
             
-            $oUser->addRole( $this->userRolesRepository->findByTaxonCode( $this->params['registerRole'] ) );
-            $oUser->addApplication( $this->applicationContext->getApplication() );
-            
-            $preferedLocale = $form->get( "prefered_locale" )->getData();
-            $oUser->setPreferedLocale( $preferedLocale );
-            $oUser->setVerified( false );
-            $oUser->setEnabled( false );
+            /** Prepare User */
+            $this->prepareUser( $oUser, $form );
             
             /** Populate UserInfo Values */
-            $oUser->getInfo()->setFirstName( $form->get( "firstName" )->getData() );
-            $oUser->getInfo()->setLastName( $form->get( "lastName" )->getData() );
-            $oUser->getInfo()->setBirthday( $form->get( "birthday" )->getData() );
-            
-            $this->setPricingPlan( $oUser, $form );
+            $this->populateUserInfo( $oUser, $form );
             
             $em->persist( $oUser );
             $em->flush();
             
+            $pricingPlanId  = $form->get( "pricingPlan" )->getData();
+            if ( $pricingPlanId ) {
+                $pricingPlan    = $this->pricingPlanRepository->find( $pricingPlanId );
+                $this->eventDispatcher->dispatch(
+                    new CreateNewUserSubscriptionEvent( $oUser, $pricingPlan ),
+                    CreateNewUserSubscriptionEvent::NAME
+                );
+            }
+            
             $this->sendConfirmationMail( $oUser, $mailer );
-            $this->addMessages( $request );
+            
+            $this->addFlash(
+                'success',
+                $this->translator->trans( 'vs_application.form.register.alert_success', [], 'VSApplicationBundle' )
+            );
             
             return $this->redirectToRoute( $this->params['defaultRedirect'] );
         }
     }
     
-    protected function addMessages( Request $request )
+    protected function prepareUser( &$oUser, $form )
     {
-        $this->addFlash(
-            'success',
-            'Your registration has been created !'
-        );
+        $oUser->addRole( $this->userRolesRepository->findByTaxonCode( $this->params['registerRole'] ) );
+        $oUser->addApplication( $this->applicationContext->getApplication() );
+        
+        $preferedLocale = $form->get( "prefered_locale" )->getData();
+        $oUser->setPreferedLocale( $preferedLocale );
+        $oUser->setVerified( false );
+        $oUser->setEnabled( false );
     }
     
-    private function setPricingPlan( &$user, $form ): void
+    protected function populateUserInfo( &$oUser, $form )
     {
-        $pricingPlanId  = $form->get( "pricingPlan" )->getData();
-        $pricingPlan    = $this->pricingPlanRepository->find( $pricingPlanId );
-        
-        if( $pricingPlan ) {
-            $em                 = $this->doctrine->getManager();
-            $paidServicePeriod  = $pricingPlan->getPaidServicePeriod();
-            $paidSubscription   = $this->paidSubscriptionFactory->createNew();
-            
-            $paidSubscription->setPayedService( $paidServicePeriod );
-            $paidSubscription->setUser( $user );
-            $paidSubscription->setDate( new \DateTime() );
-            $paidSubscription->setSubscriptionCode( $paidServicePeriod->getPayedService()->getSubscriptionCode() );
-            $paidSubscription->setSubscriptionPriority( $paidServicePeriod->getPayedService()->getSubscriptionPriority() );
-            
-            $em->persist( $paidSubscription );
-            $em->flush();
-            
-            $user->addPaidSubscription( $paidSubscription );
-        }
+        $oUser->getInfo()->setTitle( $form->get( "title" )->getData() );
+        $oUser->getInfo()->setFirstName( $form->get( "firstName" )->getData() );
+        $oUser->getInfo()->setLastName( $form->get( "lastName" )->getData() );
+        $oUser->getInfo()->setBirthday( $form->get( "birthday" )->getData() );
     }
 }

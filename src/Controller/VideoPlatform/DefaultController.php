@@ -3,7 +3,7 @@
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Intl\Currencies;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
@@ -39,6 +39,9 @@ class DefaultController extends AbstractController
     private $videoRepository;
     
     /** @var EntityRepository */
+    private $actorRepository;
+    
+    /** @var EntityRepository */
     private $pricingPlanCategoryRepository;
     
     public function __construct(
@@ -50,18 +53,22 @@ class DefaultController extends AbstractController
         EntityRepository $sliderRepository,
         string $sliderPhotosDir,
         EntityRepository $videoRepository,
-        EntityRepository $pricingPlanCategoryRepository
+        EntityRepository $actorRepository,
+        EntityRepository $pricingPlanCategoryRepository,
+        EntityRepository $subscriptionsRepository
     ) {
         $this->applicationContext               = $applicationContext;
         $this->templatingEngine                 = $templatingEngine;
-
+        
         $this->doctrine                         = $doctrine;
         $this->categoryRepository               = $categoryRepository;
         $this->productRepository                = $productRepository;
         $this->sliderRepository                 = $sliderRepository;
         $this->sliderPhotosDir                  = $sliderPhotosDir;
         $this->videoRepository                  = $videoRepository;
+        $this->actorRepository                  = $actorRepository;
         $this->pricingPlanCategoryRepository    = $pricingPlanCategoryRepository;
+        $this->subscriptionsRepository          = $subscriptionsRepository;
     }
     
     public function index( Request $request ): Response
@@ -70,25 +77,39 @@ class DefaultController extends AbstractController
         $latestVideos           = $this->videoRepository->findBy( [], ['updatedAt' => 'DESC'], $limit );
         
         $pricingPlanCategories  = $this->pricingPlanCategoryRepository->findAll();
-        $currencies             = [
-            'EUR'   => Currencies::getSymbol( 'EUR' )
-        ];
+        
+        $movieTags  = [];
+        foreach ( $latestVideos as $m ) {
+            $movieTags[$m->getId()] = \json_decode( $m->getTags() );
+        }
+        
+        $homePageSlider         = $this->sliderRepository->findBySlug( 'home-page-slider' );
+        if ( ! $homePageSlider ) {
+            throw new NotFoundHttpException( 'Home Page Slider Not Found !!!' );
+        }
+        
+        $splideLimit    = 20;
+        $featuredMovies = $this->videoRepository->findBy( [], ['updatedAt' => 'DESC'], $splideLimit );
+        $featuredActors = $this->actorRepository->findBy( [], ['updatedAt' => 'DESC'], $splideLimit );
         
         return new Response( $this->templatingEngine->render( $this->getTemplate(), [
             //'shoppingCart'      => $this->getShoppingCart( $request ),
             'categories'            => $this->categoryRepository->findAll(),
             'latestProducts'        => $this->productRepository->findAll(),
-            'sliderItems'           => $this->sliderRepository->findAll(),
+            'sliderItems'           => $homePageSlider->getPublicItems(),
             'sliderPhotosDir'       => $this->sliderPhotosDir,
             'latestVideos'          => $latestVideos,
+            'featuredMovies'        => $featuredMovies,
+            'featuredActors'        => $featuredActors,
+            'movieTags'             => $movieTags,
             'pricingPlanCategories' => $pricingPlanCategories,
-            'intlCurrencies'        => $currencies,
+            'subscriptions'         => $this->subscriptionsRepository->getSubscriptionsByUser( $this->_getAppUser() )
         ]));
     }
     
     protected function getTemplate(): string
     {
-        $template   = 'video-platform/Pages/home.html.twig';
+        $template   = 'sugarbabes/Pages/home.html.twig';
         
         $appSettings    = $this->applicationContext->getApplication()->getSettings();
         if ( ! $appSettings->isEmpty() && $appSettings[0]->getTheme() ) {

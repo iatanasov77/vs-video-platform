@@ -1,125 +1,110 @@
 <?php namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Sylius\Component\Resource\Model\ResourceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Sylius\Component\Resource\Model\ToggleableTrait;
-use Sylius\Component\Resource\Model\TranslatableInterface;
-use Sylius\Component\Resource\Model\TranslatableTrait;
-use Sylius\Component\Resource\Model\TranslationInterface;
-
+use Sylius\Component\Resource\Model\ResourceInterface;
+use Sylius\Component\Review\Model\ReviewableInterface;
 use App\Entity\UserManagement\User;
+use App\Entity\UsersSubscriptions\PayedService;
 
-/**
- * @Gedmo\TranslationEntity(class="App\Entity\Application\Translation")
- * @ORM\Entity
- * @ORM\Table(name="VVP_Videos")
- */
-class Video implements ResourceInterface, TranslatableInterface
+use Vankosoft\CatalogBundle\Model\ProductBase;
+
+use Vankosoft\CatalogBundle\Model\Traits\Product\CategoriesAwareTrait;
+use Vankosoft\CatalogBundle\Model\Traits\Product\PicturesAwareTrait;
+use Vankosoft\CatalogBundle\Model\Traits\Product\FilesAwareTrait;
+
+use Vankosoft\CatalogBundle\Model\Traits\ReviewableEntity;
+use Vankosoft\CatalogBundle\Model\Traits\CommentableTrait;
+use Vankosoft\CatalogBundle\Model\Interfaces\AssociationAwareInterface;
+use Vankosoft\CatalogBundle\Model\Traits\AssociationAwareTrait;
+
+#[ORM\Entity]
+#[ORM\Table(name: "VVP_Videos")]
+class Video extends ProductBase implements ResourceInterface, ReviewableInterface, AssociationAwareInterface
 {
-    use TimestampableEntity;
-    use ToggleableTrait;    // About enabled field - $enabled (public)
-    use TranslatableTrait;
+//     use CategoriesAwareTrait;
+//     use PicturesAwareTrait;
+//     use FilesAwareTrait;
+    use AssociationAwareTrait;
+    use ReviewableEntity;
+    use CommentableTrait;
     
-    /**
-     * @var integer
-     * 
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    /** @var VideoReview[] */
+    #[ORM\OneToMany(targetEntity: "VideoReview", mappedBy: "reviewSubject", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
+    protected $reviews;
     
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UserManagement\User", inversedBy="videos")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
+    /** @var VideoComment[] */
+    #[ORM\OneToMany(targetEntity: "VideoComment", mappedBy: "commentSubject", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
+    protected $comments;
+    
+    /** @var User */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "videos")]
     private $user;
     
-    /**
-     * @ORM\OneToOne(targetEntity=VideoFile::class, mappedBy="owner", cascade={"persist", "remove"})
-     */
+    /** @var VideoFile */
+    #[ORM\OneToOne(targetEntity: "VideoFile", mappedBy: "owner", cascade: ["persist", "remove"], orphanRemoval: true)]
     private $videoFile;
     
-    /**
-     * @ORM\ManyToMany(targetEntity=VideoCategory::class, inversedBy="videos", indexBy="id")
-     * @ORM\JoinTable(name="VVP_Videos_Categories",
-     *      joinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
-     * )
-     */
+    /** @var Collection|VideoCategory[] */
+    #[ORM\ManyToMany(targetEntity: "VideoCategory", inversedBy: "videos", indexBy: "id")]
+    #[ORM\JoinTable(name: "VVP_Videos_Categories")]
+    #[ORM\JoinColumn(name: "video_id", referencedColumnName: "id")]
+    #[ORM\InverseJoinColumn(name: "category_id", referencedColumnName: "id")]
     private $categories;
     
-    /**
-     * @Gedmo\Slug(fields={"title", "id"})
-     * @ORM\Column(name="slug", type="string", length=255, nullable=false, unique=true)
-     */
-    private $slug;
+    /** @var Collection|VideoGenre[] */
+    #[ORM\ManyToMany(targetEntity: "VideoGenre", inversedBy: "videos", indexBy: "id")]
+    #[ORM\JoinTable(name: "VVP_Videos_Genres")]
+    #[ORM\JoinColumn(name: "video_id", referencedColumnName: "id")]
+    #[ORM\InverseJoinColumn(name: "genre_id", referencedColumnName: "id")]
+    private $genres;
     
-    /**
-     * @Gedmo\Translatable
-     * @ORM\Column(name="title", type="string", length=255, nullable=false)
-     */
-    private $title;
-    
-    /**
-     * @Gedmo\Translatable
-     * @ORM\Column(name="description", type="text", nullable=false)
-     */
-    private $description;
-    
-    /**
-     * @ORM\OneToOne(targetEntity=VideoThumbnail::class, mappedBy="owner", cascade={"persist", "remove"})
-     */
-    private $videoThumbnail;
-    
-    /**
-     * @var CoconutJob
-     *
-     * @ORM\OneToOne(targetEntity="App\Entity\CoconutJob", mappedBy="video", cascade={"persist", "remove"})
-     */
+    /** @var CoconutJob */
+    #[ORM\OneToOne(targetEntity: "CoconutJob", mappedBy: "video", cascade: ["persist", "remove"], orphanRemoval: true)]
     private $coconutJob;
     
-    /**
-     * @ORM\ManyToMany(targetEntity=Actor::class, inversedBy="videos", indexBy="id")
-     * @ORM\JoinTable(name="VVP_Videos_Actors",
-     *      joinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="actor_id", referencedColumnName="id")}
-     * )
-     */
+    /** @var Actor[] */
+    #[ORM\ManyToMany(targetEntity: "Actor", inversedBy: "videos", indexBy: "id")]
+    #[ORM\JoinTable(name: "VVP_Videos_Actors")]
+    #[ORM\JoinColumn(name: "video_id", referencedColumnName: "id")]
+    #[ORM\InverseJoinColumn(name: "actor_id", referencedColumnName: "id")]
     private $actors;
     
     /**
-     * @ORM\Column(name="tags", type="string", length=255, nullable=false, options={"default":"Full HD,18+"})
+     * The Paid Services for wich the user has active payment can open this video
+     * 
+     * @var PayedService[]
      */
-    private $tags   = 'Full HD,18+';
+    #[ORM\ManyToMany(targetEntity: PayedService::class, indexBy: "id")]
+    #[ORM\JoinTable(name: "VVP_Videos_PaidServices")]
+    #[ORM\JoinColumn(name: "video_id", referencedColumnName: "id")]
+    #[ORM\InverseJoinColumn(name: "paid_service_id", referencedColumnName: "id")]
+    private $allowedPaidServices;
     
-    /**
-     * @Gedmo\Locale
-     * Used locale to override Translation listener`s locale
-     * this is not a mapped field of entity metadata, just a simple property
-     */
-    private $locale;
+    /** @var VideoPhoto[] */
+    #[ORM\OneToMany(targetEntity: "VideoPhoto", mappedBy: "owner", indexBy: "code", cascade: ["all"], orphanRemoval: true)]
+    private $photos;
     
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="public", type="boolean", options={"default":"1"})
-     */
-    protected $enabled = true;
+    #[ORM\ManyToMany(targetEntity: User::class, indexBy: "id")]
+    #[ORM\JoinTable(name: "VVP_Videos_UsersWatched")]
+    #[ORM\JoinColumn(name: "video_id", referencedColumnName: "id")]
+    #[ORM\InverseJoinColumn(name: "user_id", referencedColumnName: "id")]
+    private $watchedByUsers;
     
     public function __construct()
     {
-        $this->categories   = new ArrayCollection();
-        $this->actors       = new ArrayCollection();
-    }
-    
-    public function getId()
-    {
-        return $this->id; 
+        parent::__construct();
+        
+        $this->categories           = new ArrayCollection();
+        $this->genres               = new ArrayCollection();
+        $this->actors               = new ArrayCollection();
+        $this->allowedPaidServices  = new ArrayCollection();
+        $this->photos               = new ArrayCollection();
+        $this->watchedByUsers       = new ArrayCollection();
+        
+        /** @var ArrayCollection<array-key, AssociationInterface> $this->associations */
+        $this->associations         = new ArrayCollection();
     }
     
     public function getUser()
@@ -178,50 +163,28 @@ class Video implements ResourceInterface, TranslatableInterface
         return $this;
     }
     
-    public function getSlug(): ?string
+    /**
+     * @return Collection|VideoGenre[]
+     */
+    public function getGenres()
     {
-        return $this->slug;
+        return $this->genres;
     }
     
-    public function setSlug($slug): self
+    public function addGenre( VideoGenre $genre ): self
     {
-        $this->slug = $slug;
+        if ( ! $this->genres->contains( $genre ) ) {
+            $this->genres[] = $genre;
+        }
         
         return $this;
     }
     
-    public function getTitle()
+    public function removeGenre( VideoGenre $genre ): self
     {
-        return $this->title;
-    }
-    
-    public function setTitle($title)
-    {
-        $this->title   = $title;
-        
-        return $this;
-    }
-    
-    public function getDescription()
-    {
-        return $this->description;
-    }
-    
-    public function setDescription($description)
-    {
-        $this->description  = $description;
-        
-        return $this;
-    }
-    
-    public function getVideoThumbnail()
-    {
-        return $this->videoThumbnail;
-    }
-    
-    public function setVideoThumbnail($videoThumbnail)
-    {
-        $this->videoThumbnail = $videoThumbnail;
+        if ( $this->genres->contains( $genre ) ) {
+            $this->genres->removeElement( $genre );
+        }
         
         return $this;
     }
@@ -236,16 +199,6 @@ class Video implements ResourceInterface, TranslatableInterface
         $this->coconutJob   = $coconutJob;
         
         return $this;
-    }
-    
-    public function isPublic(): bool
-    {
-        return $this->enabled;
-    }
-    
-    public function isPublished(): bool
-    {
-        return $this->enabled;
     }
     
     /**
@@ -274,37 +227,91 @@ class Video implements ResourceInterface, TranslatableInterface
         return $this;
     }
     
-    public function getTags()
+    /**
+     * @return Collection|PayedService[]
+     */
+    public function getAllowedPaidServices()
     {
-        return $this->tags;
+        return $this->allowedPaidServices;
     }
     
-    public function setTags($tags)
+    public function addAllowedPaidService( PayedService $allowedPaidService): self
     {
-        $this->tags = $tags;
+        if ( ! $this->allowedPaidServices->contains( $allowedPaidService ) ) {
+            $this->allowedPaidServices[] = $allowedPaidService;
+        }
         
         return $this;
     }
     
-    public function getLocale()
+    public function removeAllowedPaidService( PayedService $allowedPaidService ): self
     {
-        return $this->currentLocale;
-    }
-    
-    public function getTranslatableLocale(): ?string
-    {
-        return $this->locale;
-    }
-    
-    public function setTranslatableLocale($locale): self
-    {
-        $this->locale = $locale;
+        if ( $this->allowedPaidServices->contains( $allowedPaidService ) ) {
+            $this->allowedPaidServices->removeElement( $allowedPaidService );
+        }
         
         return $this;
     }
     
-    protected function createTranslation(): TranslationInterface
+    public function getPhotos()
     {
+        return $this->photos;
+    }
+    
+    public function addPhoto( VideoPhoto $photo ): self
+    {
+        if ( ! $this->photos->contains( $photo ) ) {
+            $this->photos[] = $photo;
+            $photo->setVideo( $this );
+        }
         
+        return $this;
+    }
+    
+    public function removePhoto( VideoPhoto $photo ): self
+    {
+        if ( $this->photos->contains( $photo ) ) {
+            $this->photos->removeElement( $photo );
+            $photo->setVideo( null );
+        }
+        
+        return $this;
+    }
+    
+    public function getPhoto( $photoId ):? VideoPhoto
+    {
+        if ( ! isset( $this->photos[$photoId] ) ) {
+            return null;
+        }
+        
+        return $this->photos[$photoId];
+    }
+    
+    public function getWatchedByUsers()
+    {
+        return $this->watchedByUsers;
+    }
+    
+    public function addWatchedByUsers( User $user ): self
+    {
+        if ( ! $this->watchedByUsers->contains( $user ) ) {
+            $this->watchedByUsers[] = $user;
+        }
+        
+        return $this;
+    }
+    
+    public function removeWatchedByUsers( User $user ): self
+    {
+        if ( $this->watchedByUsers->contains( $user ) ) {
+            $this->watchedByUsers->removeElement( $user );
+        }
+        
+        return $this;
+    }
+    
+    public function getTitle(): string
+    {
+        return $this->name;
     }
 }

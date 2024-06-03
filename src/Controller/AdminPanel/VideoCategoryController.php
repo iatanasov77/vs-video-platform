@@ -3,7 +3,7 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Vankosoft\ApplicationBundle\Controller\AbstractCrudController;
-use Vankosoft\ApplicationBundle\Controller\TaxonomyHelperTrait;
+use Vankosoft\ApplicationBundle\Controller\Traits\TaxonomyHelperTrait;
 
 use App\Entity\VideoCategory;
 
@@ -25,6 +25,7 @@ class VideoCategoryController extends AbstractCrudController
         return [
             'taxonomyId'    => $taxonomy->getId(),
             'translations'  => $translations,
+            'items'         => $this->getRepository()->findBy( ['parent' => null] ),
         ];
     }
     

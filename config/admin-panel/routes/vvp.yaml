@@ -52,6 +52,10 @@ vvp_videos_actors_combo:
     path: /video-platform/json/{videoId}/video-actors
     controller: App\Controller\AdminPanel\VideoExtController::easyuiComboBoxActors
     
+vvp_videos_paid_services_combo:
+    path: /video-platform/json/{videoId}/video-paid-services
+    controller: App\Controller\AdminPanel\VideoExtController::easyuiComboBoxPaidServices
+    
 vvp_videos_videos_combo:
     path: /video-platform/json/{actorId}/actor-videos
     controller: App\Controller\AdminPanel\VideoExtController::easyuiComboBoxVideos
@@ -87,23 +91,5 @@ vvp_actors_form_in_locale:
 vvp_videos_form_in_locale:
     path: /video-actions/get-form/{locale}/{itemId}
     controller: App\Controller\AdminPanel\VideoExtController::getForm
-    options:
-        expose: true
-        
-vvp_help_center_form_in_locale:
-    path: /help-center-actions/get-form/{locale}/{itemId}
-    controller: App\Controller\AdminPanel\HelpCenterQuestionExtController::getForm
-    options:
-        expose: true
-        
-vvp_quick_link_form_in_locale:
-    path: /quick-link-actions/get-form/{locale}/{itemId}
-    controller: App\Controller\AdminPanel\QuickLinkExtController::getForm
-    options:
-        expose: true
-        
-vvp_slider_form_in_locale:
-    path: /slider-actions/get-form/{locale}/{itemId}
-    controller: App\Controller\AdminPanel\SliderExtController::getForm
     options:
         expose: true
