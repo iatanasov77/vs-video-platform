@@ -1,0 +1,115 @@
+sylius_resource:
+    translation:
+        #default_locale: '%locale%'
+        locale_provider: sylius.translation_locale_provider.immutable
+        #available_locales_provider: sylius.translation.locales_provider
+        
+    #######################################################################################################################
+    # Override default settings
+    # -------------------------
+    # You Can To Override Many Resource Parameters For All Resources (Including VankoSoft Bundles)
+    # View Available Settings in 
+    #     \Sylius\Bundle\ResourceBundle\DependencyInjection\Configuration::addSettingsSection(ArrayNodeDefinition $node)
+    #######################################################################################################################
+    settings:
+        paginate: 10
+    
+    resources:
+        vs_vvp.video_category:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoCategory
+                #repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                repository: Vankosoft\ApplicationBundle\Repository\TaxonDescendentRepository
+                
+        vs_vvp.video:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\Video
+                repository: App\Repository\MoviesRepository
+                
+        vs_vvp.video_photo:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoPhoto
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.video_file:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoFile
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.coconut_job:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\CoconutJob
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.actor:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\Actor
+                repository: App\Repository\ActorsRepository
+                
+        vs_vvp.actor_photo:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\ActorPhoto
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.video_platform_settings:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoPlatformSettings
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.video_platform_storage:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoPlatformStorage
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.google_cloud_project:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\GoogleCloudProject
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.youtube_channel:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\YoutubeChannel
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.video_review:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoReview
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.video_comment:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoComment
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.video_genre:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoGenre
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.actor_review:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\ActorReview
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+#         vs_vvp.actor_comment:
+#             driver: doctrine/orm
+#             classes:
+#                 model:      App\Entity\ActorComment
+#                 repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+
+
