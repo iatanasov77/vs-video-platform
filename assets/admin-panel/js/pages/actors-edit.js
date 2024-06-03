@@ -35,6 +35,14 @@ $( function ()
     });
     VsRemoveDuplicates();
     
+    let selectedGenres  = JSON.parse( $( '#actor_form_actorGenres').val() );
+    EasyuiCombobox( $( '#actor_form_genres' ), {
+        required: false,
+        multiple: true,
+        checkboxId: "genres",
+        values: selectedGenres
+    });
+    
     $( '.persistedPhoto' ).removeAttr( 'required' );
     
     // bin/console fos:js-routing:dump --format=json --target=public/shared_assets/js/fos_js_routes_admin.json

@@ -22,3 +22,7 @@ span.textbox.textbox-invalid.combo:first-of-type {
     width: 600px !important;
     height: 350px !important;
 }
+
+.table-nowrap th, .table-nowrap td {
+    white-space: nowrap;
+}
