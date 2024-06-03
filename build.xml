@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SugarBabes" default="build">
+    <resolvepath propertyName="root_path" file="./" />
+    
+    <target name="install-production" depends="setup-backend-production,setup-frontend-production"></target>
+    <target name="install-staging" depends="setup-backend-staging,setup-frontend-staging"></target>
+  
+    <target name="setup-frontend-production">
+        <exec executable="/usr/bin/yarn" returnProperty="yarn_install_output">
+            <arg value="install"/>
+        </exec>
+        <exec executable="/usr/bin/yarn" returnProperty="yarn_run_output">
+            <arg value="run"/>
+            <arg value="build"/>
+        </exec>
+    </target>
+    
+    <target name="setup-frontend-staging">
+        <exec executable="/usr/bin/yarn" returnProperty="yarn_install_output">
+            <arg value="install"/>
+        </exec>
+        <exec executable="/usr/bin/yarn" returnProperty="yarn_run_output">
+            <arg value="run"/>
+            <arg value="dev"/>
+        </exec>
+    </target>
+
+    <target name="setup-backend-production">
+        <if>
+            <available file="${root_path}/vendor" type="dir" />
+            <then>
+                <exec executable="/usr/local/bin/composer" returnProperty="vendors_output">
+                    <arg value="update"/>
+                    <arg value="--no-dev"/>
+                    <arg value="--no-scripts"/>
+                    <arg value="--no-interaction"/>
+                    <arg value="--prefer-dist"/>
+                </exec>
+            </then>
+            <else>
+                <exec executable="/usr/local/bin/composer" returnProperty="vendors_output">
+                    <arg value="install"/>
+                    <arg value="--no-dev"/>
+                    <arg value="--no-scripts"/>
+                    <arg value="--no-interaction"/>
+                    <arg value="--prefer-dist"/>
+                </exec>
+            </else>
+        </if>
+    </target>
+    
+    <target name="setup-backend-staging">
+        <if>
+            <available file="${root_path}/vendor" type="dir" />
+            <then>
+                <exec executable="/usr/local/bin/composer" returnProperty="vendors_output">
+                    <arg value="update"/>
+                    <arg value="--no-scripts"/>
+                    <arg value="--no-interaction"/>
+                    <arg value="--prefer-dist"/>
+                </exec>
+            </then>
+            <else>
+                <exec executable="/usr/local/bin/composer" returnProperty="vendors_output">
+                    <arg value="install"/>
+                    <arg value="--no-scripts"/>
+                    <arg value="--no-interaction"/>
+                    <arg value="--prefer-dist"/>
+                </exec>
+            </else>
+        </if>
+    </target>
+
+    <target name="run-tests">
+        <exec command="phpunit -c app" checkreturn="true" />
+        <exec executable="/usr/local/bin/phpunit" checkreturn="true">
+            <arg value="-c"/>
+            <arg value="app"/>
+        </exec>
+    </target>
+</project>
