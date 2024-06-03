@@ -10,7 +10,9 @@
                 <div class="col-12">
                     <div class="section__wrap">
                         <!-- section title -->
-                        <h1 class="section__title section__title--head">Contacts</h1>
+                        <h1 class="section__title section__title--head">
+                            {{ 'vs_application.template.contact_page.visit_us' | trans( {},'VSApplicationBundle' ) }}
+                        </h1>
                         <!-- end section title -->
 
                         <!-- breadcrumbs -->
@@ -34,12 +36,16 @@
                 <div class="col-12 col-lg-5 col-xl-4">
                     <div class="row">
                         <div class="col-12">
-                            <h2 class="section__title">Get In Touch</h2>
+                            <h2 class="section__title">{{ 'vs_application.template.contact_page.contact_details' | trans( {},'VSApplicationBundle' ) }}</h2>
 
-                            <p class="section__text">We are always happy to help and provide more information about our services. You can contact us through email, phone, or by filling out the form on our website. Thank you for considering us!</p>
+                            <p class="section__text">
+                                {{ 'vs_application.template.contact_page.contact_text' | trans( {},'VSApplicationBundle' ) }}
+                            </p>
 
                             <ul class="contacts__list">
+                            {% if showPhone %}
                                 <li><a href="tel:88002345678">8 800 234 56 78</a></li>
+                            {% endif %}
                                 <li><a href="mailto:{{ contactEmail }}">{{ contactEmail }}</a></li>
                             </ul>
 
@@ -86,7 +92,9 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <button type="submit" class="sign__btn sign__btn--small"><span>Send</span></button>
+                                        <button type="submit" class="sign__btn sign__btn--small">
+                                            <span>{{ 'vs_application.form.website_contact.submit' | trans( {},'VSApplicationBundle' ) }}</span>
+                                        </button>
                                     </div>
                                 </div>
                             {{ form_end(form, {'render_rest': false}) }}

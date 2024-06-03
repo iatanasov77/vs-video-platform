@@ -1,0 +1,20 @@
+/*
+.plyr--video .plyr__controls {
+    background: url("https://video-platform.lh/images/anonymous/watermark.png?filter=video_watermark") 120% -15px no-repeat, linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .5))!important;
+}
+
+.plyr__video-wrapper .plyr--video {
+    pointer-events: none;
+}
+*/
+
+.WatermarkText {
+    margin: 3rem;
+    position: absolute;
+    bottom: 20px !important;
+    right: 0;
+    bottom: 0;
+    z-index: 9;
+    color: #c6afaf;
+}
+    

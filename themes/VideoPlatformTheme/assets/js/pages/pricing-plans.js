@@ -3,6 +3,8 @@ require( '../../vendor/themeforest-flixgo-online-movies/js/main.js' );
 import { ChoosePlan } from '../includes/pricing-plans.js';
 import { SubmitCreditCardForm, SubmitPaymentForm } from '@@/js/Stripe/StripeJsV2.js';
 
+import { SubmitPayumCreditCardForm } from '@@/js/Payum/Payum.js';
+
 $( function()
 {
     $( '.btnChoosePlan' ).on( 'click', function()
@@ -12,4 +14,6 @@ $( function()
     
     $( '#selectPricingPlanForm' ).on( 'submit', '#credit_card_form', SubmitCreditCardForm );
     $( '#payment-form' ).on( 'submit', SubmitPaymentForm );
+    
+    $( '#selectPricingPlanForm' ).on( 'submit', '#payum_credit_card_form', SubmitPayumCreditCardForm );
 });

@@ -1,12 +1,12 @@
 <!-- project gallery -->
-<div class="gallery" itemscope>
+<div id="actor-gallery" class="actor-gallery" itemscope>
     <div class="row row--grid">
         
         {% for photo in actor.photos %}
             <!-- gallery item -->
             <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
-                <a href="{{ photo.path | imagine_filter( 'photoswipe_gallery_preview' ) }}" itemprop="contentUrl" data-size="1920x1280">
-                    <img src="{{ photo.path | imagine_filter( 'movies_listing_thumbnail' ) }}" itemprop="thumbnail" alt="Image description 1" />
+                <a href="{{ photo.path | imagine_filter( 'actor_photos_gallery_preview' ) }}" itemprop="contentUrl" data-size="1920x1280">
+                    <img src="{{ photo.path | imagine_filter( 'actor_photos_gallery_thumb' ) }}" itemprop="thumbnail" alt="Image description 1" />
                 </a>
                 <figcaption itemprop="caption description">Some image caption 1</figcaption>
             </figure>

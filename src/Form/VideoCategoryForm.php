@@ -13,7 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
-use Vankosoft\ApplicationBundle\Component\I18N;
 use App\Entity\VideoCategory;
 
 class VideoCategoryForm extends AbstractForm

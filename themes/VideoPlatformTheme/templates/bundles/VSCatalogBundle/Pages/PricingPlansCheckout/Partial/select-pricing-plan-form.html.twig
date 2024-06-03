@@ -30,18 +30,7 @@
         <span class="sign__text">You can spend money from your account on the renewal of the connected packages, or to order cars on our website.</span>
     </div>
 
-    <div class="sign__group">
-        {{ form_label(form.paymentMethod, null, {
-            'label_attr': {'class': 'sign__label'}
-            }) 
-        }}
-        <div id="select_pricing_plan_form_paymentMethod" class="sign__radio">
-            {% for paymentMethod in form.paymentMethod %}
-                {{ form_widget( paymentMethod, { 'attr': { 'checked': loop.index == 1 } } ) }}
-                {{ form_label( paymentMethod ) }}
-            {% endfor %}
-        </div>
-    </div>
+    {% include '@VSPayment/Pages/PaymentMethod/select-payment-method-field.html.twig' %}
 
     {{ form_widget(form.btnSubmit, {
         'attr': {'class': 'sign__btn sign__btn--modal sign__btn--text', 'id': 'SelectPricingPlanSubmit'},

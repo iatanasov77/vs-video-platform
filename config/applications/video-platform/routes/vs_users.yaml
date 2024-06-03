@@ -26,12 +26,14 @@ vs_users_forgot_password_reset:
     path:     /forgot-password/reset/{token}
     controller: App\Controller\VideoPlatform\ForgotPasswordController::resetAction
 
-
 vs_users_get_states_for_country:
     path:     /get-states-for-country/{countryCode}
     controller: App\Controller\VideoPlatform\RegisterController::getStatesForCountry
-    
+
 vvp_profile_show:
     path:     /my-profile
     controller: App\Controller\VideoPlatform\ProfileController::showAction
-
+    
+vs_users_after_verify:
+    path:     /register-after-verify
+    controller: App\Controller\VideoPlatform\RegisterController::afterVerifyAction

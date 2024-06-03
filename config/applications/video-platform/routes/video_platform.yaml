@@ -1,3 +1,6 @@
+###############################################################################
+# Video Player Actions
+###############################################################################
 app_video_player_read:
     path: /videos/{id}/read
     controller: App\Controller\Application\VideosController::read
@@ -10,18 +13,30 @@ app_video_player_read_transcoded:
     options:
         expose: true
 
+###############################################################################
+# Actors Pages Actions
+###############################################################################
 vvp_actors:
     path: /actors
     controller: App\Controller\Application\ActorController::index
+    options:
+        expose: true
     
 vvp_actor_details:
     path: /actors/{slug}
     controller: App\Controller\Application\ActorController::details
     
-vvp_help_center_questions:
-    path: /help-center
-    controller: App\Controller\Application\HelpCenterController::index
+vvp_actors_create_review:
+    path: /actors-reviews/{actorSlug}/create
+    controller: App\Controller\Application\ActorController::createReviewAction
     
+vvp_actors_create_comment:
+    path: /actors-comments/{actorSlug}/create
+    controller: App\Controller\Application\ActorController::createCommentAction
+    
+###############################################################################
+# Movies Pages Actions
+###############################################################################
 vvp_movies_index:
     path: /movies/latest
     controller: App\Controller\VideoPlatform\MoviesController::index
@@ -35,6 +50,8 @@ vvp_movies_details:
 vvp_movies_category_index:
     path: /movies/{categorySlug}
     controller: App\Controller\VideoPlatform\MoviesController::index
+    options:
+        expose: true
     
 vvp_movies_category_details:
     path: /movies/{categorySlug}/{slug}
@@ -47,9 +64,45 @@ vvp_movies_dvd_collection:
 vvp_movies_english_subtitles:
     path: /english-subtitles
     controller: App\Controller\VideoPlatform\MoviesController::englishSubtitles
+        
+vvp_movies_create_review:
+    path: /movies-reviews/{movieSlug}/create
+    controller: App\Controller\VideoPlatform\MoviesController::createReviewAction
     
+vvp_movies_create_comment:
+    path: /movies-comments/{movieSlug}/create
+    controller: App\Controller\VideoPlatform\MoviesController::createCommentAction
+    
+vvp_movies_like_comment:
+    path: /movies-comments/{commentId}/like
+    controller: App\Controller\VideoPlatform\MoviesController::likeCommentAction
+    
+vvp_movies_dislike_comment:
+    path: /movies-comments/{commentId}/dislike
+    controller: App\Controller\VideoPlatform\MoviesController::dislikeCommentAction
+    
+vvp_movies_video_watching:
+    path: /video-watching/{videoId}
+    controller: App\Controller\VideoPlatform\MoviesController::userWatchingVideoAction
+
+###############################################################################
+# Help Center Questions Actions
+###############################################################################
+vvp_help_center_questions:
+    path: /help-center
+    controller: App\Controller\Application\HelpCenterController::index
+
+###############################################################################
+# Handling Filters Actions
+###############################################################################
 vvp_movies_filter_handle:
     path: /movies-filter/{categorySlug}
-    controller: App\Controller\VideoPlatform\MoviesController::handleMoviesFilter
+    controller: App\Controller\Application\FiltersController::handleMoviesFilter
+    options:
+        expose: true
+        
+vvp_actors_filter_handle:
+    path: /actors-filter
+    controller: App\Controller\Application\FiltersController::handleActorsFilter
     options:
         expose: true

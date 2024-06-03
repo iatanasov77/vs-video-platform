@@ -27,20 +27,14 @@
     </section>
     <!-- end page title -->
 
-    {% include '@VSPayment/Pages/PricingPlansCheckout/Partial/pricing-plans-listing.html.twig' %}
+    {% include '@VSCatalog/Pages/PricingPlansCheckout/Partial/pricing-plans-listing.html.twig' %}
     
     {% include 'Partial/our-features.html.twig' %}
     
     {% include 'Partial/partners.html.twig' %}
 {% endblock %}
 
-{% block modals %}
-    {% include '@VSPayment/Pages/PricingPlansCheckout/plan-modal.html.twig' %}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    
+{% block widgets %}
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <div id="RealPaymentFormContainer" style="display: none;">
         {% include '@VSPayment/Pages/CreditCard/Partial/StripeJsV2Form.html.twig' with {
@@ -48,6 +42,21 @@
              'formMethod': 'POST'
         } %}
     </div>
+{% endblock %}
+
+{% block modals %}
+    {% include '@VSCatalog/Pages/PricingPlansCheckout/plan-modal.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {{ encore_entry_link_tags( 'js/pricing-plans', null, 'VideoPlatformTheme' ) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
     
     {{ encore_entry_script_tags( 'js/pricing-plans', null, 'VideoPlatformTheme' ) }}
+    {{ encore_entry_script_tags( 'js/profile', null, 'VideoPlatformTheme' ) }}
 {% endblock %}

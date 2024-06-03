@@ -1,0 +1,25 @@
+<!-- project gallery -->
+<div id="video-gallery" class="video-gallery" itemscope>
+    <div class="row row--grid">
+        
+        {% for photo in movie.photos %}
+            <!-- gallery item -->
+            <figure class="col-12 col-sm-6 col-xl-4" itemprop="associatedMedia" itemscope>
+                <a href="{{ photo.path | imagine_filter( 'video_photos_gallery_preview' ) }}" 
+                    itemprop="contentUrl" 
+                    data-size="1920x1280"
+                >
+                    <img src="{{ photo.path | imagine_filter( 'video_photos_gallery_thumb' ) }}" 
+                        itemprop="thumbnail" 
+                        {# alt="Image description" #}
+                        alt="{{ movie.title }}" 
+                    />
+                </a>
+                <figcaption itemprop="caption description">Some image caption 1</figcaption>
+            </figure>
+            <!-- end gallery item -->
+        {% endfor %}
+        
+    </div>
+</div>
+<!-- end project gallery -->

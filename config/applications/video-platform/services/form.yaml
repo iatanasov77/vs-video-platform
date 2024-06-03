@@ -1,3 +1,6 @@
+parameters:
+    vs_users.registration_form_required_fields: []
+
 services:
     _defaults:
         autowire: true
@@ -13,8 +16,9 @@ services:
             - "@request_stack"
             - '%vs_application.model.application.class%'
             - '@security.helper'
-            - '%vs_payment.model.pricing_plan.class%'
-            - '@vs_payment.repository.pricing_plan'
+            - '%vs_users.registration_form_required_fields%'
+            - '%vs_catalog.model.pricing_plan.class%'
+            - '@vs_catalog.repository.pricing_plan'
             
     App\Form\MoviesFilterForm:
         tags:
@@ -22,6 +26,16 @@ services:
         arguments:
             - '%vs_vvp.model.video_category.class%'
             - '@vs_vvp.repository.video_category'
+            - '%vs_vvp.model.video_genre.class%'
+            - '@vs_vvp.repository.video_genre'
             - '@app_movies_filter'
+            
+    App\Form\ActorsFilterForm:
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.video_genre.class%'
+            - '@vs_vvp.repository.video_genre'
+            - '@app_actors_filter'
 
-
+    

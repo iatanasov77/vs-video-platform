@@ -2,7 +2,7 @@ parameters:
     ########################################################
     # Contact Page
     ########################################################
-    vs_application.contact_email: 'support@flixgo.com'
+    vs_application.contact_email: '%env(resolve:CONTACT_EMAIL)%'
     vs_application.contact.show_address: true
     vs_application.contact.show_phone: true
     vs_application.contact.google_map: 'https://maps.google.co.uk/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=18+California,+Fresno,+CA,+United+States&amp;aq=0&amp;oq=18+California+united+state&amp;sll=39.9589,-120.955336&amp;sspn=0.007114,0.016512&amp;ie=UTF8&amp;hq=&amp;hnear=18,+Fresno,+California+93727,+United+States&amp;t=m&amp;ll=36.732762,-119.695787&amp;spn=0.017197,0.100336&amp;z=14&amp;output=embed'
@@ -24,7 +24,7 @@ services:
     App\Controller\Application\DefaultController:
         tags: ['controller.service_arguments']
         autowire: true
-
+        
     App\Controller\VideoPlatform\ContactController:
         tags: ['controller.service_arguments']
         autowire: true
@@ -50,15 +50,19 @@ services:
             - '@vs_users.manager.user'
             - '@vs_users.factory.avatar_image'
             - '@vs_cms.profile_uploader'
-            - '@vs_payment.repository.pricing_plan'
-            - '@vs_payment.repository.pricing_plan_category'
-    
+            - '@vs_agent.agent'
+            - '@vs_payment_payment'
+            - '@vs_catalog.repository.pricing_plan'
+            - '@vs_catalog.repository.pricing_plan_category'
+            - '@vs_catalog.repository.pricing_plan_subscription'
+            
     App\Controller\VideoPlatform\RegisterController:
         public: true
         autowire: true
         tags: ['controller.service_arguments']
         arguments:
             - '@doctrine'
+            - "@translator"
             - '@vs_application.context.application'
             - '@vs_users.manager.user'
             - '@vs_users.repository.users'
@@ -74,7 +78,8 @@ services:
                 defaultRedirect: '%vs_users.default_redirect%',
                 mailerUser: '%vs_application.mailer_user%',
             }
-            - '@vs_payment.repository.pricing_plan'
+            - '@vs_catalog.repository.pricing_plan'
+            - '@event_dispatcher'
         calls:
             - setTokenGenerator: ['@?symfonycasts.verify_email.token_generator']
             - setVerifyEmailHelper: ['@?symfonycasts.verify_email.helper']
@@ -112,51 +117,41 @@ services:
             - '@vs_application.context.application'
             - '@twig'
             - '@doctrine'
-            - '@vs_payment.repository.product_category'
-            - '@vs_payment.repository.product'
-            - '@vs_vvp.repository.slider'
+            - '@vs_catalog.repository.product_category'
+            - '@vs_catalog.repository.product'
+            - '@vs_cms.repository.slider'
             - '%vs_vvp.slider_directory%'
             - '@vs_vvp.repository.video'
-            - '@vs_payment.repository.pricing_plan_category'
-            
-    App\Controller\VideoPlatform\PricingPlanCheckoutController:
-        tags: ['controller.service_arguments']
-        autowire: true
-        arguments:
-            - '@doctrine'
-            - '@vs_users.security_bridge'
-            - '@vs_payment.factory.order'
-            - '@vs_payment.repository.order'
-            - '@vs_payment.factory.order_item'
-            - '@vs_payment.repository.pricing_plan_category'
-            - '@vs_payment.repository.pricing_plan'
-            - '@vs_payment.repository.payment_method'
-            - '@vs_payment_payment'
-        calls:
-            - [ setContainer, [ '@service_container' ] ]
+            - '@vs_vvp.repository.actor'
+            - '@vs_catalog.repository.pricing_plan_category'
+            - '@vs_catalog.repository.pricing_plan_subscription'
             
     App\Controller\Application\ActorController:
         tags: ['controller.service_arguments']
         autowire: true
         arguments:
+            - '@doctrine'
             - '@vs_vvp.repository.actor'
+            - '@app_actor_review_factory'
             
     App\Controller\Application\HelpCenterController:
         tags: ['controller.service_arguments']
         autowire: true
         arguments:
-            - '@vs_vvp.repository.helpcenter_question'
+            - '@vs_cms.repository.helpcenter_question'
             
     App\Controller\VideoPlatform\MoviesController:
         tags: ['controller.service_arguments']
         autowire: true
         arguments:
+            - '@doctrine'
+            - "@translator"
             - '@vs_vvp.repository.video'
-            - '@dubture_ffmpeg.ffprobe'
+            - '@vs_vvp.repository.video_comment'
             - '@app_video_transcoder_coconut'
-            - '@twig'
             - '@app_movies_filter'
             - '@app_video_platform'
+            - '@app_movie_review_factory'
             
     App\Controller\Application\VideosController:
         arguments:
@@ -165,3 +160,11 @@ services:
             - '@vs_vvp.repository.video'
             - '@app_video_platform'
         tags: ['controller.service_arguments']
+        
+    App\Controller\Application\FiltersController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@twig'
+            - '@app_movies_filter'
+            - '@app_actors_filter'

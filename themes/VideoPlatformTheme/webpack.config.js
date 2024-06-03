@@ -39,6 +39,11 @@ Encore
          to: 'img/[path][name].[ext]',
      })
      
+     .copyFiles({
+         from: './themes/VideoPlatformTheme/assets/images',
+         to: 'theme-images/[path][name].[ext]',
+     })
+     
     .addStyleEntry( 'css/main', './themes/VideoPlatformTheme/assets/css/main.scss' )
     
     .addEntry( 'js/app', './themes/VideoPlatformTheme/assets/js/app.js' )
@@ -53,6 +58,10 @@ Encore
     .addEntry( 'js/movies', './themes/VideoPlatformTheme/assets/js/pages/movies.js' )
     .addEntry( 'js/movies-details', './themes/VideoPlatformTheme/assets/js/pages/movies-details.js' )
 ;
+
+Encore.configureDefinePlugin( ( options ) => {
+    options.IS_PRODUCTION = JSON.stringify( Encore.isProduction() );
+});
 
 const config = Encore.getWebpackConfig();
 config.name = 'VideoPlatformTheme';

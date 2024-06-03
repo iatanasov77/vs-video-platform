@@ -1,0 +1,13 @@
+services:
+    time_runtime:
+        class: 'App\Twig\DateTimeFormatter'
+        autowire: true
+        tags:
+            - { name: twig.runtime }
+            
+#     time_extension:
+#         class: 'App\Twig\Extension\TimeExtension'
+#         tags:
+#             - { name: twig.extension }
+            
+    

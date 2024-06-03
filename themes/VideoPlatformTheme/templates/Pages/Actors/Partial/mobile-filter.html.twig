@@ -1,0 +1,37 @@
+<!-- mobile filter -->
+<div class="mfilter">
+    <div class="mfilter__head">
+        <h6 class="mfilter__title">{{ 'vs_vvp.form.movies_filter.filter' | trans( {},'VanzVideoPlayer' ) }}</h6>
+
+        <button class="mfilter__close" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></svg></button>
+    </div>
+
+    {{ form_start( mobileFilterForm, { 'attr': {'class': 'filter__form', 'id': 'MobileActorsFilterForm'} } ) }}
+        <div class="mfilter__select-wrap">
+            <div class="sign__group">
+                {{ form_widget( mobileFilterForm.genre, { 'id': 'mfilter__genre', 'attr': { 'class': 'filter__select' } } ) }}
+            </div>
+    
+            <div class="sign__group">
+                {{ form_widget( mobileFilterForm.rating, { 'id': 'mfilter__rate', 'attr': { 'class': 'filter__select' } } ) }}
+            </div>
+    
+            <div class="sign__group">
+                {{ form_widget( mobileFilterForm.order_by, { 'id': 'mfilter__sort', 'attr': { 'class': 'filter__select' } } ) }}
+            </div>
+        </div>
+    
+        <button class="mfilter__apply mb-2" type="button"
+            id="btnActorsMobileFilterApply"
+        >
+            <span>{{ 'vs_vvp.form.movies_filter.apply' | trans( {},'VanzVideoPlayer' ) }}</span>
+        </button>
+        <button class="mfilter__apply" type="button"
+            id="btnActorsMobileFilterClear"
+        >
+            <span>{{ 'vs_vvp.form.movies_filter.clear' | trans( {},'VanzVideoPlayer' ) }}</span>
+        </button>
+    {{ form_end( mobileFilterForm, {'render_rest': false} ) }}
+    
+</div>
+<!-- end mobile filter -->

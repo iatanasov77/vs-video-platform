@@ -1,0 +1,42 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+    
+    App\Widgets\QuickLinksWidget:
+        arguments:
+            - '@vs_cms.repository.quick_link'
+        tags:
+            - { name: kernel.event_listener, event: widget.start, method: builder }
+            
+    App\Widgets\ApplicationMenuLocalesWidget:
+        arguments:
+            - '@request_stack'
+            - '@vs_application.repository.locale'
+        tags:
+            - { name: kernel.event_listener, event: widget.start, method: builder }
+    
+    App\Widgets\VideoCommentsWidget:
+        arguments:
+            - '@request_stack'
+            - '@vs_vvp.repository.video'
+        tags:
+            - { name: kernel.event_listener, event: widget.start, method: builder }
+            
+    App\Widgets\VideoSuggestionsWidget:
+        arguments:
+            - '@request_stack'
+            - '@vs_vvp.repository.video'
+            - '@app_video_platform'
+        tags:
+            - { name: kernel.event_listener, event: widget.start, method: builder }
+            
+    App\Widgets\OurPartnersWidget:
+        arguments:
+            - '@request_stack'
+            - '@vs_cms.repository.pages'
+        tags:
+            - { name: kernel.event_listener, event: widget.start, method: builder }
+
+

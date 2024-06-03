@@ -1,19 +1,113 @@
 <div class="row">
-    <!-- stats -->
-    <div class="col-12 col-sm-6 col-xl-3">
-        <div class="stats">
-            {% if currentSubscription and currentSubscription.active %}
-                <span>{{ currentSubscription.pricingPlan.title }}</span>
-                <p class="me-2">{{ currentPlanCurrencySign }}{{ currentSubscription.pricingPlan.price }}</p>
-                <span>
-                    {{ 'vs_vvp.template.my_profile.expire_at' | trans( {},'VanzVideoPlayer' ) }}:&nbsp;&nbsp;
-                    {{ currentSubscription.expireAt | date( 'F j, Y' ) }}
-                </span>
-                <img src="{{ asset( 'build/video-platform-theme/img/credit-card.svg' ) }}" alt="{{ currentSubscription.pricingPlan.title }}">
-            {% else %}
-                <span>{{ 'vs_vvp.template.my_profile.no_choosed_plan' | trans( {},'VanzVideoPlayer' ) }}</span>
-            {% endif %}
+    <!-- dashbox -->
+    <div class="col-12 col-xl-12">
+        <div class="dashbox">
+            <div class="dashbox__title">
+                <h3>
+                    <img src="{{ asset( 'build/video-platform-theme/img/star-half-alt.svg' ) }}" alt="">
+                    {{ 'vs_vvp.template.my_profile.subscriptions' | trans( {},'VanzVideoPlayer' ) }}
+                </h3>
+
+                {#
+                <div class="dashbox__wrap">
+                    <a class="dashbox__refresh" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,11a1,1,0,0,0-1,1,8.05,8.05,0,1,1-2.22-5.5h-2.4a1,1,0,0,0,0,2h4.53a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4.77A10,10,0,1,0,22,12,1,1,0,0,0,21,11Z"/></svg></a>
+                    <a class="dashbox__more" href="reviews.html">View All</a>
+                </div>
+                #}
+            </div>
+
+            <div class="dashbox__table-wrap dashbox__table-wrap--2">
+                <table class="dashbox__table" id="ProfileSubscriptions">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>{{ 'vs_payment.template.my_profile.service' | trans( {},'VSPaymentBundle' ) }}</th>
+                            <th>{{ 'vs_payment.template.my_profile.paid' | trans( {},'VSPaymentBundle' ) }}</th>
+                            <th>{{ 'vs_payment.template.my_profile.recurring' | trans( {},'VSPaymentBundle' ) }}</th>
+                            <th>{{ 'vs_payment.template.my_profile.expires_at' | trans( {},'VSPaymentBundle' ) }}</th>
+                            
+                            {% if app_environment == 'dev' %}
+                                <th>{{ 'vs_payment.template.my_profile.payment_factory' | trans( {},'VSPaymentBundle' ) }}</th>
+                            {% endif %}
+                                
+                            <th>{{ 'vs_payment.template.my_profile.actions' | trans( {},'VSPaymentBundle' ) }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for serviceCode, subscription in subscriptions %}
+                            <tr>
+                                <td><div class="dashbox__table-text">{{ loop.index }}</div></td>
+                                <td>
+                                    <div class="dashbox__table-text">
+                                        {{ subscription.pricingPlan.paidService.payedService.title }}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="dashbox__table-text">
+                                        {% if subscription.paid %}
+                                            <i class="fas fa-check" style="color: #82c91e;"></i>
+                                        {% else %}
+                                            <i class="fas fa-times" style="color: #ff1e1e;"></i>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="dashbox__table-text">
+                                        {% if subscription.recurringPayment %}
+                                            <i class="fas fa-check" style="color: #82c91e;"></i>
+                                        {% else %}
+                                            <i class="fas fa-times" style="color: #ff1e1e;"></i>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td><div class="dashbox__table-text">{{ subscription.expiresAt | date( 'd M Y' ) }}</div></td>
+                                
+                                {% if app_environment == 'dev' %}
+                                    <td><div class="dashbox__table-text">{{ subscription.gatewayFactory() }}</div></td>
+                                {% endif %}
+                                
+                                <td>
+                                    <div class="dashbox__table-text subscription_buttons">
+                                    
+                                        {% if not subscription.recurringPayment %}
+                                            <a class="btn subscription__btn me-1 btnPaySubscription"
+                                                href="javascript:void(0);"
+                                                title="{{ 'vs_payment.template.my_profile.create_payment' | trans( {},'VSPaymentBundle' ) }}"
+                                                data-url="{{ path( 'vs_payment_select_payment_method_form', {'pricingPlanId': subscription.pricingPlan.id} ) }}"
+                                            >
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </a>
+                                        {% endif %}
+                                        
+                                        {% if ( subscription.gateway | supportRecurring ) and subscription.paid %}
+                                        
+                                            {% if subscription.recurringPayment %}
+                                                <a class="btn subscription__btn me-1 btnCancelSubscription"
+                                                    href="javascript:void(0);"
+                                                    title="{{ 'vs_payment.template.my_profile.stop_recurring' | trans( {},'VSPaymentBundle' ) }}"
+                                                    data-url="{{ subscriptionsRoutes[subscription.id]['cancelRecurring'] }}"
+                                                >
+                                                    <i class="fas fa-stop"></i>
+                                                </a>
+                                            {% else %}
+                                                <a class="btn subscription__btn me-1 btnCreateSubscription"
+                                                    href="javascript:void(0);"
+                                                    title="{{ 'vs_payment.template.my_profile.start_recurring' | trans( {},'VSPaymentBundle' ) }}"
+                                                    data-url="{{ subscriptionsRoutes[subscription.id]['createRecurring'] }}"
+                                                >
+                                                    <i class="fa-solid fa-play"></i>
+                                                </a>
+                                            {% endif %}
+                                            
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <!-- end stats -->
+    <!-- end dashbox -->
 </div>

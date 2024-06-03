@@ -1,0 +1,23 @@
+{% if widget.params.links is not empty %}
+    <!-- header categories -->
+    <div class="header__categories">
+        <button class="header__categories-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span></span>
+            <span></span>
+        </button>
+    
+        <div class="dropdown-menu header__dropdown-menu header__dropdown-menu--categories">
+            <ul class="header__categories-list">
+            {% for oQuickLink in widget.params.links %}
+                <li>
+                    <a href="{{ oQuickLink.linkPath }}">
+                        {{ oQuickLink.linkText }}
+                    </a>
+                </li>
+                {% if loop.index == 4 %}</ul><ul class="header__categories-list">{% endif %}
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <!-- end header categories -->
+{% endif %}

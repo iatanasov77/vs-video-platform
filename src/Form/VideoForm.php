@@ -14,8 +14,10 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
+use App\Form\Type\VideoPhotoType;
 use App\Entity\Video;
 use App\Entity\VideoCategory;
 
@@ -28,7 +30,13 @@ class VideoForm extends AbstractForm
     private $videoCategoryClass;
     
     /** @var string */
+    private $videoGenreClass;
+    
+    /** @var string */
     private $actorClass;
+    
+    /** @var string */
+    private $paidServiceClass;
     
     public function __construct(
         string $dataClass,
@@ -36,7 +44,9 @@ class VideoForm extends AbstractForm
         RequestStack $requestStack,
         TokenStorageInterface $tokenStorage,
         string $videoCategoryClass,
-        string $actorClass
+        string $videoGenreClass,
+        string $actorClass,
+        string $paidServiceClass
     ) {
         parent::__construct( $dataClass );
         
@@ -46,7 +56,9 @@ class VideoForm extends AbstractForm
         $this->tokenStorage         = $tokenStorage;
         
         $this->videoCategoryClass   = $videoCategoryClass;
+        $this->videoGenreClass      = $videoGenreClass;
         $this->actorClass           = $actorClass;
+        $this->paidServiceClass     = $paidServiceClass;
     }
     
     public function buildForm( FormBuilderInterface $builder, array $options ): void
@@ -59,7 +71,7 @@ class VideoForm extends AbstractForm
         if ( $entity->getId() ) {
             $requiredResources  = [];
         } else {
-            $requiredResources  = ["VsVvp_VideoThumbnail", "VsVvp_VideoFile"];
+            $requiredResources  = ["VsVvp_VideoFile"];
         }
         
         $builder
@@ -76,11 +88,6 @@ class VideoForm extends AbstractForm
                 'data'      => $entity->getId()
             ])
             
-            ->add( 'thumbnailFileId', HiddenType::class, [
-                'mapped'    => false,
-                'data'      => $entity->getId() ? $entity->getVideoThumbnail()->getId() : 0
-            ])
-            
             ->add( 'videoFileId', HiddenType::class, [
                 'mapped'    => false,
                 'data'      => $entity->getId() ? $entity->getVideoFile()->getId() : 0
@@ -91,9 +98,19 @@ class VideoForm extends AbstractForm
                 'data'      => \json_encode( $entity->getCategories()->getKeys() )
             ])
             
+            ->add( 'videoGenres', HiddenType::class, [
+                'mapped'    => false,
+                'data'      => \json_encode( $entity->getGenres()->getKeys() )
+            ])
+            
             ->add( 'videoActors', HiddenType::class, [
                 'mapped'    => false,
                 'data'      => \json_encode( $entity->getActors()->getKeys() )
+            ])
+            
+            ->add( 'videoAllowedPaidServices', HiddenType::class, [
+                'mapped'    => false,
+                'data'      => \json_encode( $entity->getAllowedPaidServices()->getKeys() )
             ])
             
             ->add( 'tagsInputWhitelist', HiddenType::class, ['mapped' => false] )
@@ -109,7 +126,7 @@ class VideoForm extends AbstractForm
                 'translation_domain'    => 'VanzVideoPlayer',
             ])
             
-            ->add( 'title', TextType::class, [
+            ->add( 'name', TextType::class, [
                 'label'                 => 'vs_vvp.form.video.title',
                 'translation_domain'    => 'VanzVideoPlayer',
             ])
@@ -151,13 +168,25 @@ class VideoForm extends AbstractForm
                 'placeholder'           => 'vs_cms.form.page.categories_placeholder',
                 
                 'class'                 => $this->videoCategoryClass,
-                'choice_label'          => function ( $category ) {
+                'choice_label'          => function ( VideoCategory $category ) {
                     return $category->getNameTranslated( $this->requestStack->getMainRequest()->getLocale() );
                 },
-                'choice_value'          => function ( $category ) {
+                'choice_value'          => function ( VideoCategory $category ) {
                     //return $category ? $category->getTaxon()->getId() : 0;
                     return $category ? $category->getId() : 0;
                 },
+            ])
+            
+            ->add( 'genres', EntityType::class, [
+                'label'                 => 'vs_vvp.form.actor.genres',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'multiple'              => true,    // Multiple Can be Changed in Template
+                'required'              => false,
+                //'mapped'                => false,
+                'placeholder'           => 'vs_vvp.form.actor.genres_placeholder',
+                
+                'class'                 => $this->videoGenreClass,
+                'choice_label'          => 'name'
             ])
             
             ->add( 'description', CKEditorType::class, [
@@ -166,25 +195,12 @@ class VideoForm extends AbstractForm
                 'config'                => $this->ckEditorConfig( $options ),
             ])
             
-            ->add( 'thumbnail', FileType::class, [
-                'mapped'                => false,
-                'required'              => is_null( $entity->getId() ),
-                
-                'label'                 => 'vs_vvp.form.video.thumbnail',
-                'translation_domain'    => 'VanzVideoPlayer',
-                
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/gif',
-                            'image/jpeg',
-                            'image/png',
-                            'image/svg+xml',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid Thumbnail',
-                    ])
-                ],
+            ->add( 'photos', CollectionType::class, [
+                'entry_type'   => VideoPhotoType::class,
+                'allow_add'    => true,
+                'allow_delete' => true,
+                'prototype'    => true,
+                'by_reference' => false
             ])
             
             ->add( 'actors', EntityType::class, [
@@ -197,6 +213,18 @@ class VideoForm extends AbstractForm
                 
                 'class'                 => $this->actorClass,
                 'choice_label'          => 'name'
+            ])
+            
+            ->add( 'allowedPaidServices', EntityType::class, [
+                'label'                 => 'vs_vvp.form.video.allowed_paid_services',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'multiple'              => true,    // Multiple Can be Changed in Template
+                'required'              => false,
+                //'mapped'                => false,
+                'placeholder'           => 'vs_vvp.form.video.allowed_paid_services_placeholder',
+                
+                'class'                 => $this->paidServiceClass,
+                'choice_label'          => 'title'
             ])
         ;
     }

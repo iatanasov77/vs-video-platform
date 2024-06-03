@@ -18,19 +18,23 @@
                 </div>
                 <!-- end title -->
     
+                {% if movie.getPhoto( 'video_thumbnail' ) %}
+                    {% set videoThumbnail = movie.getPhoto( 'video_thumbnail' ) %}
+                {% endif %}
+
                 <!-- content -->
                 <div class="col-12 col-xl-6">
                     <div class="item item--details">
                         <!-- card cover -->
                         <div class="item__cover">
-                            <img src="{{ movie.videoThumbnail.path | imagine_filter( 'movies_listing_thumbnail' ) }}" alt="{{ movie.title }}">
+                            <img src="{{ videoThumbnail.path | imagine_filter( 'movies_listing_thumbnail' ) }}" alt="{{ movie.title }}">
                         </div>
                         <!-- end card cover -->
     
                         <!-- card content -->
                         <div class="item__content">
                             <div class="item__wrap">
-                                <span class="item__rate">8.4</span>
+                                <span class="item__rate">{{ ( movie.averageRating ) | number_format( 1 ) }}</span>
     
                                 <ul class="item__list">
                                     {% if movieTags %}
@@ -45,15 +49,24 @@
                                 </ul>
                             </div>
 
-                            {% if duration %}
-                                <ul class="item__meta">
-                                    <li>
-                                        <span>{{ 'vs_vvp.template.movies.running_time' | trans( {},'VanzVideoPlayer' ) }}:</span> 
-                                        {{ ( duration / 60 ) | number_format( 2 ) }} 
-                                        {{ 'vs_vvp.template.movies.min' | trans( {},'VanzVideoPlayer' ) }}
-                                    </li>
-                                </ul>
-                            {% endif %}
+                            <ul class="item__meta">
+                                <li>
+                                    <span>{{ 'vs_vvp.form.movies_filter.category_label' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {% for category in movie.categories %}
+                                        <a href="#">{{ category.name }}</a>
+                                    {% endfor %}
+                                </li>
+                                <li>
+                                    <span>{{ 'vs_vvp.form.movies_filter.genre_label' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {% for genre in movie.genres %}
+                                        <a href="#">{{ genre.name }}</a>
+                                    {% endfor %}
+                                </li>
+                                <li>
+                                    <span>{{ 'vs_vvp.template.movies.running_time' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {{ movie.videoFile.duration | vs_duration }}
+                                </li>
+                            </ul>
     
                             <ul class="item__meta item__meta--second">
                             {% if movie.actors.count() %}
@@ -77,12 +90,14 @@
                 <!-- player -->
                 <div class="col-12 col-xl-6">
                     <video controls crossorigin
-                        {# playsinline poster="{{ movie.videoThumbnail.path | imagine_filter( 'video_thumbnail_plyr' ) }}" #}
-                        playsinline poster="{{ movie.videoThumbnail.path | imagine_filter( 'movies_listing_thumbnail' ) }}"
+                        {# playsinline poster="{{ videoThumbnail.path | imagine_filter( 'video_thumbnail_plyr' ) }}" #}
+                        playsinline poster="{{ videoThumbnail.path | imagine_filter( 'movies_listing_thumbnail' ) }}"
                         id="player-plyr"
+                        data-watermarkText="{{ watermarkText }}"
+                        data-videoWatchingUrl="{{ path( 'vvp_movies_video_watching', {'videoId': movie.id} ) }}"
                     >
                     
-                    {% if app.environment == 'dev' or not displayOnlyTranscoded %}
+                    {% if not displayOnlyTranscoded %}
                         <!-- Original Video -->
                         <source src="{{ path( 'app_video_player_read', {'id': movie.id} ) }}" type="video/mp4">
                     {% endif %}
@@ -93,13 +108,34 @@
                     {% endfor %}
                         
                     </video>
+                    
+                    {#
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-3">
+                            <span style="color: #c7c7c7;">
+                                {{ 'vs_vvp.template.movies.rate_this_video' | trans( {},'VanzVideoPlayer' ) }}: 
+                            </span>
+                        </div>
+                        <div class="col-9" style="padding-top: 5px;">
+                            <div id="basic-rater" dir="ltr" data-myRating="{{ movie.averageRating }}"></div>
+                        </div>
+                    </div>
+                    #}
+                    
                 </div>
                 <!-- end player -->
+                
             </div>
         </div>
         <!-- end details content -->
     </section>
     <!-- end details -->
+    
+    {% include 'Pages/Movies/Partial/movie-discover.html.twig' %}
+{% endblock %}
+
+{% block widgets %}
+    {% include 'Partial/photoswipe.html.twig' %}
 {% endblock %}
 
 {% block stylesheets %}
