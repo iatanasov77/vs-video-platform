@@ -5,7 +5,7 @@
     <section class="section section--details">
         <!-- details background -->
         <div class="section__details-bg"
-            data-bg="{{ asset( 'build/sugarbabes-theme/img/bg/actor__bg.jpg' ) }}"
+            data-bg="{{ asset( 'build/video-platform-theme/img/bg/actor__bg.jpg' ) }}"
         ></div>
         <!-- end details background -->
 
@@ -14,7 +14,8 @@
             <div class="row">
                 <!-- title -->
                 <div class="col-12">
-                    <h1 class="section__title section__title--head">{{ actor.name }}</h1>
+                    <h1 class="section__title section__title--head float-start">{{ actor.name }}</h1>
+                    <span class="item__rate float-start ms-3 mt-3">{{ ( actor.averageRating ) | number_format( 1 ) }}</span>
                 </div>
                 <!-- end title -->
 
@@ -29,23 +30,65 @@
 
                         <!-- card content -->
                         <div class="item__content">
-                        {#
                             <ul class="item__meta item__meta--first">
-                                <li><span>Career:</span> Actress</li>
-                                <li><span>Height:</span> 1.65 m</li>
-                                <li><span>Date of birth:</span> July 12, 1978</li>
-                                <li><span>Place of birth:</span> San Antonio, Texas, United States</li>
-                                <li><span>Age:</span> 44</li>
-                                <li><span>Zodiac:</span> Cancer</li>
-                                <li><span>Genres:</span> <a href="#">Action</a> <a href="#">Triler</a> <a href="#">Drama</a></li>
-                                <li><span>Total number of movies:</span> 109</li>
-                                <li><span>First movie:</span> <a href="details1.html">Girl Fight (2000)</a></li>
-                                <li><span>Last movie:</span> <a href="details1.html">Fast and the Furious 10 (2023)</a></li>
-                                <li><span>Best movie:</span> <a href="details1.html">Avatar</a></li>
+                                <li>
+                                    <span>{{ 'vs_vvp.template.actors.career' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {{ actor.career | trans( {},'VanzVideoPlayer' ) }}
+                                </li>
+                                <li>
+                                    <span>{{ 'vs_vvp.template.actors.height' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {{ actor.height }}
+                                </li>
+                                <li>
+                                    <span>{{ 'vs_vvp.template.actors.date_of_birth' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {{ actor.dateOfBirth | date( "d.m.Y" ) }}
+                                </li>
+                                <li>
+                                    <span>{{ 'vs_vvp.template.actors.place_of_birth' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {{ actor.placeOfBirth }}
+                                </li>
+                                <li>
+                                    <span>{{ 'vs_vvp.template.actors.age' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {{ actorAge }}
+                                </li>
+                                <li>
+                                    <span>{{ 'vs_vvp.template.actors.zodiac' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {{ actorZodiac | capitalize }}
+                                </li>
+                                <li>
+                                    <span>{{ 'vs_vvp.template.actors.genres' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {% for genre in actor.genres %}
+                                        <a href="javascript:void(0);">{{ genre.name }}</a> 
+                                    {% endfor %}
+                                </li>
+                                <li>
+                                    <span>{{ 'vs_vvp.template.actors.total_number_of_movies' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {{ actor.videos.count }}
+                                </li>
+                                <li>
+                                    <span>{{ 'vs_vvp.template.actors.first_movie' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {% if firstMovie %}
+                                        <a href="{{ path( 'vvp_movies_details', {'slug': firstMovie.slug} ) }}">{{ firstMovie.name }}</a>
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    <span>{{ 'vs_vvp.template.actors.last_movie' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {% if lastMovie %}
+                                        <a href="{{ path( 'vvp_movies_details', {'slug': lastMovie.slug} ) }}">{{ lastMovie.name }}</a>
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    <span>{{ 'vs_vvp.template.actors.best_movie' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {% if bestMovie %}
+                                        <a href="{{ path( 'vvp_movies_details', {'slug': bestMovie.slug} ) }}">{{ bestMovie.name }}</a>
+                                    {% endif %}
+                                </li>
                             </ul>
-                        #}
-                        {{ actor.description | raw }}
+                        
+                            {{ actor.description | raw }}
                         </div>
+                        <!-- end card content -->
+                        
                     </div>
                 </div>
                 <!-- end content -->
@@ -57,6 +100,16 @@
     
     {% include 'Pages/Actors/Partial/discover.html.twig' %}
 
+{% endblock %}
+
+{% block widgets %}
+    {% include 'Partial/photoswipe.html.twig' %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {{ encore_entry_link_tags( 'js/actors-details', null, 'VideoPlatformTheme' ) }}
 {% endblock %}
 
 {% block javascripts %}

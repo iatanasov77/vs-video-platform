@@ -7,18 +7,22 @@ use Vankosoft\CmsBundle\Model\File;
  * @ORM\Entity
  * @ORM\Table(name="VVP_Videos_Files")
  */
+#[ORM\Entity]
+#[ORM\Table(name: "VVP_Videos_Files")]
 class VideoFile extends File
 {
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Video", inversedBy="videoFile", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-     */
+    /** @var Video */
+    #[ORM\OneToOne(targetEntity: Video::class, inversedBy: "videoFile", cascade: ["persist", "remove"], orphanRemoval: true)]
+    #[ORM\JoinColumn(name: "owner_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
     protected $owner;
     
-    /**
-     * @ORM\Column(name="storage_type", type="string", columnDefinition="ENUM('coconut', 'local' , 's3' , 'digitalocean')", nullable=false)
-     */
+    /** @var string */
+    #[ORM\Column(name: "storage_type", type: "string", columnDefinition: "ENUM('coconut', 'local' , 's3' , 'digitalocean')")]
     private $storageType = 'local';
+    
+    /** @var string */
+    #[ORM\Column(name: "duration", type: "string", length: 255, options: ["default" => 0])]
+    private $duration   = '0';
     
     public function getVideo()
     {
@@ -40,6 +44,18 @@ class VideoFile extends File
     public function setStorageType($storageType)
     {
         $this->storageType  = $storageType;
+        
+        return $this;
+    }
+    
+    public function getDuration()
+    {
+        return $this->duration;
+    }
+    
+    public function setDuration($duration)
+    {
+        $this->duration  = $duration;
         
         return $this;
     }

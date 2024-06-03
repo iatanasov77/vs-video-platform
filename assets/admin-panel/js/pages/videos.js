@@ -66,8 +66,12 @@ $( function()
             url: url,
             success: function( response )
             {
-                $( '#' + output ).text( response.status );
-                $( '#modalBodyCoconutJob > div.card-body' ).html( '<pre>' + JSON.stringify( response, null, 2 ) + '</pre>' );
+                if ( response.status == 'success' ) {
+                    $( '#' + output ).text( response.data.status );
+                    $( '#modalBodyCoconutJob > div.card-body' ).html( '<pre>' + JSON.stringify( response.data, null, 2 ) + '</pre>' );
+                } else {
+                    $( '#modalBodyCoconutJob > div.card-body' ).html( '<pre>' + response.message + '</pre>' );
+                }
                 
                 /** Bootstrap 5 Modal Toggle */
                 const myModal = new bootstrap.Modal( '#coconut-job-modal', {

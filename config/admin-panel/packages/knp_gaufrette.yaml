@@ -11,6 +11,10 @@ knp_gaufrette:
         vs_application_app_pictures:
             local:
                 directory: "%vs_application.filemanager_shared_media_gaufrette.app_pictures%"
+        vs_application_slider:
+            local:
+                directory: "%vs_cms.filemanager_shared_media_gaufrette.slider%"
+                create: true
         vs_vvp_videos:
             local:
                 directory: "%vs_vvp.videos_directory%"
@@ -22,10 +26,6 @@ knp_gaufrette:
         vs_vvp_actor_photos:
             local:
                 directory: "%vs_vvp.actor_photos_directory%"
-                create: true
-        vs_vvp_slider:
-            local:
-                directory: "%vs_vvp.slider_directory%"
                 create: true
         vs_vvp_videos_user_signatured:
             local:
@@ -44,14 +44,14 @@ knp_gaufrette:
             adapter: "%vs_cms.gaufrette.filemanager.filesystem%"
         vs_application_app_pictures:
             adapter: "%vs_application.gaufrette.app_pictures.filesystem%"
+        vs_application_slider:
+            adapter: "%vs_cms.gaufrette.slider.filesystem%"
         vs_vvp_videos:
             adapter: "vs_vvp_videos"
         vs_vvp_coconut_output:
             adapter: "vs_vvp_coconut_output"
         vs_vvp_actor_photos:
             adapter: "vs_vvp_actor_photos"
-        vs_vvp_slider:
-            adapter: "vs_vvp_slider"
         vs_vvp_videos_user_signatured:
             adapter: "vs_vvp_videos_user_signatured"
         vs_vvp_videos_digitalocean:

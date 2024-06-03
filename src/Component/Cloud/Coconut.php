@@ -7,6 +7,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
+use Vankosoft\ApiBundle\Exception\ApiLoginException;
 use App\Entity\Video;
 use App\Entity\CoconutJob;
 use App\Component\Cloud\Exception\Coconut\JobNotFoundException;
@@ -50,6 +52,9 @@ class Coconut
     private $httpClient;
     
     /** @var string */
+    private $apiHost;
+    
+    /** @var string */
     private $localVideosDirectory;
     
     public function __construct(
@@ -58,7 +63,8 @@ class Coconut
         RepositoryInterface $jobsRepository,
         FactoryInterface $jobsFactory,
         HttpClientInterface $httpClient,
-        VideoPlatform $videoPlatform
+        VideoPlatform $videoPlatform,
+        string $apiHost
     ) {
         $this->videoPlatform            = $videoPlatform;
         $this->videoPlatformSettings    = $videoPlatform->getVideoPlatformSettings();
@@ -69,6 +75,7 @@ class Coconut
         $this->jobsRepository           = $jobsRepository;
         $this->jobsFactory              = $jobsFactory;
         $this->httpClient               = $httpClient;
+        $this->apiHost                  = $apiHost;
         
         $this->jobOutputs               = [];
         
@@ -118,7 +125,7 @@ class Coconut
             return $this->client->job->retrieve( $jobId );
             //return $this->client->metadata->retrieve( $jobId );
         } catch( CoconutException $e ) {
-            throw new JobNotFoundException( $e->getMessage() );
+            throw new JobNotFoundException( 'JobNotFoundException: ' . $e->getMessage() );
         }
     }
     
@@ -224,19 +231,27 @@ class Coconut
         /** ============================================================ */
         /** @NOTE Add To /etc/hosts - 10.3.3.2   admin.sugarbabes.lh */
         /** ============================================================ */
-        $apiLoginUrl    = $this->router->generate( 'vs_api_login_check', [], RouterInterface::ABSOLUTE_URL );
-        $response       = $this->httpClient->request( 'POST', $apiLoginUrl, [
-            'json' => [
-                'username' => $this->videoPlatformSettings->getCoconutSettings()->getCoconutSystemUser(),
-                'password' => $this->videoPlatformSettings->getCoconutSettings()->getCoconutSystemPassword()
-            ],
-        ]);
+        //$apiLoginUrl    = $this->router->generate( 'vs_api_login_check', [], RouterInterface::ABSOLUTE_URL );
+        $apiLoginUrl    = \sprintf( '%s/api/login_check', $this->apiHost );
+        
+        try {
+            $response       = $this->httpClient->request( 'POST', $apiLoginUrl, [
+                'json' => [
+                    'username' => $this->videoPlatformSettings->getCoconutSettings()->getCoconutSystemUser(),
+                    'password' => $this->videoPlatformSettings->getCoconutSettings()->getCoconutSystemPassword()
+                ],
+            ]);
+        }  catch ( JWTEncodeFailureException $e ) {
+            throw new ApiLoginException( 'JWTEncodeFailureException: ' . $e->getMessage() );
+        }
+        
         $decodedPayload = $response->toArray( false );
         //echo '<pre>'; var_dump( $decodedPayload ); die;
         
-        $webhookUrl = $this->router->generate(
-            'vs_api_coconut_webhook', ['apiToken' => $decodedPayload['refresh_token']], RouterInterface::ABSOLUTE_URL
-        );
+//         $webhookUrl = $this->router->generate(
+//             'vs_api_coconut_webhook', ['apiToken' => $decodedPayload['refresh_token']], RouterInterface::ABSOLUTE_URL
+//         );
+        $webhookUrl = \sprintf( '%s/api/coconut/webhook/%s', $this->apiHost, $decodedPayload['refresh_token'] );
         
         $this->client->notification = [
             'type'      => 'http',

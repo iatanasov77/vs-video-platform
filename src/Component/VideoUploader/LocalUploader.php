@@ -6,7 +6,7 @@ use Webmozart\Assert\Assert;
 
 use Vankosoft\CmsBundle\Component\Uploader\FileUploaderInterface;
 use Vankosoft\CmsBundle\Component\Generator\FilePathGeneratorInterface;
-use Vankosoft\CmsBundle\Model\FileInterface;
+use Vankosoft\CmsBundle\Model\Interfaces\FileInterface;
 use App\Component\VideoPlatform;
 
 class LocalUploader implements FileUploaderInterface

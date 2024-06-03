@@ -1,5 +1,3 @@
-const bootstrap = require( 'bootstrap' );
-
 import Velocity from 'velocity-animate';
 import 'velocity-animate/velocity.ui';
 
@@ -8,6 +6,12 @@ import 'velocity-animate/velocity.ui';
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 var routes  = require( '../../../../../public/shared_assets/js/fos_js_routes_application.json' );
 import { VsPath } from '@/js/includes/fos_js_routes.js';
+
+import { VsSpinnerShow, VsSpinnerHide } from '@/js/includes/VsSpinner/vs_spinner.js';
+//import { VsSpinnerShow, VsSpinnerHide } from '@/js/includes/vs_spinner.js';
+
+window.PricingPlanFormSubmited      = false;
+window.PaymentMethodFormSubmited    = false;
 
 export function ChoosePlan( planFormUrl )
 {
@@ -18,26 +22,84 @@ export function ChoosePlan( planFormUrl )
         {
             $( '#selectPricingPlanForm' ).html( response );
             
+            let supportRecurring    = $( '.rPaymentMethod:checked' ).attr( 'data-supportRecurring' );
+            if ( ! supportRecurring ) {
+                $( '#SetRecurringPayments' ).hide();
+            }
+            
             /** Bootstrap 5 Modal Toggle */
             const myModal = new bootstrap.Modal( '#plan-modal', {
                 keyboard: false
             });
             myModal.show( $( '#plan-modal' ).get( 0 ) );
+            
+            //VsSpinnerShow( 'selectPricingPlanForm' );
         },
         error: function()
         {
-            alert( "SYSTEM ERROR!!!" );
+            alert( "ChoosePlan SYSTEM ERROR!!!" );
         }
     });
 }
 
-function GetCreditCardForm( url )
+export function PayPlan( planFormUrl )
+{
+    if ( ! window.PricingPlanFormSubmited ) {
+        VsSpinnerShow( 'ProfileSubscriptions' );
+    }
+    
+    $.ajax({
+        type: "GET",
+        url: planFormUrl,
+        success: function( response )
+        {
+            $( '#selectPricingPlanForm' ).html( response );
+
+            if ( ! window.PricingPlanFormSubmited ) {
+                var formData    = new FormData( document.getElementById( 'PricingPlanForm' ) );
+                handlePricingPlanPayment( formData );
+                
+                window.PricingPlanFormSubmited  = true;
+            }
+        },
+        error: function()
+        {
+            VsSpinnerHide( 'ProfileSubscriptions' );
+            alert( "PayPlan SYSTEM ERROR!!!" );
+        }
+    });
+}
+
+export function PaySubscription( paymentMethodFormUrl )
+{
+    $.ajax({
+        type: "GET",
+        url: paymentMethodFormUrl,
+        success: function( response )
+        {
+            $( '#selectPaymentMethodForm' ).html( response );
+            
+            /** Bootstrap 5 Modal Toggle */
+            const myModal = new bootstrap.Modal( '#payment-modal', {
+                keyboard: false
+            });
+            myModal.show( $( '#payment-modal' ).get( 0 ) );
+        },
+        error: function()
+        {
+            alert( "PaySubscription SYSTEM ERROR!!!" );
+        }
+    });
+}
+
+function GetStripeCreditCardForm( url, modalId, contentId )
 {
     /** Bootstrap 5 Modal Toggle */
-    const myModal = new bootstrap.Modal( '#plan-modal', {
+    const myModal = new bootstrap.Modal( '#' + modalId, {
         keyboard: false
     });
-    myModal.hide( $( '#plan-modal' ).get( 0 ) );
+    myModal.hide( $( '#' + modalId ).get( 0 ) );
+    VsSpinnerShow( contentId );
     
     $.ajax({
         type: "GET",
@@ -47,21 +109,172 @@ function GetCreditCardForm( url )
             $( '.modal-title' ).text( 'Enter Your Card Details' );
             $( '.modal-body' ).attr( 'style', '' );
             $( '.modal-body' ).addClass( 'credit-card' );
-            $( '#selectPricingPlanForm' ).addClass( 'credit-card' );
+            $( '#' + contentId ).addClass( 'credit-card' );
                         
-            $( '#selectPricingPlanForm' ).html( response );
+            $( '#' + contentId ).html( response );
             
-            myModal.show( $( '#plan-modal' ).get( 0 ) );
+            myModal.show( $( '#' + modalId ).get( 0 ) );
+            
+            //VsSpinnerHide( 'ProfileSubscriptions' );
+            VsSpinnerHide( contentId );
         },
         error: function()
         {
-            alert( "SYSTEM ERROR!!!" );
+            alert( "GetStripeCreditCardForm SYSTEM ERROR!!!" );
+        }
+    });
+}
+
+function GetPayumCreditCardForm( url, modalId, contentId )
+{
+    /** Bootstrap 5 Modal Toggle */
+    const myModal = new bootstrap.Modal( '#' + modalId, {
+        keyboard: false
+    });
+    myModal.hide( $( '#' + modalId ).get( 0 ) );
+    
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function( response )
+        {
+            $( '.modal-title' ).text( 'Enter Your Card Details' );
+            $( '.modal-body' ).attr( 'style', '' );
+            $( '.modal-body' ).addClass( 'credit-card' );
+            $( '#' + contentId ).addClass( 'credit-card' );
+                        
+            $( '#' + contentId ).html( response );
+            
+            myModal.show( $( '#' + modalId ).get( 0 ) );
+            VsSpinnerHide( 'ProfileSubscriptions' );
+        },
+        error: function()
+        {
+            alert( "GetPayumCreditCardForm SYSTEM ERROR!!!" );
+        }
+    });
+}
+
+function GetPayumObtainCouponCodeForm( url, modalId, contentId )
+{
+    /** Bootstrap 5 Modal Toggle */
+    const myModal = new bootstrap.Modal( '#' + modalId, {
+        keyboard: false
+    });
+    myModal.hide( $( '#' + modalId ).get( 0 ) );
+    
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function( response )
+        {
+            $( '.modal-title' ).text( 'Enter Coupon Code' );
+            $( '.modal-body' ).attr( 'style', '' );
+            $( '.modal-body' ).addClass( 'credit-card' );
+            $( '#' + contentId ).addClass( 'credit-card' );
+                        
+            $( '#' + contentId ).html( response );
+            
+            myModal.show( $( '#' + modalId ).get( 0 ) );
+            VsSpinnerHide( 'ProfileSubscriptions' );
+        },
+        error: function()
+        {
+            alert( "GetPayumObtainCouponCodeForm SYSTEM ERROR!!!" );
+        }
+    });
+}
+
+function handlePricingPlanPayment( formId, modalId, contentId )
+{
+    var formData    = new FormData( document.getElementById( formId ) );
+    
+    VsSpinnerShow( 'selectPricingPlanForm' );
+    $.ajax({
+        type: "POST",
+        url: $( '#' + formId ).attr( 'action' ),
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function( response )
+        {
+            VsSpinnerHide( 'selectPricingPlanForm' );
+            
+            //alert( response.data.paymentPrepareUrl );
+            //alert( response.data.gatewayFactory );
+            switch ( response.data.gatewayFactory ) {
+                //case 'stripe_checkout':
+                case 'stripe_js':
+                    var creditCardFormUrl   = VsPath( response.data.paymentPrepareUrl, {}, routes );
+                    GetStripeCreditCardForm( creditCardFormUrl, modalId, contentId );
+                    
+                    break;
+                case 'paypal_pro_checkout':
+                case 'authorize_net_aim':
+                    var creditCardFormUrl   = VsPath( response.data.paymentPrepareUrl, {}, routes );
+                    GetPayumCreditCardForm( creditCardFormUrl, modalId, contentId );
+                    
+                    break;
+                case 'telephone_call':
+                    var obtainCouponCodeFormUrl = VsPath( response.data.paymentPrepareUrl, {}, routes );
+                    GetPayumObtainCouponCodeForm( obtainCouponCodeFormUrl, modalId, contentId );
+                    
+                    break;
+                default:
+                    document.location   = VsPath( response.data.paymentPrepareUrl, {}, routes );
+            }
+        },
+        error: function()
+        {
+            VsSpinnerHide( 'selectPricingPlanForm' );
+            alert( "handlePricingPlanPayment SYSTEM ERROR!!!" );
         }
     });
 }
 
 $( function()
 {
+    $( '#selectPricingPlanForm' ).on( 'change', '.rPaymentMethod', function()
+    {
+        var selected    = $( this ).attr( 'data-paymentMethod' );
+        switch( selected ) {
+            case 'bank-transfer' :
+                $( '#BankTransferInfo' ).show();
+                break;
+            default:
+                $( '#BankTransferInfo' ).hide();
+        }
+        
+        let supportRecurring    = $( '.rPaymentMethod:checked' ).attr( 'data-supportRecurring' );
+        if ( supportRecurring ) {
+            $( '#SetRecurringPayments' ).show();
+        } else {
+            $( '#select_pricing_plan_form_paymentMethod_setRecurringPayments' ).prop( 'checked', false );
+            $( '#SetRecurringPayments' ).hide();
+        }
+    });
+    
+    $( '#selectPaymentMethodForm' ).on( 'change', '.rPaymentMethod', function()
+    {
+        var selected    = $( this ).attr( 'data-paymentMethod' );
+        switch( selected ) {
+            case 'bank-transfer' :
+                $( '#BankTransferInfo' ).show();
+                break;
+            default:
+                $( '#BankTransferInfo' ).hide();
+        }
+        
+        let supportRecurring    = $( '.rPaymentMethod:checked' ).attr( 'data-supportRecurring' );
+        if ( supportRecurring ) {
+            $( '#SetRecurringPayments' ).show();
+        } else {
+            $( '#select_pricing_plan_form_paymentMethod_setRecurringPayments' ).prop( 'checked', false );
+            $( '#SetRecurringPayments' ).hide();
+        }
+    });
+    
     $( ".modal" ).each( function( l ) {
         $( this ).on( "show.bs.modal", function( l ) {
             var o   = $( this ).attr( "data-easein" );
@@ -80,33 +293,26 @@ $( function()
         e.preventDefault();
         e.stopPropagation();
         
-        var formData    = new FormData( document.getElementById( 'PricingPlanForm' ) );
-        $.ajax({
-            type: "POST",
-            url: VsPath( 'vs_payment_handle_pricing_plan_form', {}, routes ),
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function( response )
-            {
-                //alert( response.data.paymentPrepareUrl );
-                //alert( response.data.gatewayFactory );
-                switch ( response.data.gatewayFactory ) {
-                    case 'stripe_checkout':
-                    case 'stripe_js':
-                        GetCreditCardForm( VsPath( response.data.paymentPrepareUrl, {}, routes ) );
-                        
-                        break;
-                    default:
-                        document.location   = VsPath( response.data.paymentPrepareUrl, {}, routes );
-                }
-            },
-            error: function()
-            {
-                alert( "SYSTEM ERROR!!!" );
-            }
-        });
+        if ( ! window.PricingPlanFormSubmited ) {
+            handlePricingPlanPayment( 'PricingPlanForm', 'plan-modal', 'selectPricingPlanForm' );
+            
+            window.PricingPlanFormSubmited  = true;
+        }
+    });
+    
+    $( '#selectPaymentMethodForm' ).on( 'click', '#SelectPaymentMethodSubmit', function ( e ) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if ( ! window.PaymentMethodFormSubmited ) {
+            handlePricingPlanPayment( 'PaymentMethodForm', 'payment-modal', 'selectPaymentMethodForm' );
+            
+            window.PaymentMethodFormSubmited  = true;
+        }
+    });
+    
+    $( '.btnRgister' ).on( 'click', function ( e ) {
+        document.location = $( this ).attr( 'data-url' );
     });
 });
 

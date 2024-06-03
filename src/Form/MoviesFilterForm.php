@@ -2,6 +2,7 @@
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,16 +19,26 @@ class MoviesFilterForm extends AbstractType
     /** @var RepositoryInterface */
     private $videoCategoryRepository;
     
+    /** @var string */
+    private $videoGenreClass;
+    
+    /** @var RepositoryInterface */
+    private $videoGenreRepository;
+    
     /** @var MoviesFilter */
     private $moviesFilter;
     
     public function __construct(
         string $videoCategoryClass,
         RepositoryInterface $videoCategoryRepository,
+        string $videoGenreClass,
+        RepositoryInterface $videoGenreRepository,
         MoviesFilter $moviesFilter
     ) {
         $this->videoCategoryClass       = $videoCategoryClass;
         $this->videoCategoryRepository  = $videoCategoryRepository;
+        $this->videoGenreClass          = $videoGenreClass;
+        $this->videoGenreRepository     = $videoGenreRepository;
         $this->moviesFilter             = $moviesFilter;
     }
     
@@ -40,6 +51,14 @@ class MoviesFilterForm extends AbstractType
                 'class'                 => $this->videoCategoryClass,
                 'choice_label'          => 'name',
                 'placeholder'           => 'vs_vvp.form.movies_filter.category_placeholder'
+            ])
+            
+            ->add( 'genre', EntityType::class, [
+                'label'                 => 'vs_vvp.form.movies_filter.genre_label',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'class'                 => $this->videoGenreClass,
+                'choice_label'          => 'name',
+                'placeholder'           => 'vs_vvp.form.movies_filter.genre_placeholder'
             ])
             
             ->add( 'quality', ChoiceType::class, [
@@ -69,5 +88,12 @@ class MoviesFilterForm extends AbstractType
         ;
     }
     
-    
+    public function configureOptions( OptionsResolver $resolver ): void
+    {
+        $resolver
+            ->setDefaults([
+                'csrf_protection'   => false,
+            ])
+        ;
+    }
 }

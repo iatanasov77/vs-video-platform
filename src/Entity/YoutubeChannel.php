@@ -4,35 +4,25 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="VVP_YoutubeChannels")
- */
+#[ORM\Entity]
+#[ORM\Table(name: "VVP_YoutubeChannels")]
 class YoutubeChannel implements ResourceInterface
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    /** @var int */
+    #[ORM\Id, ORM\Column(type: "integer"), ORM\GeneratedValue(strategy: "IDENTITY")]
     private $id;
     
-    /**
-     * @ORM\Column(type="string", length=64, nullable=false)
-     */
+    /** @var string */
+    #[ORM\Column(type: "string", length: 64)]
     private $title;
     
-    /**
-     * @Gedmo\Slug(fields={"title", "id"})
-     * @ORM\Column(name="slug", type="string", length=255, nullable=false, unique=true)
-     */
+    /** @var string */
+    #[ORM\Column(type: "string", length: 255, unique: true)]
+    #[Gedmo\Slug(fields: ["title", "id"])]
     private $slug;
     
-    /**
-     * @ORM\Column(name="channel_id", type="string", nullable=false)
-     */
+    /** @var string */
+    #[ORM\Column(name: "channel_id", type: "string")]
     private $channelId;
     
     /**

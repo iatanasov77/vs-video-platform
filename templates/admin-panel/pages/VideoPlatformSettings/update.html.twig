@@ -29,7 +29,7 @@
                         {% if form_errors(form) is not empty %}
                             <div class="alert alert-block alert-danger fade in">
                                 <button type="button" class="close close-sm" data-dismiss="alert">
-                                    <i class="icon-remove"></i>
+                                    <i class="fa fa-times"></i>
                                 </button>
                                 <strong>Error!</strong> {{ form_errors(form) }}
                             </div>
@@ -64,12 +64,21 @@
                             {{ form_widget(form.originalVideosStorage, {'attr': {'class': 'form-control'}}) }}
                         </div>
                         
+                        <div class="form-group">
+                            {{ form_label(form.videoSuggestionsAssociationType, null, {
+                                'label_attr': {'class': 'col-form-label'}
+                                }) 
+                            }}
+                            
+                            {{ form_widget(form.videoSuggestionsAssociationType, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        
                     </div>
                         
                 	<h5 class="card-header sub-header">{{ 'vs_vvp.template.video_platform_settings.general_settings'  | trans( {},'VanzVideoPlayer' ) }}</h5>
                 	<div class="card-body">
                 	   
-                	   <div class="row">
+                	   <div class="form-group">
                     	   <label class="custom-control custom-checkbox" for="video_platform_settings_form_useFFMpeg">  
                                 <input type="checkbox" id="video_platform_settings_form_useFFMpeg"
                                     class="custom-control-input"
@@ -78,37 +87,11 @@
                                     {% if item.useFFMpeg %}checked="checked"{% endif %}
                                 />
                                 <span class="custom-control-label">{{ 'vs_vvp.template.video_platform_settings.use_ffmpeg'|trans({}, 'VanzVideoPlayer') }}</span>
-                                <small class="text-muted">( {{ 'vs_vvp.form.video_platform_settings.use_ffmpeg_help'  | trans( {},'VanzVideoPlayer' ) }} )</small>
+                                <small class="text-muted ms-2">( {{ 'vs_vvp.form.video_platform_settings.use_ffmpeg_help'  | trans( {},'VanzVideoPlayer' ) }} )</small>
                             </label>
                         </div>
                         
-                        <div class="row">
-                            <label class="custom-control custom-checkbox" for="video_platform_settings_form_displayOnlyTranscoded">  
-                                <input type="checkbox" id="video_platform_settings_form_displayOnlyTranscoded"
-                                    class="custom-control-input"
-                                    name="video_platform_settings_form[displayOnlyTranscoded]"
-                                    value="{{ item.displayOnlyTranscoded }}"
-                                    {% if item.displayOnlyTranscoded %}checked="checked"{% endif %}
-                                />
-                                <span class="custom-control-label">{{ 'vs_vvp.form.video_platform_settings.display_only_transcoded'|trans({}, 'VanzVideoPlayer') }}</span>
-                                <small class="text-muted">( {{ 'vs_vvp.form.video_platform_settings.display_only_transcoded_help'  | trans( {},'VanzVideoPlayer' ) }} )</small>
-                            </label>
-                        </div>
-                        
-                        <div class="row">
-                           <label class="custom-control custom-checkbox" for="video_platform_settings_form_createUserSignedVideos">  
-                                <input type="checkbox" id="video_platform_settings_form_createUserSignedVideos"
-                                    class="custom-control-input"
-                                    name="video_platform_settings_form[createUserSignedVideos]"
-                                    value="{{ item.createUserSignedVideos }}"
-                                    {% if item.createUserSignedVideos %}checked="checked"{% endif %}
-                                />
-                                <span class="custom-control-label">{{ 'vs_vvp.form.video_platform_settings.create_user_signed_videos'|trans({}, 'VanzVideoPlayer') }}</span>
-                                <small class="text-muted">( {{ 'vs_vvp.form.video_platform_settings.create_user_signed_videos_help'  | trans( {},'VanzVideoPlayer' ) }} )</small>
-                            </label>
-                        </div>
-                        
-                        <div class="row">
+                        <div class="form-group">
                            <label class="custom-control custom-checkbox" for="video_platform_settings_form_disableVideosForNonAuthenticated">  
                                 <input type="checkbox" id="video_platform_settings_form_disableVideosForNonAuthenticated"
                                     class="custom-control-input"
@@ -117,9 +100,43 @@
                                     {% if item.disableVideosForNonAuthenticated %}checked="checked"{% endif %}
                                 />
                                 <span class="custom-control-label">{{ 'vs_vvp.form.video_platform_settings.disable_videos_for_non_authenticated'|trans({}, 'VanzVideoPlayer') }}</span>
-                                <small class="text-muted">( {{ 'vs_vvp.form.video_platform_settings.disable_videos_for_non_authenticated_help'  | trans( {},'VanzVideoPlayer' ) }} )</small>
+                                <small class="text-muted ms-2">( {{ 'vs_vvp.form.video_platform_settings.disable_videos_for_non_authenticated_help'  | trans( {},'VanzVideoPlayer' ) }} )</small>
                             </label>
                         </div>
+                        
+                        <div class="form-group">
+                            <label class="custom-control custom-checkbox" for="video_platform_settings_form_displayOnlyTranscoded">  
+                                <input type="checkbox" id="video_platform_settings_form_displayOnlyTranscoded"
+                                    class="custom-control-input"
+                                    name="video_platform_settings_form[displayOnlyTranscoded]"
+                                    value="{{ item.displayOnlyTranscoded }}"
+                                    {% if item.displayOnlyTranscoded %}checked="checked"{% endif %}
+                                />
+                                <span class="custom-control-label">{{ 'vs_vvp.form.video_platform_settings.display_only_transcoded'|trans({}, 'VanzVideoPlayer') }}</span>
+                                <small class="text-muted ms-2">( {{ 'vs_vvp.form.video_platform_settings.display_only_transcoded_help'  | trans( {},'VanzVideoPlayer' ) }} )</small>
+                            </label>
+                        </div>
+                        
+                        <fieldset class="border border-dark rounded p-3">
+                            <legend class="w-auto float-none ps-2 pe-2">{{ 'vs_vvp.form.video_platform_settings.video_player_transcoded_urls' | trans( {},'VanzVideoPlayer' ) }}</legend>
+                        
+                            <div class="form-group">
+                               {% for child in form.transcodedVideoUrlsType %}
+                                    <div class="custom-control custom-radio">
+                                        {{- form_widget(child, {'attr': {'class': 'custom-control-input'}}) -}}
+                                        {{- form_label(child, null, {'label_attr': {'class': 'custom-control-label'}}) -}}
+                                        
+                                        {% if child.vars.label == 'vs_vvp.form.video_platform_settings.video_url_type_symfony_route' %}
+                                            <small class="text-muted ms-2">( {{ 'vs_vvp.form.video_platform_settings.video_url_type_symfony_route_help'  | trans( {},'VanzVideoPlayer' ) }} )</small>
+                                        {% elseif child.vars.label == 'vs_vvp.form.video_platform_settings.video_url_type_cloud_public_url' %}
+                                            <small class="text-muted ms-2">( {{ 'vs_vvp.form.video_platform_settings.video_url_type_cloud_public_url_help'  | trans( {},'VanzVideoPlayer' ) }} )</small>
+                                        {% elseif child.vars.label == 'vs_vvp.form.video_platform_settings.video_url_type_cloud_signed_url' %}
+                                            <small class="text-muted ms-2">( {{ 'vs_vvp.form.video_platform_settings.video_url_type_cloud_signed_url_help'  | trans( {},'VanzVideoPlayer' ) }} )</small>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
                         
                 	</div>
                 	

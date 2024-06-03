@@ -7,7 +7,7 @@
         <!-- sidebar menu start-->
         <ul class="navbar-nav flex-column">
         
-            {% include '@VSApplication/Menu/mainApplications.html.twig' %}
+            {{ vs_widget_render( 'admin-main-menu', ['main-menu-applications'] ) }}
             
             {{ knp_menu_render('mainSystem', {'template': '@VSApplication/Menu/mainSystem.html.twig'}) }}
             
@@ -19,6 +19,10 @@
             
         {% if installedBundles['VSPaymentBundle'] is defined %}
             {{ knp_menu_render('mainPayment', {'template': '@VSPayment/Menu/mainPayment.html.twig'}) }}
+        {% endif %}
+        
+        {% if installedBundles['VSCatalogBundle'] is defined %}
+            {{ knp_menu_render('mainCatalog', {'template': '@VSCatalog/Menu/mainCatalog.html.twig'}) }}
         {% endif %}
         
             {{ knp_menu_render('mainVideoPlayer', {'template': 'admin-panel/menu/mainVideoPlayer.html.twig'}) }}

@@ -1,0 +1,9 @@
+<ul class="dropdown-menu header__dropdown-menu header__dropdown-menu--lang">
+    {% for oLocale in widget.params.availableLocales %}
+        <li>
+            <a href="{{ path( 'app_set_locale', {'locale': oLocale.code} ) }}">
+                {{ oLocale.title }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>

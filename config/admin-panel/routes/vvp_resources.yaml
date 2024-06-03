@@ -56,30 +56,13 @@ vs_vvp_video_category:
         templates: "admin-panel/pages/VideosCategories"
     type: sylius.resource
     
-vs_vvp_helpcenter_question:
+vs_vvp_video_genre:
     resource: |
-        alias: vs_vvp.helpcenter_question
+        alias: vs_vvp.video_genre
         except: ['show']
-        path: /video-platform/helpcenter/questions
-        templates: "admin-panel/pages/HelpCenterQuestions"
+        path: /video-platform/video/genres
+        templates: "admin-panel/pages/VideosGenres"
     type: sylius.resource
-    options:
-        expose: true
-
-vs_vvp_helpcenter_question_index:
-    path: /video-platform/helpcenter/questions/
-    methods: [GET]
-    defaults:
-        _controller: vs_vvp.controller.helpcenter_question::indexAction
-        _sylius:
-            paginate: 10
-            sortable: true
-            sorting:
-                updatedAt: desc
-            filterable: true
-            template: "admin-panel/pages/HelpCenterQuestions/index.html.twig"
-    options:
-        expose: true
         
 vs_vvp_actor:
     resource: |
@@ -111,64 +94,6 @@ vs_vvp_actor_index:
                 updatedAt: desc
             filterable: true
             template: "admin-panel/pages/Actors/index.html.twig"
-    options:
-        expose: true
-        
-vs_vvp_quick_link:
-    resource: |
-        alias: vs_vvp.quick_link
-        except: ['show']
-        path: /video-platform/quick-links
-        templates: "admin-panel/pages/QuickLinks"
-    type: sylius.resource
-    options:
-        expose: true
-
-vs_vvp_quick_link_index:
-    path: /video-platform/quick-links/
-    methods: [GET]
-    defaults:
-        _controller: vs_vvp.controller.quick_link::indexAction
-        _sylius:
-            paginate: 10
-            sortable: true
-            sorting:
-                updatedAt: desc
-            filterable: true
-            template: "admin-panel/pages/QuickLinks/index.html.twig"
-    options:
-        expose: true
-
-vs_vvp_slider:
-    resource: |
-        alias: vs_vvp.slider
-        except: ['show']
-        path: /video-platform/sliders
-        templates: "admin-panel/pages/Sliders"
-        form:
-            options:
-                ckeditor_uiColor: '%vs_users_subscriptions.form.payed_service.ckeditor_uiColor%'
-                ckeditor_toolbar: '%vs_users_subscriptions.form.payed_service.ckeditor_toolbar%'
-                ckeditor_extraPlugins: '%vs_users_subscriptions.form.payed_service.ckeditor_extraPlugins%'
-                ckeditor_removeButtons: '%vs_users_subscriptions.form.payed_service.ckeditor_removeButtons%'
-                ckeditor_allowedContent: '%vs_users_subscriptions.form.payed_service.ckeditor_allowedContent%'
-                ckeditor_extraAllowedContent: '%vs_users_subscriptions.form.payed_service.ckeditor_extraAllowedContent%'
-    type: sylius.resource
-    options:
-        expose: true
-
-vs_vvp_slider_index:
-    path: /video-platform/sliders/
-    methods: [GET]
-    defaults:
-        _controller: vs_vvp.controller.slider::indexAction
-        _sylius:
-            paginate: 10
-            sortable: true
-            sorting:
-                updatedAt: desc
-            filterable: true
-            template: "admin-panel/pages/Sliders/index.html.twig"
     options:
         expose: true
         

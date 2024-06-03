@@ -10,27 +10,7 @@
                     </a>
                     <!-- end header logo -->
 
-                    <!-- header categories -->
-                    <div class="header__categories">
-                        <button class="header__categories-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span></span>
-                            <span></span>
-                        </button>
-
-                        <div class="dropdown-menu header__dropdown-menu header__dropdown-menu--categories">
-                            <ul class="header__categories-list">
-                            {% for oQuickLink in quickLinksRepo.findAll() %}
-                                <li>
-                                    <a href="{{ oQuickLink.linkPath }}">
-                                        {{ oQuickLink.linkText }}
-                                    </a>
-                                </li>
-                                {% if loop.index == 4 %}</ul><ul class="header__categories-list">{% endif %}
-                            {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- end header categories -->
+                    {{ vs_widget_render( 'videos-layout', ['quick-links'] ) }}
 
                     {% if app.environment == 'dev' or not inMaintenance %}
                         {{ knp_menu_render('mainVideoPlatform', {'template': 'Menu/main-menu.html.twig'}) }}
@@ -63,15 +43,7 @@
                                 </svg>
                             </a>
 
-                            <ul class="dropdown-menu header__dropdown-menu header__dropdown-menu--lang">
-                                {% for oLocale in localesRepo.findAll() %}
-                                    <li>
-                                        <a href="{{ path( 'app_set_locale', {'locale': oLocale.code} ) }}">
-                                            {{ oLocale.title }}
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
+                            {{ vs_widget_render( 'videos-layout', ['application-menu-locales'] ) }}
                         </div>
 
                         {% if app.user %}

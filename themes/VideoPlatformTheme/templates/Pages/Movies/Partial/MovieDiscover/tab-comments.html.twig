@@ -1,0 +1,28 @@
+<div class="row">
+    <!-- comments -->
+    <div class="col-12">
+        <div class="comments">
+            <ul class="comments__list">
+                {% for comment in movie.comments %}
+                    {% if not comment.parent %}
+                        {% include 'Pages/Movies/Partial/MovieDiscover/video-comment.html.twig' with {'comment': comment} %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+            {{ form_start( commentForm, { 'attr': {'class': 'sign__form sign__form--comments', 'id': 'MovieCommentForm'} } ) }}
+                {{ form_widget( commentForm.video, { 'value' : movie.id } ) }}
+                {{ form_widget( commentForm.parent, { 'value' : 0 } ) }}
+            
+                <div class="sign__group">
+                    {{ form_widget( commentForm.comment, { 'attr': { 'class': 'sign__textarea' } } ) }}
+                </div>
+
+                <button type="submit" class="sign__btn sign__btn--small" name="vs_vvp_movie_comment[btnSubmit]">
+                    <span>{{ 'vs_payment.form.comment.submit' | trans( {},'VSPaymentBundle' ) }}</span>
+                </button>
+            {{ form_end( commentForm, {'render_rest': false} ) }}
+        </div>
+    </div>
+    <!-- end comments -->
+</div>

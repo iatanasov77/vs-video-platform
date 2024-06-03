@@ -1,7 +1,8 @@
-###########################################
-# Greece Translations
-###########################################
 vs_vvp:
+    actor_career:
+        video_actor: Actor
+        video_actress: Actress
+    
     form:
         published: Published
         locale: Language
@@ -45,13 +46,16 @@ vs_vvp:
             video_placeholder: Upload a Video File
             actors: Actors
             actors_placeholder: '-- Select Actors --'
+            allowed_paid_services: Allowed Paid Services
+            allowed_paid_services_placeholder: '-- Select Paid Services --'
+            photo_code: Photo Code
+            photo_code_placeholder: '-- Choose a Photo Code --'
+            photo: Photo
+            video_photos_note: 'Photo with code "Video Thumbnail" is Mandatory.'
+            photo_description: Photo Dscription
             
         video_update:
             title: Edit Video
-            
-        helpcenter_question:
-            question: Question
-            answer: Answer
             
         actor:
             name: Name
@@ -59,19 +63,22 @@ vs_vvp:
             photos: Photos
             videos: Videos
             videos_placeholder: '-- Select Videos --'
-            
-        quick_link:
-            link_text: Link Text
-            link_path: Link Path (OR Absolute Url)
-            
-        slider:
-            title: Title
-            description: Description
-            photo: Photo
+            data: Personal Data
+            career: Career
+            height: Height
+            date_of_birth: Date of Birth
+            place_of_birth: Place of Birth
+            genres: Genres
+            genres_placeholder: '-- Select Genres --'
             
         movies_filter:
+            filter: Filter
+            showing: Showing
+            of: of
             category_label: Κατηγορία
             category_placeholder: Ολες οι κατηγορίες
+            genre_label: Genre
+            genre_placeholder: All genres
             quality_label: Ποιότητα
             quality_placeholder: Οποιαδήποτε ποιότητα
             rating_label: Εκτίμηση
@@ -80,7 +87,10 @@ vs_vvp:
             latest: Αργότερο
             newest: Νεότερο
             oldest: Το πιο παλιό
+            highest_rating: Highest rating
+            lowest_rating: Lowest rating
             apply: Ισχύουν
+            clear: Clear
             
         video_platform_settings:
             settings_key: Settings Key
@@ -112,6 +122,21 @@ vs_vvp:
             display_only_transcoded_help: Dont add Url to Original Video in Video Player
             create_user_signed_videos_help: Create Presigned Videos Url to Digital Ocean Space Bucket
             disable_videos_for_non_authenticated_help: Dont display Video Details Page to Not Loggedin Users
+            
+            input_url_type_local: Local URL
+            input_url_type_s3: S3 Public URL
+            input_url_type_s3_presigned: S3 Presigned URL
+            
+            video_player_transcoded_urls: Video Player Transcoded Urls
+            video_url_type_symfony_route: Symfony Route
+            video_url_type_symfony_route_help: Rendered URIs to this server.
+            video_url_type_cloud_public_url: Cloud Public Url
+            video_url_type_cloud_public_url_help: Rendered URIs to the cloud objects.
+            video_url_type_cloud_signed_url: Cloud Signed Url
+            video_url_type_cloud_signed_url_help: Rendered URIs to the cloud objects but Presigned.
+            
+            video_suggestions_strategy: Video Suggestions Strategy
+            video_suggestions_strategy_placeholder: '-- Select Video Suggestions Strategy --'
             
         video_platform_storage:
             title: Title
@@ -184,9 +209,21 @@ vs_vvp:
             
         actors:
             film_actors: Ηθοποιοί κινηματογράφου
+            pornstars: Πορνοστάρ
             discover: Ανακαλύπτω
             filmography: Φιλμογραφία
             photos: Φωτογραφίες
+            career: Career
+            height: Height
+            date_of_birth: Date of birth
+            place_of_birth: Place of birth
+            age: Age
+            zodiac: Zodiac
+            genres: Genres
+            total_number_of_movies: Total number of movies
+            first_movie: First movie
+            last_movie: Last movie
+            best_movie: Best movie
             
         help_center:
             help_center: Κέντρο βοηθείας
@@ -203,6 +240,7 @@ vs_vvp:
             username: Όνομα χρήστη
             profile: Προφίλ
             subscription: Συνδρομή
+            subscriptions: Συνδρομές
             settings: Ρυθμίσεις
             logout: Αποσύνδεση
             no_choosed_plan: No Choosed plan
@@ -217,17 +255,37 @@ vs_vvp:
             running_time: Χρόνος τρεξίματος
             min: 'ελάχ' # Abreviation for minutes
             
+            discover: Discover
+            comments: Comments
+            reviews: Reviews
+            photos: Photos
+            suggestions_title: You may also like
+            
+            rate_This_video: Rate This Video
+            
         home_page:
             recently_updated: Πρόσφατα Ενημερώθηκε
+            new_items: Νέα αντικείμενα
             to_catalog: στον κατάλογο
             select_your_plan: Επιλέξτε το σχέδιό σας
+            featured_movies: FEATURED PORN MOVIES
+            featured_actors: FEATURED PORNSTARS
             
         video_platform_settings:
             general_settings: General Settings
             transcoder_settings: Transcoder Settings
             use_ffmpeg: Use FFMpeg
             
+        pricing_plans_checkout:
+            continue_without_payment_text: You can continue to site without payment.
+            continue_without_payment_link: Video Platform Home
+            
+        alerts:
+            user_not_authenticated: You should loggin with your account to can watch movies.
+            missing_active_subscription: You has not an active Pricing Plan Subscription.
+            
         list_video_categories: Video Categories Listing
+        list_video_genres: Video Genres Listing
         list_videos: Videos Listing
         page_title_video_create: Create Video
         page_title_video_update: Update Video
@@ -235,24 +293,16 @@ vs_vvp:
         page_title_video_category_create: Create Video Category
         page_title_video_category_update: Update Video Category
         page_title_video_category_details: Video Category
+        page_title_video_genre_create: Create Video Genre
+        page_title_video_genre_update: Update Video Genre
+        page_title_video_genre_details: Video Genre
         list_actors: Actors Listing
         page_title_actor_create: Create Actor
         page_title_actor_update: Update Actor
         page_title_actor_details: Actor Details
-        list_questions: Questions Listing
-        page_title_question_create: Create Question
-        page_title_question_update: Update Question
-        page_title_question_details: Question Details
         items_index_row_photos: Photos
         items_index_row_videos: Vdeos
-        page_title_quick_link_listing: Quick Links Listing
-        page_title_quick_link_create: Create Quick Link
-        page_title_quick_link_update: Update Quick Link
-        page_title_quick_link_details: Quick Link Details
-        list_slider_items: Slider Items Listing
-        page_title_slider_item_create: Create Slider Item
-        page_title_slider_item_update: Update Slider Item
-        page_title_slider_item_details: Slider Item Details
+        items_index_row_watched_by: Watched by
         page_title_video_platform_settings_listing: Video Platform Settings
         page_title_video_platform_settings_create: Create a Settings
         page_title_video_platform_settings_update: Update Settings

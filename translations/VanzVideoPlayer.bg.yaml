@@ -1,4 +1,8 @@
 vs_vvp:
+    actor_career:
+        video_actor: Actor
+        video_actress: Actress
+    
     form:
         published: Публикуван
         locale: Език
@@ -42,13 +46,16 @@ vs_vvp:
             video_placeholder: Ъплоадни Видео
             actors: Actors
             actors_placeholder: '-- Select Actors --'
+            allowed_paid_services: Allowed Paid Services
+            allowed_paid_services_placeholder: '-- Select Paid Services --'
+            photo_code: Photo Code
+            photo_code_placeholder: '-- Choose a Photo Code --'
+            photo: Photo
+            video_photos_note: 'Photo with code "Video Thumbnail" is Mandatory.'
+            photo_description: Photo Dscription
             
         video_update:
             title: Редакция на Видео
-            
-        helpcenter_question:
-            question: Question
-            answer: Answer
             
         actor:
             name: Име
@@ -56,19 +63,22 @@ vs_vvp:
             photos: Снимки
             videos: Videos
             videos_placeholder: '-- Select Videos --'
-            
-        quick_link:
-            link_text: Link Text
-            link_path: Link Path (OR Absolute Url)
-            
-        slider:
-            title: Заглавие
-            description: Описание
-            photo: Снимка
+            data: Personal Data
+            career: Career
+            height: Height
+            date_of_birth: Date of Birth
+            place_of_birth: Place of Birth
+            genres: Genres
+            genres_placeholder: '-- Select Genres --'
             
         movies_filter:
+            filter: Филтър
+            showing: Показани
+            of: от
             category_label: Категория
             category_placeholder: Всички категории
+            genre_label: Genre
+            genre_placeholder: All genres
             quality_label: Качество
             quality_placeholder: Всички качества
             rating_label: Рейтинг
@@ -77,7 +87,10 @@ vs_vvp:
             latest: Най=нови
             newest: Най=нови
             oldest: Най-стари
+            highest_rating: Hай-висок рейтинг
+            lowest_rating: Hай-нисък рейтинг
             apply: Приложи
+            clear: Изчисти
             
         video_platform_settings:
             settings_key: Settings Key
@@ -109,6 +122,21 @@ vs_vvp:
             display_only_transcoded_help: Dont add Url to Original Video in Video Player
             create_user_signed_videos_help: Create Presigned Videos Url to Digital Ocean Space Bucket
             disable_videos_for_non_authenticated_help: Dont display Video Details Page to Not Loggedin Users
+            
+            input_url_type_local: Local URL
+            input_url_type_s3: S3 Public URL
+            input_url_type_s3_presigned: S3 Presigned URL
+            
+            video_player_transcoded_urls: Video Player Transcoded Urls
+            video_url_type_symfony_route: Symfony Route
+            video_url_type_symfony_route_help: Rendered URIs to this server.
+            video_url_type_cloud_public_url: Cloud Public Url
+            video_url_type_cloud_public_url_help: Rendered URIs to the cloud objects.
+            video_url_type_cloud_signed_url: Cloud Signed Url
+            video_url_type_cloud_signed_url_help: Rendered URIs to the cloud objects but Presigned.
+            
+            video_suggestions_strategy: Video Suggestions Strategy
+            video_suggestions_strategy_placeholder: '-- Select Video Suggestions Strategy --'
             
         video_platform_storage:
             title: Title
@@ -182,9 +210,21 @@ vs_vvp:
             
         actors:
             film_actors: Филмови Актьори
+            pornstars: Порно Звезди
             discover: Discover
             filmography: Filmography
             photos: Photos
+            career: Career
+            height: Height
+            date_of_birth: Date of birth
+            place_of_birth: Place of birth
+            age: Age
+            zodiac: Zodiac
+            genres: Genres
+            total_number_of_movies: Total number of movies
+            first_movie: First movie
+            last_movie: Last movie
+            best_movie: Best movie
             
         help_center:
             help_center: Помощен Център
@@ -201,6 +241,7 @@ vs_vvp:
             username: Потребителско име
             profile: Профил
             subscription: Абонамент
+            subscriptions: Абонаменти
             settings: Настройки
             logout: Изход
             no_choosed_plan: No Choosed plan
@@ -215,17 +256,37 @@ vs_vvp:
             running_time: Продължителност
             min: 'мин' # Abreviation for minutes
             
+            discover: Discover
+            comments: Comments
+            reviews: Reviews
+            photos: Photos
+            suggestions_title: You may also like
+            
+            rate_This_video: Rate This Video
+            
         home_page:
             recently_updated: Последни Ъпдейти
+            new_items: Най-нови
             to_catalog: към каталога
             select_your_plan: Избери План
+            featured_movies: FEATURED PORN MOVIES
+            featured_actors: FEATURED PORNSTARS
             
         video_platform_settings:
             general_settings: General Settings
             transcoder_settings: Transcoder Settings
             use_ffmpeg: Use FFMpeg
             
+        pricing_plans_checkout:
+            continue_without_payment_text: You can continue to site without payment.
+            continue_without_payment_link: Video Platform Home
+            
+        alerts:
+            user_not_authenticated: You should loggin with your account to can watch movies.
+            missing_active_subscription: You has not an active Pricing Plan Subscription.
+            
         list_video_categories: Видео Категории Листинг
+        list_video_genres: Video Genres Listing
         list_videos: Видео Листинг
         page_title_video_create: Създаване на Видео
         page_title_video_update: Редакция на Видео
@@ -233,24 +294,16 @@ vs_vvp:
         page_title_video_category_create: Създаване на Видео Категория
         page_title_video_category_update: Редакция на Видео Категория
         page_title_video_category_details: Видео Категория
+        page_title_video_genre_create: Create Video Genre
+        page_title_video_genre_update: Update Video Genre
+        page_title_video_genre_details: Video Genre
         list_actors: Актьори Листинг
         page_title_actor_create: Създаване на Актьор
         page_title_actor_update: Редакция на Актьор
         page_title_actor_details: Актьор Детайли
-        list_questions: Въпроси Листинг
-        page_title_question_create: Създаване на Въпрос
-        page_title_question_update: Редакция на Въпрос
-        page_title_question_details: Въпрос Детайли
         items_index_row_photos: Снимки
         items_index_row_videos: Видеа
-        page_title_quick_link_listing: Списък Бързи Линкове
-        page_title_quick_link_create: Създаване на Бърз Линк
-        page_title_quick_link_update: Редакция на Бърз Линк
-        page_title_quick_link_details: Бърз Линк Детайли
-        list_slider_items: Slider Items Listing
-        page_title_slider_item_create: Create Slider Item
-        page_title_slider_item_update: Update Slider Item
-        page_title_slider_item_details: Slider Item Details
+        items_index_row_watched_by: Watched by
         page_title_video_platform_settings_listing: Video Platform Settings
         page_title_video_platform_settings_create: Create a Settings
         page_title_video_platform_settings_update: Update Settings

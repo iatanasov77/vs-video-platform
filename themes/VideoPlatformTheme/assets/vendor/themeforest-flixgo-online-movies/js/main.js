@@ -256,12 +256,18 @@
 	/*==============================
 	Select
 	==============================*/
+	if (document.querySelector('#filter__category')) {
+        new SlimSelect({
+            select: '#filter__category'
+        });
+    }
+    
 	if (document.querySelector('#filter__genre')) {
 		new SlimSelect({
 			select: '#filter__genre'
 		});
 	}
-
+	
 	if (document.querySelector('#filter__quality')) {
 		new SlimSelect({
 			select: '#filter__quality',
@@ -290,11 +296,17 @@
 	}
 
 	/* mobile filter */
-	if (document.querySelector('#mfilter__genre')) {
+	if (document.querySelector('#mfilter__category')) {
 		new SlimSelect({
-			select: '#mfilter__genre'
+			select: '#mfilter__category'
 		});
 	}
+	
+	if (document.querySelector('#mfilter__genre')) {
+        new SlimSelect({
+            select: '#mfilter__genre'
+        });
+    }
 
 	if (document.querySelector('#mfilter__quality')) {
 		new SlimSelect({
@@ -416,8 +428,6 @@
 						w: parseInt(size[0], 10),
 						h: parseInt(size[1], 10)
 					};
-
-
 
 					if(figureEl.children.length > 1) {
 						// <figcaption> content

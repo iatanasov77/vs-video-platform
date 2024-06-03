@@ -1,4 +1,6 @@
 require ( '@/js/includes/BootstrapDropdown.js' );
+require ( 'jquery-duplicate-fields/jquery.duplicateFields.js' );
+
 require( 'jquery-easyui/css/easyui.css' );
 require( 'jquery-easyui/js/jquery.easyui.min.js' );
 
@@ -28,6 +30,20 @@ function onDragEnd( elm )
 
 function initForm()
 {
+    $( '#PhotosContainer' ).duplicateFields({
+        btnRemoveSelector: ".btnRemoveField",
+        btnAddSelector:    ".btnAddField",
+        onCreate: function( newElement ) {
+            let fileInputId = newElement.find( '.fieldPhoto' ).attr( 'id' );
+            newElement.find( '.input-group-text' ).attr( 'for', fileInputId );
+        }
+    });
+    
+    $( '#PhotosContainer' ).on( 'change', '.fieldPhoto', function() {
+        var filename = $( this ).val().split('\\').pop();
+        $( this ).next( '.input-group-text' ).text( filename );
+    });
+    
     let categorySelector    = "#FormContainer > #FormVideo > #CategoriesFormGroup > #video_form_category_taxon";
     //let categorySelector    = "#video_form_category_taxon";
     let selectedCategories  = JSON.parse( $( '#video_form_videoCategories').val() );
@@ -39,6 +55,14 @@ function initForm()
     });
     VsRemoveDuplicates();
     
+    let selectedGenres  = JSON.parse( $( '#video_form_videoGenres').val() );
+    EasyuiCombobox( $( '#video_form_genres' ), {
+        required: false,
+        multiple: true,
+        checkboxId: "genres",
+        values: selectedGenres
+    });
+    
     /* */
     let actorsSelector    = "#FormContainer > #FormVideo > #ActorsFormGroup > #video_form_actors";
     //let actorsSelector    = "#video_form_actors";
@@ -46,10 +70,10 @@ function initForm()
     EasyuiCombobox( $( actorsSelector ), {
         required: false,
         multiple: true,
-        checkboxId: "actors",
-        values: selectedActors
+        checkboxId: "videoActors",
+        values: selectedActors,
+        debug: false,
     });
-    
     
     var tagsInputWhitelist  = $( '#video_form_tagsInputWhitelist' ).val().split( ',' );
     //console.log( tagsInputWhitelist );
@@ -74,7 +98,20 @@ function initForm()
         callbacks: {
             dragEnd: onDragEnd
         }
-    });    
+    });
+    
+    /* */
+    let paidServicesSelector    = "#FormContainer > #FormVideo > #PaidServicesFormGroup > #video_form_allowedPaidServices";
+    let selectedPaidServices    = JSON.parse( $( '#video_form_videoAllowedPaidServices').val() );
+    EasyuiCombobox( $( paidServicesSelector ), {
+        required: false,
+        multiple: true,
+        checkboxId: "paidServices",
+        values: selectedPaidServices,
+        debug: false,
+    });
+    
+    $( '.persistedPhoto' ).removeAttr( 'required' );
 }
 
 $( function()

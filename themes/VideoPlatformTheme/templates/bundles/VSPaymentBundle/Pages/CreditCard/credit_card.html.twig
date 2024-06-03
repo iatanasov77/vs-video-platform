@@ -4,23 +4,38 @@
 {% block pageTitle %}<i class="fa fa-user-md"></i> Credit Card{% endblock %}
 
 {% block content %}
-    <div class="padding">
-    	<div class="row">
-    		<div class="col-sm-6">
-                {% if paymentMethod.gateway.factoryName == 'stripe_checkout' or paymentMethod.gateway.factoryName == 'stripe_js' %}
-                    {% set captureKey = paymentMethod.gateway.config.publishable_key %}
-                {% else %}
-                    {% set captureKey = '' %}
-                {% endif %}
-                
-                {% include '@VSPayment/Pages/CreditCard/Partial/credit_card_form.html.twig' with {
-                    'formAction': '',
-                    'formMethod': 'POST'
-                } %}
-    		</div>
-    	</div>
+    <div class="sign section--bg" data-bg="{{ asset( 'build/video-platform-theme/img/bg/section__bg.jpg' ) }}">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="sign__content credit-card-page" id="selectPaymentMethodForm">
+                        {% if paymentMethod.gateway.factoryName == 'stripe_checkout' or paymentMethod.gateway.factoryName == 'stripe_js' %}
+                            {% set captureKey = paymentMethod.gateway.config.publishable_key %}
+                        {% else %}
+                            {% set captureKey = '' %}
+                        {% endif %}
+                        
+                        {% include '@VSPayment/Pages/CreditCard/Partial/CreditCardForm.html.twig' with {
+                            'formAction': '',
+                            'formMethod': 'POST',
+                            'formClass': 'sign__form'
+                        } %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}
+
+{% block widgets %}
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <div id="RealPaymentFormContainer" style="display: none;">
+        {% include '@VSPayment/Pages/CreditCard/Partial/StripeJsV2Form.html.twig' with {
+             'formAction': '',
+             'formMethod': 'POST'
+        } %}
+    </div>
+{% endblock %}
 
 {% block stylesheets %} 
     {{ parent() }}
@@ -31,6 +46,6 @@
 {% block javascripts %}
     {{ parent() }}
     
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-    {{ encore_entry_script_tags( 'paymentForm', null, 'WebContentThief' ) }}
+    {{ encore_entry_script_tags( 'js/pricing-plans', null, 'VideoPlatformTheme' ) }}
+    {{ encore_entry_script_tags( 'js/profile', null, 'VideoPlatformTheme' ) }}
 {% endblock %}

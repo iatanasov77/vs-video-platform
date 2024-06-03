@@ -2,76 +2,51 @@
 
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
+use App\Entity\Catalog\AssociationType;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="VVP_VideoPlatformSettings")
- */
+#[ORM\Entity]
+#[ORM\Table(name: "VVP_VideoPlatformSettings")]
 class VideoPlatformSettings implements ResourceInterface
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    /** @var int */
+    #[ORM\Id, ORM\Column(type: "integer"), ORM\GeneratedValue(strategy: "IDENTITY")]
     private $id;
     
-    /**
-     * @ORM\Column(name="settings_key", type="string", length=32, nullable=false)
-     */
+    /** @var string */
+    #[ORM\Column(name: "settings_key", type: "string", length: 32)]
     private $settingsKey;
     
-    /**
-     * @var Video
-     *
-     * @ORM\ManyToOne(targetEntity=CoconutSettings::class)
-     * @ORM\JoinColumn(name="coconut_settings_id", referencedColumnName="id", nullable=true)
-     */
+    /** @var CoconutSettings */
+    #[ORM\ManyToOne(targetEntity: "CoconutSettings")]
+    #[ORM\JoinColumn(name: "coconut_settings_id", referencedColumnName: "id", nullable: true)]
     private $coconutSettings;
     
-    /**
-     * @var Video
-     *
-     * @ORM\ManyToOne(targetEntity=VideoPlatformStorage::class)
-     * @ORM\JoinColumn(name="original_videos_storage_id", referencedColumnName="id", nullable=true)
-     */
+    /** @var VideoPlatformStorage */
+    #[ORM\ManyToOne(targetEntity: "VideoPlatformStorage")]
+    #[ORM\JoinColumn(name: "original_videos_storage_id", referencedColumnName: "id", nullable: true)]
     private $originalVideosStorage;
     
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="use_ffmpeg", type="boolean", options={"default":"0"})
-     */
+    /** @var AssociationType */
+    #[ORM\ManyToOne(targetEntity: AssociationType::class)]
+    #[ORM\JoinColumn(name: "video_suggestions_association_type_id", referencedColumnName: "id", nullable: true)]
+    private $videoSuggestionsAssociationType;
+    
+    /** @var bool */
+    #[ORM\Column(name: "use_ffmpeg", type: "boolean", options: ["default" => 0])]
     private $useFFMpeg  = false;
     
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="display_only_transcoded", type="boolean", options={"default":"0"})
-     */
+    /** @var bool */
+    #[ORM\Column(name: "display_only_transcoded", type: "boolean", options: ["default" => 0])]
     private $displayOnlyTranscoded  = false;
     
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="create_user_signed_videos", type="boolean", options={"default":"0"})
-     */
-    private $createUserSignedVideos = false;
-    
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="disable_videos_for_non_authenticated", type="boolean", options={"default":"0"})
-     */
+    /** @var bool */
+    #[ORM\Column(name: "disable_videos_for_non_authenticated", type: "boolean", options: ["default" => 0])]
     private $disableVideosForNonAuthenticated = false;
     
-    public function __construct()
-    {
-        $this->coconutOutputFormats = [];
-    }
-
+    /** @var string */
+    #[ORM\Column(name: "transcoded_video_urls_type", type: "string", columnDefinition: "ENUM('symfony_route', 'cloud_public', 'cloud_signed')", options: ["default" => "symfony_route"])]
+    private $transcodedVideoUrlsType;
+    
     public function getId()
     {
         return $this->id;
@@ -113,6 +88,18 @@ class VideoPlatformSettings implements ResourceInterface
         return $this;
     }
     
+    public function getVideoSuggestionsAssociationType()
+    {
+        return $this->videoSuggestionsAssociationType;
+    }
+    
+    public function setVideoSuggestionsAssociationType($videoSuggestionsAssociationType)
+    {
+        $this->videoSuggestionsAssociationType  = $videoSuggestionsAssociationType;
+        
+        return $this;
+    }
+    
     public function getUseFFMpeg()
     {
         return $this->useFFMpeg;
@@ -137,18 +124,6 @@ class VideoPlatformSettings implements ResourceInterface
         return $this;
     }
     
-    public function getCreateUserSignedVideos()
-    {
-        return $this->createUserSignedVideos;
-    }
-    
-    public function setCreateUserSignedVideos( $createUserSignedVideos )
-    {
-        $this->createUserSignedVideos   = $createUserSignedVideos;
-        
-        return $this;
-    }
-    
     public function getDisableVideosForNonAuthenticated()
     {
         return $this->disableVideosForNonAuthenticated;
@@ -157,6 +132,18 @@ class VideoPlatformSettings implements ResourceInterface
     public function setDisableVideosForNonAuthenticated( $disableVideosForNonAuthenticated )
     {
         $this->disableVideosForNonAuthenticated = $disableVideosForNonAuthenticated;
+        
+        return $this;
+    }
+    
+    public function getTranscodedVideoUrlsType()
+    {
+        return $this->transcodedVideoUrlsType;
+    }
+    
+    public function setTranscodedVideoUrlsType( $transcodedVideoUrlsType )
+    {
+        $this->transcodedVideoUrlsType   = $transcodedVideoUrlsType;
         
         return $this;
     }

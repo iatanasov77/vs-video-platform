@@ -8,6 +8,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
+use Vankosoft\ApplicationBundle\Component\Status;
+use App\Component\Cloud\Exception\Coconut\JobNotFoundException;
 use App\Component\VideoPlayer\Domain\VideoProviderRequest;
 use App\Component\VideoPlayer\VideoService;
 use App\Component\Cloud\Coconut;
@@ -47,16 +49,27 @@ class VideoServicesController extends AbstractController
     {
         $video              = $this->videosRepository->find( $videoId );
         $coconutJob         = $video->getCoconutJob();
-        $coconutJobStatus   = $this->coconut->getStatus( $coconutJob->getJobId() );
         
-        if ( $coconutJobStatus->status != $coconutJob->getStatus() ) {
-            $coconutJob->setStatus( $coconutJobStatus->status );
-            $coconutJob->setJobData( \json_encode( $coconutJobStatus ) );
-            $this->doctrine->getManager()->persist( $coconutJob );
-            $this->doctrine->getManager()->flush();
-        }
-        
-        return new JsonResponse( $coconutJobStatus );
+        try {
+            $coconutJobStatus   = $this->coconut->getStatus( $coconutJob->getJobId() );
+            
+            if ( $coconutJobStatus->status != $coconutJob->getStatus() ) {
+                $coconutJob->setStatus( $coconutJobStatus->status );
+                $coconutJob->setJobData( \json_encode( $coconutJobStatus ) );
+                $this->doctrine->getManager()->persist( $coconutJob );
+                $this->doctrine->getManager()->flush();
+            }
+            
+            return new JsonResponse([
+                'status'    => Status::STATUS_OK,
+                'data'      => $coconutJobStatus
+            ]);
+        } catch ( JobNotFoundException $e ) {
+            return new JsonResponse([
+                'status'    => Status::STATUS_ERROR,
+                'message'   => $e->getMessage()
+            ]);
+        } 
     }
     
     /**
@@ -92,8 +105,13 @@ class VideoServicesController extends AbstractController
     {
         $video  = $this->videosRepository->find( $id );
         
-        $thumbnailPath  = $video->getVideoThumbnail()->getPath();
-        $thumbnailUrl   = $this->imagineCacheManager->getBrowserPath( $thumbnailPath, 'video_thumbnail' );
+        $thumbnail      = $video->getPhoto( 'video_thumbnail' );
+        $thumbnailUrl   = '';
+        
+        if ( $thumbnail ) {
+            $thumbnailPath  = $thumbnail->getPath();
+            $thumbnailUrl   = $this->imagineCacheManager->getBrowserPath( $thumbnailPath, 'video_thumbnail' );
+        }
         
         return $this->render(
             'admin-panel/pages/VideoServices/video-preview-directly.html.twig', [

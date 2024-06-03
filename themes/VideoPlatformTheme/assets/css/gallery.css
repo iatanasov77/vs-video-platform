@@ -1,0 +1,59 @@
+/*==============================
+    Video Gallery
+==============================*/
+.video-gallery figure {
+    margin: 20px 0 0;
+}
+.video-gallery figure a {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    transition: 0.4s ease;
+    border-radius: 8px;
+}
+.video-gallery figure img {
+    width: 100%;
+}
+.video-gallery figcaption {
+    display: none;
+}
+@media (min-width: 768px) {
+    .video-gallery figure {
+        margin: 24px 0 0;
+    }
+}
+@media (min-width: 992px) {
+    .video-gallery {
+        padding-right: 20px;
+    }
+}
+
+/*==============================
+    Actor Gallery
+==============================*/
+.actor-gallery figure {
+    margin: 20px 0 0;
+}
+.actor-gallery figure a {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    transition: 0.4s ease;
+    border-radius: 8px;
+}
+.actor-gallery figure img {
+    width: 100%;
+}
+.actor-gallery figcaption {
+    display: none;
+}
+@media (min-width: 768px) {
+    .actor-gallery figure {
+        margin: 24px 0 0;
+    }
+}
+@media (min-width: 992px) {
+    .actor-gallery {
+        padding-right: 20px;
+    }
+}

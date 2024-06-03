@@ -4,6 +4,8 @@ vs_application_instalator:
             classes:
                 model: App\Entity\Application\InstalationInfo
 vs_application:
+    project_type: extended_application
+    
     resources:
         application:
             classes:
@@ -41,6 +43,15 @@ vs_application:
         tags_whitelist_tag:
             classes:
                 model: App\Entity\Application\TagsWhitelistTag
+        widget_group:
+            classes:
+                model: App\Entity\Application\WidgetGroup
+        widget:
+            classes:
+                model: App\Entity\Application\Widget
+        widgets_registry:
+            classes:
+                model: App\Entity\Application\WidgetsRegistry
 
     menu:
         mainVideoPlatformMenu:

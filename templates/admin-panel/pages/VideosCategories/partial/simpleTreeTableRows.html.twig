@@ -1,11 +1,10 @@
+{% import "@VSApplication/Macros/translations.html.twig" as vs_translations %}
+
 <tr data-node-id="{{ item.id }}" {% if parentId %}data-node-pid="{{ item.parent.id }}"{% endif %}>
+
     <td>{{ item.getNameTranslated( app.request.locale ) }}</td>
-    <td>
-        {% for locale in translations[item.id] %}
-            <i class="flag flag-{{ locale | split( '_' )[1] | lower }}"></i>
-            {% if not loop.last %}&nbsp;{% endif %}
-        {% endfor %}
-    </td>
+    <td>{{ vs_translations.flags( translations[item.id] ) }}</td>
+    
     <td>
     	<div class="btn-group">
             <a class="btn btn-primary"
@@ -24,6 +23,7 @@
             </a>
         </div>
     </td>
+    
 </tr>
 
 {% for child in item.children %}

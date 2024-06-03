@@ -5,7 +5,6 @@ parameters:
     vs_vvp.videos_directory: "%kernel.project_dir%/public/shared_media/gaufrette/videos"
     vs_vvp.coconut_output_directory: "%kernel.project_dir%/public/shared_media/gaufrette/coconut_output"
     vs_vvp.actor_photos_directory: "%kernel.project_dir%/public/shared_media/gaufrette/actors"
-    vs_vvp.slider_directory: "%kernel.project_dir%/public/shared_media/gaufrette/slider"
     vs_vvp.videos_user_signatured_directory: "%kernel.project_dir%/public/shared_media/gaufrette/videos_user_signatured"
 
 services:
@@ -50,6 +49,12 @@ services:
             - '@vs_vvp.local_video_file_path_generator'
             - '@app_video_platform'
             
+    vs_vvp.video_photo_uploader:
+        class: App\Component\VideoUploader\VideoPhotoUploader
+        arguments:
+            - '@vs_vvp.video_uploader.local_uploader_filesystem'
+            - '@vs_vvp.local_video_file_path_generator'
+            
     vs_vvp.actor_photo_uploader.filesystem:
         class: Gaufrette\Filesystem
         arguments: ['vs_vvp_actor_photos']
@@ -63,20 +68,6 @@ services:
         arguments:
             - '@vs_vvp.actor_photo_uploader.filesystem'
             - '@vs_vvp.actor_photo_file_path_generator'
-            
-    vs_vvp.slider_uploader.filesystem:
-        class: Gaufrette\Filesystem
-        arguments: ['vs_vvp_slider']
-        factory: ['@knp_gaufrette.filesystem_map', 'get']
-        
-    vs_vvp.slider_file_path_generator:
-        class: App\Component\SliderPhotoUploader\FilePathGenerator
-        
-    vs_vvp.slider_uploader:
-        class: App\Component\SliderPhotoUploader\SliderPhotoUploader
-        arguments:
-            - '@vs_vvp.slider_uploader.filesystem'
-            - '@vs_vvp.slider_file_path_generator'
     
     vs_vvp.digital_ocean_original_videos_adapter:
         class: App\Component\VideoUploader\Adapter\GaufretteAwsS3VideosOriginal

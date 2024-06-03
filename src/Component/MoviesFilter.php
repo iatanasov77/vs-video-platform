@@ -8,8 +8,11 @@ use App\Entity\CoconutJob;
 
 final class MoviesFilter
 {
-    const ORDERBY_NEWEST    = 'newest';
-    const ORDERBY_OLDEST    = 'oldest';
+    const ORDERBY_NEWEST            = 'newest';
+    const ORDERBY_OLDEST            = 'oldest';
+    
+    const ORDERBY_HIGHEST_RATING    = 'highest_rating';
+    const ORDERBY_LOWEST_RATING     = 'lowest_rating';
     
     /** @var TranslatorInterface */
     private $translator;
@@ -42,7 +45,10 @@ final class MoviesFilter
     
     public function ratings(): array
     {
-        return [];
+        return [
+            self::ORDERBY_HIGHEST_RATING    => $this->translator->trans( 'vs_vvp.form.movies_filter.highest_rating', [], 'VanzVideoPlayer' ),
+            self::ORDERBY_LOWEST_RATING     => $this->translator->trans( 'vs_vvp.form.movies_filter.lowest_rating', [], 'VanzVideoPlayer' ),
+        ];
     }
     
     public function orderBy(): array
@@ -59,13 +65,64 @@ final class MoviesFilter
             return $this->getNonFilterdMovies( $categorySlug );
         }
         
-        $movies = [];
+        $movies     = new ArrayCollection();
         if ( $formData['category'] && $formData['category'] instanceof \App\Entity\VideoCategory ) {
-            $movies = $formData['category']->getVideos();
+            $movies     = $formData['category']->getVideos();
         } else {
-            $movies = $this->getNonFilterdMovies( $categorySlug );
+            $movies = $this->getNonFilterdMovies( $categorySlug, $movies );
         }
         
+        if ( $formData['genre'] && $formData['genre'] instanceof \App\Entity\VideoGenre ) {
+            $movies = $formData['genre']->getVideos();
+        } else {
+            $movies = $this->getNonFilterdMovies( $categorySlug, $movies );
+        }
+        
+        if ( $formData['rating'] ) {
+            $movies = $this->orderByAverageRating( $movies, $formData );
+        }
+        
+        if ( $formData['order_by'] ) {
+            $movies = $this->orderByDate( $movies, $formData );
+        }
+        
+        //return $movies;
+        return $this->_removeNotEnabledMoviesFromCollection( $movies );
+    }
+    
+    private function orderByAverageRating( Collection $movies, array $formData ): Collection
+    {
+        if ( $formData['rating'] == self::ORDERBY_HIGHEST_RATING ) {
+            // get a new ArrayIterator
+            $iterator   = $movies->getIterator();
+            
+            // define ordering closure, using preferred comparison method/field
+            $iterator->uasort( function ( $first, $second )
+            {
+                return $first->getAverageRating() < $second->getAverageRating() ? 1 : -1;
+            });
+            
+            $movies = new ArrayCollection( \iterator_to_array( $iterator ) );
+        }
+        
+        if ( $formData['rating'] == self::ORDERBY_LOWEST_RATING ) {
+            // get a new ArrayIterator
+            $iterator   = $movies->getIterator();
+            
+            // define ordering closure, using preferred comparison method/field
+            $iterator->uasort( function ( $first, $second )
+            {
+                return $first->getAverageRating() > $second->getAverageRating() ? 1 : -1;
+            });
+            
+            $movies = new ArrayCollection( \iterator_to_array( $iterator ) );
+        }
+        
+        return $movies;
+    }
+    
+    private function orderByDate( Collection $movies, array $formData ): Collection
+    {
         if ( $formData['order_by'] == self::ORDERBY_OLDEST ) {
             // get a new ArrayIterator
             $iterator   = $movies->getIterator();
@@ -79,25 +136,41 @@ final class MoviesFilter
             $movies = new ArrayCollection( \iterator_to_array( $iterator ) );
         }
         
-        //return $movies;
-        return $this->_removeNotEnabledMoviesFromCollection( $movies );
-    }
-    
-    private function getNonFilterdMovies( $categorySlug ): Collection
-    {
-        if ( $categorySlug == 'latest' ) {
-            $movies = $this->moviesRepository->getQueryBuilder( 'mv' )
-                                            ->orderBy( 'mv.updatedAt', 'DESC' )
-                                            ->getQuery()
-                                            ->getResult();
+        if ( $formData['order_by'] == self::ORDERBY_NEWEST ) {
+            // get a new ArrayIterator
+            $iterator   = $movies->getIterator();
             
-            $movies = new ArrayCollection( $movies );
-        } else {
-            $category   = $this->moviesCategoriesRepository->findByTaxonCode( $categorySlug );
-            $movies     = $category->getVideos();
+            // define ordering closure, using preferred comparison method/field
+            $iterator->uasort( function ( $first, $second )
+            {
+                return $first->getUpdatedAt() < $second->getUpdatedAt() ? 1 : -1;
+            });
+            
+            $movies = new ArrayCollection( \iterator_to_array( $iterator ) );
         }
         
-        return $this-> _removeNotEnabledMoviesFromCollection( $movies );
+        return $movies;
+    }
+    
+    private function getNonFilterdMovies( string $categorySlug, ?Collection $movies = null ): Collection
+    {
+        if ( ! $movies || $movies->isEmpty() ) {
+            
+            if ( $categorySlug == 'latest' ) {
+                $movies = $this->moviesRepository->getQueryBuilder( 'mv' )
+                                                ->orderBy( 'mv.updatedAt', 'DESC' )
+                                                ->getQuery()
+                                                ->getResult();
+                
+                $movies = new ArrayCollection( $movies );
+            } else {
+                $category   = $this->moviesCategoriesRepository->findByTaxonCode( $categorySlug );
+                $movies     = $category->getVideos();
+            }
+            
+        }
+        
+        return $this->_removeNotEnabledMoviesFromCollection( $movies );
     }
     
     private function _removeNotEnabledMoviesFromCollection( Collection $movies ): Collection

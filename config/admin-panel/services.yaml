@@ -1,10 +1,11 @@
 imports:
+    - { resource: services/widgets.yaml }
     - { resource: services/menu.yaml }
-    - { resource: services/api_controller.yaml }
     - { resource: services/controller.yaml }
     - { resource: services/form.yaml }
     - { resource: services/uploader.yaml }
     - { resource: services/video-player.yaml }
+    - { resource: services/command.yaml }
 
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
@@ -14,7 +15,11 @@ imports:
 parameters:
     locale: en_US
     
-    applicationTitle: 'SuperAdmin Panel'
+    applicationIcon: 'build/default/images/superman.svg'
+    applicationCompany: 'vs_application.template.vankosoft_application'
+    applicationTitle: 'vs_application.template.super_admin_panel'
+    hasTopSearch: false
+    
     vs_application.version: !php/const App\AdminPanelKernel::VERSION
     vs_application.public_dir: "%kernel.project_dir%/public/admin-panel"
     vs_application.page_categories.taxonomy_code: 'page-categories'
@@ -34,14 +39,18 @@ parameters:
     # Gaufrette File Systems
     vs_cms.gaufrette.profile.filesystem: vs_application_profile
     vs_cms.gaufrette.filemanager.filesystem: vs_application_filemanager
+    vs_cms.gaufrette.slider.filesystem: vs_application_slider
+    
     # Shared Media Directories
     vs_cms.filemanager_shared_media_gaufrette.profile: "%kernel.project_dir%/public/shared_media/gaufrette/profile"
     vs_cms.filemanager_shared_media_gaufrette.filemanager: "%kernel.project_dir%/public/shared_media/gaufrette/filemanager"
     vs_cms.filemanager_shared_media_artgris: '%kernel.project_dir%/public/shared_media/artgris'
+    vs_cms.filemanager_shared_media_gaufrette.slider: "%kernel.project_dir%/public/shared_media/gaufrette/slider"
 
     vs_application.taxon_repository_throw_exception: false
     
     vs_vvp.video-categories.taxonomy_code: 'video-categories'
+    vs_vvp.video-genres.taxonomy_code: 'video-genres'
     
 services:
     # default configuration for services in *this* file
@@ -58,6 +67,7 @@ services:
             - '../../src/Form/'
             - '../../src/Tests/'
             - '../../src/Controller/'
+            - '../../src/Widgets/'
             - '../../src/Component/'
             - '../../src/AdminPanelKernel.php'
         autowire: true

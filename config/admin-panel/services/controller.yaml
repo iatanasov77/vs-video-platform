@@ -39,13 +39,16 @@ services:
             - '@vs_vvp.repository.video_category'
             - '%vs_vvp.videos_directory%'
             - '@event_dispatcher'
-            - '@vs_vvp.repository.video_thumbnail'
+            - '@vs_vvp.repository.video_photo'
             - '@vs_vvp.repository.video_file'
             - '@oneup_flysystem.vs_vvp.filesystems.local_filesystem'
             - '@oneup_flysystem.vs_vvp.filesystems.coconut_output_filesystem'
             - '@vs_vvp.repository.actor'
             - '@app_video_platform'
-            - '@vs_vvp.repository.video_tag'
+            - '@vs_application.repository.tags_whitelist_context'
+            - '@vs_application.repository.tags_whitelist_tag'
+            - '@dubture_ffmpeg.ffprobe'
+            - '@vs_users_subscriptions.repository.payed_service'
         tags: ['controller.service_arguments']
         
     App\Controller\AdminPanel\VideoServicesController:
@@ -71,26 +74,5 @@ services:
         arguments:
             - '@doctrine'
             - '@vs_vvp.repository.actor'
-            
-    App\Controller\AdminPanel\HelpCenterQuestionExtController:
-        tags: ['controller.service_arguments']
-        autowire: true
-        arguments:
-            - '@doctrine'
-            - '@vs_vvp.repository.helpcenter_question'
-            
-    App\Controller\AdminPanel\QuickLinkExtController:
-        tags: ['controller.service_arguments']
-        autowire: true
-        arguments:
-            - '@doctrine'
-            - '@vs_vvp.repository.quick_link'
-            
-    App\Controller\AdminPanel\SliderExtController:
-        tags: ['controller.service_arguments']
-        autowire: true
-        arguments:
-            - '@doctrine'
-            - '@vs_vvp.repository.slider'
 
 

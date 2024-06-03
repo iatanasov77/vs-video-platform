@@ -1,0 +1,7 @@
+.comments__rate button.not-liked:first-child svg {
+    fill: #fff;
+}
+
+.comments__rate button.not-disliked:last-child svg {
+    fill: #fff;
+}

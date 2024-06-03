@@ -94,7 +94,7 @@ $( function()
     });
     */
     
-    /** Thumbnail */
+    /** Thumbnail 
     InitOneUpFileUpload({
         fileuploadSelector: "#OneUpFileUploadThumbnail",
         fileinputSelector: "#video_form_thumbnail",
@@ -105,6 +105,7 @@ $( function()
         fileResourceKey: "VsVvp_VideoThumbnail",
         fileResourceClass: "App\\Entity\\VideoThumbnail"
     }, preFormSubmit);
+    */
     
     /** Video */
     InitOneUpFileUpload({

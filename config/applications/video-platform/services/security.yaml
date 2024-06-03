@@ -21,7 +21,7 @@ parameters:
 #
 #
     vs_users.registration_form: 'App\Form\RegistrationForm'
-    vs_users.redirect_after_verify: 'app_home'
+    vs_users.redirect_after_verify: 'vs_users_after_verify'
     
 services:
     _defaults:

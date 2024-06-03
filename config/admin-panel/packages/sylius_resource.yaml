@@ -1,152 +1,5 @@
 # @see https://github.com/Sylius/SyliusResourceBundle/blob/master/docs/index.md
 sylius_resource:
- 
-    #######################################################################################################################
-    # Configure your resources
-    #######################################################################################################################
-    resources:
-        vs_vvp.video_category:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\VideoCategory
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                #repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                repository: Vankosoft\ApplicationBundle\Repository\TaxonDescendentRepository
-                controller: App\Controller\AdminPanel\VideoCategoryController
-                form:       App\Form\VideoCategoryForm
-                
-        vs_vvp.video:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\Video
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                controller: App\Controller\AdminPanel\VideoController
-                form:       App\Form\VideoForm
-                
-        vs_vvp.video_file:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\VideoFile
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                
-        vs_vvp.video_thumbnail:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\VideoThumbnail
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                
-        vs_vvp.coconut_job:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\CoconutJob
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                
-        vs_vvp.helpcenter_question:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\HelpCenterQuestion
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                controller: App\Controller\AdminPanel\HelpCenterQuestionController
-                form:       App\Form\HelpCenterQuestionForm
-                
-        vs_vvp.actor:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\Actor
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                controller: App\Controller\AdminPanel\ActorController
-                form:       App\Form\ActorForm
-                
-        vs_vvp.actor_photo:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\ActorPhoto
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                
-        vs_vvp.quick_link:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\QuickLink
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                controller: App\Controller\AdminPanel\QuickLinkController
-                form:       App\Form\QuickLinkForm
-                
-        vs_vvp.slider:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\Slider
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                controller: App\Controller\AdminPanel\SliderController
-                form:       App\Form\SliderForm
-                
-        vs_vvp.slider_photo:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\SliderPhoto
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                
-        vs_vvp.coconut_settings:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\CoconutSettings
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                controller: App\Controller\AdminPanel\CoconutSettingsController
-                form:       App\Form\CoconutSettingsForm
-        
-        vs_vvp.video_platform_settings:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\VideoPlatformSettings
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                controller: App\Controller\AdminPanel\VideoPlatformSettingsController
-                form:       App\Form\VideoPlatformSettingsForm
-                
-        vs_vvp.video_platform_storage:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\VideoPlatformStorage
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                controller: App\Controller\AdminPanel\VideoPlatformStorageController
-                form:       App\Form\VideoPlatformStorageForm
-                
-        vs_vvp.google_cloud_project:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\GoogleCloudProject
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                controller: App\Controller\AdminPanel\GoogleCloudProjectController
-                form:       App\Form\GoogleCloudProjectForm
-                
-        vs_vvp.youtube_channel:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\YoutubeChannel
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                controller: App\Controller\AdminPanel\YoutubeChannelController
-                form:       App\Form\YoutubeChannelForm
-                
-        vs_vvp.video_tag:
-            driver: doctrine/orm
-            classes:
-                model:      App\Entity\VideoTag
-                interface:  Sylius\Component\Resource\Model\ResourceInterface
-                repository: App\Repository\VideoTagsRepository
-                
     #######################################################################################################################
     # Override default settings
     # -------------------------
@@ -156,5 +9,129 @@ sylius_resource:
     #######################################################################################################################
     settings:
         paginate: 10
+        
+    #######################################################################################################################
+    # Configure your resources
+    #######################################################################################################################
+    resources:
+        vs_vvp.video_category:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoCategory
+                repository: App\Repository\MoviesRepository
+                controller: App\Controller\AdminPanel\VideoCategoryController
+                form:       App\Form\VideoCategoryForm
+                
+        vs_vvp.video:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\Video
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                controller: App\Controller\AdminPanel\VideoController
+                form:       App\Form\VideoForm
+                
+        vs_vvp.video_photo:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoPhoto
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.video_file:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoFile
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.coconut_job:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\CoconutJob
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.actor:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\Actor
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                controller: App\Controller\AdminPanel\ActorController
+                form:       App\Form\ActorForm
+                
+        vs_vvp.actor_photo:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\ActorPhoto
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.coconut_settings:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\CoconutSettings
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                controller: App\Controller\AdminPanel\CoconutSettingsController
+                form:       App\Form\CoconutSettingsForm
+                
+        vs_vvp.video_platform_settings:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoPlatformSettings
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                controller: App\Controller\AdminPanel\VideoPlatformSettingsController
+                form:       App\Form\VideoPlatformSettingsForm
+                
+        vs_vvp.video_platform_storage:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoPlatformStorage
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                controller: App\Controller\AdminPanel\VideoPlatformStorageController
+                form:       App\Form\VideoPlatformStorageForm
+                
+        vs_vvp.google_cloud_project:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\GoogleCloudProject
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                controller: App\Controller\AdminPanel\GoogleCloudProjectController
+                form:       App\Form\GoogleCloudProjectForm
+                
+        vs_vvp.youtube_channel:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\YoutubeChannel
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                controller: App\Controller\AdminPanel\YoutubeChannelController
+                form:       App\Form\YoutubeChannelForm
+                
+        vs_vvp.video_review:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoReview
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.video_comment:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoComment
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.video_genre:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoGenre
+                repository: App\Repository\GenresRepository
+                controller: App\Controller\AdminPanel\VideoGenreController
+                form:       App\Form\VideoGenreForm
+                
+        vs_vvp.actor_review:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\ActorReview
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+#         vs_vvp.actor_comment:
+#             driver: doctrine/orm
+#             classes:
+#                 model:      App\Entity\ActorComment
+#                 repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
 
 

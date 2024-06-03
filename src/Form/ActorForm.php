@@ -12,26 +12,34 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 use App\Form\Type\ActorPhotoType;
 use App\Entity\Actor;
+use App\Component\VideoPlatform;
 
 class ActorForm extends AbstractForm
 {
     /** @var string */
     private $videoClass;
     
+    /** @var string */
+    private $genreClass;
+    
     public function __construct(
         string $dataClass,
         RepositoryInterface $localesRepository,
         RequestStack $requestStack,
-        string $videoClass
+        string $videoClass,
+        string $genreClass
     ) {
         parent::__construct( $dataClass );
         
         $this->localesRepository    = $localesRepository;
         $this->requestStack         = $requestStack;
         $this->videoClass           = $videoClass;
+        $this->genreClass           = $genreClass;
     }
     
     public function buildForm( FormBuilderInterface $builder, array $options ): void
@@ -45,6 +53,11 @@ class ActorForm extends AbstractForm
             ->add( 'actorVideos', HiddenType::class, [
                 'mapped'    => false,
                 'data'      => \json_encode( $entity->getVideos()->getKeys() )
+            ])
+            
+            ->add( 'actorGenres', HiddenType::class, [
+                'mapped'    => false,
+                'data'      => \json_encode( $entity->getGenres()->getKeys() )
             ])
         
             ->add( 'locale', ChoiceType::class, [
@@ -84,6 +97,49 @@ class ActorForm extends AbstractForm
                 
                 'class'                 => $this->videoClass,
                 'choice_label'          => 'title'
+            ])
+            
+            ->add( 'career', ChoiceType::class, [
+                'label'                 => 'vs_vvp.form.actor.career',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'choices'               => \array_flip( VideoPlatform::VIDEO_ACTOR_CAREERS ),
+                'required'              => false,
+            ])
+            
+            ->add( 'height', NumberType::class, [
+                'label'                 => 'vs_vvp.form.actor.height',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'required'              => false,
+                
+                //'html5'                 => true,
+                'scale'                 => 2,
+            ])
+            
+            ->add( 'dateOfBirth', DateType::class, [
+                'label'                 => 'vs_vvp.form.actor.date_of_birth',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'required'              => false,
+                
+                'widget'                => 'single_text',
+                'input_format'          => 'd.M.Y',
+            ])
+            
+            ->add( 'placeOfBirth', TextType::class, [
+                'label'                 => 'vs_vvp.form.actor.place_of_birth',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'required'              => false,
+            ])
+            
+            ->add( 'genres', EntityType::class, [
+                'label'                 => 'vs_vvp.form.actor.genres',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'multiple'              => true,    // Multiple Can be Changed in Template
+                'required'              => false,
+                //'mapped'                => false,
+                'placeholder'           => 'vs_vvp.form.actor.genres_placeholder',
+                
+                'class'                 => $this->genreClass,
+                'choice_label'          => 'name'
             ])
         ;
         

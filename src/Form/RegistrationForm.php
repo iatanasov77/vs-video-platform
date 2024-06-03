@@ -37,10 +37,11 @@ class RegistrationForm extends UserFormType
         RequestStack $requestStack,
         string $applicationClass,
         AuthorizationCheckerInterface $auth,
+        array $requiredFields,
         string $pricingPlanClass,
         RepositoryInterface $pricingPlanRepository
     ) {
-        parent::__construct( $dataClass, $localesRepository, $requestStack, $applicationClass, $auth );
+        parent::__construct( $dataClass, $localesRepository, $requestStack, $applicationClass, $auth, $requiredFields );
         
         $this->pricingPlanClass         = $pricingPlanClass;
         $this->pricingPlanRepository    = $pricingPlanRepository;
@@ -111,6 +112,7 @@ class RegistrationForm extends UserFormType
                 'titleMapped'           => false,
                 'firstNameMapped'       => false,
                 'lastNameMapped'        => false,
+                'designationMapped'     => false,
             ])
             ->setDefined([
                 'users',

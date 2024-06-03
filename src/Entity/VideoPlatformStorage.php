@@ -5,46 +5,32 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="VVP_VideoPlatformStorages")
- */
+#[ORM\Entity]
+#[ORM\Table(name: "VVP_VideoPlatformStorages")]
 class VideoPlatformStorage implements ResourceInterface
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    /** @var int */
+    #[ORM\Id, ORM\Column(type: "integer"), ORM\GeneratedValue(strategy: "IDENTITY")]
     private $id;
     
-    /**
-     * @ORM\Column(type="string", length=64, nullable=false)
-     */
+    /** @var string */
+    #[ORM\Column(type: "string", length: 64)]
     private $title;
     
-    /**
-     * @ORM\Column(name="storage_type", type="string", columnDefinition="ENUM('coconut', 'local' , 's3' , 'digitalocean')", nullable=false)
-     */
+    /** @var string */
+    #[ORM\Column(name: "storage_type", type: "string", columnDefinition: "ENUM('coconut', 'local' , 's3' , 'digitalocean')")]
     private $storageType;
     
-    /**
-     * @var array
-     *
-     * @ORM\Column(type="json", nullable=false)
-     */
+    /** @var array */
+    #[ORM\Column(type: "json")]
     private $settings;
     
-    /**
-     * @ORM\OneToMany(targetEntity=VideoPlatformSettings::class, mappedBy="originalVideosStorage")
-     */
+    /** @var Collection|VideoPlatformSettings[] */
+    #[ORM\OneToMany(targetEntity: "VideoPlatformSettings", mappedBy: "originalVideosStorage")]
     private $originalVideosSettings;
     
-    /**
-     * @ORM\OneToMany(targetEntity=CoconutSettings::class, mappedBy="coconutStorage")
-     */
+    /** @var Collection|CoconutSettings[] */
+    #[ORM\OneToMany(targetEntity: "CoconutSettings", mappedBy: "coconutStorage")]
     private $coconutOutputSettings;
     
     public function __construct()

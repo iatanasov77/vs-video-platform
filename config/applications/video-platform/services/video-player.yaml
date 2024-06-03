@@ -10,25 +10,51 @@ services:
         autowire: true
         autoconfigure: true
 
+    app_video_urls_factory:
+        class: App\Component\VideoUrlsFactory
+        public: true
+        arguments:
+            - '@router'
+            - '@vs_vvp.digital_ocean_original_videos_adapter'
+            - '@vs_vvp.digital_ocean_coconut_output_adapter'
+            
+    app_video_streams_factory:
+        class: App\Component\VideoStreamsFactory
+        public: true
+        arguments:
+            - '@vs_vvp.digital_ocean_original_videos_adapter'
+            - '@vs_vvp.digital_ocean_coconut_output_adapter'
+            - '@oneup_flysystem.vs_vvp.filesystems.local_filesystem'
+            - '@oneup_flysystem.vs_vvp.filesystems.coconut_output_filesystem'
+            
+    app_video_signatory:
+        class: App\Component\VideoSignatory
+        public: true
+        arguments:
+            - '@dubture_ffmpeg.ffmpeg'
+            - '@security.token_storage'
+            - '@oneup_flysystem.vs_vvp.filesystems.videos_user_signatured_filesystem'
+            - '%vs_vvp.videos_user_signatured_directory%'
+            
+    app_video_storage_bridge:
+        class: App\Component\VideoStorageBridge
+        public: true
+        arguments:
+            - '@vs_vvp.digital_ocean_original_videos_adapter'
+            - '@vs_vvp.digital_ocean_coconut_output_adapter'
+            - '%vs_vvp.videos_directory%'
+    
     app_video_platform:
         class: App\Component\VideoPlatform
         public: true
         arguments:
             - '%vvp_video_platform_settings_slug%'
-            - '@router'
             - '@vs_vvp.repository.video_platform_settings'
-            - '@oneup_flysystem.vs_vvp.filesystems.local_filesystem'
-            - '@oneup_flysystem.vs_vvp.filesystems.coconut_output_filesystem'
-            - '@oneup_flysystem.vs_vvp.filesystems.videos_user_signatured_filesystem'
-            - '@vs_vvp.digital_ocean_original_videos_adapter'
-            - '@vs_vvp.digital_ocean_coconut_output_adapter'
-            - '@vs_vvp.repository.video_category'
-            - '@vs_vvp.repository.video'
-            - '@dubture_ffmpeg.ffmpeg'
-            - '@security.token_storage'
-            - '%vs_vvp.videos_directory%'
-            - '%vs_vvp.videos_user_signatured_directory%'
-            
+            - '@app_video_urls_factory'
+            - '@app_video_streams_factory'
+            - '@app_video_storage_bridge'
+            - '@app_video_signatory'
+
     app_video_transcoder_coconut:
         class: App\Component\Cloud\Coconut
         arguments:
@@ -38,6 +64,7 @@ services:
             - '@vs_vvp.factory.coconut_job'
             - '@http_client'
             - '@app_video_platform'
+            - 'https://api.%vankosoft_host%'
             
     app_video_storage_digitalocean_original_videos:
         class: App\Component\Cloud\DigitalOceanOriginalVideos
@@ -54,9 +81,55 @@ services:
     app_movies_filter:
         class: App\Component\MoviesFilter
         arguments:
-            - "@translator"
+            - '@translator'
             - '@app_video_platform'
             - '@vs_vvp.repository.video_category'
             - '@vs_vvp.repository.video'
+            
+    app_movie_review_factory:
+        class: Vankosoft\CatalogBundle\Component\ReviewFactory
+        arguments:
+            - '@vs_users.security_bridge'
+            - '@vs_vvp.repository.video_review'
+            - '@vs_vvp.factory.video_review'
+            
+    App\Form\MovieReviewForm:
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.video_review.class%'
+            - '@translator'
+            
+    App\Form\MovieCommentForm:
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.video_comment.class%'
+            
+    app_actors_filter:
+        class: App\Component\ActorsFilter
+        arguments:
+            - '@translator'
+            - '@vs_vvp.repository.actor'
+            
+    app_actor_review_factory:
+        class: Vankosoft\CatalogBundle\Component\ReviewFactory
+        arguments:
+            - '@vs_users.security_bridge'
+            - '@vs_vvp.repository.actor_review'
+            - '@vs_vvp.factory.actor_review'
+            
+    App\Form\ActorReviewForm:
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.actor_review.class%'
+            - '@translator'
+            
+#     App\Form\ActorCommentForm:
+#         tags:
+#             - { name: form.type }
+#         arguments:
+#             - '%vs_vvp.model.actor_comment.class%'
 
 

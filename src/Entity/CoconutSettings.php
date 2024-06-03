@@ -3,66 +3,45 @@
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="VVP_CoconutSettings")
- */
+#[ORM\Entity]
+#[ORM\Table(name: "VVP_CoconutSettings")]
 class CoconutSettings implements ResourceInterface
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    /** @var int */
+    #[ORM\Id, ORM\Column(type: "integer"), ORM\GeneratedValue(strategy: "IDENTITY")]
     private $id;
     
-    /**
-     * @ORM\Column(name="title", type="string", length=64, nullable=false)
-     */
+    /** @var string */
+    #[ORM\Column(type: "string", length: 64)]
     private $title;
     
-    /**
-     * @var Video
-     *
-     * @ORM\ManyToOne(targetEntity=VideoPlatformStorage::class, inversedBy="coconutOutputSettings")
-     * @ORM\JoinColumn(name="storage_id", referencedColumnName="id", nullable=false)
-     */
+    /** @var VideoPlatformStorage */
+    #[ORM\ManyToOne(targetEntity: "VideoPlatformStorage", inversedBy: "coconutOutputSettings")]
+    #[ORM\JoinColumn(name: "storage_id", referencedColumnName: "id", nullable: false)]
     private $coconutStorage;
     
-    /**
-     * @ORM\Column(name="coconut_api_key", type="string", nullable=false)
-     */
+    /** @var string */
+    #[ORM\Column(name: "coconut_api_key", type: "string")]
     private $coconutApiKey;
     
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="coconut_output_formats", type="json", nullable=false)
-     */
+    /** @var array */
+    #[ORM\Column(name: "coconut_output_formats", type: "json", nullable: false)]
     private $coconutOutputFormats;
     
-    /**
-     * @ORM\Column(name="coconut_system_user", type="string", length=32, nullable=false)
-     */
+    /** @var string */
+    #[ORM\Column(name: "coconut_system_user", type: "string", length: 32)]
     private $coconutSystemUser;
     
-    /**
-     * @ORM\Column(name="coconut_system_password", type="string", length=32, nullable=false)
-     */
+    /** @var string */
+    #[ORM\Column(name: "coconut_system_password", type: "string", length: 32)]
     private $coconutSystemPassword;
     
-    /**
-     * @ORM\Column(name="coconut_input_url_type", type="string", length=32, nullable=false)
-     */
+    /** @var string */
+    #[ORM\Column(name: "coconut_input_url_type", type: "string", length: 32)]
     private $coconutInputUrlType;
     
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="coconut_watermark", type="boolean", options={"default":"0"})
-     */
+    /** @var bool */
+    #[ORM\Column(name: "coconut_watermark", type: "boolean", options: ["default" => 0])]
     private $coconutWatermark   = false;
     
     public function __construct()
