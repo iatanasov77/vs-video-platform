@@ -12,9 +12,7 @@
 
                     {{ vs_widget_render( 'videos-layout', ['quick-links'] ) }}
 
-                    {% if app.environment == 'dev' or not inMaintenance %}
-                        {{ knp_menu_render('mainVideoPlatform', {'template': 'Menu/main-menu.html.twig'}) }}
-                    {% endif %}
+                    {{ knp_menu_render('mainVideoPlatform', {'template': 'Menu/main-menu.html.twig'}) }}
 
                     {% if not app.user %}
                         <a href="{{ path( 'vs_users_register_form' ) }}" class="header__sign-in">
