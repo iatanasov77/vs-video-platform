@@ -1,3 +1,9 @@
+1.0.4	|	Release date: **04.06.2024**
+============================================
+* Bug-Fixes:
+  - Fix All Templates That Use Some Removed Global Variable.
+
+
 1.0.3	|	Release date: **04.06.2024**
 ============================================
 * Bug-Fixes:
