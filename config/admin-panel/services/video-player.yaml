@@ -1,7 +1,3 @@
-parameters:
-    #vankosoft_host: '%env(HOST)%'
-    vvp_video_platform_settings_slug: '%env(VIDEO_PLATFORM_SETTINGS)%'
-
 imports:
     #- { resource: video_providers/local_storage.yaml }
     #- { resource: video_providers/youtube.yaml }
@@ -49,8 +45,7 @@ services:
         class: App\Component\VideoPlatform
         public: true
         arguments:
-            - '%vvp_video_platform_settings_slug%'
-            - '@vs_vvp.repository.video_platform_settings'
+            - '@vs_application.context.application'
             - '@app_video_urls_factory'
             - '@app_video_streams_factory'
             - '@app_video_storage_bridge'

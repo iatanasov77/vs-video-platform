@@ -2,7 +2,6 @@
 
 {# Import Macros #}
 {% import "@VSApplication/Macros/alerts.html.twig" as alerts %}
-{% from "@VSApplication/Macros/pagination.html.twig" import pagination %}
 
 {# Override Blocs #}
 {% block title %}{{ parent() }} :: {{ 'vs_vvp.template.page_title_youtube_channel_listing' | trans( {},'VanzVideoPlayer' ) }}{% endblock %}
@@ -59,8 +58,6 @@
             {% else %}
                 {{ alerts.info( 'vs_application.template.there_are_no_items_to_display' | trans( {},'VSApplicationBundle' ) ) }}
             {% endif %}
-        
-            {{ pagination(items) }}
         </div>
     </div>
     

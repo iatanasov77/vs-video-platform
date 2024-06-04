@@ -85,6 +85,13 @@ services:
         arguments:
             - '%vs_vvp.model.actor_photo.class%'
             
+    vs_vvp.resources.video_platform_application.form:
+        class: App\Form\VideoPlatformApplicationForm
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_vvp.model.video_platform_application.class%'
+    
     vs_vvp.resources.video_platform_settings.form:
         class: App\Form\VideoPlatformSettingsForm
         tags:

@@ -12,6 +12,9 @@ vs_vvp:
         category_placeholder: '-- Choose a Category --'
         error_caption: Error!
         filter_by_category: Filter By Category
+        settings: Settings
+        video_platform_settings_label: Video Platform Settings
+        video_platform_settings_placeholder: '-- Choose a Video Platform Settings --'
         
         videos_filter:
             filter_by_category: Filter By Category
@@ -303,6 +306,9 @@ vs_vvp:
         items_index_row_photos: Photos
         items_index_row_videos: Vdeos
         items_index_row_watched_by: Watched by
+        page_title_video_platform_application_listing: Video Platform Applications
+        page_title_video_platform_application_update: Update Video Platform Application
+        page_title_video_platform_application_create: Create Video Platform Application
         page_title_video_platform_settings_listing: Video Platform Settings
         page_title_video_platform_settings_create: Create a Settings
         page_title_video_platform_settings_update: Update Settings

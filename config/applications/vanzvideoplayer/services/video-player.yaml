@@ -1,6 +1,3 @@
-parameters:
-    vvp_video_platform_settings_slug: '%env(VIDEO_PLATFORM_SETTINGS)%'
-
 imports:
     - { resource: video_providers/local_storage.yaml }
     - { resource: video_providers/youtube.yaml }

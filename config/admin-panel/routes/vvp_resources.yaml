@@ -97,15 +97,13 @@ vs_vvp_actor_index:
     options:
         expose: true
         
-vs_vvp_coconut_settings:
+vs_vvp_applications:
     resource: |
-        alias: vs_vvp.coconut_settings
-        except: ['show']
-        path: /video-platform/coconut-settings
-        templates: "admin-panel/pages/CoconutSettings"
+        alias: vs_vvp.video_platform_application
+        except: ['show', 'delete']
+        path: /video-platform/video-platform-applications
+        templates: "admin-panel/pages/VideoPlatformApplications"
     type: sylius.resource
-    options:
-        expose: true
 
 vs_vvp_settings:
     resource: |
@@ -123,6 +121,16 @@ vs_vvp_storage:
         except: ['show']
         path: /video-platform/video-platform-storage
         templates: "admin-panel/pages/VideoPlatformStorage"
+    type: sylius.resource
+    options:
+        expose: true
+        
+vs_vvp_coconut_settings:
+    resource: |
+        alias: vs_vvp.coconut_settings
+        except: ['show']
+        path: /video-platform/coconut-settings
+        templates: "admin-panel/pages/CoconutSettings"
     type: sylius.resource
     options:
         expose: true
