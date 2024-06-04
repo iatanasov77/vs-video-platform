@@ -12,7 +12,7 @@ use App\Entity\UserManagement\User;
 class VideoComment extends CatalogComment
 {
     /** {@inheritDoc} */
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "comments")]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "videoComments")]
     #[ORM\JoinColumn(name: "author_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
     protected $author;
     

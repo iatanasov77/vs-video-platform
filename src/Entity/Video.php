@@ -86,7 +86,7 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
     #[ORM\OneToMany(targetEntity: "VideoPhoto", mappedBy: "owner", indexBy: "code", cascade: ["all"], orphanRemoval: true)]
     private $photos;
     
-    #[ORM\ManyToMany(targetEntity: User::class, indexBy: "id")]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: "watchedVideos", indexBy: "id")]
     #[ORM\JoinTable(name: "VVP_Videos_UsersWatched")]
     #[ORM\JoinColumn(name: "video_id", referencedColumnName: "id")]
     #[ORM\InverseJoinColumn(name: "user_id", referencedColumnName: "id")]

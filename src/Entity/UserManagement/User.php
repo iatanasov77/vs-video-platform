@@ -40,6 +40,10 @@ class User extends BaseUser implements
     use UserSubscriptionAwareEntity;
     
     /** @var Collection */
+    #[ORM\OneToMany(targetEntity: Video::class, mappedBy: "user", indexBy: "id")]
+    private $videos;
+    
+    /** @var Collection */
     #[ORM\OneToMany(targetEntity: VideoReview::class, mappedBy: "author", indexBy: "id", cascade: ["all"])]
     private $videoReviews;
     
@@ -69,6 +73,8 @@ class User extends BaseUser implements
         $this->newsletterSubscriptions  = new ArrayCollection();
         $this->orders                   = new ArrayCollection();
         $this->pricingPlanSubscriptions = new ArrayCollection();
+        
+        $this->videos                   = new ArrayCollection();
         $this->actorReviews             = new ArrayCollection();
         $this->videoReviews             = new ArrayCollection();
         $this->actorComments            = new ArrayCollection();
