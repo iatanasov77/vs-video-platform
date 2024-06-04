@@ -1,3 +1,11 @@
+1.0.2	|	Release date: **04.06.2024**
+============================================
+* Bug-Fixes:
+  - Fix Yaml Idententation.
+  - Fixing Invalid Entity Mappings.
+  - Some Fix for Production.
+
+
 1.0.1	|	Release date: **03.06.2024**
 ============================================
 * Bug-Fixes:
