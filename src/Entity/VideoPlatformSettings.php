@@ -22,7 +22,7 @@ class VideoPlatformSettings implements ResourceInterface
     private $coconutSettings;
     
     /** @var VideoPlatformStorage */
-    #[ORM\ManyToOne(targetEntity: "VideoPlatformStorage")]
+    #[ORM\ManyToOne(targetEntity: "VideoPlatformStorage", inversedBy: "originalVideosSettings")]
     #[ORM\JoinColumn(name: "original_videos_storage_id", referencedColumnName: "id", nullable: true)]
     private $originalVideosStorage;
     
