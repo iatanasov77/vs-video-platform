@@ -18,9 +18,7 @@
 
                         <!-- breadcrumbs -->
                         <ul class="breadcrumbs">
-                            {% if app.environment == 'dev' or not inMaintenance %}
-                                {{ knp_menu_render( 'breadcrumbs', {'template': 'Menu/breadcrumb.html.twig'} ) }}
-                            {% endif %}
+                            {{ knp_menu_render( 'breadcrumbs', {'template': 'Menu/breadcrumb.html.twig'} ) }}
                         </ul>
                         <!-- end breadcrumbs -->
                     </div>
