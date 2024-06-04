@@ -269,8 +269,8 @@ vs_vvp:
             new_items: Най-нови
             to_catalog: към каталога
             select_your_plan: Избери План
-            featured_movies: FEATURED PORN MOVIES
-            featured_actors: FEATURED PORNSTARS
+            featured_movies: FEATURED MOVIES
+            featured_actors: FEATURED ACTORS
             
         video_platform_settings:
             general_settings: General Settings
