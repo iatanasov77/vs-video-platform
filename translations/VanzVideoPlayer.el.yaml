@@ -158,6 +158,7 @@ vs_vvp:
         youtube_channel:
             title: Title
             channel_id: Channel Id
+            photo: Photo
 
     template:
         admin_menu_title: Video Platform
@@ -332,5 +333,6 @@ vs_vvp:
         page_title_youtube_channel_create: Create YouTube Channel
         page_title_youtube_channel_update: Update YouTube Channel
         page_title_youtube_channel_details: YouTube Channel Details
+        page_title_youtube_channels: YouTube Channels
 
 

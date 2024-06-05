@@ -5,6 +5,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 use App\Entity\YoutubeChannel;
 
@@ -14,6 +16,7 @@ class YoutubeChannelForm extends AbstractForm
     {
         parent::buildForm( $builder, $options );
         
+        $entity = $builder->getData();
         $builder
             ->add( 'title', TextType::class, [
                 'label'                 => 'vs_vvp.form.youtube_channel.title',
@@ -24,8 +27,28 @@ class YoutubeChannelForm extends AbstractForm
                 'label'                 => 'vs_vvp.form.youtube_channel.channel_id',
                 'translation_domain'    => 'VanzVideoPlayer',
             ])
+            
+            ->add( 'photo', FileType::class, [
+                'mapped'                => false,
+                'required'              => ! $entity || is_null( $entity->getId() ),
+                
+                'label'                 => 'vs_vvp.form.youtube_channel.photo',
+                'translation_domain'    => 'VanzVideoPlayer',
+                
+                'constraints'           => [
+                    new File([
+                        'maxSize'           => '1024k',
+                        'mimeTypes'         => [
+                            'image/gif',
+                            'image/jpeg',
+                            'image/png',
+                            'image/svg+xml',
+                        ],
+                        'mimeTypesMessage'  => 'Please upload a valid Photo',
+                    ])
+                ],
+            ])
         ;
-        
     }
     
     public function configureOptions( OptionsResolver $resolver ): void

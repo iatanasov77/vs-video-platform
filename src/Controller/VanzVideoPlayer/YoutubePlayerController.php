@@ -62,7 +62,7 @@ class YoutubePlayerController extends AbstractController
         $results    = $request->query->get( 'results', '10' );
         
         $youtubeChannel = $this->youtubeChannelsRepository->findOneBy(
-            ['slug' => $this->getParameter( 'vvp_youtube_channel_slug' )]
+            ['slug' => 'ivan-atanasov-channel']
         );
         if ( ! $youtubeChannel ) {
             throw new YoutubeChannelException( 'Youtube Channel Not Found !!!' );

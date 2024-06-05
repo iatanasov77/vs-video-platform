@@ -4,22 +4,22 @@ use Doctrine\ORM\Mapping as ORM;
 use Vankosoft\CmsBundle\Model\File;
 
 #[ORM\Entity]
-#[ORM\Table(name: "VVP_Actors_Photos")]
-class ActorPhoto extends File
+#[ORM\Table(name: "VVP_YoutubeChannels_Photos")]
+class YoutubeChannelPhoto extends File
 {
     /** @var Actor */
-    #[ORM\ManyToOne(targetEntity: Actor::class, inversedBy: "photos", cascade: ["persist", "remove"])]
+    #[ORM\ManyToOne(targetEntity: YoutubeChannel::class, inversedBy: "photo", cascade: ["persist", "remove"])]
     #[ORM\JoinColumn(name: "owner_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
     protected $owner;
     
-    public function getActor()
+    public function getYoutubeChannel()
     {
         return $this->owner;
     }
     
-    public function setActor( Actor $actor ): self
+    public function setYoutubeChannel( YoutubeChannel $channel ): self
     {
-        $this->setOwner( $actor );
+        $this->setOwner( $channel );
         
         return $this;
     }

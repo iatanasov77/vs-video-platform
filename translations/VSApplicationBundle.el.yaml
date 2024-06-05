@@ -58,6 +58,7 @@ vs_application:
             movies: Κινηματογράφος
             pornstars: Πορνοστάρ
             actors: Ηθοποιοί
+            youtube_channels: YouTube Channels
             pricing_plans: Σχέδια τιμολόγησης
             
         site_footer:

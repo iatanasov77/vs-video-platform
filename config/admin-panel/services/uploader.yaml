@@ -6,6 +6,7 @@ parameters:
     vs_vvp.coconut_output_directory: "%kernel.project_dir%/public/shared_media/gaufrette/coconut_output"
     vs_vvp.actor_photos_directory: "%kernel.project_dir%/public/shared_media/gaufrette/actors"
     vs_vvp.videos_user_signatured_directory: "%kernel.project_dir%/public/shared_media/gaufrette/videos_user_signatured"
+    vs_vvp.youtube_photos_directory: "%kernel.project_dir%/public/shared_media/gaufrette/youtube_photos"
 
 services:
     _defaults:
@@ -80,5 +81,16 @@ services:
         lazy: true
         arguments:
             - '@app_video_storage_digitalocean_coconut_output'
+            
+    vs_vvp.youtube_photo_uploader.filesystem:
+        class: Gaufrette\Filesystem
+        arguments: ['vs_vvp_youtube_photos']
+        factory: ['@knp_gaufrette.filesystem_map', 'get']
+        
+    vs_vvp.youtube_photo_uploader:
+        class: App\Component\YoutubePhotoUploader
+        arguments:
+            - '@vs_vvp.youtube_photo_uploader.filesystem'
+            - '@vs_cms.file_path_generator'
 
 

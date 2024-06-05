@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <!-- page title -->
+    <section class="section section--first section--bg"
+        data-bg="{{ asset( 'build/video-platform-theme/img/bg/section__bg.jpg' ) }}"
+    >
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section__wrap">
+                        <!-- section title -->
+                        <h1 class="section__title section__title--head">{{ 'vs_vvp.template.page_title_youtube_channels' | trans( {},'VanzVideoPlayer' ) }}</h1>
+                        <!-- end section title -->
+
+                        <!-- breadcrumbs -->
+                        <ul class="breadcrumbs">
+                            {{ knp_menu_render( 'breadcrumbs', {'template': 'Menu/breadcrumb.html.twig'} ) }}
+                        </ul>
+                        <!-- end breadcrumbs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end page title -->
+    
+    <!-- catalog -->
+    <div class="section section--catalog">
+        <div class="container" id="ActorsContainer">
+            <div class="row">
+                        
+                {% for channel in channels %}
+                    <!-- item -->
+                    <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                        <div class="item">
+                            <a href="{{ path( 'vvp_youtube_channel_brouse', {'slug': channel.slug} ) }}" class="item__cover">
+                                <img src="{{ channel.photo.path | imagine_filter( 'actor_listing_photo' ) }}" alt="{{ channel.title }}">
+                                <span class="item__play">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/></svg>
+                                </span>
+                            </a>
+                            <div class="item__content">
+                                <h3 class="item__title">
+                                    <a href="{{ path( 'vvp_youtube_channel_brouse', {'slug': channel.slug} ) }}">{{ channel.title }}</a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end item -->
+                {% endfor %}
+                
+            </div>
+            
+            {% include 'Layout/pagination_container.html.twig' with {'items': channels} %}
+        </div>
+    </div>
+    <!-- end catalog -->
+
+{% endblock %}

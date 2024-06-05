@@ -168,3 +168,10 @@ services:
             - '@twig'
             - '@app_movies_filter'
             - '@app_actors_filter'
+            
+    App\Controller\VideoPlatform\YoutubeController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@app_video_provider_youtube'
+            - '@vs_vvp.repository.youtube_channel'

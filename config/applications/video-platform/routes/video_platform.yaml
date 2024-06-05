@@ -106,3 +106,20 @@ vvp_actors_filter_handle:
     controller: App\Controller\Application\FiltersController::handleActorsFilter
     options:
         expose: true
+        
+###############################################################################
+# YouTube Pages Actions
+###############################################################################
+vvp_youtube_channels:
+    path: /youtube-channels
+    controller: App\Controller\VideoPlatform\YoutubeController::listChannelsAction
+
+vvp_youtube_channel_brouse:
+    path: /youtube-channels/{slug}
+    controller: App\Controller\VideoPlatform\YoutubeController::browseChannelAction
+    defaults:   { slug: 'latest' }
+    
+vvp_youtube_video_details:
+    path: /youtube-channels/video/{videoId}
+    controller: App\Controller\VideoPlatform\YoutubeController::videoDetailsAction
+    defaults:   { videoId: 'latest' }

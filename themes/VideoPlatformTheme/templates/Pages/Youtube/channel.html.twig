@@ -10,7 +10,7 @@
                 <div class="col-12">
                     <div class="section__wrap">
                         <!-- section title -->
-                        <h1 class="section__title section__title--head">{{ 'vs_vvp.form.video.actors' | trans( {},'VanzVideoPlayer' ) }}</h1>
+                        <h1 class="section__title section__title--head">{{ 'vs_vvp.template.movies.movies' | trans( {},'VanzVideoPlayer' ) }}</h1>
                         <!-- end section title -->
 
                         <!-- breadcrumbs -->
@@ -26,21 +26,23 @@
     <!-- end page title -->
     
     {% if filterForm is defined %}
-        {% include 'Pages/Actors/Partial/filter.html.twig' %}
+        {% include 'Pages/Movies/Partial/filter.html.twig' %}
     {% endif %}
     
     <!-- catalog -->
     <div class="section section--catalog">
-        <div class="container" id="ActorsContainer">
-            {% include 'Pages/Actors/Partial/actors-listing.html.twig' %}
+        <div class="container" id="MoviesContainer">
+            {% include 'Pages/Youtube/Partial/movies-listing.html.twig' %}
         </div>
     </div>
     <!-- end catalog -->
-
+    
 {% endblock %}
 
 {% block mobile_widgets %}
-    {% include 'Pages/Actors/Partial/mobile-filter.html.twig' %}
+    {% if mobileFilterForm is defined %}
+        {% include 'Pages/Movies/Partial/mobile-filter.html.twig' %}
+    {% endif %}
 {% endblock %}
 
 {% block stylesheets %}
@@ -49,7 +51,7 @@
     
     {{ parent() }}
     
-    {{ encore_entry_link_tags( 'js/actors', null, 'VideoPlatformTheme' ) }}
+    {{ encore_entry_link_tags( 'js/movies', null, 'VideoPlatformTheme' ) }}
 {% endblock %}
 
 {% block javascripts %}
@@ -58,5 +60,5 @@
     
     {{ parent() }}
     
-    {{ encore_entry_script_tags( 'js/actors', null, 'VideoPlatformTheme' ) }}
+    {{ encore_entry_script_tags( 'js/movies', null, 'VideoPlatformTheme' ) }}
 {% endblock %}

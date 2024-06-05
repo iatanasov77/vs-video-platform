@@ -64,6 +64,21 @@ vs_application:
             actors:
                 name: vs_application.menu.site_main.actors
                 route: vvp_actors
+            youtube_channels:
+                name: vs_application.menu.site_main.youtube_channels
+                route: vvp_youtube_channels
+            youtube_channel_brouse:
+                name: vs_application.menu.site_main.youtube_channel_brouse
+                route: vvp_youtube_channel_brouse
+                routeParameters:
+                    slug: string
+                display: false
+            youtube_video_player:
+                name: vs_application.menu.site_main.youtube_video
+                route: vvp_youtube_video_details
+                routeParameters:
+                    videoId: string
+                display: false
             pricing_plans:
                 name: vs_application.menu.site_main.pricing_plans
                 route: vs_payment_pricing_plans

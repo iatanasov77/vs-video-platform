@@ -54,6 +54,7 @@ vs_application:
             movies: Филми
             pornstars: Порно звезди
             actors: Актьори
+            youtube_channels: YouTube Channels
             pricing_plans: Ценови планове
             
         site_footer:

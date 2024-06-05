@@ -25,6 +25,10 @@ class YoutubeChannel implements ResourceInterface
     #[ORM\Column(name: "channel_id", type: "string")]
     private $channelId;
     
+    /** @var Collection|ActorPhoto[] */
+    #[ORM\OneToOne(targetEntity: "YoutubeChannelPhoto", mappedBy: "owner", cascade: ["persist", "remove"], orphanRemoval: true)]
+    private $photo;
+    
     /**
      * Get id
      *
@@ -67,6 +71,18 @@ class YoutubeChannel implements ResourceInterface
     public function setChannelId($channelId)
     {
         $this->channelId    = $channelId;
+        
+        return $this;
+    }
+    
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+    
+    public function setPhoto( $photo)
+    {
+        $this->photo    = $photo;
         
         return $this;
     }

@@ -1,0 +1,91 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <!-- details -->
+    <section class="section section--details">
+        <!-- details background -->
+        <div class="section__details-bg"
+            data-bg="{{ asset( 'build/video-platform-theme/img/bg/details__bg.jpg' ) }}"
+        ></div>
+        <!-- end details background -->
+    
+        <!-- details content -->
+        <div class="container">
+            <div class="row">
+                <!-- title -->
+                <div class="col-12">
+                    <h1 class="section__title section__title--head">{{ mv.title }}</h1>
+                </div>
+                <!-- end title -->
+                
+                <!-- content -->
+                <div class="col-12 col-xl-6">
+                    <div class="item item--details">
+                        <!-- card cover -->
+                        <div class="item__cover">
+                            <img src="{{ mv.thumbnail }}" alt="{{ mv.title }}">
+                        </div>
+                        <!-- end card cover -->
+                        
+                        <!-- card content -->
+                        {#
+                        <div class="item__content">
+                            <div class="item__wrap">
+                                <span class="item__rate">{{ ( movie.averageRating ) | number_format( 1 ) }}</span>
+    
+                                <ul class="item__list">
+                                    <li>{{ tag.value }}</li>
+                                </ul>
+                            </div>
+
+                            <ul class="item__meta">
+                                <li>
+                                    <span>{{ 'vs_vvp.template.movies.running_time' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                                    {{ movie.videoFile.duration | vs_duration }}
+                                </li>
+                            </ul>
+                        </div>
+                        #}
+    
+                        {% if mv.description | length %}
+                            <div class="item__description item__description--details">
+                                {{ mv.description }}
+                            </div>
+                        {% endif %}
+                        <!-- end card content -->
+                    </div>
+                </div>
+                <!-- end content -->
+    
+                <!-- player -->
+                <div class="col-12 col-xl-6">
+                    <div class="plyr__video-embed" id="player-plyr">
+                        <iframe
+                            src="https://www.youtube.com/embed/{{ mv.videoId }}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+                            allowfullscreen
+                            allowtransparency
+                            allow="autoplay"
+                        ></iframe>
+                    </div>
+                </div>
+                <!-- end player -->
+                
+            </div>
+        </div>
+        <!-- end details content -->
+    </section>
+    <!-- end details -->
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {{ encore_entry_link_tags( 'js/youtube_video', null, 'VideoPlatformTheme' ) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    {{ encore_entry_script_tags( 'js/youtube_video', null, 'VideoPlatformTheme' ) }}
+{% endblock %}
+

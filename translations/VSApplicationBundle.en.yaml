@@ -54,6 +54,7 @@ vs_application:
             movies: Movies
             pornstars: Pornstars
             actors: Actors
+            youtube_channels: YouTube Channels
             pricing_plans: Pricing plans
             
         site_footer:

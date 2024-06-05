@@ -1,8 +1,12 @@
 <?php namespace App\Component\VideoProviders;
 
 use Google\Service\YouTube;
+use Google\Model as GoogleModel;
 use Google\Service\YouTube\SearchResult;
+use Google\Service\YouTube\Video as YouTubeVideo;
+use Google\Collection as GoogleCollection;
 use Google\Service\YouTube\SearchListResponse;
+use Google\Service\YouTube\VideoListResponse;
 
 use App\Component\Cloud\Google;
 use App\Component\VideoPlayer\VideoService;
@@ -42,9 +46,13 @@ class GoogleVideoProvider implements VideoProvider
             case VideoService::REQUEST_COMMAND_CHANNEL:
                 $searchResult   = $this->listChannel( $request->params['channelId'] );
                 break;
+            case VideoService::REQUEST_COMMAND_GET_A_VIDEO:
+                $searchResult   = $this->get( $request->params['videoId'] );
+                break;
             default:
                 throw new \Exception( '' );
         }
+        //echo '<pre>'; var_dump( $searchResult ); die;
         
         $videos         = $this->loadSearchVideos( $searchResult );
         $this->videos   = $videos;
@@ -76,7 +84,7 @@ class GoogleVideoProvider implements VideoProvider
      * @param $item
      * @return Video
      */
-    private function createVideoFrom( SearchResult $item ): Video
+    private function createVideoFromSearch( SearchResult $item ): Video
     {
         return ( new Video(
             $item->getId()->getVideoId(),
@@ -90,18 +98,44 @@ class GoogleVideoProvider implements VideoProvider
     }
     
     /**
+     * @param $item
+     * @return Video
+     */
+    private function createVideoFromVideo( YouTubeVideo $item ): Video
+    {
+        return ( new Video(
+            $item->getId(),
+            $item->getSnippet()->getTitle(),
+            $item->getSnippet()->getDescription()
+        ))
+        ->createdBy( $item->getSnippet()->getChannelTitle() )
+        ->withThumbnail(
+            $item->getSnippet()->getThumbnails()->getMedium()->getUrl()
+        );
+    }
+    
+    /**
      * @param $searchResult
      * @return array
      */
-    private function loadSearchVideos( SearchListResponse $searchResult ): array
+    private function loadSearchVideos( GoogleCollection $searchResult ): array
     {
         $videos = [];
         
         /** @var SearchResult $item */
         foreach ( $searchResult->getItems() as $item ) {
-            $video      = $this->createVideoFrom( $item );
-            $videos[]   = $video;
+            switch ( true ) {
+                case ( $item instanceof SearchResult ):
+                    $video      = $this->createVideoFromSearch( $item );
+                    $videos[]   = $video;
+                    break;
+                case ( $item instanceof YouTubeVideo ):
+                    $video      = $this->createVideoFromVideo( $item );
+                    $videos[]   = $video;
+                    break;
+            }
         }
+        
         return $videos;
     }
     
@@ -109,7 +143,7 @@ class GoogleVideoProvider implements VideoProvider
      * @param string $searchTerm
      * @return SearchListResponse
      */
-    private function search( string $searchTerm = null ): SearchListResponse
+    private function search( string $searchTerm = null ): GoogleCollection
     {
         $searchResult = $this->youtube->search->listSearch(
             'id,snippet',
@@ -123,7 +157,7 @@ class GoogleVideoProvider implements VideoProvider
         return $searchResult;
     }
     
-    private function listChannel( string $channelId ): SearchListResponse
+    private function listChannel( string $channelId ): GoogleCollection
     {
         $searchResult = $this->youtube->search->listSearch(
             'id,snippet',
@@ -131,6 +165,19 @@ class GoogleVideoProvider implements VideoProvider
                 'channelId'     => $channelId,
                 'type'          => 'video',
                 'maxResults'    => 20
+            ]
+        );
+        //var_dump($searchResult); die;
+        
+        return $searchResult;
+    }
+    
+    private function get( string $videoId ): GoogleCollection
+    {
+        $searchResult = $this->youtube->videos->listVideos(
+            'id,snippet',
+            [
+                'id'     => $videoId,
             ]
         );
         //var_dump($searchResult); die;

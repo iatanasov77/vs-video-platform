@@ -110,6 +110,12 @@ sylius_resource:
                 controller: App\Controller\AdminPanel\YoutubeChannelController
                 form:       App\Form\YoutubeChannelForm
                 
+        vs_vvp.youtube_channel_photo:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\YoutubeChannelPhoto
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
         vs_vvp.video_review:
             driver: doctrine/orm
             classes:
