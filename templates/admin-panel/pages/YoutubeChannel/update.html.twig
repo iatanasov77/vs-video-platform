@@ -53,6 +53,15 @@
                         </div>
                         
                         <div class="form-group">
+                            {{ form_label(form.project, null, {
+                                'label_attr': {'class': 'col-form-label'}
+                                }) 
+                            }}
+                            
+                            {{ form_widget(form.project, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        
+                        <div class="form-group">
                             {{ form_label(form.photo, null, {
                                 'label_attr': {'class': 'col-form-label'}
                                 }) 

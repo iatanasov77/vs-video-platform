@@ -159,6 +159,8 @@ vs_vvp:
             title: Title
             channel_id: Channel Id
             photo: Photo
+            google_cloud_project: Google Cloud Project
+            google_cloud_project_placeholder: '-- Select a Google Cloud Project --'
             
     template:
         admin_menu_title: Видео Платформа

@@ -24,15 +24,15 @@ use App\Entity\YoutubeChannel;
  */
 class GoogleVideoProvider implements VideoProviderInterface
 {
-    /** @var YouTube */
-    private $youtube;
+    /** @var Google */
+    private $google;
     
     /** @var array */
     private $videos;
     
     public function __construct( Google $google )
     {
-        $this->youtube  = $google->youtubeClient();
+        $this->google   = $google;
     }
     
     /**
@@ -146,7 +146,9 @@ class GoogleVideoProvider implements VideoProviderInterface
      */
     private function search( string $searchTerm = null ): GoogleCollection
     {
-        $searchResult = $this->youtube->search->listSearch(
+        $youtube        = $this->google->youtubeClient();
+        
+        $searchResult   = $youtube->search->listSearch(
             'id,snippet',
             [
                 'q'             => $searchTerm,
@@ -160,7 +162,9 @@ class GoogleVideoProvider implements VideoProviderInterface
     
     private function listChannel( YoutubeChannel $channel ): GoogleCollection
     {
-        $searchResult = $this->youtube->search->listSearch(
+        $youtube        = $this->google->youtubeClient( $channel );
+        
+        $searchResult   = $youtube->search->listSearch(
             'id,snippet',
             [
                 'channelId'     => $channel->getChannelId(),
@@ -175,7 +179,9 @@ class GoogleVideoProvider implements VideoProviderInterface
     
     private function get( YoutubeChannel $channel, string $videoId ): GoogleCollection
     {
-        $searchResult = $this->youtube->videos->listVideos(
+        $youtube        = $this->google->youtubeClient( $channel );
+        
+        $searchResult   = $youtube->videos->listVideos(
             'id,snippet',
             [
                 'id'     => $videoId,

@@ -29,6 +29,10 @@ class YoutubeChannel implements ResourceInterface
     #[ORM\OneToOne(targetEntity: "YoutubeChannelPhoto", mappedBy: "owner", cascade: ["persist", "remove"], orphanRemoval: true)]
     private $photo;
     
+    #[ORM\ManyToOne(targetEntity: GoogleCloudProject::class, inversedBy: "channels", cascade: ["persist", "remove"])]
+    #[ORM\JoinColumn(name: "project_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
+    private $project;
+    
     /**
      * Get id
      *
@@ -80,9 +84,21 @@ class YoutubeChannel implements ResourceInterface
         return $this->photo;
     }
     
-    public function setPhoto( $photo)
+    public function setPhoto( $photo )
     {
         $this->photo    = $photo;
+        
+        return $this;
+    }
+    
+    public function getProject()
+    {
+        return $this->project;
+    }
+    
+    public function setProject( $project )
+    {
+        $this->project    = $project;
         
         return $this;
     }

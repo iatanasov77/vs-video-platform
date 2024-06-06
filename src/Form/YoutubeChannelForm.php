@@ -7,8 +7,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use App\Entity\YoutubeChannel;
+use App\Entity\GoogleCloudProject;
 
 class YoutubeChannelForm extends AbstractForm
 {
@@ -26,6 +28,14 @@ class YoutubeChannelForm extends AbstractForm
             ->add( 'channelId', TextType::class, [
                 'label'                 => 'vs_vvp.form.youtube_channel.channel_id',
                 'translation_domain'    => 'VanzVideoPlayer',
+            ])
+            
+            ->add( 'project', EntityType::class, [
+                'label'                 => 'vs_vvp.form.youtube_channel.google_cloud_project',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'class'                 => GoogleCloudProject::class,
+                'choice_label'          => 'title',
+                'placeholder'           => 'vs_vvp.form.youtube_channel.google_cloud_project_placeholder'
             ])
             
             ->add( 'photo', FileType::class, [
