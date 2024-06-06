@@ -1,3 +1,10 @@
+1.1.1	|	Release date: **06.06.2024**
+============================================
+* New Features and Improvements:
+  - Improve Youtube Services.
+a
+
+
 1.1.0	|	Release date: **06.06.2024**
 ============================================
 * New Features and Improvements:
