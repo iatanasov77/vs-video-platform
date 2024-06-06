@@ -32,6 +32,9 @@ vs_application:
         list_slider_items: List Slier Items
         create_new_slider_item: Create New Slier Item
         edit_slider_item: Edit Slier Item
+        list_video_platform_applications: Video Platform Applications
+        create_new_video_platform_application: Create New Video Platform Application
+        edit_video_platform_application: Edit Video Platform Application
         video_platform_settings: Video Platform Settings
         list_video_platform_settings: Video Platform Settings
         create_new_video_platform_setting: Create Setting
@@ -55,6 +58,8 @@ vs_application:
             movies: Κινηματογράφος
             pornstars: Πορνοστάρ
             actors: Ηθοποιοί
+            youtube_channels: YouTube Channels
+            youtube_channel_brouse: Browse YouTube Channel
             pricing_plans: Σχέδια τιμολόγησης
             
         site_footer:

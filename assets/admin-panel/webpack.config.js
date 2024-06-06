@@ -39,6 +39,7 @@ Encore
     .addEntry( 'js/video-platform-storages-edit', './assets/admin-panel/js/pages/video-platform-storages-edit.js' )
     .addEntry( 'js/google-projects', './assets/admin-panel/js/pages/google-projects.js' )
     .addEntry( 'js/youtube-channels', './assets/admin-panel/js/pages/youtube-channels.js' )
+    .addEntry( 'js/youtube-channel-edit', './assets/admin-panel/js/pages/youtube-channel-edit.js' )
 ;
 
 const config = Encore.getWebpackConfig();

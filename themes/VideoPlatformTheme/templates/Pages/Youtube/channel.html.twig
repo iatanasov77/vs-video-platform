@@ -1,0 +1,64 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <!-- page title -->
+    <section class="section section--first section--bg"
+        data-bg="{{ asset( 'build/video-platform-theme/img/bg/section__bg.jpg' ) }}"
+    >
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section__wrap">
+                        <!-- section title -->
+                        <h1 class="section__title section__title--head">{{ 'vs_vvp.template.movies.movies' | trans( {},'VanzVideoPlayer' ) }}</h1>
+                        <!-- end section title -->
+
+                        <!-- breadcrumbs -->
+                        <ul class="breadcrumbs">
+                            {{ knp_menu_render( 'breadcrumbs', {'template': 'Menu/breadcrumb.html.twig'} ) }}
+                        </ul>
+                        <!-- end breadcrumbs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end page title -->
+    
+    {% if filterForm is defined %}
+        {% include 'Pages/Movies/Partial/filter.html.twig' %}
+    {% endif %}
+    
+    <!-- catalog -->
+    <div class="section section--catalog">
+        <div class="container" id="MoviesContainer">
+            {% include 'Pages/Youtube/Partial/movies-listing.html.twig' %}
+        </div>
+    </div>
+    <!-- end catalog -->
+    
+{% endblock %}
+
+{% block mobile_widgets %}
+    {% if mobileFilterForm is defined %}
+        {% include 'Pages/Movies/Partial/mobile-filter.html.twig' %}
+    {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+    <!-- Dont Work As NPM Module -->
+    <link rel="stylesheet" href="https://unpkg.com/slim-select@latest/dist/slimselect.css" />
+    
+    {{ parent() }}
+    
+    {{ encore_entry_link_tags( 'js/movies', null, 'VideoPlatformTheme' ) }}
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Dont Work As NPM Module -->
+    <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
+    
+    {{ parent() }}
+    
+    {{ encore_entry_script_tags( 'js/movies', null, 'VideoPlatformTheme' ) }}
+{% endblock %}

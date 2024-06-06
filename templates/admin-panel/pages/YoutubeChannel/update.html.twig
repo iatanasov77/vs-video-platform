@@ -22,17 +22,17 @@
             	<h5 class="card-header">{{ 'vs_vvp.template.page_title_youtube_channel_details'  | trans( {},'VanzVideoPlayer' ) }}</h5>
             	<div class="card-body">
             	
+                    {% if form_errors(form) is not empty %}
+                        <div class="alert alert-block alert-danger fade in">
+                            <button type="button" class="close close-sm" data-dismiss="alert">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            <strong>Error!</strong> {{ form_errors(form) }}
+                        </div>
+                    {% endif %}
+                        
                     {% if(item.id) %}{% set method = "PUT" %}{% else %}{% set method = "POST" %}{% endif %}
-                    
                     {{ form_start(form, { 'attr': {'class': 'form-horizontal ', 'id': 'FormQuickLink'}, 'method': method }) }}
-                        {% if form_errors(form) is not empty %}
-                            <div class="alert alert-block alert-danger fade in">
-                                <button type="button" class="close close-sm" data-dismiss="alert">
-                                    <i class="fa fa-times"></i>
-                                </button>
-                                <strong>Error!</strong> {{ form_errors(form) }}
-                            </div>
-                        {% endif %}
                         
     					<div class="form-group">
                             {{ form_label(form.title, null, {
@@ -51,6 +51,23 @@
                             
                             {{ form_widget(form.channelId, {'attr': {'class': 'form-control'}}) }}
                         </div>
+                        
+                        <div class="form-group">
+                            {{ form_label(form.photo, null, {
+                                'label_attr': {'class': 'col-form-label'}
+                                }) 
+                            }}
+                            <div class="input-group form-field-file">
+                                {% if item.photo %}{% set originalName = item.photo.originalName %}{% else %}{% set originalName = '' %}{% endif %}
+                                {{ form_widget(form.photo, {
+                                    'attr': {
+                                        'class': 'form-control',
+                                        'placeholder': originalName
+                                    }
+                                }) }}
+                                <label class="input-group-text" for="youtube_channel_form_photo">{{ originalName }}</label>
+                            </div>
+                        </div>
 
             			<div class="row">&nbsp;</div>
             			
@@ -60,4 +77,17 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block head_styles %}
+    {{ parent() }}
+    
+    {{ encore_entry_link_tags( 'js/youtube-channel-edit', null, 'CustomEntries' ) }}
+    {{ encore_entry_link_tags( 'css/custom', null, 'CustomEntries' ) }}
+{% endblock %}
+
+{% block body_scripts %}
+    {{ parent() }}
+    
+    {{ encore_entry_script_tags( 'js/youtube-channel-edit', null, 'CustomEntries' ) }}
 {% endblock %}

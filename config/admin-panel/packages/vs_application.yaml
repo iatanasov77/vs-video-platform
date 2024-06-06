@@ -696,6 +696,19 @@ vs_application:
                     iconClass: icon_genius
                     breadcrumb_route: vs_vvp_video_platform_settings_index
                 childs:
+                    list_applications:
+                        name: vs_application.menu.list_video_platform_applications
+                        route: vs_vvp_video_platform_application_index
+                    create_application:
+                        name: vs_application.menu.create_new_video_platform_application
+                        route: vs_vvp_video_platform_application_create
+                        display: false
+                    update_application:
+                        name: vs_application.menu.edit_video_platform_application
+                        route: vs_vvp_video_platform_application_update
+                        routeParameters:
+                          id: int
+                        display: false
                     list_settings:
                         name: vs_application.menu.list_video_platform_settings
                         route: vs_vvp_video_platform_settings_index

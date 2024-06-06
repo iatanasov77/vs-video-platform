@@ -2,6 +2,7 @@
 
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
+use Vankosoft\ApplicationBundle\Component\Context\ApplicationContextInterface;
 use App\Component\Cloud\Exception\VideoPlatformSettingsException;
 use App\Entity\VideoPlatformSettings;
 use App\Entity\VideoFile;
@@ -69,19 +70,18 @@ final class VideoPlatform
     private $videoSignatory;
     
     public function __construct(
-        string $settingsKey,
-        RepositoryInterface $videoPlatformSettingsRepository,
+        ApplicationContextInterface $applicationContext,
         VideoUrlsFactory $urlsFactory,
         VideoStreamsFactory $streamsFactory,
         VideoStorageBridge $storageBridge,
         VideoSignatory $videoSignatory
     ) {
-        $videoPlatformSettings          = $videoPlatformSettingsRepository->findOneBy( ['settingsKey' => $settingsKey] );
+        $videoPlatformSettings          = $applicationContext->getApplication()->getVideoPlatformApplication();
         if ( ! $videoPlatformSettings ) {
-            throw new VideoPlatformSettingsException( 'Video Platform Settings Key: "' . $settingsKey . '" Not Found !!!' );
+            throw new VideoPlatformSettingsException( 'Video Platform Settings IS NOT Configured for this Application !!!"' );
         }
         
-        $this->videoPlatformSettings    = $videoPlatformSettings;
+        $this->videoPlatformSettings    = $videoPlatformSettings->getSettings();
         
         $this->urlsFactory              = $urlsFactory;
         $this->urlsFactory->setSettings( $this->videoPlatformSettings );

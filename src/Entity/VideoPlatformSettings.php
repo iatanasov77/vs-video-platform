@@ -12,6 +12,10 @@ class VideoPlatformSettings implements ResourceInterface
     #[ORM\Id, ORM\Column(type: "integer"), ORM\GeneratedValue(strategy: "IDENTITY")]
     private $id;
     
+    /** @var VideoPlatformApplication */
+    #[ORM\OneToMany(targetEntity: "VideoPlatformApplication", mappedBy: "settings")]
+    private $videoPlatformApplication;
+    
     /** @var string */
     #[ORM\Column(name: "settings_key", type: "string", length: 32)]
     private $settingsKey;
@@ -50,6 +54,18 @@ class VideoPlatformSettings implements ResourceInterface
     public function getId()
     {
         return $this->id;
+    }
+    
+    public function getVideoPlatformApplication()
+    {
+        return $this->videoPlatformApplication;
+    }
+    
+    public function setVideoPlatformApplication($videoPlatformApplication)
+    {
+        $this->videoPlatformApplication  = $videoPlatformApplication;
+        
+        return $this;
     }
     
     public function getSettingsKey()

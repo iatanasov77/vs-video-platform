@@ -36,6 +36,10 @@ knp_gaufrette:
         vs_vvp_videos_digitalocean_coconut_output:
             service:
                 id: vs_vvp.digital_ocean_coconut_output_adapter
+        vs_vvp_youtube_photos:
+            local:
+                directory: "%vs_vvp.youtube_photos_directory%"
+                create: true
 
     filesystems:
         vs_application_profile:
@@ -58,4 +62,6 @@ knp_gaufrette:
             adapter: "vs_vvp_videos_digitalocean"
         vs_vvp_videos_digitalocean_coconut_output:
             adapter: "vs_vvp_videos_digitalocean_coconut_output"
+        vs_vvp_youtube_photos:
+            adapter: "vs_vvp_youtube_photos"
             

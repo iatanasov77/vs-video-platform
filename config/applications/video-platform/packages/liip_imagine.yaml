@@ -15,6 +15,7 @@ liip_imagine:
                     - "%kernel.project_dir%/public/shared_media/gaufrette/videos"
                     - "%kernel.project_dir%/public/shared_media/gaufrette/actors"
                     - "%kernel.project_dir%/public/shared_media/gaufrette/slider"
+                    - "%kernel.project_dir%/public/shared_media/gaufrette/youtube_photos"
 
     resolvers:
         default:

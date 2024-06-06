@@ -61,15 +61,15 @@ sylius_resource:
             classes:
                 model:      App\Entity\ActorPhoto
                 repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                
-        vs_vvp.coconut_settings:
+        
+        vs_vvp.video_platform_application:
             driver: doctrine/orm
             classes:
-                model:      App\Entity\CoconutSettings
+                model:      App\Entity\VideoPlatformApplication
                 repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
-                controller: App\Controller\AdminPanel\CoconutSettingsController
-                form:       App\Form\CoconutSettingsForm
-                
+                controller: App\Controller\AdminPanel\VideoPlatformApplicationController
+                form:       App\Form\VideoPlatformApplicationForm
+        
         vs_vvp.video_platform_settings:
             driver: doctrine/orm
             classes:
@@ -86,6 +86,14 @@ sylius_resource:
                 controller: App\Controller\AdminPanel\VideoPlatformStorageController
                 form:       App\Form\VideoPlatformStorageForm
                 
+        vs_vvp.coconut_settings:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\CoconutSettings
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                controller: App\Controller\AdminPanel\CoconutSettingsController
+                form:       App\Form\CoconutSettingsForm
+                
         vs_vvp.google_cloud_project:
             driver: doctrine/orm
             classes:
@@ -101,6 +109,12 @@ sylius_resource:
                 repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
                 controller: App\Controller\AdminPanel\YoutubeChannelController
                 form:       App\Form\YoutubeChannelForm
+                
+        vs_vvp.youtube_channel_photo:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\YoutubeChannelPhoto
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
                 
         vs_vvp.video_review:
             driver: doctrine/orm

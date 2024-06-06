@@ -12,7 +12,6 @@ class ActorPhoto extends File
     #[ORM\JoinColumn(name: "owner_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
     protected $owner;
     
-    
     public function getActor()
     {
         return $this->owner;
