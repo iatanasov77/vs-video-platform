@@ -1,6 +1,10 @@
-<?php namespace App\Component\VideoPlayer\Domain;
+<?php namespace App\Component\Cloud;
 
-interface VideoProvider
+use App\Component\VideoPlayer\Domain\Video;
+use App\Component\VideoPlayer\Domain\VideoPlayer;
+use App\Component\VideoPlayer\Domain\VideoProviderRequest;
+
+interface VideoProviderInterface
 {
     /**
      * Returns a list of videos for a specific provider request

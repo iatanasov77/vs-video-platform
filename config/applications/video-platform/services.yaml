@@ -4,6 +4,7 @@ imports:
     - { resource: services/form.yaml }
     - { resource: services/doctrine_extensions.yaml }
     - { resource: services/menu.yaml }
+    - { resource: services/youtube.yaml }
     - { resource: services/video-player.yaml }
     - { resource: services/uploader.yaml }
     - { resource: services/twig.yaml }

@@ -13,7 +13,7 @@ services:
             - '%env(GOOGLE_PROJECT)%'
     
     app_video_provider_youtube:
-        class: App\Component\VideoProviders\GoogleVideoProvider
+        class: App\Component\Cloud\GoogleVideoProvider
         arguments:
             - '@app_google_client'
 

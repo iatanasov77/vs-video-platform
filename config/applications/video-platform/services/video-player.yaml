@@ -1,7 +1,3 @@
-imports:
-    - { resource: video_providers/local_storage.yaml }
-    - { resource: video_providers/youtube.yaml }
-
 services:
     _defaults:
         autowire: true

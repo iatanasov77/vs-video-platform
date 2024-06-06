@@ -1,4 +1,4 @@
-<?php namespace App\Component\VideoProviders;
+<?php namespace App\Component\Cloud;
 
 use Google\Service\YouTube;
 use Google\Model as GoogleModel;
@@ -12,7 +12,6 @@ use App\Component\Cloud\Google;
 use App\Component\VideoPlayer\VideoService;
 use App\Component\VideoPlayer\Domain\Video;
 use App\Component\VideoPlayer\Domain\VideoPlayer;
-use App\Component\VideoPlayer\Domain\VideoProvider;
 use App\Component\VideoPlayer\Domain\VideoProviderRequest;
 use App\Component\VideoPlayer\YoutubeVideoPlayer;
 
@@ -21,7 +20,7 @@ use App\Component\VideoPlayer\YoutubeVideoPlayer;
  * ====================
  * https://console.cloud.google.com/apis/api/youtube.googleapis.com/metrics?project=vanzvideoplayer
  */
-class GoogleVideoProvider implements VideoProvider
+class GoogleVideoProvider implements VideoProviderInterface
 {
     /** @var YouTube */
     private $youtube;

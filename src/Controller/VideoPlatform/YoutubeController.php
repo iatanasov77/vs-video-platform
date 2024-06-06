@@ -5,7 +5,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use App\Component\VideoProviders\GoogleVideoProvider;
+use App\Component\Cloud\GoogleVideoProvider;
 use App\Component\VideoPlayer\Domain\VideoProviderRequest;
 use App\Component\VideoPlayer\VideoService;
 use App\Component\Cloud\Exception\YoutubeChannelException;
