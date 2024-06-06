@@ -10,8 +10,6 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 use Vankosoft\ApplicationBundle\Component\Status;
 use App\Component\Cloud\Exception\Coconut\JobNotFoundException;
-use App\Component\VideoPlayer\Domain\VideoProviderRequest;
-use App\Component\VideoPlayer\VideoService;
 use App\Component\Cloud\Coconut;
 
 class VideoServicesController extends AbstractController
@@ -22,9 +20,6 @@ class VideoServicesController extends AbstractController
     /** @var RepositoryInterface */
     private $videosRepository;
     
-    /** @var VideoService */
-    private $videos;
-    
     /** @var Coconut */
     private Coconut $coconut;
     
@@ -34,13 +29,11 @@ class VideoServicesController extends AbstractController
     public function __construct(
         ManagerRegistry $doctrine,
         RepositoryInterface $videosRepository,
-        //VideoService $videos,
         Coconut $coconut,
         CacheManager $imagineCacheManager
     ) {
         $this->doctrine             = $doctrine;
         $this->videosRepository     = $videosRepository;
-        //$this->videos               = $videos;
         $this->coconut              = $coconut;
         $this->imagineCacheManager  = $imagineCacheManager;
     }
@@ -70,28 +63,6 @@ class VideoServicesController extends AbstractController
                 'message'   => $e->getMessage()
             ]);
         } 
-    }
-    
-    /**
-     * THE OLD WAY
-     * 
-     * @param unknown $id
-     * @param Request $request
-     * @return Response
-     */
-    public function previewVideoByProvider( $id, Request $request ): Response
-    {
-        $videoRequest   = new VideoProviderRequest( VideoService::REQUEST_COMMAND_GET_A_VIDEO, [
-            'video_id'  => $id,
-        ]);
-        $videos     = $this->videos->videoList( $videoRequest );
-        $player     = $this->videos->render( $this->videos->first() );
-        
-        return $this->render(
-            'admin-panel/pages/VideoServices/video-preview-by-provider.html.twig', [
-                'player'            => $player,
-            ]
-        );
     }
     
     /**
