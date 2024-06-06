@@ -1,3 +1,13 @@
+1.1.0	|	Release date: **06.06.2024**
+============================================
+* New Features and Improvements:
+  - Update Home Page.
+  - Remove Selecting Video Platfoem Settings From ENV Variable.
+  - Add YouTube Channels Page on VideoPlatform Theme.
+  - Remove VanzVideoPlayer Application.
+  - Refactoring of Video Providers.
+
+
 1.0.4	|	Release date: **04.06.2024**
 ============================================
 * Bug-Fixes:
