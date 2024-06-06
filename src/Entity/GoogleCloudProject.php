@@ -1,6 +1,8 @@
 <?php namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
@@ -32,6 +34,15 @@ class GoogleCloudProject implements ResourceInterface
     /** @var string */
     #[ORM\Column(name: "google_client_secret", type: "string")]
     private $googleClientSecret;
+    
+    /** @var YoutubeChannel[] */
+    #[ORM\OneToMany(targetEntity: "YoutubeChannel", mappedBy: "project", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
+    private $channels;
+    
+    public function __construct()
+    {
+        $this->channels = new ArrayCollection();
+    }
     
     /**
      * Get id
@@ -99,6 +110,29 @@ class GoogleCloudProject implements ResourceInterface
     public function setGoogleClientSecret($googleClientSecret)
     {
         $this->googleClientSecret   = $googleClientSecret;
+        
+        return $this;
+    }
+    
+    public function getChannels()
+    {
+        return $this->channels;
+    }
+    
+    public function addChannel( YoutubeChannel $channel ): self
+    {
+        if ( ! $this->channels->contains( $channel ) ) {
+            $this->channels[] = $channel;
+        }
+        
+        return $this;
+    }
+    
+    public function removeChannel( YoutubeChannel $channel ): self
+    {
+        if ( $this->channels->contains( $channel ) ) {
+            $this->channels->removeElement( $channel );
+        }
         
         return $this;
     }
