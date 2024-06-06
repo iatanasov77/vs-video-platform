@@ -57,7 +57,6 @@ services:
         arguments:
             - '@doctrine'
             - '@vs_vvp.repository.video'
-            #- '@app_video_service_local_storage'
             - '@app_video_transcoder_coconut'
             - '@liip_imagine.cache.manager'
             

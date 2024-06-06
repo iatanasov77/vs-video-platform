@@ -43,13 +43,13 @@ class YoutubeController extends AbstractController
     
     public function browseChannelAction( $slug, Request $request, PaginatorInterface $paginator ): Response
     {
-        $channel    = $this->channelsRepository->findOneBy( ['slug' => 'ivan-atanasov-channel'] );
+        $channel    = $this->channelsRepository->findOneBy( ['slug' => $slug] );
         if ( ! $channel ) {
             throw new YoutubeChannelException( 'Youtube Channel Not Found !!!' );
         }
         
         $videoRequest   = new VideoProviderRequest( VideoService::REQUEST_COMMAND_CHANNEL, [
-            'channelId' => $channel->getChannelId(),
+            'channel'   => $channel,
             'results'   => 100,
         ]);
         $paginatorItems = $this->youtube->videoList( $videoRequest );
@@ -59,12 +59,18 @@ class YoutubeController extends AbstractController
             $this->moviesPerPage /*limit per page*/
         );
         
-        return $this->render( 'Pages/Youtube/channel.html.twig', ['movies' => $movies] );
+        return $this->render( 'Pages/Youtube/channel.html.twig', ['channel' => $channel, 'movies' => $movies] );
     }
     
-    public function videoDetailsAction( $videoId, Request $request ): Response
+    public function videoDetailsAction( $channel, $videoId, Request $request ): Response
     {
+        $channel    = $this->channelsRepository->findOneBy( ['slug' => $channel] );
+        if ( ! $channel ) {
+            throw new YoutubeChannelException( 'Youtube Channel Not Found !!!' );
+        }
+        
         $videoRequest   = new VideoProviderRequest( VideoService::REQUEST_COMMAND_GET_A_VIDEO, [
+            'channel'   => $channel,
             'videoId'   => $videoId,
         ]);
         $video          = $this->youtube->videoList( $videoRequest );

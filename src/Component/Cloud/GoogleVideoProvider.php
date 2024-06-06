@@ -14,6 +14,8 @@ use App\Component\VideoPlayer\Domain\Video;
 use App\Component\VideoPlayer\Domain\VideoPlayer;
 use App\Component\VideoPlayer\Domain\VideoProviderRequest;
 use App\Component\VideoPlayer\YoutubeVideoPlayer;
+use App\Component\VideoPlayer\Exception\VideoProviderRequestException;
+use App\Entity\YoutubeChannel;
 
 /**
  * Google Cloud Project 
@@ -43,13 +45,13 @@ class GoogleVideoProvider implements VideoProviderInterface
                 $searchResult   = $this->search( $request->params['searchTerm'] );
                 break;
             case VideoService::REQUEST_COMMAND_CHANNEL:
-                $searchResult   = $this->listChannel( $request->params['channelId'] );
+                $searchResult   = $this->listChannel( $request->params['channel'] );
                 break;
             case VideoService::REQUEST_COMMAND_GET_A_VIDEO:
-                $searchResult   = $this->get( $request->params['videoId'] );
+                $searchResult   = $this->get( $request->params['channel'], $request->params['videoId'] );
                 break;
             default:
-                throw new \Exception( '' );
+                throw new VideoProviderRequestException( 'Unknown Video Provider Request !!!' );
         }
         //echo '<pre>'; var_dump( $searchResult ); die;
         
@@ -156,12 +158,12 @@ class GoogleVideoProvider implements VideoProviderInterface
         return $searchResult;
     }
     
-    private function listChannel( string $channelId ): GoogleCollection
+    private function listChannel( YoutubeChannel $channel ): GoogleCollection
     {
         $searchResult = $this->youtube->search->listSearch(
             'id,snippet',
             [
-                'channelId'     => $channelId,
+                'channelId'     => $channel->getChannelId(),
                 'type'          => 'video',
                 'maxResults'    => 20
             ]
@@ -171,7 +173,7 @@ class GoogleVideoProvider implements VideoProviderInterface
         return $searchResult;
     }
     
-    private function get( string $videoId ): GoogleCollection
+    private function get( YoutubeChannel $channel, string $videoId ): GoogleCollection
     {
         $searchResult = $this->youtube->videos->listVideos(
             'id,snippet',

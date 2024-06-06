@@ -120,6 +120,6 @@ vvp_youtube_channel_brouse:
     defaults:   { slug: 'latest' }
     
 vvp_youtube_video_details:
-    path: /youtube-channels/video/{videoId}
+    path: /youtube-channels/{channel}/{videoId}
     controller: App\Controller\VideoPlatform\YoutubeController::videoDetailsAction
-    defaults:   { videoId: 'latest' }
+    defaults:   { channel: 'latest', videoId: 'latest' }

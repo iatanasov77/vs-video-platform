@@ -24,11 +24,6 @@ vvp_coconut_job_status:
     path: /video-platform/coconut/{videoId}/job-status
     controller: App\Controller\AdminPanel\VideoServicesController::coconutJobStatus
     
-# THE OLD WAY
-vvp_video_preview_by_provider:
-    path: /video-platform/video-preview-by-provider/{id}
-    controller: App\Controller\AdminPanel\VideoServicesController::previewVideoByProvider
-    
 # THE NEW WAY
 vvp_video_preview_directly:
     path: /video-platform/video-preview-directly/{id}
