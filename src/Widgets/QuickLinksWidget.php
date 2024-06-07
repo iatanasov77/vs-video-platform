@@ -19,7 +19,7 @@ class QuickLinksWidget implements WidgetLoaderInterface
     
     public function builder( WidgetEvent $event )
     {
-        $links  = $this->quickLinksRepository->findAll();
+        $links  = $this->quickLinksRepository->findBy( ['enabled'=> 1] );
         
         /** @var Widget */
         $widgetContainer    = $event->getWidgetContainer();
