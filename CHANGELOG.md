@@ -1,3 +1,11 @@
+1.1.2	|	Release date: **09.06.2024**
+============================================
+* New Features and Improvements:
+  - Improve Application Header Section.
+  - Improve QuickLinks Widget.
+  - Add Doctrine Config for Production Environement in VideoPlatform Application.
+
+
 1.1.1	|	Release date: **06.06.2024**
 ============================================
 * New Features and Improvements:
