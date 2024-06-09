@@ -26,6 +26,5 @@ const VideoPlatformThemeConfig   = require('./themes/VideoPlatformTheme/webpack.
 module.exports = [
     adminPanelConfig,
     adminPanelCusstomEntriesConfig,
-    applicationTheme2Config,
     VideoPlatformThemeConfig
 ];
