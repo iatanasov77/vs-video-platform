@@ -1,3 +1,9 @@
+1.1.3	|	Release date: **09.06.2024**
+============================================
+* Bug-Fixes:
+  - Fix webpack.config.js
+
+
 1.1.2	|	Release date: **09.06.2024**
 ============================================
 * New Features and Improvements:
