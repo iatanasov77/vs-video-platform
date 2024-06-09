@@ -17,13 +17,6 @@ const adminPanelCusstomEntriesConfig = require('./assets/admin-panel/webpack.con
 //=================================================================================================
 
 /**
- *  Application Theme 2
- */
-Encore.reset();
-const applicationTheme2Config   = require('./themes/ApplicationSimpleTheme/webpack.config');
-//=================================================================================================
-
-/**
  *  Video Platform Theme
  */
 Encore.reset();
