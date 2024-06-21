@@ -74,8 +74,38 @@ liip_imagine:
                 thumbnail: { size: [300, 200], mode: outbound }
                 background: { size: [304, 204], position: center, color: '#000000' }
                 
+        video_photos_gallery_thumb:
+            quality: 75
+            filters:
+                thumbnail: { size: [336, 224], mode: outbound }
+                background: { size: [340, 228], position: center, color: '#000000' }
+                
+        video_photos_gallery_preview:
+            quality: 75
+            filters:
+                thumbnail: { size: [1920, 1280], mode: outbound }
+                background: { size: [1924, 1284], position: center, color: '#000000' }
+                
+        actor_photos_gallery_thumb:
+            quality: 75
+            filters:
+                thumbnail: { size: [336, 224], mode: outbound }
+                background: { size: [340, 228], position: center, color: '#000000' }
+                
+        actor_photos_gallery_preview:
+            quality: 75
+            filters:
+                thumbnail: { size: [1920, 1280], mode: outbound }
+                background: { size: [1924, 1284], position: center, color: '#000000' }
+                
         photoswipe_gallery_preview:
             quality: 75
             filters:
                 thumbnail: { size: [1920, 1280], mode: outbound }
                 background: { size: [1924, 1284], position: center, color: '#000000' }
+                
+        video_watermark:
+            quality: 75
+            filters:
+                thumbnail: { size: [400, 40], mode: outbound }
+                background: { size: [404, 44], position: center, color: '#000000' }
