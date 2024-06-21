@@ -1,3 +1,10 @@
+1.1.5	|	Release date: **21.06.2024**
+============================================
+* Bug-Fixes:
+  - Fix Application Movies Details Page.
+  - Fix Login/Register Pages.
+
+
 1.1.4	|	Release date: **09.06.2024**
 ============================================
 * Bug-Fixes:
