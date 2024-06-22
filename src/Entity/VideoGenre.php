@@ -49,7 +49,7 @@ class VideoGenre implements ResourceInterface, TaxonDescendentInterface
         return $this->videos;
     }
     
-    public function addVideo( Video $video ): VideoCategory
+    public function addVideo( Video $video ): self
     {
         if ( ! $this->videos->contains( $video ) ) {
             $this->videos[] = $video;
@@ -59,7 +59,7 @@ class VideoGenre implements ResourceInterface, TaxonDescendentInterface
         return $this;
     }
     
-    public function removeVideo( Video $video ): VideoCategory
+    public function removeVideo( Video $video ): self
     {
         if ( $this->videos->contains( $video ) ) {
             $this->videos->removeElement( $video );
