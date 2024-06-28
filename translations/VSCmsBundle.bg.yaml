@@ -1,0 +1,7 @@
+vs_cms:
+    form:
+        slider_item:
+            actor: Actor
+            actor_placeholder: '-- Choose an Actor --'
+            video: Video
+            video_placeholder: '-- Choose a Video --'
