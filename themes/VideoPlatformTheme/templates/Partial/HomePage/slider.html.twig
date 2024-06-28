@@ -5,23 +5,49 @@
             <div class="col-12">
                 <div class="hero splide splide--hero">
                     <div class="splide__arrows">
-                        <button class="splide__arrow splide__arrow--prev" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,11H9.41l3.3-3.29a1,1,0,1,0-1.42-1.42l-5,5a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l5,5a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L9.41,13H17a1,1,0,0,0,0-2Z"/></svg></button>
-                        <button class="splide__arrow splide__arrow--next" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/></svg></button>
+                        <button class="splide__arrow splide__arrow--prev" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M17,11H9.41l3.3-3.29a1,1,0,1,0-1.42-1.42l-5,5a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l5,5a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L9.41,13H17a1,1,0,0,0,0-2Z"/>
+                            </svg>
+                        </button>
+                        <button class="splide__arrow splide__arrow--next" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M17.92,11.62a1,1,0,0,0-.21-.33l-5-5a1,1,0,0,0-1.42,1.42L14.59,11H7a1,1,0,0,0,0,2h7.59l-3.3,3.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l5-5a1,1,0,0,0,.21-.33A1,1,0,0,0,17.92,11.62Z"/>
+                            </svg>
+                        </button>
                     </div>
                     
                     <div class="splide__track">
                         <ul class="splide__list">
-                        {% for item in sliderItems %}
-                            <li class="splide__slide">
-                                <div class="hero__slide"
-                                    data-bg="{{ item.photo.path | imagine_filter( 'slider_background_photo' ) }}"
-                                >
-                                    <div class="hero__content">
-                                        {{ item.description | raw }}
+                            {% for item in sliderItems %}
+                                <li class="splide__slide">
+                                    <div class="hero__slide"
+                                        data-bg="{{ item.photo.path | imagine_filter( 'slider_background_photo' ) }}"
+                                    >
+                                        <div class="hero__content">
+                                            <h2 class="hero__title">
+                                                {{ item.title }} 
+                                                {% if item.video %}
+                                                    <sub>{{ item.video.averageRating | number_format( 1, '.', ',' ) }}</sub>
+                                                {% endif %}
+                                            </h2>
+                                            {{ item.description | raw }}
+                                            <p class="hero__category">
+                                                {% if item.video %}
+                                                    {% for genre in item.video.genres %}
+                                                        <a href="#">{{ genre.name }}</a>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </p>
+                                            <div class="hero__actions">
+                                                <a href="{{ item.url }}" class="hero__btn">
+                                                    <span>{{ 'vs_vvp.template.home_page.watch_now' | trans( {},'VanzVideoPlayer' ) }}</span>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        {% endfor %}
+                                </li>
+                            {% endfor %}
                         </ul>
                     </div>
                     

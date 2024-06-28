@@ -33,6 +33,7 @@ vs_cms:
         slider_item:
             classes:
                 model: App\Entity\Cms\SliderItem
+                form: App\Form\SliderItemForm
         slider_item_photo:
             classes:
                 model: App\Entity\Cms\SliderItemPhoto

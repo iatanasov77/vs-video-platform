@@ -127,4 +127,13 @@ services:
         arguments:
             - '%vs_vvp.model.youtube_channel.class%'
 
-
+    # Override VS CMS Bundle SliderItem Form
+    vs_cms.resources.slider_item.form:
+        class: App\Form\SliderItemForm
+        tags:
+            - { name: form.type }
+        arguments:
+            - '%vs_cms.model.slider_item.class%'
+            - '%vs_cms.model.slider.class%'
+            - '@vs_application.repository.locale'
+            - '@request_stack'

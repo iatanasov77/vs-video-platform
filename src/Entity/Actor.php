@@ -14,6 +14,7 @@ use Sylius\Component\Review\Model\ReviewableInterface;
 use Vankosoft\CatalogBundle\Model\Traits\ReviewableEntity;
 use Vankosoft\CatalogBundle\Model\Traits\CommentableTrait;
 use App\Entity\Application\Translation;
+use App\Entity\Cms\SliderItem;
 
 #[ORM\Entity]
 #[ORM\Table(name: "VVP_Actors")]
@@ -97,13 +98,18 @@ class Actor implements ResourceInterface, ReviewableInterface, TranslatableInter
     #[ORM\OneToMany(targetEntity: "ActorReview", mappedBy: "reviewSubject", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
     protected $reviews;
     
+    /** @var SliderItem[] */
+    #[ORM\OneToMany(targetEntity: SliderItem::class, mappedBy: "actor", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
+    private $sliderItems;
+    
     public function __construct()
     {
-        $this->genres   = new ArrayCollection();
-        $this->videos   = new ArrayCollection();
-        $this->photos   = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-        $this->reviews  = new ArrayCollection();
+        $this->genres       = new ArrayCollection();
+        $this->videos       = new ArrayCollection();
+        $this->photos       = new ArrayCollection();
+        $this->comments     = new ArrayCollection();
+        $this->reviews      = new ArrayCollection();
+        $this->sliderItems  = new ArrayCollection();
     }
     
     public function getId()
@@ -278,6 +284,32 @@ class Actor implements ResourceInterface, ReviewableInterface, TranslatableInter
     {
         if ( $this->genres->contains( $genre ) ) {
             $this->genres->removeElement( $genre );
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * @return Collection|SliderItem[]
+     */
+    public function getSliderItems()
+    {
+        return $this->sliderItems;
+    }
+    
+    public function addSliderItem( SliderItem $sliderItem ): self
+    {
+        if ( ! $this->sliderItems->contains( $sliderItem ) ) {
+            $this->sliderItems[] = $sliderItem;
+        }
+        
+        return $this;
+    }
+    
+    public function removeSliderItem( SliderItem $sliderItem ): self
+    {
+        if ( $this->sliderItems->contains( $sliderItem ) ) {
+            $this->sliderItems->removeElement( $sliderItem );
         }
         
         return $this;

@@ -32,4 +32,9 @@ oneup_uploader:
     resource: .
     type: uploader
 
-
+vs_cms_slider_item_ext_edit:
+    path: /slider-item-edit/{sliderId}/{itemId}/{locale}
+    controller: App\Controller\AdminPanel\SliderItemExtController::editSliderItem
+    defaults: { locale: '%locale%' }
+    options:
+        expose: true

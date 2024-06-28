@@ -1,3 +1,12 @@
+1.2.0	|	Release date: **28.06.2024**
+============================================
+* New Features:
+  - Override CMS Bundle Slider Item Form.
+* Bug-Fixes and Improvements:
+  - Improve VideoPlatformApplication Index Page.
+  - Fix VideoGenre Entity.
+
+
 1.1.5	|	Release date: **21.06.2024**
 ============================================
 * Bug-Fixes:

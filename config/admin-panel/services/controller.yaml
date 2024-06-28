@@ -74,4 +74,13 @@ services:
             - '@doctrine'
             - '@vs_vvp.repository.actor'
 
-
+    App\Controller\AdminPanel\SliderItemExtController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@doctrine'
+            - '@vs_cms.repository.slider'
+            - '@vs_cms.repository.slider_item'
+            - '@vs_cms.factory.slider_item'
+            - '@vs_cms.file_manager'
+            - '%vs_application_slider_photo_description%'

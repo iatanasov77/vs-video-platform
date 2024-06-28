@@ -271,6 +271,7 @@ vs_vvp:
             rate_This_video: Rate This Video
             
         home_page:
+            watch_now: Watch now
             recently_updated: Последни Ъпдейти
             new_items: Най-нови
             to_catalog: към каталога
