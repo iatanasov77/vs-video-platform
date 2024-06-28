@@ -6,6 +6,7 @@ use Vankosoft\ApplicationBundle\EventListener\Event\WidgetEvent;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Vankosoft\CatalogBundle\Component\AssociationStrategy;
 use App\Component\VideoPlatform;
 
@@ -66,11 +67,14 @@ class VideoSuggestionsWidget implements WidgetLoaderInterface
     private function getVideoSuggestions( $videoSlug )
     {
         $video                  = $this->videosRepository->findOneBy( ['slug' => $videoSlug] );
-        $suggestionsStrategy    = $this->videoPlatform->getSuggestionsStrategy();
+        $suggestionsStrategy    = $this->videoPlatform->getSuggestionsStrategy()->getAssociationStrategy();
         
         switch ( $suggestionsStrategy ) {
             case AssociationStrategy::STRATEGY_SIMILAR:
-                
+                $videoSuggestions   = new ArrayCollection();
+                foreach ( $video->getGenres() as $genre ) {
+                    $videoSuggestions = new ArrayCollection( $videoSuggestions->toArray() + $genre->getVideos()->toArray() );
+                }
                 break;
             case AssociationStrategy::STRATEGY_RANDOM:
             default:
