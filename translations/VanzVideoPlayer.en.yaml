@@ -270,6 +270,7 @@ vs_vvp:
             rate_This_video: Rate This Video
             
         home_page:
+            watch_now: Watch now
             recently_updated: Recently Updated
             new_items: New items
             to_catalog: to catalog

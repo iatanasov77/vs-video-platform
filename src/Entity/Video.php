@@ -7,6 +7,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Review\Model\ReviewableInterface;
 use App\Entity\UserManagement\User;
 use App\Entity\UsersSubscriptions\PayedService;
+use App\Entity\Cms\SliderItem;
 
 use Vankosoft\CatalogBundle\Model\ProductBase;
 
@@ -92,6 +93,10 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
     #[ORM\InverseJoinColumn(name: "user_id", referencedColumnName: "id")]
     private $watchedByUsers;
     
+    /** @var SliderItem[] */
+    #[ORM\OneToMany(targetEntity: SliderItem::class, mappedBy: "video", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
+    private $sliderItems;
+    
     public function __construct()
     {
         parent::__construct();
@@ -102,6 +107,7 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
         $this->allowedPaidServices  = new ArrayCollection();
         $this->photos               = new ArrayCollection();
         $this->watchedByUsers       = new ArrayCollection();
+        $this->sliderItems          = new ArrayCollection();
         
         /** @var ArrayCollection<array-key, AssociationInterface> $this->associations */
         $this->associations         = new ArrayCollection();
@@ -305,6 +311,32 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
     {
         if ( $this->watchedByUsers->contains( $user ) ) {
             $this->watchedByUsers->removeElement( $user );
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * @return Collection|SliderItem[]
+     */
+    public function getSliderItems()
+    {
+        return $this->sliderItems;
+    }
+    
+    public function addSliderItem( SliderItem $sliderItem ): self
+    {
+        if ( ! $this->sliderItems->contains( $sliderItem ) ) {
+            $this->sliderItems[] = $sliderItem;
+        }
+        
+        return $this;
+    }
+    
+    public function removeSliderItem( SliderItem $sliderItem ): self
+    {
+        if ( $this->sliderItems->contains( $sliderItem ) ) {
+            $this->sliderItems->removeElement( $sliderItem );
         }
         
         return $this;

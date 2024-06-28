@@ -270,6 +270,7 @@ vs_vvp:
             rate_This_video: Rate This Video
             
         home_page:
+            watch_now: Watch now
             recently_updated: Πρόσφατα Ενημερώθηκε
             new_items: Νέα αντικείμενα
             to_catalog: στον κατάλογο
