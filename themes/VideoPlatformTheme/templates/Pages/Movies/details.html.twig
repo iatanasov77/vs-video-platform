@@ -147,6 +147,9 @@
 {% block javascripts %}
     {{ parent() }}
     
+    <script type="text/javascript">
+        var videoSlug = '{{ app.request.get( 'slug' ) }}';
+    </script>
     {{ encore_entry_script_tags( 'js/movies-details', null, 'VideoPlatformTheme' ) }}
 {% endblock %}
 
