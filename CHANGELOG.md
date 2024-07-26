@@ -1,3 +1,12 @@
+2.0.0	|	Release date: **26.07.2024**
+============================================
+* New Features and Improvements:
+  - Remove Untranslated Placeholders From Application Contact Form.
+  - Improve Video Suggestions Widget.
+  - Add New Admin Panel Theme.
+  - Move AdminPanel Custom Entries Into the New  Theme.
+
+
 1.2.1	|	Release date: **28.06.2024**
 ============================================
 * Bug-Fixes:
