@@ -693,7 +693,7 @@ vs_application:
                 name: vs_application.menu.video_platform_settings
                 uri: "javascript:;"
                 attributes:
-                    iconClass: icon_genius
+                    iconClass: ri-cloud-line
                     breadcrumb_route: vs_vvp_video_platform_settings_index
                 childs:
                     list_applications:
@@ -753,7 +753,7 @@ vs_application:
                 name: vs_application.menu.youtube_provider
                 uri: "javascript:;"
                 attributes:
-                    iconClass: icon_genius
+                    iconClass: ri-youtube-line
                     breadcrumb_route: vs_vvp_google_cloud_project_index
                 childs:
                     list_google_projects:
@@ -787,7 +787,7 @@ vs_application:
                 name: vs_application.menu.actors
                 uri: "javascript:;"
                 attributes:
-                    iconClass: icon_genius
+                    iconClass: ri-file-video-line
                     breadcrumb_route: vs_vvp_actor_index
                 childs:
                     list:
@@ -808,7 +808,7 @@ vs_application:
                 name: vs_application.menu.videos
                 uri: "javascript:;"
                 attributes:
-                    iconClass: icon_genius
+                    iconClass: ri-file-video-line
                     breadcrumb_route: vs_vvp_video_index
                 childs:
                     list:

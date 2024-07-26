@@ -1,0 +1,107 @@
+{% extends "@VSApplication/layout.html.twig" %}
+
+{# Import Macros #}
+{% from '@SyliusResource/Macros/actions.html.twig' import create %}
+{% import "@VSApplication/Macros/form.html.twig" as vs_form %}
+{% import "@VSApplication/Macros/tree.html.twig" as vs_tree %}
+{% import "@VSApplication/Macros/OneUpUpload/progressbar.html.twig" as vs_progressbar %}
+{% import "@VSApplication/Macros/OneUpUpload/oneup_upload.html.twig" as vs_oneup_upload %}
+
+{% if( item.id ) %}
+    {% set pageTitle = ( 'vs_vvp.template.page_title_youtube_channel_update' | trans( {},'VanzVideoPlayer' ) ) ~ ': ' ~ item.title %}
+{% else %}
+    {% set pageTitle = 'vs_vvp.template.page_title_youtube_channel_create' | trans( {},'VanzVideoPlayer' ) %}
+{% endif %}
+
+{% block title %}{{ parent() }} :: {{ pageTitle }}{% endblock %}
+{% block pageTitle %}
+	<h4 class="pageheader-title">
+    	<i class="ri-settings-5-line"></i> 
+        {{ pageTitle }}
+   	</h4>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+            	<h5 class="card-header">{{ 'vs_vvp.template.page_title_youtube_channel_details'  | trans( {},'VanzVideoPlayer' ) }}</h5>
+            	<div class="card-body">
+            	
+                    {% if form_errors(form) is not empty %}
+                        <div class="alert alert-block alert-danger fade in">
+                            <button type="button" class="close close-sm" data-dismiss="alert">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            <strong>Error!</strong> {{ form_errors(form) }}
+                        </div>
+                    {% endif %}
+                        
+                    {% if(item.id) %}{% set method = "PUT" %}{% else %}{% set method = "POST" %}{% endif %}
+                    {{ form_start(form, { 'attr': {'class': 'form-horizontal ', 'id': 'FormQuickLink'}, 'method': method }) }}
+                        
+    					<div class="form-group">
+                            {{ form_label(form.title, null, {
+                                'label_attr': {'class': 'form-label'}
+                                }) 
+                            }}
+                            
+                            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form_label(form.channelId, null, {
+                                'label_attr': {'class': 'form-label'}
+                                }) 
+                            }}
+                            
+                            {{ form_widget(form.channelId, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form_label(form.project, null, {
+                                'label_attr': {'class': 'form-label'}
+                                }) 
+                            }}
+                            
+                            {{ form_widget(form.project, {'attr': {'class': 'form-select'}}) }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form_label(form.photo, null, {
+                                'label_attr': {'class': 'form-label'}
+                                }) 
+                            }}
+                            <div class="input-group form-field-file">
+                                {% if item.photo %}{% set originalName = item.photo.originalName %}{% else %}{% set originalName = '' %}{% endif %}
+                                {{ form_widget(form.photo, {
+                                    'attr': {
+                                        'class': 'form-control',
+                                        'placeholder': originalName
+                                    }
+                                }) }}
+                                <label class="input-group-text" for="youtube_channel_form_photo">{{ originalName }}</label>
+                            </div>
+                        </div>
+
+            			<div class="row">&nbsp;</div>
+            			
+            			{{ vs_form.buttons( form, metadata ) }}
+                    {{ form_end(form, {'render_rest': false}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block head_styles %}
+    {{ parent() }}
+    
+    {{ encore_entry_link_tags( 'js/youtube-channel-edit', null, 'VelzonTheme' ) }}
+{% endblock %}
+
+{% block body_scripts %}
+    {{ parent() }}
+    
+    {{ encore_entry_script_tags( 'js/youtube-channel-edit', null, 'VelzonTheme' ) }}
+{% endblock %}

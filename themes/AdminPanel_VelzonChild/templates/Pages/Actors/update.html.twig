@@ -1,0 +1,62 @@
+{% extends "@VSApplication/layout.html.twig" %}
+
+{% if( item.id ) %}
+    {% set pageTitle = ( 'vs_vvp.template.page_title_actor_update' | trans( {},'VanzVideoPlayer' ) ) ~ ': ' ~ item.name %}
+{% else %}
+    {% set pageTitle = 'vs_vvp.template.page_title_actor_create' | trans( {},'VanzVideoPlayer' ) %}
+{% endif %}
+
+{% block title %}{{ parent() }} :: {{ pageTitle }}{% endblock %}
+{% block pageTitle %}
+	<h4 class="pageheader-title">
+    	<i class="ri-settings-5-line"></i> 
+        {{ pageTitle }}
+   	</h4>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+            	<h5 class="card-header">{{ 'vs_vvp.template.page_title_actor_details'  | trans( {},'VanzVideoPlayer' ) }}</h5>
+            	<div class="card-body">
+            	   {% if form_errors(form) is not empty %}
+                        <div class="alert alert-block alert-danger fade in">
+                            <button type="button" class="close close-sm" data-dismiss="alert">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            <strong>Error!</strong> {{ form_errors(form) }}
+                        </div>
+                    {% endif %}
+                    <div id="FormContainer" data-itemId="{{ item.id }}">
+                        {% include 'Pages/Actors/actor_form.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block modals %}
+    {{ parent() }}
+    
+    {% if( item.id ) %}
+        {#
+        <div id="FileUploadProgressbarThumbnail" style="display: none;">
+            <div class="progressInfo"><span class="caption"></span></div>
+        </div>
+        #}
+    {% endif %}
+{% endblock %}
+                            
+{% block head_styles %}
+	{{ parent() }}
+	
+	{{ encore_entry_link_tags( 'js/actors-edit', null, 'VelzonTheme' ) }}
+{% endblock %}
+
+{% block body_scripts %}
+    {{ parent() }}
+    
+    {{ encore_entry_script_tags( 'js/actors-edit', null, 'VelzonTheme' ) }}
+{% endblock %}

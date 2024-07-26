@@ -9,14 +9,6 @@ const adminPanelConfig  = require( themePath + '/webpack.config' );
 //=================================================================================================
 
 /**
- *  AdminPanel Cusstom Entries
- */
-Encore.reset();
-const adminPanelCusstomEntriesConfig = require('./assets/admin-panel/webpack.config');
-
-//=================================================================================================
-
-/**
  *  AdminPanel Velzon Theme
  */
 Encore.reset();
@@ -33,7 +25,6 @@ const VideoPlatformThemeConfig   = require('./themes/VideoPlatformTheme/webpack.
 
 module.exports = [
     adminPanelConfig,
-    adminPanelCusstomEntriesConfig,
     adminPanelVelzonConfig,
     VideoPlatformThemeConfig
 ];

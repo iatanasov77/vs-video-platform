@@ -44,3 +44,16 @@ label.required:after {
     background-color: #fff !important;
     margin: 5px !important;
 }
+
+#video-preview-modal .modal-content {
+    width: 730px;
+}
+
+#video-preview-modal .video-js {
+    width: 600px !important;
+    height: 350px !important;
+}
+
+.table-nowrap th, .table-nowrap td {
+    white-space: nowrap;
+}

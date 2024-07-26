@@ -1,37 +1,69 @@
 {% extends 'knp_menu.html.twig' %}
 
 {% block root %}
-    {% if ( item.children | first ) is not empty %}
-        <li class="nav-divider">{{ 'vs_vvp.template.admin_menu_title' | trans( {},'VanzVideoPlayer' ) }}</li>
+
+	{% set hasChilds = false %}
+    {% for parentItem in item.children %}
+        {% if parentItem is not empty %}
+            {% set hasChilds = true %}
+        {% endif %}
+    {% endfor %}
+    
+    {% if hasChilds %}
+    	<li class="menu-title"><span data-key="t-menu">{{ 'vs_vvp.template.admin_menu_title' | trans( {},'VanzVideoPlayer' ) }}</span></li>
     {% endif %}
     
     {% for parentItem in item.children %}
-        <li class="nav-item ">
-            <a class="nav-link"
-                data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#submenu-videoplayer-{{ loop.index }}" aria-controls="submenu-videoplayer-{{ loop.index }}"
-                href="{{ parentItem.uri }}"
-             >
-                {# <i class="{{ parentItem.attributes.iconClass }}"></i> #}
-                <span>{{ parentItem.name }}</span>
-            {% if(parentItem.hasChildren) %}
-                <!--  <span class="menu-arrow arrow_carrot-right"></span> -->
+    
+    	{% if( parentItem.displayed and parentItem.hasChildren ) %}
+        
+        	{# Detect Current Parent #}
+            {% set isCurrentParent = false %}
+            {% if ( parentItem.hasChildren ) %}
+                {% for childItem in parentItem.children %}
+                    {% if childItem.isCurrent %}
+                        {% set isCurrentParent = true %}
+                    {% endif %}
+                {% endfor %}
             {% endif %}
-            </a>
-            {% if(parentItem.hasChildren) %}
-                <div id="submenu-videoplayer-{{ loop.index }}" class="collapse submenu" style="">
-                    <ul class="nav flex-column">
-                        {% for childItem in parentItem.children %}
-                            {% if( childItem.displayed ) %}
-                                <li class="nav-item">
-                                    <a class="nav-link main-menu-button {% if childItem.isCurrent %}main-menu-current-item{% endif %}" href="{{ childItem.uri }}">
-                                        {{ childItem.name }}
-                                    </a>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-        </li>
+        
+            <li class="nav-item ">
+                <a class="nav-link menu-link {% if isCurrentParent %}active{% endif %}"
+                    data-bs-toggle="collapse"
+                    role="button"
+                    {% if isCurrentParent %}aria-expanded="true"{% else %}aria-expanded="false"{% endif %}
+                    data-bs-target="#submenu-videoplayer-{{ loop.index }}"
+                    aria-controls="submenu-videoplayer-{{ loop.index }}"
+                    href="{{ parentItem.uri }}"
+                 >
+                 	{#
+                    <i data-feather="{{ parentItem.attributes.iconClass }}" class="icon-dual"></i> 
+                    #}
+                    <i class="{{ parentItem.attributes.iconClass }}"></i> 
+                    <span data-key="t-{{ parentItem.name }}">{{ parentItem.name }}</span>
+                </a>
+            
+                {% if(parentItem.hasChildren) %}
+                    <div class="collapse menu-dropdown {% if isCurrentParent %}show{% endif %}"  id="submenu-videoplayer-{{ loop.index }}">
+                        <ul class="nav nav-sm flex-column">
+                            {% for childItem in parentItem.children %}
+                                {% if( childItem.displayed ) %}
+                                    <li class="nav-item">
+                                        <a class="nav-link {% if childItem.isCurrent %}active{% endif %}"
+                                        	data-key="t-{{ childItem.name }}"
+                                        	href="{{ childItem.uri }}"
+                                        >
+                                            {{ childItem.name }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+        	</li>
+        {% endif %}
+        
     {% endfor %}
+    
 {% endblock %}
