@@ -1,3 +1,9 @@
+2.0.1	|	Release date: **26.07.2024**
+============================================
+* New Features and Improvements:
+  - Update Modal Dialogs in AdminPanel Velzon Theme.
+
+
 2.0.0	|	Release date: **26.07.2024**
 ============================================
 * New Features and Improvements:
