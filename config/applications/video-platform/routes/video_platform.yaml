@@ -37,6 +37,12 @@ vvp_actors_create_comment:
 ###############################################################################
 # Movies Pages Actions
 ###############################################################################
+vvp_movies_suggestions:
+    path: /widgets-callbacks/movie-suggestions/{videoSlug}
+    controller: App\Controller\VideoPlatform\WidgetsCallbacksController::getVideoSuggestionsAction
+    options:
+        expose: true
+
 vvp_movies_index:
     path: /movies/latest
     controller: App\Controller\VideoPlatform\MoviesController::index

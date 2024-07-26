@@ -175,3 +175,10 @@ services:
         arguments:
             - '@app_video_provider_youtube'
             - '@vs_vvp.repository.youtube_channel'
+            
+    App\Controller\VideoPlatform\WidgetsCallbacksController:
+        tags: ['controller.service_arguments']
+        autowire: true
+        arguments:
+            - '@app_video_platform'
+            - '@vs_vvp.repository.video'

@@ -76,12 +76,12 @@ final class VideoPlatform
         VideoStorageBridge $storageBridge,
         VideoSignatory $videoSignatory
     ) {
-        $videoPlatformSettings          = $applicationContext->getApplication()->getVideoPlatformApplication();
-        if ( ! $videoPlatformSettings ) {
+        $videoPlatformApplication       = $applicationContext->getApplication()->getVideoPlatformApplication();
+        if ( ! $videoPlatformApplication ) {
             throw new VideoPlatformSettingsException( 'Video Platform Settings IS NOT Configured for this Application !!!"' );
         }
         
-        $this->videoPlatformSettings    = $videoPlatformSettings->getSettings();
+        $this->videoPlatformSettings    = $videoPlatformApplication->getSettings();
         
         $this->urlsFactory              = $urlsFactory;
         $this->urlsFactory->setSettings( $this->videoPlatformSettings );

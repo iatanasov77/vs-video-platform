@@ -3,7 +3,7 @@ vs_vvp_video:
         alias: vs_vvp.video
         except: ['show']
         path: /video-platform/video/items
-        templates: "admin-panel/pages/Videos"
+        templates: "Pages/Videos"
         form:
             options:
                 ckeditor_uiColor: '%vs_users_subscriptions.form.payed_service.ckeditor_uiColor%'
@@ -27,7 +27,7 @@ vs_vvp_video_index:
             sorting:
                 updatedAt: desc
             filterable: true
-            template: "admin-panel/pages/Videos/index.html.twig"
+            template: "Pages/Videos/index.html.twig"
     options:
         expose: true
         
@@ -44,7 +44,7 @@ vs_vvp_video_index_filtered:
             filterable: true
             criteria:
                 category: $filterCategory
-            template: "admin-panel/pages/Videos/index.html.twig"
+            template: "Pages/Videos/index.html.twig"
     options:
         expose: true
 
@@ -53,7 +53,7 @@ vs_vvp_video_category:
         alias: vs_vvp.video_category
         except: ['show']
         path: /video-platform/video/categories
-        templates: "admin-panel/pages/VideosCategories"
+        templates: "Pages/VideosCategories"
     type: sylius.resource
     
 vs_vvp_video_genre:
@@ -61,7 +61,7 @@ vs_vvp_video_genre:
         alias: vs_vvp.video_genre
         except: ['show']
         path: /video-platform/video/genres
-        templates: "admin-panel/pages/VideosGenres"
+        templates: "Pages/VideosGenres"
     type: sylius.resource
         
 vs_vvp_actor:
@@ -69,7 +69,7 @@ vs_vvp_actor:
         alias: vs_vvp.actor
         except: ['show']
         path: /video-platform/actors
-        templates: "admin-panel/pages/Actors"
+        templates: "Pages/Actors"
         form:
             options:
                 ckeditor_uiColor: '%vs_users_subscriptions.form.payed_service.ckeditor_uiColor%'
@@ -93,7 +93,7 @@ vs_vvp_actor_index:
             sorting:
                 updatedAt: desc
             filterable: true
-            template: "admin-panel/pages/Actors/index.html.twig"
+            template: "Pages/Actors/index.html.twig"
     options:
         expose: true
         
@@ -102,7 +102,7 @@ vs_vvp_applications:
         alias: vs_vvp.video_platform_application
         except: ['show', 'delete']
         path: /video-platform/video-platform-applications
-        templates: "admin-panel/pages/VideoPlatformApplications"
+        templates: "Pages/VideoPlatformApplications"
     type: sylius.resource
 
 vs_vvp_settings:
@@ -110,7 +110,7 @@ vs_vvp_settings:
         alias: vs_vvp.video_platform_settings
         except: ['show']
         path: /video-platform/video-platform-settings
-        templates: "admin-panel/pages/VideoPlatformSettings"
+        templates: "Pages/VideoPlatformSettings"
     type: sylius.resource
     options:
         expose: true
@@ -120,7 +120,7 @@ vs_vvp_storage:
         alias: vs_vvp.video_platform_storage
         except: ['show']
         path: /video-platform/video-platform-storage
-        templates: "admin-panel/pages/VideoPlatformStorage"
+        templates: "Pages/VideoPlatformStorage"
     type: sylius.resource
     options:
         expose: true
@@ -130,7 +130,7 @@ vs_vvp_coconut_settings:
         alias: vs_vvp.coconut_settings
         except: ['show']
         path: /video-platform/coconut-settings
-        templates: "admin-panel/pages/CoconutSettings"
+        templates: "Pages/CoconutSettings"
     type: sylius.resource
     options:
         expose: true
@@ -140,7 +140,7 @@ vs_vvp_google_cloud_project:
         alias: vs_vvp.google_cloud_project
         except: ['show']
         path: /video-platform/google-cloud-projects
-        templates: "admin-panel/pages/GoogleCloudProject"
+        templates: "Pages/GoogleCloudProject"
     type: sylius.resource
     options:
         expose: true
@@ -150,7 +150,7 @@ vs_vvp_youtube_channel:
         alias: vs_vvp.youtube_channel
         except: ['show']
         path: /video-platform/youtube-channels
-        templates: "admin-panel/pages/YoutubeChannel"
+        templates: "Pages/YoutubeChannel"
     type: sylius.resource
     options:
         expose: true

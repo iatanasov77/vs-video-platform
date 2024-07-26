@@ -25,10 +25,6 @@ services:
             - { name: kernel.event_listener, event: widget.start, method: builder }
             
     App\Widgets\VideoSuggestionsWidget:
-        arguments:
-            - '@request_stack'
-            - '@vs_vvp.repository.video'
-            - '@app_video_platform'
         tags:
             - { name: kernel.event_listener, event: widget.start, method: builder }
             

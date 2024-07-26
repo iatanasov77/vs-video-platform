@@ -1,3 +1,8 @@
+require( '@/js/includes/widgets/ajax-widget' );
+
+var routes  = require( '../../../../../public/shared_assets/js/fos_js_routes_application.json' );
+import { VsPath } from '@/js/includes/fos_js_routes.js';
+
 // Smooth Scrollbar
 import Scrollbar from 'smooth-scrollbar';
 window.Scrollbar = Scrollbar;
@@ -108,4 +113,7 @@ $( function()
             }
         });
     });
+    
+    var videoSuggestionsUrl  = VsPath( 'vvp_movies_suggestions', { videoSlug: videoSlug }, routes );
+    $( '#videoSuggestionsContainer' ).widget({ callback: videoSuggestionsUrl });
 });
