@@ -1,3 +1,9 @@
+2.0.2	|	Release date: **27.07.2024**
+============================================
+* Bug-Fixes:
+  - Fix Application Configs.
+
+
 2.0.1	|	Release date: **26.07.2024**
 ============================================
 * New Features and Improvements:
