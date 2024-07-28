@@ -1,9 +1,16 @@
-const Encore = require('@symfony/webpack-encore');
-const path = require('path');
+const Encore 		= require( '@symfony/webpack-encore' );
+const path 			= require( 'path' );
+const pathExists    = require( 'path-exists' );
 
-const applicationAssetsPath = '../../vendor/vankosoft/application/src/Vankosoft/ApplicationBundle/Resources/themes/default/assets';
-const artgrisAssetsPath = '../../vendor/artgris/filemanager-bundle/Resources/public';
-const baseThemePath = '../../vendor/vankosoft/application-themes/AdminPanel_VelzonDefault/assets';
+const projectAssetsPath             = './assets';
+const applicationAssetsPath         = './vendor/vankosoft/application/src/Vankosoft/ApplicationBundle/Resources/themes/default/assets';
+const usersSubscriptionsAssetsPath  = './vendor/vankosoft/users-subscriptions-bundle/lib/Resources/themes/default/assets';
+const paymentAssetsPath             = './vendor/vankosoft/payment-bundle/lib/Resources/themes/default/assets';
+const catalogAssetsPath             = './vendor/vankosoft/catalog-bundle/lib/Resources/themes/default/assets';
+
+const defaultThemePath 				= '../../vendor/vankosoft/application/src/Vankosoft/ApplicationBundle/Resources/themes/default/assets';
+const artgrisAssetsPath 			= '../../vendor/artgris/filemanager-bundle/Resources/public';
+const baseThemePath 				= '../../vendor/vankosoft/application-themes/AdminPanel_VelzonDefault/assets';
 
 Encore
     .setOutputPath( 'public/admin-panel/build/velzon-theme/' )
@@ -29,7 +36,7 @@ Encore
     })
     
     .addAliases({
-        '@': path.resolve( __dirname, applicationAssetsPath ),
+        '@': path.resolve( __dirname, defaultThemePath ),
         
         '@@@': path.resolve( __dirname, baseThemePath )
     })
@@ -49,7 +56,7 @@ Encore
     
     // CKeditor 4 Extra Plugins
     .copyFiles([
-        {from: path.resolve( __dirname, applicationAssetsPath ) + '/vendor/ckeditor4_plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
+        {from: path.resolve( __dirname, defaultThemePath ) + '/vendor/ckeditor4_plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
     ])
     
     // Artgris Filemanager
@@ -74,6 +81,59 @@ Encore
     
     // VsApplicationBundle Pages
     .addEntry( 'js/profile-edit', './themes/AdminPanel_VelzonChild/assets/js/pages/profile-edit.js' )
+    
+    //////////////////////////////////////////////////////////////////
+    // Standard Pages
+    //////////////////////////////////////////////////////////////////
+    //.addEntry( 'js/app', applicationAssetsPath + '/js/app.js' )
+    .addStyleEntry( 'css/global', applicationAssetsPath + '/css/main.scss' )
+    
+    .addEntry( 'js/resource-delete', applicationAssetsPath + '/js/pages/resource-delete.js' )
+    
+    .addEntry( 'js/settings', applicationAssetsPath + '/js/pages/settings.js' )
+    .addEntry( 'js/applications', applicationAssetsPath + '/js/pages/applications.js' )
+    .addEntry( 'js/profile', applicationAssetsPath + '/js/pages/profile.js' )
+    .addEntry( 'js/taxonomy-vocabolaries', applicationAssetsPath + '/js/pages/taxonomy-vocabolaries.js' )
+    .addEntry( 'js/taxonomy-vocabolaries-edit', applicationAssetsPath + '/js/pages/taxonomy-vocabolaries-edit.js' )
+    .addEntry( 'js/locales', applicationAssetsPath + '/js/pages/locales.js' )
+    .addEntry( 'js/cookie-consent-translations', applicationAssetsPath + '/js/pages/cookie-consent-translations.js' )
+    .addEntry( 'js/cookie-consent-translations-edit', applicationAssetsPath + '/js/pages/cookie-consent-translations-edit.js' )
+    .addEntry( 'js/tags-whitelist-contexts', applicationAssetsPath + '/js/pages/tags-whitelist-contexts.js' )
+    .addEntry( 'js/tags-whitelist-contexts-edit', applicationAssetsPath + '/js/pages/tags-whitelist-contexts-edit.js' )
+    
+    .addEntry( 'js/pages-categories', applicationAssetsPath + '/js/pages/pages_categories.js' )
+    .addEntry( 'js/pages-categories-edit', applicationAssetsPath + '/js/pages/pages_categories_edit.js' )
+    .addEntry( 'js/pages-index', applicationAssetsPath + '/js/pages/pages-index.js' )
+    .addEntry( 'js/pages-edit', applicationAssetsPath + '/js/pages/pages-edit.js' )
+    .addEntry( 'js/documents-index', applicationAssetsPath + '/js/pages/documents-index.js' )
+    .addEntry( 'js/documents-edit', applicationAssetsPath + '/js/pages/documents-edit.js' )
+    .addEntry( 'js/toc-pages', applicationAssetsPath + '/js/pages/toc-pages.js' )
+    .addEntry( 'js/toc-pages-delete', applicationAssetsPath + '/js/pages/toc-pages-delete.js' )
+    .addEntry( 'js/multipage-toc-update', applicationAssetsPath + '/js/pages/multipage-toc-update.js' )
+    
+    .addEntry( 'js/users-index', applicationAssetsPath + '/js/pages/users-index.js' )
+    .addEntry( 'js/users-edit', applicationAssetsPath + '/js/pages/users-edit.js' )
+    .addEntry( 'js/users-roles-index', applicationAssetsPath + '/js/pages/users-roles-index.js' )
+    .addEntry( 'js/users-roles-edit', applicationAssetsPath + '/js/pages/users-roles-edit.js' )
+    
+    .addEntry( 'js/filemanager-index', applicationAssetsPath + '/js/pages/filemanager-index.js' )
+    .addEntry( 'js/filemanager-file-upload', applicationAssetsPath + '/js/pages/filemanager-file-upload.js' )
+    
+    .addEntry( 'js/widget-groups', applicationAssetsPath + '/js/pages/widget-groups.js' )
+    .addEntry( 'js/widgets', applicationAssetsPath + '/js/pages/widgets.js' )
+    .addEntry( 'js/widgets-edit', applicationAssetsPath + '/js/pages/widgets-edit.js' )
+    
+    .addEntry( 'js/helpcenter-questions', applicationAssetsPath + '/js/pages/helpcenter-questions.js' )
+    .addEntry( 'js/helpcenter-questions-edit', applicationAssetsPath + '/js/pages/helpcenter-questions-edit.js' )
+    .addEntry( 'js/quick-links', applicationAssetsPath + '/js/pages/quick-links.js' )
+    .addEntry( 'js/quick-links-edit', applicationAssetsPath + '/js/pages/quick-links-edit.js' )
+    .addEntry( 'js/sliders', applicationAssetsPath + '/js/pages/sliders.js' )
+    .addEntry( 'js/sliders-edit', applicationAssetsPath + '/js/pages/sliders-edit.js' )
+    .addEntry( 'js/sliders-items', applicationAssetsPath + '/js/pages/sliders-items.js' )
+    .addEntry( 'js/sliders-items-edit', applicationAssetsPath + '/js/pages/sliders-items-edit.js' )
+    
+    .addEntry( 'js/project-issues', applicationAssetsPath + '/js/pages/project-issues.js' )
+    .addEntry( 'js/project-issues-edit', applicationAssetsPath + '/js/pages/project-issues-edit.js' )
     
     // Custom Pages
     .addEntry( 'js/videos-categories', './themes/AdminPanel_VelzonChild/assets/js/pages/videos-categories.js' )
