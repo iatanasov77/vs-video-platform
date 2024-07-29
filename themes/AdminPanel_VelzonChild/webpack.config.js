@@ -159,6 +159,61 @@ Encore
     .addEntry( 'js/youtube-channel-edit', './themes/AdminPanel_VelzonChild/assets/js/pages/youtube-channel-edit.js' )
 ;
 
+//////////////////////////////////////////////////////////////////
+// Subscription Pages
+//////////////////////////////////////////////////////////////////
+if ( pathExists.sync( usersSubscriptionsAssetsPath ) ) {
+    Encore
+        .addEntry( 'js/payed-services-edit', usersSubscriptionsAssetsPath + '/js/pages/payed-services-edit.js' )
+        .addEntry( 'js/payed-services-listing', usersSubscriptionsAssetsPath + '/js/pages/payed-services-listing.js' )
+        .addEntry( 'js/mailchimp-audiences-listing', usersSubscriptionsAssetsPath + '/js/pages/mailchimp-audiences-listing.js' )
+        .addEntry( 'js/payed-service-subscriptions', usersSubscriptionsAssetsPath + '/js/pages/payed-service-subscriptions.js' )
+    ;
+}
+
+//////////////////////////////////////////////////////////////////
+// Payment Pages
+//////////////////////////////////////////////////////////////////
+if ( pathExists.sync( paymentAssetsPath ) ) {
+    Encore
+        .addEntry( 'js/gateway-config', paymentAssetsPath + '/js/pages/gateway-config.js' )
+        .addEntry( 'js/currencies', paymentAssetsPath + '/js/pages/currencies.js' )
+        .addEntry( 'js/exchange-rates', paymentAssetsPath + '/js/pages/exchange-rates.js' )
+        .addEntry( 'js/recieved-payments', paymentAssetsPath + '/js/pages/recieved-payments.js' )
+        .addEntry( 'js/orders', paymentAssetsPath + '/js/pages/orders.js' )
+        .addEntry( 'js/stripe-webhook-endpoint', paymentAssetsPath + '/js/pages/stripe-webhook-endpoint.js' )
+        .addEntry( 'js/coupon-objects', paymentAssetsPath + '/js/pages/coupon-objects.js' )
+        .addEntry( 'js/coupons-index', paymentAssetsPath + '/js/pages/coupons-index.js' )
+        .addEntry( 'js/coupons-edit', paymentAssetsPath + '/js/pages/coupons-edit.js' )
+        .addEntry( 'js/promotions-index', paymentAssetsPath + '/js/pages/promotions-index.js' )
+        .addEntry( 'js/promotions-edit', paymentAssetsPath + '/js/pages/promotions-edit.js' )
+        .addEntry( 'js/promotion-coupons-index', paymentAssetsPath + '/js/pages/promotion-coupons-index.js' )
+        .addEntry( 'js/promotion-coupons-edit', paymentAssetsPath + '/js/pages/promotion-coupons-edit.js' )
+        .addEntry( 'js/customer-groups', paymentAssetsPath + '/js/pages/customer-groups.js' )
+        .addEntry( 'js/customer-groups-edit', paymentAssetsPath + '/js/pages/customer-groups-edit.js' )
+        .addEntry( 'js/stripe-objects', paymentAssetsPath + '/js/pages/stripe-objects.js' )
+    ;
+}
+    
+//////////////////////////////////////////////////////////////////
+// Catalog Pages
+//////////////////////////////////////////////////////////////////
+if ( pathExists.sync( catalogAssetsPath ) ) {
+    Encore
+        .addEntry( 'js/product-categories', catalogAssetsPath + '/js/pages/product-categories.js' )
+        .addEntry( 'js/product-categories-edit', catalogAssetsPath + '/js/pages/product-categories-edit.js' )
+        .addEntry( 'js/products-index', catalogAssetsPath + '/js/pages/products-index.js' )
+        .addEntry( 'js/products-edit', catalogAssetsPath + '/js/pages/products-edit.js' )
+        .addEntry( 'js/pricing-plan-categories', catalogAssetsPath + '/js/pages/pricing-plan-categories.js' )
+        .addEntry( 'js/pricing-plan-categories-edit', catalogAssetsPath + '/js/pages/pricing-plan-categories-edit.js' )
+        .addEntry( 'js/pricing-plans-index', catalogAssetsPath + '/js/pages/pricing-plans-index.js' )
+        .addEntry( 'js/pricing-plans-edit', catalogAssetsPath + '/js/pages/pricing-plans-edit.js' )
+        .addEntry( 'js/pricing-plan-subscriptions', catalogAssetsPath + '/js/pages/pricing-plan-subscriptions.js' )
+        .addEntry( 'js/pricing-plan-subscription-payments', catalogAssetsPath + '/js/pages/pricing-plan-subscription-payments.js' )
+        .addEntry( 'js/association-types-index', catalogAssetsPath + '/js/pages/association-types-index.js' )
+    ;
+}
+
 const config = Encore.getWebpackConfig();
 config.name = 'applicationTheme_2';
 
