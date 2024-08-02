@@ -29,29 +29,6 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
             
-        # API Firewall - Uncomment to Use API Firewalls
-        ################################################################################################
-        # Manual: https://symfony.com/bundles/LexikJWTAuthenticationBundle/current/index.html
-        # NOTE: API Firewall Configuration Should Be Before Main Firewall
-        #       You can Remove apiToken field from User Model in Library.
-        #       It not needed. JWT Provide Best API Authentication Solution
-        ################################################################################################
-        api_login:
-            pattern: ^/api/login
-            stateless: true
-            provider: api_provider
-            json_login:
-                check_path: /api/login_check
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
-
-        api_main:
-            pattern:   ^/api
-            stateless: true
-            provider: api_provider
-            jwt: ~
-        ################################################################################################
-        
         main:
             lazy: true
             #provider: debug_provider
@@ -92,13 +69,6 @@ security:
     access_control:
         - { path: /_wdt/.*, roles: PUBLIC_ACCESS }
         - { path: /_profiler/.*, roles: PUBLIC_ACCESS }
-        
-        # API Routes
-        - { path: ^/api/coconut/webhook, roles: PUBLIC_ACCESS }
-        - { path: ^/api/coconut/storage, roles: PUBLIC_ACCESS }
-        - { path: ^/api-docs, roles: [ROLE_SUPER_ADMIN,ROLE_ADMIN] }
-        - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         
         # Web Routes
         - { path: ^/login, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
