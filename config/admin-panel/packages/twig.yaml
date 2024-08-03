@@ -3,7 +3,7 @@ twig:
 
     globals:
         app_environment: '%env(APP_ENV)%'
-        applicationIcon: 'build/default/images/superman.svg'
+        applicationIcon: '%applicationIcon%'
         applicationCompany: '%applicationCompany%'
         applicationTitle: '%applicationTitle%'
         hasTopSearch: '%hasTopSearch%'

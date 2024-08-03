@@ -1,3 +1,13 @@
+2.0.3	|	Release date: **03.08.2024**
+============================================
+* Bug-Fixes and Improvements:
+  - Load AdminPanel Assets From VelzonTheme Build.
+  - Fix Admin Panel Icon Path.
+  - Add WebPack Compilation for Extensions Assets.
+  - Load VankoSoft API Credentials From ENV Vars.
+  - Improve Jenkinsfile .
+
+
 2.0.2	|	Release date: **27.07.2024**
 ============================================
 * Bug-Fixes:
