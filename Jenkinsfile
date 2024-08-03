@@ -117,7 +117,12 @@ node ( label: 'php-host' ) {
         
         CONFIG_TEMPLATE = readFile( 'ftp_deploy.ini.template' )
         writeFile file: 'ftp_deploy.ini',
-                text: vankosoftJob.renderTemplate( CONFIG_TEMPLATE, ['environement': BUILD_ENVIRONMENT, 'url': APP_FTP_URL, 'user': APP_FTP_USER, 'password': APP_FTP_PASSWORD] )
+                text: vankosoftJob.renderTemplate( CONFIG_TEMPLATE, [
+                    'environement': BUILD_ENVIRONMENT,
+                    'url': APP_FTP_URL,
+                    'user': APP_FTP_USER,
+                    'password': APP_FTP_PASSWORD
+                ])
         
         CONFIG_TEMPLATE = readFile( ".env.${BUILD_ENVIRONMENT}" )
         writeFile file: '.env',
