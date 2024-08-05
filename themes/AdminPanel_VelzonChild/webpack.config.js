@@ -215,6 +215,6 @@ if ( pathExists.sync( catalogAssetsPath ) ) {
 }
 
 const config = Encore.getWebpackConfig();
-config.name = 'applicationTheme_2';
+config.name = 'AdminPanel_VelzonDefault';
 
 module.exports = config;
