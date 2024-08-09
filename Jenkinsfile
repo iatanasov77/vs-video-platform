@@ -180,8 +180,8 @@ ENDSSH
                             migrationCode=\$?   # Capture migration return code
                             
                             ${PHP_BIN} -d memory_limit=-1 bin/console cache:clear
-                            ${PHP_BIN} -d memory_limit=-1 bin/vanzvideoplayer cache:clear
                             ${PHP_BIN} -d memory_limit=-1 bin/video-platform cache:clear
+                            ${PHP_BIN} -d memory_limit=-1 bin/video-platform-api cache:clear
                             
                             #${PHP_BIN} -d memory_limit=-1 bin/console vankosoft:maintenance --unset-maintenance
                             
@@ -206,8 +206,8 @@ ENDSSH
                             migrationCode=\$?   # Capture migration return code
                             
                             ${PHP_BIN} -d memory_limit=-1 bin/console cache:clear
-                            ${PHP_BIN} -d memory_limit=-1 bin/vanzvideoplayer cache:clear
                             ${PHP_BIN} -d memory_limit=-1 bin/video-platform cache:clear
+                            ${PHP_BIN} -d memory_limit=-1 bin/video-platform-api cache:clear
                             
                             #SETUP APPLICATION PERMISSIONS
                             chmod -R 0777 ${REMOTE_DIR}
