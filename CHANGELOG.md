@@ -1,3 +1,11 @@
+2.0.4	|	Release date: **09.08.2024**
+============================================
+* Bug-Fixes and Improvements:
+  - Improve Jenkinsfile .
+  - Fix Some Routes Config.
+  - Clean Old AdminPanel WebPack Compilation.
+
+
 2.0.3	|	Release date: **03.08.2024**
 ============================================
 * Bug-Fixes and Improvements:
