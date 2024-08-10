@@ -5,8 +5,8 @@ twig:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
 
 fos_ck_editor:
-    base_path: "build/default/ckeditor"
-    js_path:   "build/default/ckeditor/ckeditor.js"
+    base_path: "build/velzon-theme/ckeditor"
+    js_path:   "build/velzon-theme/ckeditor/ckeditor.js"
 
     # Add Custom CSS Classes to Can Add With 'ckeditor_add_class' Plugin
     configs:
@@ -42,15 +42,15 @@ fos_ck_editor:
             
     plugins:
         codesnippet:
-            path:     "/build/default/ckeditor/plugins/codesnippet/" # with trailing slash
+            path:     "/build/velzon-theme/ckeditor/plugins/codesnippet/" # with trailing slash
             filename: "plugin.js"
         simplebox:
-            path:     "/build/default/ckeditor/plugins/simplebox/" # with trailing slash
+            path:     "/build/velzon-theme/ckeditor/plugins/simplebox/" # with trailing slash
             filename: "plugin.js"
         lightbox:
-            path:     "/build/default/ckeditor/plugins/lightbox/" # with trailing slash
+            path:     "/build/velzon-theme/ckeditor/plugins/lightbox/" # with trailing slash
             filename: "plugin.js"
         ckeditor_add_class:
-            path:     "/build/default/ckeditor/plugins/ckeditor_add_class/" # with trailing slash
+            path:     "/build/velzon-theme/ckeditor/plugins/ckeditor_add_class/" # with trailing slash
             filename: "plugin.js"
 

@@ -133,7 +133,13 @@ class VideoController extends AbstractCrudController
                 }
                 
                 //echo '<pre>'; var_dump( $formPost['photos'][$photoId]["code"] ); die;
-                $this->createPhoto( $entity, $photos[$photoId], $photo['photo'], $formPost['photos'][$photoId]["code"] );
+                $this->createPhoto(
+                    $entity,
+                    $photos[$photoId],
+                    $photo['photo'],
+                    $formPost['photos'][$photoId]["code"],
+                    $formPost['photos'][$photoId]["description"]
+                );
             }
         }
         
@@ -185,7 +191,7 @@ class VideoController extends AbstractCrudController
         }
     }
     
-    private function createPhoto( Video &$video, VideoPhoto &$videoPhoto, File $file, string $code ): void
+    private function createPhoto( Video &$video, VideoPhoto &$videoPhoto, File $file, string $code, $description ): void
     {
         $videoPhoto->setOriginalName( $file->getClientOriginalName() );
         $videoPhoto->setVideo( $video );
@@ -200,6 +206,7 @@ class VideoController extends AbstractCrudController
         }
         
         $videoPhoto->setCode( $code );
+        $videoPhoto->setDescription( $description );
     }
     
     private function createVideo( Video &$video, File $file ): void

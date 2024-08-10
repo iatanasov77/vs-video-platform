@@ -15,6 +15,34 @@ window.RedirectUrl                  = false;
 
 var RequiredResources               = [];
 
+function getSelectedCategories()
+{
+    let selectedValues = new Array();
+    $( '.combobox-checkbox-category_taxon').each( function(){
+        if ( $( this ).parent().hasClass( 'combobox-item-selected' ) ) {
+            selectedValues.push( $( this ).val() );
+        }
+    });
+    
+    return selectedValues;
+}
+
+function getVideoPhotos()
+{
+    $( '.fieldPhoto' ).each( function ()
+    {
+        if ( ! $( this ).hasClass( 'persistedPhoto' ) ) {
+            let photoName   = $( this ).next( '.input-group-text' ).text();
+            let photoCode   = $( this ).closest( 'div.row' ).find( '.photoCode' ).val();
+            
+            if ( photoName ) {
+                alert( photoName );
+                alert( photoCode );
+            }
+        }
+    });
+}
+
 function updateTagsInput( newValue )
 {
     let inputValue  = '';
@@ -34,7 +62,7 @@ const preFormSubmit = function ()
 {
     $( '#FormVideo' ).validate();
     
-    return $( '#video_form_title' ).valid();
+    return $( '#video_form_name' ).valid();
 }
 
 function saveVideo()
@@ -46,13 +74,14 @@ function saveVideo()
     formData.set( "id", $( '#video_form_id' ).val() );
     formData.set( "currentLocale", $( '#video_form_currentLocale' ).val() );
     
-    let selectedTaxons  = $( '#video_form_category_taxon' ).combotree( 'getValues' );
+    //let selectedTaxons  = $( '#video_form_category_taxon' ).combobox( 'getValues' );
+    let selectedTaxons  = getSelectedCategories();
     formData.set( "category_taxon", selectedTaxons );
     //console.log( selectedTaxons ); return;
     
     formData.set( "tags", updateTagsInput( JSON.parse( $( '#video_form_tags' ).val() ) ) );
     
-    formData.set( "title", $( '#video_form_title' ).val() );
+    formData.set( "name", $( '#video_form_name' ).val() );
     
     require( 'ckeditor4/ckeditor.js' );
     var description = CKEDITOR.instances.video_form_description.getData();
@@ -62,9 +91,28 @@ function saveVideo()
     
     //console.log( RequiredResources );
     
+    // OLD WAY
     if ( RequiredResources.includes( "VsVvp_VideoThumbnail" ) ) {
         formData.set( "video_thumbnail", window.UploadedResources["VsVvp_VideoThumbnail"] );
     }
+    
+    // New Video Photo Upload
+    let photoIndex  = 1;
+    $( '.fieldPhoto' ).each( function ()
+    {
+        if ( ! $( this ).hasClass( 'persistedPhoto' ) ) {
+            let photoName   = $( this ).next( '.input-group-text' ).text();
+            let photoCode   = $( this ).closest( 'div.row' ).find( '.photoCode' ).val();
+            let photoDesc   = $( this ).closest( 'div.row' ).find( '.photoDescription' ).val();
+            
+            if ( photoName ) {
+                formData.set( "photos[" + photoIndex + "][code]", photoCode );
+                formData.set( "photos[" + photoIndex + "][description]", photoDesc );
+                formData.set( "photos[" + photoIndex + "][photo]", $( this )[0].files[0] );
+                photoIndex++;
+            }
+        }
+    });
     
     if ( RequiredResources.includes( "VsVvp_VideoFile" ) ) {
         formData.set( "video_file", window.UploadedResources["VsVvp_VideoFile"] );
@@ -165,5 +213,13 @@ $( function()
         if ( ! RequiredResources.includes( "VsVvp_VideoFile" ) ) {
             RequiredResources.push( "VsVvp_VideoFile" );
         }
+    });
+    
+    $( '#btnTestGetValues' ).on( 'click', function( e )
+    {
+        //let selectedValues  = getSelectedCategories();
+        let selectedValues  = getVideoPhotos();
+        
+        alert( selectedValues );
     });
 });
