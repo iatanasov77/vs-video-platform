@@ -8,6 +8,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use League\Flysystem\Filesystem;
 use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
@@ -20,6 +22,7 @@ use Vankosoft\ApplicationBundle\Repository\TaxonomyRepository;
 use Vankosoft\ApplicationBundle\Repository\TaxonRepository;
 use Vankosoft\ApplicationBundle\Controller\Traits\TaxonomyTreeDataTrait;
 use Vankosoft\UsersBundle\Security\SecurityBridge;
+use Vankosoft\CmsBundle\Component\Uploader\FileUploaderInterface;
 use App\Component\Cloud\Exception\VideoPlatformStorageException;
 use App\Component\VideoPlatform;
 use App\Form\VideoForm;
@@ -52,6 +55,12 @@ class VideoExtController extends AbstractController
     
     /** @var EntityRepository */
     private $videoPhotosRepository;
+    
+    /** @var FactoryInterface */
+    private $videoPhotosFactory;
+    
+    /** @var FileUploaderInterface */
+    private $videoPhotosUploader;
     
     /** @var EntityRepository */
     private $videoFileRepository;
@@ -92,6 +101,8 @@ class VideoExtController extends AbstractController
         string $videosDirectory,
         EventDispatcherInterface $eventDispatcher,
         EntityRepository $videoPhotosRepository,
+        FactoryInterface $videoPhotosFactory,
+        FileUploaderInterface $videoPhotosUploader,
         EntityRepository $videoFileRepository,
         Filesystem $filesystem,
         Filesystem $filesystemCoconut,
@@ -112,6 +123,8 @@ class VideoExtController extends AbstractController
         $this->videosDirectory                  = $videosDirectory;
         $this->eventDispatcher                  = $eventDispatcher;
         $this->videoPhotosRepository            = $videoPhotosRepository;
+        $this->videoPhotosFactory               = $videoPhotosFactory;
+        $this->videoPhotosUploader              = $videoPhotosUploader;
         $this->videoFileRepository              = $videoFileRepository;
         $this->filesystem                       = $filesystem;
         $this->filesystemCoconut                = $filesystemCoconut;
@@ -172,9 +185,11 @@ class VideoExtController extends AbstractController
             
             $entity->setCurrentLocale( $formValues['currentLocale'] );
             $entity->setUser( $this->getUser() );
-            $entity->setTitle( $formValues['title'] );
+            $entity->setName( $formValues['name'] );
             $entity->setTags( $formValues['tags'] );
             $entity->setDescription( $formValues['description'] );
+            
+            $this->savePhotos( $entity, $formValues, $request );
             
             $em->persist( $entity );
             $em->flush();
@@ -352,10 +367,11 @@ class VideoExtController extends AbstractController
                     'category_taxon'    => \explode( ',', $request->request->get( 'category_taxon' ) ),
                     'tags'              => $request->request->get( 'tags' ),
                     'currentLocale'     => $request->request->get( 'currentLocale' ),
-                    'title'             => $request->request->get( 'title' ),
+                    'name'              => $request->request->get( 'name' ),
                     'description'       => $request->request->get( 'description' ),
                     //'video_thumbnail'   => \intval( $request->request->get( 'video_thumbnail' ) ),
                     'video_file'        => \intval( $request->request->get( 'video_file' ) ),
+                    'photos'            => $request->request->all( 'photos' ),
                 ];
                 
                 break;
@@ -370,13 +386,30 @@ class VideoExtController extends AbstractController
         return $formValues;
     }
     
+    private function savePhotos( &$entity, $formValues, $request )
+    {
+        $formFiles  = $request->files->get( 'photos' );
+        $photos = $formValues['photos'];
+        if ( ! empty( $formFiles ) ) {
+            foreach ( $formFiles as $photoId => $photo ) {
+                if ( ! $photo['photo'] ) {
+                    continue;
+                }
+                
+                //echo '<pre>'; var_dump( $formPost['photos'][$photoId]["code"] ); die;
+                $this->_saveVideoPhoto(
+                    $entity,
+                    $photo['photo'],
+                    $photos[$photoId]['code'],
+                    $photos[$photoId]['description']
+                );
+            }
+        }
+    }
+    
     private function saveFiles( &$entity, $formValues ): bool
     {
         $saveProcessed  = false;
-        
-//         if ( isset( $formValues['video_thumbnail'] ) && $formValues['video_thumbnail'] ) {
-//             $saveProcessed  = $this->_saveVideoThumbnail( $entity, $formValues );
-//         }
         
         if ( isset( $formValues['video_file'] ) && $formValues['video_file'] ) {
             $saveProcessed  = $this->_saveVideoFile( $entity, $formValues );
@@ -401,16 +434,29 @@ class VideoExtController extends AbstractController
         }
     }
     
-    private function _saveVideoThumbnail( &$entity, $formValues ): bool
+    private function _saveVideoPhoto( &$entity, File $file, string $code, $description ): bool
     {
         $em         = $this->doctrine->getManager();
+        $videoPhoto = $this->videoPhotosFactory->createNew();
         
-        $thumbnail  = $this->videoThumbnailRepository->find( $formValues['video_thumbnail'] );
-        $thumbnail->setOwner( $entity );
+        $videoPhoto->setOriginalName( $file->getClientOriginalName() );
+        $videoPhoto->setVideo( $entity );
         
-        $em->persist( $thumbnail );
-        $em->flush();
-        $entity->setVideoThumbnail( $thumbnail );
+        $uploadedFile   = new UploadedFile( $file->getRealPath(), $file->getBasename() );
+        $videoPhoto->setFile( $uploadedFile );
+        $this->videoPhotosUploader->upload( $videoPhoto );
+        $videoPhoto->setFile( null ); // reset File Because: Serialization of 'Symfony\Component\HttpFoundation\File\UploadedFile' is not allowed
+        
+        if ( $code == VideoPlatform::VIDEO_PHOTO_TYPE_OTHER ) {
+            $code .= '-' . microtime();
+        }
+        
+        $videoPhoto->setCode( $code );
+        $videoPhoto->setDescription( $description );
+        
+        //$em->persist( $videoPhoto );
+        //$em->flush();
+        $entity->addPhoto( $videoPhoto );
         
         return true;
     }
