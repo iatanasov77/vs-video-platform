@@ -1,3 +1,9 @@
+2.0.7	|	Release date: **11.08.2024**
+============================================
+* Bug-Fixes:
+  - Fix AdminPanel FfMpeg Config for Production Environement.
+
+
 2.0.6	|	Release date: **11.08.2024**
 ============================================
 * Bug-Fixes:
