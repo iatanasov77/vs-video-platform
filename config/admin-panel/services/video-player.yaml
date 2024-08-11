@@ -33,6 +33,7 @@ services:
         class: App\Component\VideoStorageBridge
         public: true
         arguments:
+            - '@app_video_urls_factory'
             - '@vs_vvp.digital_ocean_original_videos_adapter'
             - '@vs_vvp.digital_ocean_coconut_output_adapter'
             - '%vs_vvp.videos_directory%'

@@ -1,4 +1,20 @@
+#####################################################################################################
+# Chunks Config: https://github.com/1up-lab/OneupUploaderBundle/blob/main/doc/chunked_uploads.md
+#####################################################################################################
 oneup_uploader:
+#     chunks:
+#         maxage: 86400
+#         storage:
+#             type: gaufrette
+#             filesystem: gaufrette.vs_vvp_videos_filesystem
+#             prefix: 'chunks'
+#             stream_wrapper: 'gaufrette://vs_vvp_videos/'
+
+    chunks:
+        maxage: 86400
+        storage:
+            directory: "%kernel.cache_dir%/uploader/chunks"
+    
     mappings:
         videos_local:
             frontend: blueimp

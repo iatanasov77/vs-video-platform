@@ -8,6 +8,9 @@ use App\Entity\VideoFile;
 
 class VideoStorageBridge
 {
+    /** @var VideoUrlsFactory */
+    private $urlsFactory;
+    
     /** @var GaufretteAwsS3Adapter */
     private $s3OriginalVideosAdapter;
     
@@ -21,10 +24,12 @@ class VideoStorageBridge
     private $videoPlatformSettings;
     
     public function __construct(
+        VideoUrlsFactory $urlsFactory,
         GaufretteAwsS3Adapter $s3OriginalVideosAdapter,
         GaufretteAwsS3Adapter $s3CoconutOutputAdapter,
         string $localVideosDirectory
     ) {
+        $this->urlsFactory              = $urlsFactory;
         $this->s3OriginalVideosAdapter  = $s3OriginalVideosAdapter;
         $this->s3CoconutOutputAdapter   = $s3CoconutOutputAdapter;
         $this->localVideosDirectory     = $localVideosDirectory;
@@ -49,7 +54,7 @@ class VideoStorageBridge
             case VideoPlatform::STORAGE_TYPE_DO:
                 $this->s3OriginalVideosAdapter->delete( $videoFile->getPath() );
                 
-                foreach ( \array_keys( $this->getVideoFormats( $videoFile->getVideo(), $videoId ) ) as $format ) {
+                foreach ( \array_keys( $this->urlsFactory->getVideoFormats( $videoFile->getVideo(), $videoId ) ) as $format ) {
                     $formatParts    = \explode( ':', $format );
                     $videoFilePath  = \sprintf( 'video-%s-%s.mp4', $videoId, $formatParts[1] );
                     
