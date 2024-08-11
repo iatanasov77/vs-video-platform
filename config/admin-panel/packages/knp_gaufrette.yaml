@@ -1,4 +1,6 @@
 knp_gaufrette:
+    stream_wrapper: ~
+    
     adapters:
         vs_application_profile:
             local:

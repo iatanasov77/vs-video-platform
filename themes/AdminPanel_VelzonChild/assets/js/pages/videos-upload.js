@@ -150,7 +150,8 @@ $( function()
         fileInputFieldName: "thumbnail",
         fileResourceId: $( '#video_form_thumbnailFileId' ).val(),
         fileResourceKey: "VsVvp_VideoThumbnail",
-        fileResourceClass: "App\\Entity\\VideoThumbnail"
+        fileResourceClass: "App\\Entity\\VideoThumbnail",
+        maxChunkSize: 10000000
     }, preFormSubmit);
     */
     
@@ -163,7 +164,8 @@ $( function()
         fileInputFieldName: "video",
         fileResourceId: $( '#video_form_videoFileId' ).val(),
         fileResourceKey: "VsVvp_VideoFile",
-        fileResourceClass: "App\\Entity\\VideoFile"
+        fileResourceClass: "App\\Entity\\VideoFile",
+        maxChunkSize: 10000000
     }, preFormSubmit);
     
     

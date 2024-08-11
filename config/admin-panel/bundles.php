@@ -60,5 +60,8 @@ return [
     Vankosoft\BoricaBundle\VSBoricaBundle::class => ['all' => true],
     Vankosoft\CatalogBundle\VSCatalogBundle::class => ['all' => true],
     
+    Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
+    Gesdinet\JWTRefreshTokenBundle\GesdinetJWTRefreshTokenBundle::class => ['all' => true],
+    
     Dubture\FFmpegBundle\DubtureFFmpegBundle::class => ['all' => true],
 ];

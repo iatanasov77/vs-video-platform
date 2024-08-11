@@ -64,7 +64,6 @@
     "devDependencies": {
         "@hotwired/stimulus": "^3.0.0",
         "@symfony/stimulus-bridge": "^2.0.0",
-        "@symfony/ux-toggle-password": "file:vendor/symfony/ux-toggle-password/assets",
         "@symfony/webpack-encore": "^1.0.0",
         "core-js": "^3.0.0",
         "file-loader": "^6.0.0",
