@@ -1,3 +1,10 @@
+2.1.0	|	Release date: **25.12.2024**
+============================================
+* New Features:
+  - Update Back-End and Front-End Dependencies.
+  - Update Deployment Scripts.
+
+
 2.0.7	|	Release date: **11.08.2024**
 ============================================
 * Bug-Fixes:
