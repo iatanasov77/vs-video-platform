@@ -51,6 +51,7 @@ ignore = "
     /assets
     
     /docs
+    /public/index.php
     /templates/base.html.twig
     /src/Kernel.php
     /config/packages
@@ -81,8 +82,6 @@ include = "
     /vendor/*
     /.env
     /composer.json
-    /themes/DeveloperBlog/composer.json
-    /themes/DeveloperWebsite/composer.json
     /VERSION
     !docs
     !docs/*

@@ -12,7 +12,6 @@
         "@kanety/jquery-simple-tree-table": "^0.5.0",
         "@popperjs/core": "^2.11.6",
         "bootstrap": "^5.2.3",
-        "bootstrap-sass": "^3.4.1",
         "ckeditor4": "4.22.1",
         "lightbox2": "^2.11.3",
         "highlight.js": "^11.0.1",
@@ -40,6 +39,10 @@
         "vanilla-cookieconsent": "^3.0",
         "remixicon": "^3.5",
 
+        "scrolling-tabs-bootstrap-5": "^1.1",
+        "bootstrap-icons": "^1.11",
+        "move-js": "^0.5",
+                
 		"particles.js": "^2.0",
         "jsvectormap": "^1.5",
         "swiper": "^11.0",
@@ -59,20 +62,28 @@
         "photoswipe": "^5.3.8",
         "rater-js": "^0.2",
         "@analytics/google-analytics": "^1.0.5",
-        "analytics": "^0.8.1"
+        "analytics": "^0.8.1",
+        "@types/dlv": "^1.0.0"
     },
     "devDependencies": {
         "@hotwired/stimulus": "^3.0.0",
         "@symfony/stimulus-bridge": "^2.0.0",
-        "@symfony/webpack-encore": "^1.0.0",
+        "@symfony/webpack-encore": "^5.0",
+        "@babel/core": "^7.24.7",
+        "@babel/preset-env": "^7.24.7",
+        "@babel/preset-react": "^7.24.7",
         "core-js": "^3.0.0",
         "file-loader": "^6.0.0",
         "regenerator-runtime": "^0.13.2",
         "resolve-url-loader": "2",
-        "sass": "^1.57.1",
-        "sass-loader": "^12.0.0",
+        "sass": "^1.77.6",
+        "sass-loader": "^16.0.1",
         "stimulus": "^2.0.0",
-        "webpack-notifier": "^1.6.0"
+        
+        "eslint": "^8.0.0",
+        "webpack": "^5.72",
+        "webpack-cli": "^5.1.4",
+        "webpack-notifier": "^1.15.0"
     },
 	"resolutions": {
     	"@kanety/jquery-simple-tree-table/jquery": "3.6.3",
