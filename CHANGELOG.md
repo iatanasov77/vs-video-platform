@@ -1,3 +1,11 @@
+2.1.2	|	Release date: **27.12.2024**
+============================================
+* New Features and Improvements:
+  - Change Application Theme Default Logo.
+  - Improve Yaml Indentations of AdminPanel Menu Config.
+  - Add Some Improvements.
+
+
 2.1.1	|	Release date: **26.12.2024**
 ============================================
 * Bug-Fixes:
