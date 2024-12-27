@@ -11,7 +11,13 @@
 {% endif %}
 
 {% block title %}{{ parent() }} :: {{ pageTitle }}{% endblock %}
-{% block pageTitle %}<i class="icon_genius"></i> {{ pageTitle }}{% endblock %}
+{% block pageTitle %}
+    <h4 class="pageheader-title">
+        <i class="ri-layout-6-line"></i> 
+        {{ pageTitle }}
+    </h4>
+{% endblock %}
+
 {% block content %}
     <div class="row">
         <!-- ============================================================== -->

@@ -7,7 +7,13 @@
 
 {# Override Blocs #}
 {% block title %}{{ parent() }} :: {{ 'vs_vvp.template.list_video_genres' | trans( {},'VanzVideoPlayer' ) }}{% endblock %}
-{% block pageTitle %}<i class="icon_genius"></i> {{ 'vs_vvp.template.list_video_genres' | trans( {},'VanzVideoPlayer' ) }}{% endblock %}
+{% block pageTitle %}
+    <h4 class="pageheader-title">
+        <i class="ri-layout-6-line"></i> 
+        {{ 'vs_vvp.template.list_video_genres' | trans( {},'VanzVideoPlayer' ) }}
+    </h4>
+{% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
