@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+    
+    App\Controller\AdminPanel\VideoExtController:
+        arguments:
+            - '@app_video_platform'
+            - '@vs_vvp.repository.video'
+            - '@dubture_ffmpeg.ffprobe'
+        tags: ['controller.service_arguments']

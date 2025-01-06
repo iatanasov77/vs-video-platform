@@ -33,7 +33,7 @@ class ActorExtController extends AbstractController
             $em->refresh( $item );
         }
         
-        return $this->render( 'admin-panel/pages/Actors/actor_form.html.twig', [
+        return $this->render( 'Pages/Actors/actor_form.html.twig', [
             'item'  => $item,
             'form'  => $this->createForm( ActorForm::class, $item )->createView(),
         ]);

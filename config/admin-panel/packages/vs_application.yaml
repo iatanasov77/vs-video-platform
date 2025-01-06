@@ -699,6 +699,17 @@ vs_application:
                         display: false
         
         mainVideoPlayerMenu:
+            test_pages:
+                name: vs_application.menu.test_pages.test_pages
+                uri: ""
+                atributes:
+                    iconClass: ri-cloud-line
+                    breadcrumb_route: vvp_test_ffmpeg
+                childs:
+                    test_ffmpeg:
+                        name: vs_application.menu.test_pages.test_ffmpeg
+                        route: vvp_test_ffmpeg
+            
             settings:
                 name: vs_application.menu.video_platform_settings
                 uri: "javascript:;"

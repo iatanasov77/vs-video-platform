@@ -338,4 +338,12 @@ vs_vvp:
         page_title_youtube_channel_details: YouTube Channel Details
         page_title_youtube_channels: YouTube Channels
 
-
+        test_pages:
+            test_ffmpeg: Test FFMpeg
+            video_name: Video
+            video_file: Video File
+            video_file_original_name: Original Name
+            video_file_type: Type
+            video_file_path: Path
+            storage_type: Storage Type
+            video_duration: Duration
