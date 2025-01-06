@@ -1,3 +1,12 @@
+2.2.0	|	Release date: **06.01.2025**
+============================================
+* New Features and Improvements:
+  - Update to Vankosoft Application 1.12
+  - Create Test Pages Section in Admin Panel Menue to Use From Super Admins to Test Some Features in Production Servers.
+  - Some AdminPanel Pages Improvements.
+  - Update Vankosoft Application Catalog Extension.
+
+
 2.1.2	|	Release date: **27.12.2024**
 ============================================
 * New Features and Improvements:
