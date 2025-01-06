@@ -652,6 +652,7 @@ vs_application:
                 attributes:
                     iconClass: ri-service-fill
                     breadcrumb_route: vs_catalog_pricing_plan_index
+                    test_pages: true
                 childs:
                     pricing_plan_category_index:
                         name: vs_application.menu.pricing_plan_categories
@@ -701,9 +702,9 @@ vs_application:
         mainVideoPlayerMenu:
             test_pages:
                 name: vs_application.menu.test_pages.test_pages
-                uri: ""
-                atributes:
-                    iconClass: ri-cloud-line
+                uri: "javascript:;"
+                attributes:
+                    iconClass: ri-test-tube-fill
                     breadcrumb_route: vvp_test_ffmpeg
                 childs:
                     test_ffmpeg:

@@ -13,9 +13,13 @@
     	<li class="menu-title"><span data-key="t-menu">{{ 'vs_vvp.template.admin_menu_title' | trans( {},'VanzVideoPlayer' ) }}</span></li>
     {% endif %}
     
+    {% set continue = false %}
     {% for parentItem in item.children %}
-    
-    	{% if( parentItem.displayed and parentItem.hasChildren ) %}
+        {% if parentItem.attributes.test_pages is defined and not is_granted( 'ROLE_SUPER_ADMIN' ) %}
+            {% set continue = true %}
+        {% endif %}
+        
+    	{% if( parentItem.displayed and parentItem.hasChildren and not continue ) %}
         
         	{# Detect Current Parent #}
             {% set isCurrentParent = false %}
@@ -64,6 +68,9 @@
         	</li>
         {% endif %}
         
+        {% if continue %}
+            {% set continue = false %}
+        {% endif %}
     {% endfor %}
     
 {% endblock %}
