@@ -85,7 +85,7 @@ class VideoServicesController extends AbstractController
         }
         
         return $this->render(
-            'admin-panel/pages/VideoServices/video-preview-directly.html.twig', [
+            'Pages/VideoServices/video-preview-directly.html.twig', [
                 'video'         => $video,
                 'thumbnailUrl'  => $thumbnailUrl,
             ]

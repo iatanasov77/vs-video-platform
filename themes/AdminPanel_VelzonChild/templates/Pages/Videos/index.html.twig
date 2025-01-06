@@ -41,6 +41,7 @@
                             <th>{{ 'vs_vvp.template.items_index_row_categories' | trans( {},'VanzVideoPlayer' ) }}</th>
                             #}
                             <th>{{ 'vs_application.template.items_index_row_published' | trans( {},'VSApplicationBundle' ) }}</th>
+                            <th>{{ 'vs_vvp.template.video_duration' | trans( {},'VanzVideoPlayer' ) }}</th>
                             <th>{{ 'vs_vvp.template.items_index_row_watched_by' | trans( {},'VanzVideoPlayer' ) }}</th>
                             <th>{{ 'vs_application.template.items_index_row_translations' | trans( {},'VSApplicationBundle' ) }}</th>
                             {#
@@ -101,47 +102,67 @@
                                         	<i class="fas fa-times" style="color: #ff1e1e;"></i>
                                         {% endif %}
                                     </td>
-                                    <td>{{ item.watchedByUsers.count }} users</td>
+                                    <td>{{ item.videoFile.duration | vs_duration }}</td>
+                                    <td>
+                                        {{ item.watchedByUsers.count }} {{ 'vs_users.template.userscrud_index_pageheader' | trans( {},'VSUsersBundle' ) }}
+                                    </td>
                                     <td>{{ vs_translations.flags( translations[item.id] ) }}</td>
                                     {#
                                     <td>{{ item.createdAt | date( "d.m.Y H:i:s" ) }}</td>
                                     #}
                                     <td>{{ item.updatedAt | date( "d.m.Y H:i:s" ) }}</td>
                                     <td>
-                                        <div class="btn-group">
-                                        
-                                            <a class="btn btn-outline-primary videoPreview"
-                                                href="javascript:void(0);"
-                                                {# data-url="{{ path( 'vvp_video_preview_by_provider', {'id': item.id} ) }}" #}
-                                                data-url="{{ path( 'vvp_video_preview_directly', {'id': item.id} ) }}"
-                                                title="{{ 'vs_vvp.template.video_preview' | trans( {},'VanzVideoPlayer' ) }}"
+                                        <div class="dropdown">
+                                            <a href="javascript:void(0);" class="btn btn-light btn-icon" id="dropdownMenuLink15"
+                                                data-bs-toggle="dropdown"
+                                                aria-expanded="true"
+                                                title="Show Actions"
                                             >
-                                                <i class="fas fa-eye" style="color: #be4bdb;"></i>
-                                            </a>
-                
-                                            <a class="btn btn-primary"
-                                                href="{{ path( 'app_video_player_read', {'id': item.id} ) }}"
-                                                title="{{ 'vs_application.template.items_index_row_action_download' | trans( {},'VSApplicationBundle' ) }}"
-                                            >
-                                                <i class="fas fa-download"></i>
+                                                <i class="ri-equalizer-fill"></i>
                                             </a>
                                             
-                                        	<a class="btn btn-primary"
-                                        	   href="{{ path('vs_vvp_video_update', {'id': item.id}) }}"
-                                        	   title="{{ 'vs_application.template.items_index_row_action_edit' | trans( {},'VSApplicationBundle' ) }}"   
-                                            >
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            
-                                            <a class="btn btn-danger btnDeleteResource"
-                                            	href="{{ path('vs_vvp_video_delete', {'id': item.id}) }}"
-                                            	data-csrfToken="{{ csrf_token( item.id ) }}"
-                                            	data-redirectUrl="{{ path( 'vs_vvp_video_index' ) }}"
-                                            	title="{{ 'vs_application.template.items_index_row_action_delete' | trans( {},'VSApplicationBundle' ) }}"
-                                            >
-                                                <i class="icon_close_alt2"></i>
-                                            </a>
-                                            
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink15">
+                                                <li>
+                                                    <a class="dropdown-item btn btn-outline-primary videoPreview"
+                                                        href="javascript:void(0);"
+                                                        {# data-url="{{ path( 'vvp_video_preview_by_provider', {'id': item.id} ) }}" #}
+                                                        data-url="{{ path( 'vvp_video_preview_directly', {'id': item.id} ) }}"
+                                                        title="{{ 'vs_vvp.template.video_preview' | trans( {},'VanzVideoPlayer' ) }}"
+                                                    >
+                                                        <i class="fas fa-eye me-2 align-middle text-muted"></i>
+                                                        {{ 'vs_vvp.template.video_preview' | trans( {},'VanzVideoPlayer' ) }}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item btn btn-primary"
+                                                        href="{{ path( 'app_video_player_read', {'id': item.id} ) }}"
+                                                        title="{{ 'vs_application.template.items_index_row_action_download' | trans( {},'VSApplicationBundle' ) }}"
+                                                    >
+                                                        <i class="fas fa-download me-2 align-middle text-muted"></i>
+                                                        {{ 'vs_application.template.items_index_row_action_download' | trans( {},'VSApplicationBundle' ) }}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item btn btn-primary"
+                                                       href="{{ path('vs_vvp_video_update', {'id': item.id}) }}"
+                                                       title="{{ 'vs_application.template.items_index_row_action_edit' | trans( {},'VSApplicationBundle' ) }}"   
+                                                    >
+                                                        <i class="fas fa-edit me-2 align-middle text-muted"></i>
+                                                        {{ 'vs_application.template.items_index_row_action_edit' | trans( {},'VSApplicationBundle' ) }}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item btn btn-danger btnDeleteResource"
+                                                        href="{{ path('vs_vvp_video_delete', {'id': item.id}) }}"
+                                                        data-csrfToken="{{ csrf_token( item.id ) }}"
+                                                        data-redirectUrl="{{ path( 'vs_vvp_video_index' ) }}"
+                                                        title="{{ 'vs_application.template.items_index_row_action_delete' | trans( {},'VSApplicationBundle' ) }}"
+                                                    >
+                                                        <i class="fas fa-trash me-2 align-middle text-muted"></i>
+                                                        {{ 'vs_application.template.items_index_row_action_delete' | trans( {},'VSApplicationBundle' ) }}
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </td>
                                 </tr>

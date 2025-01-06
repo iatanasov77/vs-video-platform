@@ -62,6 +62,10 @@ vs_application:
             contacts: Contacts
             faq: FAQ
             pricing_plans: Pricing plans
+            
+        test_pages:
+            test_pages: Test Pages
+            test_ffmpeg: Test FFMpeg
         
     form:
         website_contact:

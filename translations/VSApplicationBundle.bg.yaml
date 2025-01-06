@@ -62,6 +62,10 @@ vs_application:
             contacts: Контакти
             faq: FAQ
             pricing_plans: Ценови планове
+        
+        test_pages:
+            test_pages: Test Pages
+            test_ffmpeg: Test FFMpeg
             
     form:
         website_contact:

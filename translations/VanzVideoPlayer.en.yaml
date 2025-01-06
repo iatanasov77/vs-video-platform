@@ -169,6 +169,7 @@ vs_vvp:
         job_status_preview: Preview Job Status
         coconut_job_recreate: Recreate Coconut Job
         video_preview: Video Preview
+        video_duration: Duration
         
         error_pages:
             title: Error Page
@@ -337,6 +338,13 @@ vs_vvp:
         page_title_youtube_channel_update: Update YouTube Channel
         page_title_youtube_channel_details: YouTube Channel Details
         page_title_youtube_channels: YouTube Channels
-        
 
-
+        test_pages:
+            test_ffmpeg: Test FFMpeg
+            video_name: Video
+            video_file: Video File
+            video_file_original_name: Original Name
+            video_file_type: Type
+            video_file_path: Path
+            storage_type: Storage Type
+            video_duration: Duration

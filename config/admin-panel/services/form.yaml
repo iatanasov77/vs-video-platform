@@ -137,3 +137,5 @@ services:
             - '%vs_cms.model.slider.class%'
             - '@vs_application.repository.locale'
             - '@request_stack'
+            - '%vs_cms.form.use_ckeditor%'
+            - '%vs_cms.form.decription_field.ckeditor5_editor%'

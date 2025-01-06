@@ -9,7 +9,7 @@ use Vankosoft\ApplicationBundle\Component\Application\Kernel as BaseKernel;
 
 class VideoPlatformKernel extends BaseKernel
 {
-    const VERSION   = '1.10.7';
+    const VERSION   = '1.12.0';
     const APP_ID    = 'video-platform';
     
     /**

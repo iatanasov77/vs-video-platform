@@ -152,7 +152,7 @@ class VideoExtController extends AbstractController
         
         $tagsContext    = $this->vsTagsWhitelistContextRepository->findByTaxonCode( 'video-tags' );
         
-        return $this->render( 'admin-panel/pages/Videos/partial/video_form.html.twig', [
+        return $this->render( 'Pages/Videos/partial/video_form.html.twig', [
             'item'                  => $item,
             'form'                  => $this->createForm( VideoForm::class, $item )->createView(),
             'taxonomyId'            => $taxonomy->getId(),

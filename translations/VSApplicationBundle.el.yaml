@@ -66,6 +66,10 @@ vs_application:
             contacts: Επαφές
             faq: FAQ
             pricing_plans: Σχέδια τιμολόγησης
+        
+        test_pages:
+            test_pages: Test Pages
+            test_ffmpeg: Test FFMpeg
             
     form:
         website_contact:

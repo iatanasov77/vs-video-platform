@@ -1,0 +1,45 @@
+{% extends "@VSApplication/layout.html.twig" %}
+
+{# Override Blocs #}
+{% block title %}{{ parent() }} :: {{ 'vs_vvp.template.test_pages.test_ffmpeg' | trans( {},'VanzVideoPlayer' ) }}{% endblock %}
+{% block pageTitle %}
+    <h4 class="pageheader-title">
+        <i class="ri-user-line"></i> 
+        {{ 'vs_vvp.template.test_pages.test_ffmpeg' | trans( {},'VanzVideoPlayer' ) }}
+    </h4>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <h4>
+                <span style="font-weight: bold;">{{ 'vs_vvp.template.test_pages.video_name' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                {{ video.name }}
+            </h4>
+            <fieldset class="border border-dark rounded p-3">
+                <legend class="w-auto float-none ps-2 pe-2">{{ 'vs_vvp.template.test_pages.video_file' | trans( {},'VanzVideoPlayer' ) }}</legend>
+                
+                <p>
+                    <span style="font-weight: bold;">{{ 'vs_vvp.template.test_pages.video_file_original_name' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                    {{ video.videoFile.originalName }}
+                </p>
+                <p>
+                    <span style="font-weight: bold;">{{ 'vs_vvp.template.test_pages.video_file_type' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                    {{ video.videoFile.type }}
+                </p>
+                <p>
+                    <span style="font-weight: bold;">{{ 'vs_vvp.template.test_pages.video_file_path' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                    {{ video.videoFile.path }}
+                </p>
+                <p>
+                    <span style="font-weight: bold;">{{ 'vs_vvp.template.test_pages.storage_type' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                    {{ video.videoFile.storageType }}
+                </p>
+                <p>
+                    <span style="font-weight: bold;">{{ 'vs_vvp.template.test_pages.video_duration' | trans( {},'VanzVideoPlayer' ) }}:</span> 
+                    {{ duration | vs_duration }}
+                </p>
+            </fieldset>
+        </div>
+    </div>
+{% endblock %}

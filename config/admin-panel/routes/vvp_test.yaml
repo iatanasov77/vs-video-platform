@@ -1,0 +1,3 @@
+vvp_test_ffmpeg:
+    path: /video-platform/test/ffmpeg
+    controller: App\Controller\AdminPanel\TestFfmpegController::index

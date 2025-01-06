@@ -27,7 +27,7 @@ class ErrorController extends AbstractController
     
     public function accessDenied( Request $request ): Response
     {
-        return $this->render( 'admin-panel/pages/Error/access-denied.html.twig', [
+        return $this->render( 'Pages/Error/access-denied.html.twig', [
             
         ]);
     }

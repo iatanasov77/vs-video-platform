@@ -6,6 +6,8 @@ imports:
     - { resource: services/uploader.yaml }
     - { resource: services/video-player.yaml }
     - { resource: services/command.yaml }
+    - { resource: services/twig.yaml }
+    - { resource: services/test.yaml }
 
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
