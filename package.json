@@ -68,9 +68,10 @@
         "plyr": "^3.7.8",
         "photoswipe": "^5.3.8",
         "rater-js": "^0.2",
-        "@analytics/google-analytics": "^1.0.5",
-        "analytics": "^0.8.1",
-        "@types/dlv": "^1.0.0"
+        
+        "@analytics/google-analytics": "^1.1",
+        "analytics": "^0.8",
+        "@types/dlv": "^1.0"
     },
     "devDependencies": {
         "@hotwired/stimulus": "^3.0.0",
