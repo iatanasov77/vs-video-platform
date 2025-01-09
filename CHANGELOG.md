@@ -1,3 +1,12 @@
+2.2.1	|	Release date: **09.01.2025**
+============================================
+* New Features:
+  - Add CkEditor5 into Frontend Packages.
+  - Add Google Analytics
+* Bug-Fixes:
+  - Fix a Securoty Config.
+
+
 2.2.0	|	Release date: **06.01.2025**
 ============================================
 * New Features and Improvements:
