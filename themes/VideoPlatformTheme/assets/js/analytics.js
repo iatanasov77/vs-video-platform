@@ -3,7 +3,7 @@ import googleAnalytics from '@analytics/google-analytics'
 
 //console.log( 'IS_PRODUCTION: ' + IS_PRODUCTION );
 if ( IS_PRODUCTION ) {
-    let analyticsMeasurementId  = $( '#content' ).attr( 'data-analyticsMeasurementId' );
+    let analyticsMeasurementId  = $( 'body' ).attr( 'data-analyticsMeasurementId' );
     //alert( analyticsMeasurementId );
     
     const analytics = Analytics({
