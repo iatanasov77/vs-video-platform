@@ -3,7 +3,7 @@ app_video_player_read:
     controller: App\Controller\AdminPanel\VideoExtController::read
     options:
         expose: true
-        
+
 app_video_player_read_transcoded:
     path: /video-platform/videos-transcoded/{id}-{format}/read
     controller: App\Controller\AdminPanel\VideoExtController::readTranscoded
