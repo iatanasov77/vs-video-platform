@@ -1,3 +1,14 @@
+2.2.2	|	Release date: **12.02.2025**
+============================================
+* New Features and Improvements:
+  - Change FfMpeg Binary Paths in Symfony Application Configs.
+  - Some Improvements.
+  - Use CkEditor5 in Videos and Actors Forms.
+  - Remove Uneeded Frontend Dependencies From package.json
+* Bug-Fixes:
+  - Use VS Form Errors Macros in Some Twig Templates.
+
+
 2.2.1	|	Release date: **09.01.2025**
 ============================================
 * New Features:
