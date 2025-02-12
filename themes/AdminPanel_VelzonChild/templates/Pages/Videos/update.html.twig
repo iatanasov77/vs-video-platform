@@ -1,5 +1,8 @@
 {% extends "@VSApplication/layout.html.twig" %}
 
+{# Import Macros #}
+{% import "@VSApplication/Macros/form.html.twig" as vs_form %}
+
 {% if( item.id ) %}
     {% set pageTitle = ( 'vs_vvp.template.page_title_video_update' | trans( {},'VanzVideoPlayer' ) ) ~ ': ' ~ item.title %}
 {% else %}
@@ -30,9 +33,8 @@
                         </div>
                     {% endif %}
                     
-                    {# NEED TO BE CREATE A MACROS TO SHOW FORM ERRORS FROM AbstractCrudController #}
-                    {% if formErrors is not empty %}
-                        {{ dump( formErrors ) }}
+                    {% if formErrors is defined %}
+                        {{ vs_form.errors( formErrors ) }}     
                     {% endif %}
                     
                     {# 
