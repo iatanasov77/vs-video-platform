@@ -38,9 +38,8 @@
                         </div>
                     {% endif %}
                     
-                    {# NEED TO BE CREATE A MACROS TO SHOW FORM ERRORS FROM AbstractCrudController #}
-                    {% if formErrors is not empty %}
-                        {{ dump( formErrors ) }}
+                    {% if formErrors is defined %}
+                        {{ vs_form.errors( formErrors ) }}     
                     {% endif %}
                     
                 	{% if(item.id) %}{% set method = "PUT" %}{% else %}{% set method = "POST" %}{% endif %}

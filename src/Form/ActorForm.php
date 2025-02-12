@@ -9,7 +9,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use daddl3\SymfonyCKEditor5WebpackViteBundle\Form\Ckeditor5TextareaType;
+
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -73,10 +76,18 @@ class ActorForm extends AbstractForm
                 'translation_domain'    => 'VanzVideoPlayer',
             ])
             
-            ->add( 'description', CKEditorType::class, [
+//             ->add( 'description', CKEditorType::class, [
+//                 'label'                 => 'vs_vvp.form.actor.description',
+//                 'translation_domain'    => 'VanzVideoPlayer',
+//                 'config'                => $this->ckEditorConfig( $options ),
+//             ])
+            
+            ->add( 'description', Ckeditor5TextareaType::class, [
                 'label'                 => 'vs_vvp.form.actor.description',
                 'translation_domain'    => 'VanzVideoPlayer',
-                'config'                => $this->ckEditorConfig( $options ),
+                'attr' => [
+                    'data-ckeditor5-config' => 'devpage'
+                ],
             ])
             
             ->add( 'photos', CollectionType::class, [

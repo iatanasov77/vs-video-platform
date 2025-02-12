@@ -15,7 +15,9 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use daddl3\SymfonyCKEditor5WebpackViteBundle\Form\Ckeditor5TextareaType;
 
 use App\Form\Type\VideoPhotoType;
 use App\Entity\Video;
@@ -189,10 +191,18 @@ class VideoForm extends AbstractForm
                 'choice_label'          => 'name'
             ])
             
-            ->add( 'description', CKEditorType::class, [
+//             ->add( 'description', CKEditorType::class, [
+//                 'label'                 => 'vs_vvp.form.video.description',
+//                 'translation_domain'    => 'VanzVideoPlayer',
+//                 'config'                => $this->ckEditorConfig( $options ),
+//             ])
+            
+            ->add( 'description', Ckeditor5TextareaType::class, [
                 'label'                 => 'vs_vvp.form.video.description',
                 'translation_domain'    => 'VanzVideoPlayer',
-                'config'                => $this->ckEditorConfig( $options ),
+                'attr' => [
+                    'data-ckeditor5-config' => 'devpage'
+                ],
             ])
             
             ->add( 'photos', CollectionType::class, [
