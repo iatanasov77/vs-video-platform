@@ -1,3 +1,9 @@
+2.2.3	|	Release date: **14.02.2025**
+============================================
+* Bug-Fixes:
+  - Fix Actor Entity.
+
+
 2.2.2	|	Release date: **12.02.2025**
 ============================================
 * New Features and Improvements:
