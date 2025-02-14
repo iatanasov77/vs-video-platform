@@ -7,10 +7,10 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Sylius\Component\Resource\Model\TranslatableInterface;
-use Sylius\Component\Resource\Model\TranslatableTrait;
-use Sylius\Component\Resource\Model\TranslationInterface;
 use Sylius\Component\Review\Model\ReviewableInterface;
+
+use Vankosoft\ApplicationBundle\Model\Traits\TranslatableTrait;
+use Vankosoft\ApplicationBundle\Model\Interfaces\TranslatableInterface;
 use Vankosoft\CatalogBundle\Model\Traits\ReviewableEntity;
 use Vankosoft\CatalogBundle\Model\Traits\CommentableTrait;
 use App\Entity\Application\Translation;
@@ -79,14 +79,9 @@ class Actor implements ResourceInterface, ReviewableInterface, TranslatableInter
     #[ORM\InverseJoinColumn(name: "genre_id", referencedColumnName: "id")]
     private $genres;
     
-    /**
-     * Used locale to override Translation listener`s locale
-     * this is not a mapped field of entity metadata, just a simple property
-     * 
-     * @var string
-     */
+    /** {@inheritDoc} */
     #[Gedmo\Locale]
-    private $locale;
+    protected $locale;
     
     /** @var VideoComment[] */
     /*
@@ -327,27 +322,5 @@ class Actor implements ResourceInterface, ReviewableInterface, TranslatableInter
         });
         
         return $video->count() ? $video->first() : null;
-    }
-    
-    public function getLocale()
-    {
-        return $this->currentLocale;
-    }
-    
-    public function getTranslatableLocale(): ?string
-    {
-        return $this->locale;
-    }
-    
-    public function setTranslatableLocale($locale): self
-    {
-        $this->locale = $locale;
-        
-        return $this;
-    }
-    
-    protected function createTranslation(): TranslationInterface
-    {
-        
     }
 }
