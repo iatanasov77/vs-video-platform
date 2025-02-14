@@ -1,3 +1,9 @@
+2.2.4	|	Release date: **14.02.2025**
+============================================
+* Bug-Fixes:
+  - Increase upload_max_filesize for PHP FPM.
+
+
 2.2.3	|	Release date: **14.02.2025**
 ============================================
 * Bug-Fixes:
