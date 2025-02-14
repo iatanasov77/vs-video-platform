@@ -21,7 +21,8 @@
         "shopping-cart",
         "api",
         "api-platform",
-        "video-hosting-latform"
+        "video-hosting-platform",
+        "youtube-channels"
     ],
     "require": {
         "php": "^8.1",
