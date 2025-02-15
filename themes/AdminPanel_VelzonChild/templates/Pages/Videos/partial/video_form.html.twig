@@ -7,8 +7,11 @@
 
 {% if(item.id) %}{% set method = "PUT" %}{% else %}{% set method = "POST" %}{% endif %}
 {{ form_start(form, {
-    'attr': {'id': 'FormVideo'},
-    'method': method
+    'method': method,
+    'attr': {
+        'id': 'FormVideo',
+        'data-useCkEditor': useCkEditor
+    }
 }) }}
 
     {{ form_widget( form.id ) }}

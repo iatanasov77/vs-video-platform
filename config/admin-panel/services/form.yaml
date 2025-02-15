@@ -59,6 +59,8 @@ services:
             - '%vs_vvp.model.video_genre.class%'
             - '%vs_vvp.model.actor.class%'
             - '%vs_users_subscriptions.model.payed_service.class%'
+            - '%vs_cms.form.use_ckeditor%'
+            - '%vs_cms.form.decription_field.ckeditor5_editor%'
             
     vs_vvp.resources.video_photo.form:
         class: App\Form\Type\VideoPhotoType

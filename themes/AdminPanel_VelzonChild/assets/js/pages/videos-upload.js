@@ -7,6 +7,7 @@ import { InitOneUpFileUpload, TestUploadProgressBar } from '@/js/includes/OneUpF
 
 import { VsFormSubmit } from '@/js/includes/vs_form.js';
 import { VsPath } from '@/js/includes/fos_js_routes.js';
+import { GetDescription } from '../includes/video_form.js';
 
 window.TestUploadProgressBarStarted = false;
 window.VideoSaved                   = false;
@@ -80,15 +81,8 @@ function saveVideo()
     //console.log( selectedTaxons ); return;
     
     formData.set( "tags", updateTagsInput( JSON.parse( $( '#video_form_tags' ).val() ) ) );
-    
     formData.set( "name", $( '#video_form_name' ).val() );
-    
-    require( 'ckeditor4/ckeditor.js' );
-    var description = CKEDITOR.instances.video_form_description.getData();
-    //var description = $( '#video_form_description' ).val();
-    //alert( description );
-    formData.set( "description", description );
-    
+    formData.set( "description", GetDescription() );
     //console.log( RequiredResources );
     
     // OLD WAY
