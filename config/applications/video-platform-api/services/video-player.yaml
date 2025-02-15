@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    app_video_clip_maker:
+        class: App\Component\VideoClipMaker
+        arguments:
+            - '@dubture_ffmpeg.ffmpeg'
+            - '@doctrine'
+            - '@vs_vvp.factory.video_clip'
+            - '%vs_vvp.videos_directory%'

@@ -476,7 +476,7 @@ class VideoExtController extends AbstractController
             throw new VideoPlatformStorageException( 'Video Platform Storage Not Configured Properly !!!' );
         }
         
-        $filmDuration       = null;
+        $filmDuration       = 0;
         if ( $this->videoPlatform->getVideoPlatformSettings()->getUseFFMpeg() ) {
             $filmDuration   = $this->ffprobe->streams(
                 $this->videoPlatform->getVideoUri( $video, $storageSettings['bucket'] )

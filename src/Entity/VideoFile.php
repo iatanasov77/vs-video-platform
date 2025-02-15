@@ -3,10 +3,6 @@
 use Doctrine\ORM\Mapping as ORM;
 use Vankosoft\CmsBundle\Model\File;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="VVP_Videos_Files")
- */
 #[ORM\Entity]
 #[ORM\Table(name: "VVP_Videos_Files")]
 class VideoFile extends File
@@ -31,7 +27,7 @@ class VideoFile extends File
     
     public function setVideo( Video $video ): self
     {
-        $this->setOwner( $video);
+        $this->setOwner( $video );
         
         return $this;
     }

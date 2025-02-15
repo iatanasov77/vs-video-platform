@@ -120,7 +120,7 @@ vs_vvp:
             original_videos_storage_placeholder: '-- Select Original Videos Storage --'
             coconut_settings_title: Title
             
-            settings_key_help: Used to load different Settings in Different Application Environements. ( Set it in .env File )
+            settings_key_help: Used to load different Settings in Different Application Environements.
             use_ffmpeg_help: Used to get Video Duration etc.
             display_only_transcoded_help: Dont add Url to Original Video in Video Player
             create_user_signed_videos_help: Create Presigned Videos Url to Digital Ocean Space Bucket

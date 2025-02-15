@@ -112,4 +112,8 @@ sylius_resource:
 #                 model:      App\Entity\ActorComment
 #                 repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
 
-
+        vs_vvp.video_clip:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoClip
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
