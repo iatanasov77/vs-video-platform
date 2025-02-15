@@ -24,7 +24,7 @@ class CoconutJob implements ResourceInterface
     private $id;
     
     /** @var Video */
-    #[ORM\OneToOne(targetEntity: "Video", inversedBy: "coconutJob")]
+    #[ORM\OneToOne(targetEntity: Video::class, inversedBy: "coconutJob")]
     #[ORM\JoinColumn(name: "video_id", referencedColumnName: "id")]
     private $video;
     

@@ -9,7 +9,7 @@ twig:
         alerts: '@vs_app.twig.alerts'
         installedBundles: '%kernel.bundles%'
         localesRepo: '@vs_application.repository.locale'
-        picturesPath: '%vs_application.filemanager_shared_media_gaufrette.app_pictures%'
+        #picturesPath: '%vs_application.filemanager_shared_media_gaufrette.app_pictures%'
         
     form_themes:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'

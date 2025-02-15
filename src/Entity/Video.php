@@ -32,11 +32,11 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
     use CommentableTrait;
     
     /** @var VideoReview[] */
-    #[ORM\OneToMany(targetEntity: "VideoReview", mappedBy: "reviewSubject", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: VideoReview::class, mappedBy: "reviewSubject", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
     protected $reviews;
     
     /** @var VideoComment[] */
-    #[ORM\OneToMany(targetEntity: "VideoComment", mappedBy: "commentSubject", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: VideoComment::class, mappedBy: "commentSubject", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
     protected $comments;
     
     /** @var User */
@@ -44,29 +44,29 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
     private $user;
     
     /** @var VideoFile */
-    #[ORM\OneToOne(targetEntity: "VideoFile", mappedBy: "owner", cascade: ["persist", "remove"], orphanRemoval: true)]
+    #[ORM\OneToOne(targetEntity: VideoFile::class, mappedBy: "owner", cascade: ["persist", "remove"], orphanRemoval: true)]
     private $videoFile;
     
     /** @var Collection|VideoCategory[] */
-    #[ORM\ManyToMany(targetEntity: "VideoCategory", inversedBy: "videos", indexBy: "id")]
+    #[ORM\ManyToMany(targetEntity: VideoCategory::class, inversedBy: "videos", indexBy: "id")]
     #[ORM\JoinTable(name: "VVP_Videos_Categories")]
     #[ORM\JoinColumn(name: "video_id", referencedColumnName: "id")]
     #[ORM\InverseJoinColumn(name: "category_id", referencedColumnName: "id")]
     private $categories;
     
     /** @var Collection|VideoGenre[] */
-    #[ORM\ManyToMany(targetEntity: "VideoGenre", inversedBy: "videos", indexBy: "id")]
+    #[ORM\ManyToMany(targetEntity: VideoGenre::class, inversedBy: "videos", indexBy: "id")]
     #[ORM\JoinTable(name: "VVP_Videos_Genres")]
     #[ORM\JoinColumn(name: "video_id", referencedColumnName: "id")]
     #[ORM\InverseJoinColumn(name: "genre_id", referencedColumnName: "id")]
     private $genres;
     
     /** @var CoconutJob */
-    #[ORM\OneToOne(targetEntity: "CoconutJob", mappedBy: "video", cascade: ["persist", "remove"], orphanRemoval: true)]
+    #[ORM\OneToOne(targetEntity: CoconutJob::class, mappedBy: "video", cascade: ["persist", "remove"], orphanRemoval: true)]
     private $coconutJob;
     
     /** @var Actor[] */
-    #[ORM\ManyToMany(targetEntity: "Actor", inversedBy: "videos", indexBy: "id")]
+    #[ORM\ManyToMany(targetEntity: Actor::class, inversedBy: "videos", indexBy: "id")]
     #[ORM\JoinTable(name: "VVP_Videos_Actors")]
     #[ORM\JoinColumn(name: "video_id", referencedColumnName: "id")]
     #[ORM\InverseJoinColumn(name: "actor_id", referencedColumnName: "id")]
@@ -84,7 +84,7 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
     private $allowedPaidServices;
     
     /** @var VideoPhoto[] */
-    #[ORM\OneToMany(targetEntity: "VideoPhoto", mappedBy: "owner", indexBy: "code", cascade: ["all"], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: VideoPhoto::class, mappedBy: "owner", indexBy: "code", cascade: ["all"], orphanRemoval: true)]
     private $photos;
     
     /** @var Collection | User[] */
@@ -97,6 +97,10 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
     /** @var SliderItem[] */
     #[ORM\OneToMany(targetEntity: SliderItem::class, mappedBy: "video", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
     private $sliderItems;
+    
+    /** @var VideoClip */
+    #[ORM\OneToOne(targetEntity: VideoClip::class, mappedBy: "owner", cascade: ["persist", "remove"], orphanRemoval: true)]
+    private $videoClip;
     
     public function __construct()
     {
@@ -339,6 +343,18 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
         if ( $this->sliderItems->contains( $sliderItem ) ) {
             $this->sliderItems->removeElement( $sliderItem );
         }
+        
+        return $this;
+    }
+    
+    public function getVideoClip()
+    {
+        return $this->videoClip;
+    }
+    
+    public function setVideoClip($videoClip)
+    {
+        $this->videoClip = $videoClip;
         
         return $this;
     }

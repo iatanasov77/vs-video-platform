@@ -64,6 +64,8 @@ services:
         class: App\EventListener\VideoResourceEventListener
         arguments:
             - '@app_video_transcoder_coconut'
+            - '@app_video_platform'
+            - '@app_video_clip_maker'
         tags:
            -  { name: kernel.event_listener, event: vs_vvp.video.post_create, method: onVideoCreate }
            
@@ -79,4 +81,10 @@ services:
         arguments:
             - '@app_video_platform'
 
-
+    app_video_clip_maker:
+        class: App\Component\VideoClipMaker
+        arguments:
+            - '@dubture_ffmpeg.ffmpeg'
+            - '@doctrine'
+            - '@vs_vvp.factory.video_clip'
+            - '%vs_vvp.videos_directory%'

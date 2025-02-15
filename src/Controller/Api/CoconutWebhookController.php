@@ -14,6 +14,8 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Vankosoft\ApplicationBundle\Component\Status;
 use Vankosoft\UsersBundle\Component\UserNotifications;
 use Vankosoft\ApiBundle\Security\ApiManager;
+use App\Component\VideoClipMaker;
+use App\Entity\CoconutJob;
 
 class CoconutWebhookController extends AbstractController
 {
@@ -35,13 +37,17 @@ class CoconutWebhookController extends AbstractController
     /** @var LoggerInterface */
     private $logger;
     
+    /** @var VideoClipMaker */
+    private $clipMaker;
+    
     public function __construct(
         ManagerRegistry $doctrine,
         MailerInterface $mailer,
         UserNotifications $notifications,
         RepositoryInterface $coconutJobsRepository,
         ApiManager $apiManager,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        VideoClipMaker $clipMaker
     ) {
         $this->doctrine                 = $doctrine;
         $this->mailer                   = $mailer;
@@ -49,6 +55,7 @@ class CoconutWebhookController extends AbstractController
         $this->coconutJobsRepository    = $coconutJobsRepository;
         $this->apiManager               = $apiManager;
         $this->logger                   = $logger;
+        $this->clipMaker                = $clipMaker;
     }
     
     public function notification( string $apiToken, Request $request ): JsonResponse
@@ -84,13 +91,15 @@ class CoconutWebhookController extends AbstractController
                 'coconutEvent'  => $coconutDataDecoded['event']
             ]);
             
-            $this->updateJob( $coconutData );
+            $job = $this->updateJob( $coconutData );
             $this->sendNotification( $coconutData );
             //$this->sendEmail( $data, $contactEmail );
             
             if ( $coconutDataDecoded['event'] == 'job.completed' ) {
                 $this->doctrine->getManager()->remove( $token );
                 $this->doctrine->getManager()->flush();
+                
+                $this->createVideoClip( $job );
             }
         }
         
@@ -102,7 +111,7 @@ class CoconutWebhookController extends AbstractController
         return new JsonResponse( $response );
     }
     
-    private function updateJob( $data )
+    private function updateJob( $data ): CoconutJob
     {
         $dataDecoded    = \json_decode( $data, true );
         
@@ -113,6 +122,8 @@ class CoconutWebhookController extends AbstractController
         
         $this->doctrine->getManager()->persist( $coconutJob );
         $this->doctrine->getManager()->flush();
+        
+        return $coconutJob;
     }
     
     private function sendNotification( $data )
@@ -136,5 +147,23 @@ class CoconutWebhookController extends AbstractController
                 ]);
         
         $this->mailer->send( $email );
+    }
+    
+    private function createVideoClip( CoconutJob $job )
+    {
+        $jobData    = $job->getJobData();
+        if ( ! is_array( $jobData ) ) {
+            return;
+        }
+        
+        foreach( $jobData['outputs'] as $output ) {
+            if( $output['key'] == 'mp4:576p' ) {
+                $videoUri = $output['url'];
+            }
+        }
+        
+        if ( isset( $videoUri ) ) {
+            $this->clipMaker->createVideoClip( $job->getVideo(), $videoUri );
+        }
     }
 }
