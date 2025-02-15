@@ -1,3 +1,10 @@
+2.2.6	|	Release date: **15.02.2025**
+============================================
+* New Features and Improvements:
+  - Fix Some String in Translations for VideoPlatformSettings Form Help.
+  - Create a VideoClip Entitiy and VideoClipMaker Component to Create Clips From Videos that to be used to Play Videos on Mouse Hover in Listing Pages.
+
+
 2.2.5	|	Release date: **15.02.2025**
 ============================================
 * Bug-Fixes and Improvements:
