@@ -26,7 +26,7 @@ class YoutubeChannel implements ResourceInterface
     private $channelId;
     
     /** @var Collection|ActorPhoto[] */
-    #[ORM\OneToOne(targetEntity: "YoutubeChannelPhoto", mappedBy: "owner", cascade: ["persist", "remove"], orphanRemoval: true)]
+    #[ORM\OneToOne(targetEntity: YoutubeChannelPhoto::class, mappedBy: "owner", cascade: ["persist", "remove"], orphanRemoval: true)]
     private $photo;
     
     #[ORM\ManyToOne(targetEntity: GoogleCloudProject::class, inversedBy: "channels", cascade: ["persist", "remove"])]

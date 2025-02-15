@@ -18,15 +18,15 @@ class VideoCategory implements ResourceInterface, TaxonDescendentInterface
     private $id;
     
     /** @var VideoPlatformStorage */
-    #[ORM\ManyToOne(targetEntity: "VideoCategory", inversedBy: "children", cascade: ["all"])]
+    #[ORM\ManyToOne(targetEntity: VideoCategory::class, inversedBy: "children", cascade: ["all"])]
     private $parent;
     
     /** @var Collection|VideoCategory[] */
-    #[ORM\OneToMany(targetEntity: "VideoCategory", mappedBy: "parent", cascade: ["persist", "remove"], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: VideoCategory::class, mappedBy: "parent", cascade: ["persist", "remove"], orphanRemoval: true)]
     private $children;
     
     /** @var Collection|Video[] */
-    #[ORM\ManyToMany(targetEntity: "Video", mappedBy: "categories")]
+    #[ORM\ManyToMany(targetEntity: Video::class, mappedBy: "categories")]
     #[ORM\OrderBy(["updatedAt" => "DESC"])]
     private $videos;
     

@@ -95,7 +95,7 @@ class CoconutWebhookController extends AbstractController
             $this->sendNotification( $coconutData );
             //$this->sendEmail( $data, $contactEmail );
             
-            if ( $coconutDataDecoded['event'] == 'job.completed' ) {
+            if ( $coconutDataDecoded['event'] == CoconutJob::EVENT_JOB_COMPLETED ) {
                 $this->doctrine->getManager()->remove( $token );
                 $this->doctrine->getManager()->flush();
                 

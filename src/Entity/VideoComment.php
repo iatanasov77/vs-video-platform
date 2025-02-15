@@ -17,7 +17,7 @@ class VideoComment extends CatalogComment
     protected $author;
     
     /** {@inheritDoc} */
-    #[ORM\ManyToOne(targetEntity: "Video", inversedBy: "comments")]
+    #[ORM\ManyToOne(targetEntity: Video::class, inversedBy: "comments")]
     #[ORM\JoinColumn(name: "subject_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE")]
     protected $commentSubject;
     

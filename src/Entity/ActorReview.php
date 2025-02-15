@@ -17,7 +17,7 @@ class ActorReview extends Review
     protected $author;
     
     /** {@inheritDoc} */
-    #[ORM\ManyToOne(targetEntity: "Actor", inversedBy: "reviews")]
+    #[ORM\ManyToOne(targetEntity: Actor::class, inversedBy: "reviews")]
     #[ORM\JoinColumn(name: "subject_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE")]
     protected $reviewSubject;
     

@@ -18,7 +18,7 @@ class VideoPlatformApplication implements ResourceInterface
     private $application;
     
     /** @var VideoPlatformSettings */
-    #[ORM\ManyToOne(targetEntity: "VideoPlatformSettings", inversedBy: "videoPlatformApplication")]
+    #[ORM\ManyToOne(targetEntity: VideoPlatformSettings::class, inversedBy: "videoPlatformApplication")]
     #[ORM\JoinColumn(name: "settings_id", referencedColumnName: "id")]
     private $settings;
     

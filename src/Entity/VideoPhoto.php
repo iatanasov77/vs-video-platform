@@ -8,7 +8,7 @@ use Vankosoft\CmsBundle\Model\File;
 class VideoPhoto extends File
 {
     /** @var Video */
-    #[ORM\ManyToOne(targetEntity: "Video", inversedBy: "photos", cascade: ["persist", "remove"])]
+    #[ORM\ManyToOne(targetEntity: Video::class, inversedBy: "photos", cascade: ["persist", "remove"])]
     #[ORM\JoinColumn(name: "owner_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
     protected $owner;
     

@@ -26,11 +26,11 @@ class VideoPlatformStorage implements ResourceInterface
     private $settings;
     
     /** @var Collection|VideoPlatformSettings[] */
-    #[ORM\OneToMany(targetEntity: "VideoPlatformSettings", mappedBy: "originalVideosStorage")]
+    #[ORM\OneToMany(targetEntity: VideoPlatformSettings::class, mappedBy: "originalVideosStorage")]
     private $originalVideosSettings;
     
     /** @var Collection|CoconutSettings[] */
-    #[ORM\OneToMany(targetEntity: "CoconutSettings", mappedBy: "coconutStorage")]
+    #[ORM\OneToMany(targetEntity: CoconutSettings::class, mappedBy: "coconutStorage")]
     private $coconutOutputSettings;
     
     public function __construct()
