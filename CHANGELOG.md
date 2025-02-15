@@ -1,3 +1,10 @@
+2.2.5	|	Release date: **15.02.2025**
+============================================
+* Bug-Fixes and Improvements:
+  - Set Condion to Which Version of CK Editor to Use in VideoForm.
+  - Set Condion to Which Version of CK Editor to Use in All Other Forms.
+
+
 2.2.4	|	Release date: **14.02.2025**
 ============================================
 * Bug-Fixes:
