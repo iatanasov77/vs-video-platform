@@ -22,9 +22,12 @@ use daddl3\SymfonyCKEditor5WebpackViteBundle\Form\Ckeditor5TextareaType;
 use App\Form\Type\VideoPhotoType;
 use App\Entity\Video;
 use App\Entity\VideoCategory;
+use Vankosoft\CmsBundle\Form\Traits\FosCKEditor4Config;
 
 class VideoForm extends AbstractForm
 {
+    use FosCKEditor4Config;
+    
     /** @var TokenStorageInterface */
     private $tokenStorage;
     
@@ -40,6 +43,12 @@ class VideoForm extends AbstractForm
     /** @var string */
     private $paidServiceClass;
     
+    /** @var string */
+    private $useCkEditor;
+    
+    /** @var string */
+    private $ckeditor5Editor;
+    
     public function __construct(
         string $dataClass,
         RepositoryInterface $localesRepository,
@@ -48,7 +57,10 @@ class VideoForm extends AbstractForm
         string $videoCategoryClass,
         string $videoGenreClass,
         string $actorClass,
-        string $paidServiceClass
+        string $paidServiceClass,
+        
+        string $useCkEditor,
+        string $ckeditor5Editor
     ) {
         parent::__construct( $dataClass );
         
@@ -61,6 +73,9 @@ class VideoForm extends AbstractForm
         $this->videoGenreClass      = $videoGenreClass;
         $this->actorClass           = $actorClass;
         $this->paidServiceClass     = $paidServiceClass;
+        
+        $this->useCkEditor          = $useCkEditor;
+        $this->ckeditor5Editor      = $ckeditor5Editor;
     }
     
     public function buildForm( FormBuilderInterface $builder, array $options ): void
@@ -191,20 +206,6 @@ class VideoForm extends AbstractForm
                 'choice_label'          => 'name'
             ])
             
-//             ->add( 'description', CKEditorType::class, [
-//                 'label'                 => 'vs_vvp.form.video.description',
-//                 'translation_domain'    => 'VanzVideoPlayer',
-//                 'config'                => $this->ckEditorConfig( $options ),
-//             ])
-            
-            ->add( 'description', Ckeditor5TextareaType::class, [
-                'label'                 => 'vs_vvp.form.video.description',
-                'translation_domain'    => 'VanzVideoPlayer',
-                'attr' => [
-                    'data-ckeditor5-config' => 'devpage'
-                ],
-            ])
-            
             ->add( 'photos', CollectionType::class, [
                 'entry_type'   => VideoPhotoType::class,
                 'allow_add'    => true,
@@ -237,6 +238,22 @@ class VideoForm extends AbstractForm
                 'choice_label'          => 'title'
             ])
         ;
+            
+        if ( $this->useCkEditor == '5' ) {
+            $builder->add( 'description', Ckeditor5TextareaType::class, [
+                'label'                 => 'vs_vvp.form.video.description',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'attr' => [
+                    'data-ckeditor5-config' => 'devpage'
+                ],
+            ]);
+        } else {
+            $builder->add( 'description', CKEditorType::class, [
+                'label'                 => 'vs_vvp.form.video.description',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'config'                => $this->ckEditorConfig( $options ),
+            ]);
+        }
     }
     
     public function configureOptions( OptionsResolver $resolver ): void
@@ -247,56 +264,14 @@ class VideoForm extends AbstractForm
             ->setDefaults([
                 'data_class'        => Video::class,
                 'csrf_protection'   => false,
-                
-                // CKEditor Options
-                'ckeditor_uiColor'              => '#ffffff',
-                'ckeditor_toolbar'              => 'full',
-                'ckeditor_extraPlugins'         => '',
-                'ckeditor_removeButtons'        => '',
-                'ckeditor_allowedContent'       => false,
-                'ckeditor_extraAllowedContent'  => '*[*]{*}(*)',
             ])
-            
-            ->setDefined([
-                // CKEditor Options
-                'ckeditor_uiColor',
-                'ckeditor_toolbar',
-                'ckeditor_extraPlugins',
-                'ckeditor_removeButtons',
-                'ckeditor_allowedContent',
-                'ckeditor_extraAllowedContent',
-            ])
-            
-            ->setAllowedTypes( 'ckeditor_uiColor', 'string' )
-            ->setAllowedTypes( 'ckeditor_toolbar', 'string' )
-            ->setAllowedTypes( 'ckeditor_extraPlugins', 'string' )
-            ->setAllowedTypes( 'ckeditor_removeButtons', 'string' )
-            ->setAllowedTypes( 'ckeditor_allowedContent', ['boolean', 'string'] )
-            ->setAllowedTypes( 'ckeditor_extraAllowedContent', 'string' )
         ;
+            
+        $this->onfigureCkEditorOptions( $resolver );
     }
     
     public function getName()
     {
         return 'vs_vvp.video';
-    }
-    
-    protected function ckEditorConfig( array $options ): array
-    {
-        $ckEditorConfig = [
-            'uiColor'                           => $options['ckeditor_uiColor'],
-            'toolbar'                           => $options['ckeditor_toolbar'],
-            'extraPlugins'                      => array_map( 'trim', explode( ',', $options['ckeditor_extraPlugins'] ) ),
-            'removeButtons'                     => $options['ckeditor_removeButtons'],
-        ];
-        
-        $ckEditorAllowedContent = (bool)$options['ckeditor_allowedContent'];
-        if ( $ckEditorAllowedContent ) {
-            $ckEditorConfig['allowedContent']       = $ckEditorAllowedContent;
-        } else {
-            $ckEditorConfig['extraAllowedContent']  = $options['ckeditor_extraAllowedContent'];
-        }
-        
-        return $ckEditorConfig;
     }
 }
