@@ -17,7 +17,7 @@ class ActorComment extends CatalogComment
     #[ORM\JoinColumn(name: "author_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
     protected $author;
     
-    #[ORM\ManyToOne(targetEntity: "Actor", inversedBy: "comments")]
+    #[ORM\ManyToOne(targetEntity: Actor::class, inversedBy: "comments")]
     #[ORM\JoinColumn(name: "subject_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE")]
     protected $commentSubject;
 }

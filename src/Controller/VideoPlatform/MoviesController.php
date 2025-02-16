@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Twig\Environment;
+use Psr\Log\LoggerInterface;
 
 use Vankosoft\ApplicationBundle\Component\Status;
 use Vankosoft\CatalogBundle\Component\ReviewFactory;
@@ -26,6 +27,9 @@ use App\Entity\VideoReview;
 
 class MoviesController extends AbstractController
 {
+    /** @var LoggerInterface */
+    private $logger;
+    
     /** @var ManagerRegistry */
     private $doctrine;
     
@@ -57,6 +61,7 @@ class MoviesController extends AbstractController
     private $reviewFactory;
     
     public function __construct(
+        LoggerInterface $logger,
         ManagerRegistry $doctrine,
         TranslatorInterface $translator,
         RepositoryInterface $moviesRepository,
@@ -66,6 +71,7 @@ class MoviesController extends AbstractController
         VideoPlatform $videoPlatform,
         ReviewFactory $reviewFactory
     ) {
+        $this->logger                       = $logger;
         $this->doctrine                     = $doctrine;
         $this->translator                   = $translator;
         $this->moviesRepository             = $moviesRepository;
@@ -135,6 +141,8 @@ class MoviesController extends AbstractController
         $movieFormats	= $this->videoPlatform->getVideoFormats( $movie );
         $reviewForm     = $this->getUser() ? $this->createReviewForm( $this->reviewFactory->createReview( $movie ) ) : null;
         $commentForm    = $this->createCommentForm( $movie );
+        
+        $this->debugMovie( $movieFormats );
         
         return $this->render( 'Pages/Movies/details.html.twig', [
             'movie'                 => $movie,
@@ -369,5 +377,14 @@ class MoviesController extends AbstractController
         );
         
         return $form;
+    }
+    
+    private function debugMovie( array $movieFormats )
+    {
+        if ( $this->getUser() && $this->getUser()->hasRole( 'ROLE_SUPER_ADMIN' ) ) {
+            foreach( $movieFormats as $key => $format ) {
+                $this->logger->debug( \sprintf( '[DEBUG_MOVIE] %s - %s', $key, $format ) );
+            }
+        }
     }
 }

@@ -1,3 +1,10 @@
+2.2.7	|	Release date: **16.02.2025**
+============================================
+* New Features and Improvements:
+  - Improve Entity Attributes.
+  - Add Some Debug Logging for Transcoded Movies Urls.
+
+
 2.2.6	|	Release date: **15.02.2025**
 ============================================
 * New Features and Improvements:

@@ -18,12 +18,12 @@ class VideoGenre implements ResourceInterface, TaxonDescendentInterface
     private $id;
     
     /** @var Collection|Video[] */
-    #[ORM\ManyToMany(targetEntity: "Video", mappedBy: "genres")]
+    #[ORM\ManyToMany(targetEntity: Video::class, mappedBy: "genres")]
     #[ORM\OrderBy(["updatedAt" => "DESC"])]
     private $videos;
     
     /** @var Collection|Actor[] */
-    #[ORM\ManyToMany(targetEntity: "Actor", mappedBy: "genres")]
+    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: "genres")]
     #[ORM\OrderBy(["updatedAt" => "DESC"])]
     private $actors;
     

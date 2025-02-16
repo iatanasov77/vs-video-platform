@@ -13,7 +13,7 @@ class VideoPlatformSettings implements ResourceInterface
     private $id;
     
     /** @var VideoPlatformApplication */
-    #[ORM\OneToMany(targetEntity: "VideoPlatformApplication", mappedBy: "settings")]
+    #[ORM\OneToMany(targetEntity: VideoPlatformApplication::class, mappedBy: "settings")]
     private $videoPlatformApplication;
     
     /** @var string */
@@ -21,12 +21,12 @@ class VideoPlatformSettings implements ResourceInterface
     private $settingsKey;
     
     /** @var CoconutSettings */
-    #[ORM\ManyToOne(targetEntity: "CoconutSettings")]
+    #[ORM\ManyToOne(targetEntity: CoconutSettings::class)]
     #[ORM\JoinColumn(name: "coconut_settings_id", referencedColumnName: "id", nullable: true)]
     private $coconutSettings;
     
     /** @var VideoPlatformStorage */
-    #[ORM\ManyToOne(targetEntity: "VideoPlatformStorage", inversedBy: "originalVideosSettings")]
+    #[ORM\ManyToOne(targetEntity: VideoPlatformStorage::class, inversedBy: "originalVideosSettings")]
     #[ORM\JoinColumn(name: "original_videos_storage_id", referencedColumnName: "id", nullable: true)]
     private $originalVideosStorage;
     

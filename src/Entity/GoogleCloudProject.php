@@ -36,7 +36,7 @@ class GoogleCloudProject implements ResourceInterface
     private $googleClientSecret;
     
     /** @var YoutubeChannel[] */
-    #[ORM\OneToMany(targetEntity: "YoutubeChannel", mappedBy: "project", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: YoutubeChannel::class, mappedBy: "project", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
     private $channels;
     
     public function __construct()

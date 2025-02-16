@@ -41,20 +41,20 @@ class CoconutWebhookController extends AbstractController
     private $clipMaker;
     
     public function __construct(
+        LoggerInterface $logger,
         ManagerRegistry $doctrine,
         MailerInterface $mailer,
         UserNotifications $notifications,
         RepositoryInterface $coconutJobsRepository,
         ApiManager $apiManager,
-        LoggerInterface $logger,
         VideoClipMaker $clipMaker
     ) {
+        $this->logger                   = $logger;
         $this->doctrine                 = $doctrine;
         $this->mailer                   = $mailer;
         $this->notifications            = $notifications;
         $this->coconutJobsRepository    = $coconutJobsRepository;
         $this->apiManager               = $apiManager;
-        $this->logger                   = $logger;
         $this->clipMaker                = $clipMaker;
     }
     
@@ -95,7 +95,7 @@ class CoconutWebhookController extends AbstractController
             $this->sendNotification( $coconutData );
             //$this->sendEmail( $data, $contactEmail );
             
-            if ( $coconutDataDecoded['event'] == 'job.completed' ) {
+            if ( $coconutDataDecoded['event'] == CoconutJob::EVENT_JOB_COMPLETED ) {
                 $this->doctrine->getManager()->remove( $token );
                 $this->doctrine->getManager()->flush();
                 
@@ -158,7 +158,16 @@ class CoconutWebhookController extends AbstractController
         
         foreach( $jobData['outputs'] as $output ) {
             if( $output['key'] == 'mp4:576p' ) {
-                $videoUri = $output['url'];
+                $bucket = $this->s3CoconutOutputAdapter->getBucket();
+                $key    = \sprintf( 'video-%s-%s.mp4', $job->getVideo()->getId(), '576p' );
+                
+                $cmd    = $this->s3CoconutOutputAdapter->getS3Client()->getCommand( 'GetObject', [
+                    'Bucket'    => $bucket,
+                    'Key'       => $key
+                ]);
+                
+                $request = $this->s3CoconutOutputAdapter->getS3Client()->createPresignedRequest( $cmd, '+1440 minutes' );
+                $videoUri   = (string)$request->getUri();
             }
         }
         

@@ -31,7 +31,7 @@ class Actor implements ResourceInterface, ReviewableInterface, TranslatableInter
     private $id;
     
     /** @var Collection|Video[] */
-    #[ORM\ManyToMany(targetEntity: "Video", mappedBy: "actors", indexBy: "id")]
+    #[ORM\ManyToMany(targetEntity: Video::class, mappedBy: "actors", indexBy: "id")]
     #[ORM\OrderBy(["createdAt" => "DESC"])]
     private $videos;
     
@@ -52,7 +52,7 @@ class Actor implements ResourceInterface, ReviewableInterface, TranslatableInter
     private $description;
     
     /** @var Collection|ActorPhoto[] */
-    #[ORM\OneToMany(targetEntity: "ActorPhoto", mappedBy: "owner", indexBy: "id", cascade: ["persist", "remove"], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ActorPhoto::class, mappedBy: "owner", indexBy: "id", cascade: ["persist", "remove"], orphanRemoval: true)]
     private $photos;
     
     /** @var string | null */
@@ -73,7 +73,7 @@ class Actor implements ResourceInterface, ReviewableInterface, TranslatableInter
     private $placeOfBirth;
     
     /** @var Collection|VideoGenre[] */
-    #[ORM\ManyToMany(targetEntity: "VideoGenre", inversedBy: "actors", indexBy: "id")]
+    #[ORM\ManyToMany(targetEntity: VideoGenre::class, inversedBy: "actors", indexBy: "id")]
     #[ORM\JoinTable(name: "VVP_Actors_Genres")]
     #[ORM\JoinColumn(name: "actor_id", referencedColumnName: "id")]
     #[ORM\InverseJoinColumn(name: "genre_id", referencedColumnName: "id")]
@@ -85,12 +85,12 @@ class Actor implements ResourceInterface, ReviewableInterface, TranslatableInter
     
     /** @var VideoComment[] */
     /*
-    #[ORM\OneToMany(targetEntity: "ActorComment", mappedBy: "commentSubject", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ActorComment::class, mappedBy: "commentSubject", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
     protected $comments;
     */
     
     /** @var VideoReview[] */
-    #[ORM\OneToMany(targetEntity: "ActorReview", mappedBy: "reviewSubject", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ActorReview::class, mappedBy: "reviewSubject", indexBy: "id", cascade: ["all"], orphanRemoval: true)]
     protected $reviews;
     
     /** @var SliderItem[] */
