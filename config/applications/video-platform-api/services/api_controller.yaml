@@ -13,4 +13,13 @@ services:
         arguments:
             - '@vs_catalog.repository.pricing_plan'
 
-
+    App\Controller\Api\CoconutWebhookController:
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@logger'
+            - '@doctrine'
+            - '@mailer'
+            - '@vs_users.notifications'
+            - '@vs_vvp.repository.coconut_job'
+            - '@vs_api.api_manager'
+            - '@app_video_clip_maker'

@@ -18,16 +18,16 @@ class VideosController extends AbstractController
     use GlobalFormsTrait;
     
     /** @var ManagerRegistry */
-    protected ManagerRegistry $doctrine;
+    protected $doctrine;
     
     /** @var SecurityBridge */
-    protected SecurityBridge $securityBridge;
+    protected $securityBridge;
     
     /** @var EntityRepository */
-    protected EntityRepository $videosRepository;
+    protected $videosRepository;
     
     /** @var VideoPlatform */
-    protected VideoPlatform $videoPlatform;
+    protected $videoPlatform;
     
     public function __construct(
         ManagerRegistry $doctrine,
