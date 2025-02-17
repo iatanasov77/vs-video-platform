@@ -1,3 +1,9 @@
+2.3.1	|	Release date: **17.02.2025**
+============================================
+* Bug-Fixes:
+  - Fix API Application Security Config.
+
+
 2.3.0	|	Release date: **17.02.2025**
 ============================================
 * New Features:
