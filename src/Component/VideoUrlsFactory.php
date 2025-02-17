@@ -6,7 +6,7 @@ use App\Component\VideoUploader\Adapter\GaufretteAwsS3\GaufretteAwsS3Adapter;
 use App\Entity\VideoPlatformSettings;
 use App\Entity\VideoFile;
 use App\Entity\Video;
-use App\Entity\CoconutJob;
+use App\Component\Cloud\Coconut\Coconut;
 
 class VideoUrlsFactory
 {
@@ -75,13 +75,13 @@ class VideoUrlsFactory
     public function getVideoFormats( Video $videoEntity, ?int $videoId = null ): array
     {
         $formats            = [];
-        $coconutData        = $this->_coconutJobData( $videoEntity->getCoconutJob() );
+        $coconutData        = $this->_coconutJobData( $videoEntity->getCoconutVideoJob() );
         if ( ! $coconutData ) {
             return $formats;
         }
         
         $_videoId           = $videoId ?: $videoEntity->getId();
-        if ( $coconutData->status == CoconutJob::EVENT_JOB_COMPLETED ) {
+        if ( $coconutData->status == Coconut::EVENT_JOB_COMPLETED ) {
             //echo '<pre>'; var_dump( $coconutData->outputs ); die;
             
             foreach ( $coconutData->outputs as $output ) {

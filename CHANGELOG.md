@@ -1,3 +1,9 @@
+2.3.0	|	Release date: **17.02.2025**
+============================================
+* New Features:
+  - Big Refactoring of Coconut Service Component and Create a Second Coconut Job for a Video.
+
+
 2.2.7	|	Release date: **16.02.2025**
 ============================================
 * New Features and Improvements:

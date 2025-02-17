@@ -9,6 +9,14 @@ use App\Entity\Video;
 
 final class VideoClipMaker
 {
+    const CLIP_MAKER_COCONUT = 'coconut';
+    const CLIP_MAKER_FFMPEG  = 'ffmpeg';
+    
+    const VIDEO_CLIP_MAKERS     = [
+        self::CLIP_MAKER_COCONUT => 'vs_vvp.form.video_platform_settings.video_clip_maker_coconut',
+        self::CLIP_MAKER_FFMPEG  => 'vs_vvp.form.video_platform_settings.video_clip_maker_ffmpeg',
+    ];
+    
     /** @var FFMpeg */
     private $ffMpeg;
     

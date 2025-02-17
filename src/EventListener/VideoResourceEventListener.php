@@ -1,14 +1,18 @@
 <?php namespace App\EventListener;
 
 use Symfony\Component\EventDispatcher\GenericEvent;
-use App\Component\Cloud\Coconut;
+use App\Component\Cloud\Coconut\CoconutVideoJobBuilder;
+use App\Component\Cloud\Coconut\CoconutClipJobBuilder;
 use App\Component\VideoPlatform;
 use App\Component\VideoClipMaker;
 
 final class VideoResourceEventListener
 {
-    /** @var Coconut */
-    private $coconut;
+    /** @var CoconutVideoJobBuilder */
+    private $coconutVideoJob;
+    
+    /** @var CoconutClipJobBuilder */
+    private $coconutClipJob;
     
     /** @var VideoPlatform */
     private $videoPlatform;
@@ -16,9 +20,14 @@ final class VideoResourceEventListener
     /** @var VideoClipMaker */
     private $clipMaker;
     
-    public function __construct( Coconut $coconut, VideoPlatform $videoPlatform, VideoClipMaker $clipMaker )
-    {
-        $this->coconut          = $coconut;
+    public function __construct(
+        CoconutVideoJobBuilder $coconutVideoJob,
+        CoconutClipJobBuilder $coconutClipJob,
+        VideoPlatform $videoPlatform,
+        VideoClipMaker $clipMaker
+    ) {
+        $this->coconutVideoJob  = $coconutVideoJob;
+        $this->coconutClipJob   = $coconutClipJob;
         $this->videoPlatform    = $videoPlatform;
         $this->clipMaker        = $clipMaker;
     }
@@ -26,10 +35,14 @@ final class VideoResourceEventListener
     public function onVideoCreate( GenericEvent $event )
     {
         $videoEntity    = $event->getSubject();
-        $this->coconut->createJob( $videoEntity );
+        $apiToken       = $this->coconutVideoJob->apiLogin();
+        
+        $this->coconutVideoJob->createJob( $videoEntity, $apiToken );
         
         $settings   = $this->videoPlatform->getVideoPlatformSettings();
-        if ( ! $settings->getDisplayOnlyTranscoded() ) {
+        if ( $settings->getVideoClipMaker() == VideoClipMaker::CLIP_MAKER_COCONUT ) {
+            $this->coconutClipJob->createJob( $videoEntity, $apiToken );
+        } else {
             $videoUri   = $this->videoPlatform->getVideoUri(
                 $videoEntity->getVideoFile(),
                 $this->videoPlatform->getVideoPlatformSettings()->getOriginalVideosStorage()->getSettings()['bucket'],

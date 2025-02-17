@@ -18,7 +18,7 @@ use Vankosoft\CatalogBundle\Component\ReviewFactory;
 use Vankosoft\CatalogBundle\Model\Interfaces\ReviewInterface;
 use App\Form\MovieReviewForm;
 use App\Form\MovieCommentForm;
-use App\Component\Cloud\Coconut;
+use App\Component\Cloud\Coconut\CoconutVideoJobBuilder;
 use App\Form\MoviesFilterForm;
 use App\Component\MoviesFilter;
 use App\Entity\VideoPlatformSettings;
@@ -45,7 +45,7 @@ class MoviesController extends AbstractController
     /** @var RepositoryInterface */
     private $videoCommentsRepository;
     
-    /** @var Coconut */
+    /** @var CoconutVideoJobBuilder */
     private $coconut;
     
     /** @var MoviesFilter */
@@ -66,7 +66,7 @@ class MoviesController extends AbstractController
         TranslatorInterface $translator,
         RepositoryInterface $moviesRepository,
         RepositoryInterface $videoCommentsRepository,
-        Coconut $coconut,
+        CoconutVideoJobBuilder $coconut,
         MoviesFilter $moviesFilter,
         VideoPlatform $videoPlatform,
         ReviewFactory $reviewFactory
@@ -381,6 +381,7 @@ class MoviesController extends AbstractController
     
     private function debugMovie( array $movieFormats )
     {
+        //echo '<pre>'; var_dump( $movieFormats ); die;
         if ( $this->getUser() && $this->getUser()->hasRole( 'ROLE_SUPER_ADMIN' ) ) {
             foreach( $movieFormats as $key => $format ) {
                 $this->logger->debug( \sprintf( '[DEBUG_MOVIE] %s - %s', $key, $format ) );

@@ -149,7 +149,7 @@ services:
             - "@translator"
             - '@vs_vvp.repository.video'
             - '@vs_vvp.repository.video_comment'
-            - '@app_video_transcoder_coconut'
+            - '@app_video_transcoder_coconut_video_job'
             - '@app_movies_filter'
             - '@app_video_platform'
             - '@app_movie_review_factory'

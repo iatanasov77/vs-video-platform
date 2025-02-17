@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use App\Component\VideoUrlsFactory;
+use App\Component\VideoClipMaker;
 use App\Entity\CoconutSettings;
 use App\Entity\VideoPlatformSettings;
 use App\Entity\VideoPlatformStorage;
@@ -84,6 +85,17 @@ class VideoPlatformSettingsForm extends AbstractForm
                 'data'                  => empty( $entity->getTranscodedVideoUrlsType() ) ?
                                             \array_key_first( VideoUrlsFactory::VIDEO_URL_TYPES ) :
                                             $entity->getTranscodedVideoUrlsType(),
+            ])
+            
+            ->add( 'videoClipMaker', ChoiceType::class, [
+                'label'                 => 'vs_vvp.form.video_platform_settings.video_clip_maker',
+                'translation_domain'    => 'VanzVideoPlayer',
+                
+                'choices'               => \array_flip( VideoClipMaker::VIDEO_CLIP_MAKERS ),
+                'expanded'              => true,
+                'data'                  => empty( $entity->getVideoClipMaker() ) ?
+                                            \array_key_first( VideoClipMaker::VIDEO_CLIP_MAKERS ) :
+                                            $entity->getVideoClipMaker(),
             ])
         ;
     }

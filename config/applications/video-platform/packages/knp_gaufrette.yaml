@@ -15,6 +15,10 @@ knp_gaufrette:
             local:
                 directory: "%vs_vvp.videos_directory%"
                 create: true
+        vs_vvp_video_clips:
+            local:
+                directory: "%vs_vvp.video_clips_directory%"
+                create: true
         vs_vvp_coconut_output:
             local:
                 directory: "%vs_vvp.coconut_output_directory%"
@@ -32,6 +36,8 @@ knp_gaufrette:
             adapter: "%vs_application.gaufrette.app_pictures.filesystem%"
         vs_vvp_videos:
             adapter: "vs_vvp_videos"
+        vs_vvp_video_clips:
+            adapter: "vs_vvp_video_clips"
         vs_vvp_coconut_output:
             adapter: "vs_vvp_coconut_output"
         vs_vvp_videos_user_signatured:

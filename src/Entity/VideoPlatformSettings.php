@@ -51,6 +51,10 @@ class VideoPlatformSettings implements ResourceInterface
     #[ORM\Column(name: "transcoded_video_urls_type", type: "string", columnDefinition: "ENUM('symfony_route', 'cloud_public', 'cloud_signed')", options: ["default" => "symfony_route"])]
     private $transcodedVideoUrlsType;
     
+    /** @var string */
+    #[ORM\Column(name: "video_clip_maker", type: "string", columnDefinition: "ENUM('coconut', 'ffmpeg')", options: ["default" => "coconut"])]
+    private $videoClipMaker;
+    
     public function getId()
     {
         return $this->id;
@@ -160,6 +164,18 @@ class VideoPlatformSettings implements ResourceInterface
     public function setTranscodedVideoUrlsType( $transcodedVideoUrlsType )
     {
         $this->transcodedVideoUrlsType   = $transcodedVideoUrlsType;
+        
+        return $this;
+    }
+    
+    public function getVideoClipMaker()
+    {
+        return $this->videoClipMaker;
+    }
+    
+    public function setVideoClipMaker( $videoClipMaker )
+    {
+        $this->videoClipMaker    = $videoClipMaker;
         
         return $this;
     }

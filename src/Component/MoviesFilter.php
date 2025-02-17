@@ -4,7 +4,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Entity\CoconutJob;
+use App\Component\Cloud\Coconut\Coconut;
 
 final class MoviesFilter
 {
@@ -185,7 +185,7 @@ final class MoviesFilter
             
             if (
                 $settings->getDisplayOnlyTranscoded() &&
-                $movie->getCoconutJob()->getStatus() !== CoconutJob::EVENT_JOB_COMPLETED
+                $movie->getCoconutVideoJob()->getStatus() !== Coconut::EVENT_JOB_COMPLETED
             ) {
                 $movies->removeElement( $movie );
                 continue;

@@ -44,6 +44,22 @@ class CoconutSettings implements ResourceInterface
     #[ORM\Column(name: "coconut_watermark", type: "boolean", options: ["default" => 0])]
     private $coconutWatermark   = false;
     
+    /** @var string */
+    #[ORM\Column(name: "coconut_clip_format", type: "string", length: 16, nullable: true)]
+    private $coconutClipFormat;
+    
+    /** @var int */
+    #[ORM\Column(name: "coconut_clip_offset", type: "integer", nullable: true)]
+    private $coconutClipOffset;
+    
+    /** @var int */
+    #[ORM\Column(name: "coconut_clip_duration", type: "integer", nullable: true)]
+    private $coconutClipDuration;
+    
+    /** @var string */
+    #[ORM\Column(name: "coconut_clip_output_url", type: "string", length: 255, nullable: true)]
+    private $coconutClipOutputUrl;
+    
     public function __construct()
     {
         $this->coconutOutputFormats = [];
@@ -146,6 +162,54 @@ class CoconutSettings implements ResourceInterface
     public function setCoconutWatermark( $coconutWatermark )
     {
         $this->coconutWatermark = $coconutWatermark;
+        
+        return $this;
+    }
+    
+    public function getCoconutClipFormat()
+    {
+        return $this->coconutClipFormat;
+    }
+    
+    public function setCoconutClipFormat( $coconutClipFormat )
+    {
+        $this->coconutClipFormat    = $coconutClipFormat;
+        
+        return $this;
+    }
+    
+    public function getCoconutClipOffset()
+    {
+        return $this->coconutClipOffset;
+    }
+    
+    public function setCoconutClipOffset( $coconutClipOffset )
+    {
+        $this->coconutClipOffset    = $coconutClipOffset;
+        
+        return $this;
+    }
+    
+    public function getCoconutClipDuration()
+    {
+        return $this->coconutClipDuration;
+    }
+    
+    public function setCoconutClipDuration( $coconutClipDuration )
+    {
+        $this->coconutClipDuration    = $coconutClipDuration;
+        
+        return $this;
+    }
+    
+    public function getCoconutClipOutputUrl()
+    {
+        return $this->coconutClipOutputUrl;
+    }
+    
+    public function setCoconutClipOutputUrl( $coconutClipOutputUrl )
+    {
+        $this->coconutClipOutputUrl    = $coconutClipOutputUrl;
         
         return $this;
     }

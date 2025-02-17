@@ -10,18 +10,18 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 use Vankosoft\ApplicationBundle\Component\Status;
 use App\Component\Cloud\Exception\Coconut\JobNotFoundException;
-use App\Component\Cloud\Coconut;
+use App\Component\Cloud\Coconut\CoconutVideoJobBuilder;
 
 class VideoServicesController extends AbstractController
 {
     /** @var ManagerRegistry */
-    private ManagerRegistry $doctrine;
+    private $doctrine;
     
     /** @var RepositoryInterface */
     private $videosRepository;
     
-    /** @var Coconut */
-    private Coconut $coconut;
+    /** @var CoconutVideoJobBuilder */
+    private $coconut;
     
     /** @var CacheManager */
     private $imagineCacheManager;
@@ -29,7 +29,7 @@ class VideoServicesController extends AbstractController
     public function __construct(
         ManagerRegistry $doctrine,
         RepositoryInterface $videosRepository,
-        Coconut $coconut,
+        CoconutVideoJobBuilder $coconut,
         CacheManager $imagineCacheManager
     ) {
         $this->doctrine             = $doctrine;
@@ -41,7 +41,7 @@ class VideoServicesController extends AbstractController
     public function coconutJobStatus( $videoId, Request $request ): Response
     {
         $video              = $this->videosRepository->find( $videoId );
-        $coconutJob         = $video->getCoconutJob();
+        $coconutJob         = $video->getCoconutVideoJob();
         
         try {
             $coconutJobStatus   = $this->coconut->getStatus( $coconutJob->getJobId() );

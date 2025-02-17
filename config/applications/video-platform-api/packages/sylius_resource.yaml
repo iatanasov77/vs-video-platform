@@ -40,10 +40,16 @@ sylius_resource:
                 model:      App\Entity\VideoFile
                 repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
                 
-        vs_vvp.coconut_job:
+        vs_vvp.coconut_video_job:
             driver: doctrine/orm
             classes:
-                model:      App\Entity\CoconutJob
+                model:      App\Entity\CoconutVideoJob
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+                
+        vs_vvp.coconut_clip_job:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\CoconutClipJob
                 repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
                 
         vs_vvp.actor:
