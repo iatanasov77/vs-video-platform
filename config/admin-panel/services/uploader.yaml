@@ -93,5 +93,3 @@ services:
         arguments:
             - '@vs_vvp.youtube_photo_uploader.filesystem'
             - '@vs_cms.file_path_generator'
-
-

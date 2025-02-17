@@ -84,7 +84,8 @@ security:
         - { path: ^/api/token/refresh, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
         
         - { path: ^/api/recurring-payment, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
-        - { path: ^/api/coconut/webhook, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/api/coconut/video-job-webhook, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/api/coconut/clip-job-webhook, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
         - { path: ^/api/coconut/storage, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
         
         - { path: ^/api, roles: ROLE_VANKOSOFT_API_ADMIN, requires_channel: '%env(SECURE_SCHEME)%' }
