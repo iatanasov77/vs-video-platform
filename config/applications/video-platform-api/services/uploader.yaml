@@ -29,5 +29,3 @@ services:
 #        arguments:
 #            - '@vs_application.app_pictures_uploader.filesystem'
 #            - '@vs_cms.file_path_generator'
-
-
