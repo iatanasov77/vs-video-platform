@@ -6,17 +6,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Vankosoft\ApplicationBundle\Component\Status;
-use App\Component\Cloud\Coconut;
+use App\Component\Cloud\Coconut\CoconutVideoJobBuilder;
 
 class CoconutController extends AbstractController
 {
-    /** @var Coconut */
+    /** @var CoconutVideoJobBuilder */
     private $coconut;
     
     /** @var RepositoryInterface */
     private $videosRepository;
     
-    public function __construct( Coconut $coconut, RepositoryInterface $videosRepository )
+    public function __construct( CoconutVideoJobBuilder $coconut, RepositoryInterface $videosRepository )
     {
         $this->coconut          = $coconut;
         $this->videosRepository = $videosRepository;

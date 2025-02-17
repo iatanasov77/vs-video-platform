@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 use App\Form\DataTransformer\CoconutOutputFormatsTransformer;
 use App\Form\Type\CoconutOutputFormatType;
@@ -79,6 +80,34 @@ class CoconutSettingsForm extends AbstractForm
                 'data'                  => empty( $entity->getCoconutInputUrlType() ) ?
                                             \array_key_first( VideoPlatform::INPUT_URL_TYPES ) :
                                             $entity->getCoconutInputUrlType(),
+            ])
+            
+            ->add( 'coconutClipFormat', TextType::class, [
+                'label'                 => 'vs_vvp.form.video_platform_settings.coconut_clip_format',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'required'              => false,
+            ])
+            
+            ->add( 'coconutClipOffset', NumberType::class, [
+                'label'                 => 'vs_vvp.form.video_platform_settings.coconut_clip_offset',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'html5'                 => true,
+                'attr'                  => ['min' => 0],
+                'required'              => false,
+            ])
+            
+            ->add( 'coconutClipDuration', NumberType::class, [
+                'label'                 => 'vs_vvp.form.video_platform_settings.coconut_clip_duration',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'html5'                 => true,
+                'attr'                  => ['min' => 0],
+                'required'              => false,
+            ])
+            
+            ->add( 'coconutClipOutputUrl', TextType::class, [
+                'label'                 => 'vs_vvp.form.video_platform_settings.coconut_clip_output_url',
+                'translation_domain'    => 'VanzVideoPlayer',
+                'required'              => false,
             ])
         ;
         

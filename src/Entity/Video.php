@@ -61,9 +61,13 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
     #[ORM\InverseJoinColumn(name: "genre_id", referencedColumnName: "id")]
     private $genres;
     
-    /** @var CoconutJob */
-    #[ORM\OneToOne(targetEntity: CoconutJob::class, mappedBy: "video", cascade: ["persist", "remove"], orphanRemoval: true)]
-    private $coconutJob;
+    /** @var CoconutVideoJob */
+    #[ORM\OneToOne(targetEntity: CoconutVideoJob::class, mappedBy: "video", cascade: ["persist", "remove"], orphanRemoval: true)]
+    private $coconutVideoJob;
+    
+    /** @var CoconutClipJob */
+    #[ORM\OneToOne(targetEntity: CoconutClipJob::class, mappedBy: "video", cascade: ["persist", "remove"], orphanRemoval: true)]
+    private $coconutClipJob;
     
     /** @var Actor[] */
     #[ORM\ManyToMany(targetEntity: Actor::class, inversedBy: "videos", indexBy: "id")]
@@ -200,14 +204,26 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
         return $this;
     }
     
-    public function getCoconutJob()
+    public function getCoconutVideoJob()
     {
-        return $this->coconutJob;
+        return $this->coconutVideoJob;
     }
     
-    public function setCoconutJob($coconutJob)
+    public function setCoconutVideoJob($coconutVideoJob)
     {
-        $this->coconutJob   = $coconutJob;
+        $this->coconutVideoJob   = $coconutVideoJob;
+        
+        return $this;
+    }
+    
+    public function getCoconutClipJob()
+    {
+        return $this->coconutClipJob;
+    }
+    
+    public function setCoconutClipJob($coconutClipJob)
+    {
+        $this->coconutClipJob   = $coconutClipJob;
         
         return $this;
     }

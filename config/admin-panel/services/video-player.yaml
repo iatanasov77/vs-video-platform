@@ -48,14 +48,26 @@ services:
             - '@app_video_storage_bridge'
             - '@app_video_signatory'
 
-    app_video_transcoder_coconut:
-        class: App\Component\Cloud\Coconut
+    app_video_transcoder_coconut_video_job:
+        class: App\Component\Cloud\Coconut\CoconutVideoJobBuilder
         public: true
         arguments:
             - '@router'
             - '@doctrine'
-            - '@vs_vvp.repository.coconut_job'
-            - '@vs_vvp.factory.coconut_job'
+            - '@vs_vvp.repository.coconut_video_job'
+            - '@vs_vvp.factory.coconut_video_job'
+            - '@http_client'
+            - '@app_video_platform'
+            - 'https://api.%vankosoft_host%'
+    
+    app_video_transcoder_coconut_clip_job:
+        class: App\Component\Cloud\Coconut\CoconutClipJobBuilder
+        public: true
+        arguments:
+            - '@router'
+            - '@doctrine'
+            - '@vs_vvp.repository.coconut_clip_job'
+            - '@vs_vvp.factory.coconut_clip_job'
             - '@http_client'
             - '@app_video_platform'
             - 'https://api.%vankosoft_host%'
@@ -63,7 +75,8 @@ services:
     app_video_resource_listener:
         class: App\EventListener\VideoResourceEventListener
         arguments:
-            - '@app_video_transcoder_coconut'
+            - '@app_video_transcoder_coconut_video_job'
+            - '@app_video_transcoder_coconut_clip_job'
             - '@app_video_platform'
             - '@app_video_clip_maker'
         tags:

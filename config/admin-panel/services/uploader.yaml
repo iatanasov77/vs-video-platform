@@ -3,6 +3,7 @@ parameters:
     vs_application.gaufrette.app_pictures.filesystem: vs_application_app_pictures
     
     vs_vvp.videos_directory: "%kernel.project_dir%/public/shared_media/gaufrette/videos"
+    vs_vvp.video_clips_directory: "%kernel.project_dir%/public/shared_media/gaufrette/video_clips"
     vs_vvp.coconut_output_directory: "%kernel.project_dir%/public/shared_media/gaufrette/coconut_output"
     vs_vvp.actor_photos_directory: "%kernel.project_dir%/public/shared_media/gaufrette/actors"
     vs_vvp.videos_user_signatured_directory: "%kernel.project_dir%/public/shared_media/gaufrette/videos_user_signatured"

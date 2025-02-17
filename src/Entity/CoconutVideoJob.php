@@ -5,26 +5,17 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity]
-#[ORM\Table(name: "VVP_CoconutJobs")]
-class CoconutJob implements ResourceInterface
+#[ORM\Table(name: "VVP_CoconutVideoJobs")]
+class CoconutVideoJob implements ResourceInterface
 {
     use TimestampableEntity;
-    
-    const STATUS_JOB_STARTING       = 'job.starting';
-    const STATUS_JOB_NOT_FOUND      = 'job.not_found';
-    
-    const EVENT_JOB_COMPLETED       = 'job.completed';
-    const EVENT_JOB_FAILED          = 'job.failed';
-    const EVENT_INPUT_TRANSFERRED   = 'input.transferred';
-    const EVENT_OUTPUT_COMPLETED    = 'output.completed';
-    const EVENT_OUTPUT_FAILED       = 'output.failed';
     
     /** @var int */
     #[ORM\Id, ORM\Column(type: "integer"), ORM\GeneratedValue(strategy: "IDENTITY")]
     private $id;
     
     /** @var Video */
-    #[ORM\OneToOne(targetEntity: Video::class, inversedBy: "coconutJob")]
+    #[ORM\OneToOne(targetEntity: Video::class, inversedBy: "coconutVideoJob")]
     #[ORM\JoinColumn(name: "video_id", referencedColumnName: "id")]
     private $video;
     

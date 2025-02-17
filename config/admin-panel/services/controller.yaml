@@ -59,14 +59,14 @@ services:
         arguments:
             - '@doctrine'
             - '@vs_vvp.repository.video'
-            - '@app_video_transcoder_coconut'
+            - '@app_video_transcoder_coconut_video_job'
             - '@liip_imagine.cache.manager'
             
     App\Controller\AdminPanel\CloudActions\CoconutController:
         tags: ['controller.service_arguments']
         autowire: true
         arguments:
-            - '@app_video_transcoder_coconut'
+            - '@app_video_transcoder_coconut_video_job'
             - '@vs_vvp.repository.video'
             
     App\Controller\AdminPanel\ActorExtController:

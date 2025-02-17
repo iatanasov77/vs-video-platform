@@ -141,6 +141,16 @@ vs_vvp:
             video_suggestions_strategy: Video Suggestions Strategy
             video_suggestions_strategy_placeholder: '-- Select Video Suggestions Strategy --'
             
+            video_clip_makers_title: Video Clip Maker
+            video_clip_maker_coconut: Coconut
+            video_clip_maker_ffmpeg: FFMpeg
+            
+            coconut_clip_settings_title: Coconut Clip Settings
+            coconut_clip_format: Coconut Clip Format
+            coconut_clip_offset: Coconut Clip Offset
+            coconut_clip_duration: Coconut Clip Duration
+            coconut_clip_output_url: Coconut Clip Output Url
+            
         video_platform_storage:
             title: Title
             storage_type: Storage Type
