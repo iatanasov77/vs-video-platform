@@ -32,7 +32,7 @@ final class VideoResourceEventListener
         $this->clipMaker        = $clipMaker;
     }
     
-    public function onVideoCreate( GenericEvent $event )
+    public function onVideoCreate( GenericEvent $event ): void
     {
         $videoEntity    = $event->getSubject();
         $apiToken       = $this->coconutVideoJob->apiLogin();
@@ -40,9 +40,13 @@ final class VideoResourceEventListener
         $this->coconutVideoJob->createJob( $videoEntity, $apiToken );
         
         $settings   = $this->videoPlatform->getVideoPlatformSettings();
-        if ( $settings->getVideoClipMaker() == VideoClipMaker::CLIP_MAKER_COCONUT ) {
+        if ( $settings->getVideoClipMaker() == VideoClipMaker::CLIP_MAKER_COCONUT && ! $videoEntity->getVideoTrailer() ) {
             $this->coconutClipJob->createJob( $videoEntity, $apiToken );
-        } else {
+            
+            return;
+        }
+        
+        if ( ! $videoEntity->getVideoTrailer() ) {
             $videoUri   = $this->videoPlatform->getVideoUri(
                 $videoEntity->getVideoFile(),
                 $this->videoPlatform->getVideoPlatformSettings()->getOriginalVideosStorage()->getSettings()['bucket'],
@@ -50,5 +54,7 @@ final class VideoResourceEventListener
             );
             $this->clipMaker->createVideoClip( $videoEntity, $videoUri );
         }
+        
+        return;
     }
 }

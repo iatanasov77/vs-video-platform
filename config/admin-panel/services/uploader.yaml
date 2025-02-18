@@ -40,6 +40,11 @@ services:
         class: Gaufrette\Filesystem
         arguments: ['vs_vvp_videos']
         factory: ['@knp_gaufrette.filesystem_map', 'get']
+    
+    vs_vvp.video_uploader.video_clip_uploader_filesystem:
+        class: Gaufrette\Filesystem
+        arguments: ['vs_vvp_video_clips']
+        factory: ['@knp_gaufrette.filesystem_map', 'get']
         
     vs_vvp.local_video_file_path_generator:
         class: App\Component\VideoUploader\LocalFilePathGenerator
@@ -55,6 +60,12 @@ services:
         class: App\Component\VideoUploader\VideoPhotoUploader
         arguments:
             - '@vs_vvp.video_uploader.local_uploader_filesystem'
+            - '@vs_vvp.local_video_file_path_generator'
+    
+    vs_vvp.video_uploader.video_clip_uploader:
+        class: App\Component\VideoUploader\VideoClipUploader
+        arguments:
+            - '@vs_vvp.video_uploader.video_clip_uploader_filesystem'
             - '@vs_vvp.local_video_file_path_generator'
             
     vs_vvp.actor_photo_uploader.filesystem:

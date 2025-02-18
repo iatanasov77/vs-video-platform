@@ -121,3 +121,9 @@ sylius_resource:
             classes:
                 model:      App\Entity\VideoClip
                 repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository
+        
+        vs_vvp.video_trailer:
+            driver: doctrine/orm
+            classes:
+                model:      App\Entity\VideoTrailer
+                repository: Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository

@@ -172,6 +172,25 @@ class VideoForm extends AbstractForm
                 ],
             ])
             
+            ->add( 'videoTrailer', FileType::class, [
+                'mapped'    => false,
+                'required'  => false,
+                
+                'label'                 => 'vs_vvp.form.video.video_trailer',
+                'translation_domain'    => 'VanzVideoPlayer',
+                
+                'constraints' => [
+                    new File([
+                        'maxSize' => '100m',
+                        'mimeTypes' => [
+                            //'application/octet-stream',
+                            'video/mp4',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid Video Trailer file',
+                    ])
+                ],
+            ])
+            
             ->add( 'category_taxon', EntityType::class, [
                 'label'                 => 'vs_cms.form.page.categories',
                 'translation_domain'    => 'VSCmsBundle',

@@ -17,6 +17,8 @@ use App\Component\VideoPlatform;
 use App\Entity\Video;
 use App\Entity\VideoPhoto;
 use App\Entity\VideoFile;
+use App\Entity\VideoTrailer;
+use App\Entity\VideoClip;
 use App\Entity\VideoCategory;
 
 class VideoController extends AbstractCrudController
@@ -66,6 +68,14 @@ class VideoController extends AbstractCrudController
         //$this->removeThumbnailFile( $videoThumbnail, $videoId );
         $this->removeVideoPhotos( $resource );
         $this->removeVideoFile( $videoFile, $videoId );
+        
+        if ( $resource->getVideoTrailer() ) { 
+            $this->removeVideoTrailer( $resource->getVideoTrailer() );
+        }
+        
+        if ( $resource->getVideoClip() ) {
+            $this->removeVideoClip( $resource->getVideoClip() );
+        }
         
         $em->remove( $resource );
         $em->flush();
@@ -148,6 +158,11 @@ class VideoController extends AbstractCrudController
             $this->createVideo( $entity, $videoFile );
         }
         
+        $videoTrailerFile   = $form['videoTrailer']->getData();
+        if ( $videoTrailerFile ) {
+            $this->createVideoTrailer( $entity, $videoTrailerFile );
+        }
+        
         $tagsArray  = \json_decode( $formPost['tags'] );
         if ( $tagsArray ) {
             $this->updateTags( $tagsArray );
@@ -228,6 +243,22 @@ class VideoController extends AbstractCrudController
         }
     }
     
+    private function createVideoTrailer( Video &$video, File $file ): void
+    {
+        $videoTrailerFile  = $video->getVideoFile() ?: $this->get( 'vs_vvp.factory.video_trailer' )->createNew();
+        $videoTrailerFile->setOriginalName( $file->getClientOriginalName() );
+        $videoTrailerFile->setVideo( $video );
+        
+        $uploadedFile   = new UploadedFile( $file->getRealPath(), $file->getBasename() );
+        $videoTrailerFile->setFile( $uploadedFile );
+        $this->get( 'vs_vvp.video_uploader.video_clip_uploader' )->upload( $videoTrailerFile );
+        $videoTrailerFile->setFile( null ); // reset File Because: Serialization of 'Symfony\Component\HttpFoundation\File\UploadedFile' is not allowed
+        
+        if ( ! $video->getVideoFile() ) {
+            $video->setVideoTrailer( $videoTrailerFile );
+        }
+    }
+    
     private function getTabCategoriesTaxonomy()
     {
         $taxonomy   = $this->get( 'vs_application.repository.taxonomy' )->findByCode(
@@ -244,6 +275,34 @@ class VideoController extends AbstractCrudController
         $em = $this->get( 'doctrine' )->getManager();
         $em->remove( $videoFile );
         $em->flush();
+    }
+    
+    private function removeVideoTrailer( VideoTrailer $trailer )
+    {
+        $em             = $this->get( 'doctrine' )->getManager();
+        $filesystem     = new Filesystem();
+        $trailersDir    = $this->getParameter( 'vs_vvp.video_clips_directory' );
+        
+        $trailerFile    = $trailersDir . '/' . $trailer->getPath();
+        
+        $em->remove( $trailer );
+        $em->flush();
+        
+        $filesystem->remove( $trailerFile );
+    }
+    
+    private function removeVideoClip( VideoClip $clip )
+    {
+        $em             = $this->get( 'doctrine' )->getManager();
+        $filesystem     = new Filesystem();
+        $clipsDir       = $this->getParameter( 'vs_vvp.video_clips_directory' );
+        
+        $clipFile       = $clipsDir . '/' . $clip->getPath();
+        
+        $em->remove( $clip );
+        $em->flush();
+        
+        $filesystem->remove( $clipFile );
     }
     
     private function removeVideoPhotos( Video $video )
