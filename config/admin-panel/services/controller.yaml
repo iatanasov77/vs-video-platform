@@ -51,6 +51,8 @@ services:
             - '@vs_application.repository.tags_whitelist_tag'
             - '@dubture_ffmpeg.ffprobe'
             - '@vs_users_subscriptions.repository.payed_service'
+            - '@vs_vvp.factory.video_trailer'
+            - '@vs_vvp.video_uploader.video_clip_uploader'
         tags: ['controller.service_arguments']
         
     App\Controller\AdminPanel\VideoServicesController:

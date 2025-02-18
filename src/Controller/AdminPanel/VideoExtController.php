@@ -89,6 +89,12 @@ class VideoExtController extends AbstractController
     /** @var EntityRepository */
     private $paidServicesRepository;
     
+    /** @var FactoryInterface */
+    private $videoTrailersFactory;
+    
+    /** @var FileUploaderInterface */
+    private $videoTrailersUploader;
+    
     //EntityRepository $taxonRepository,
     public function __construct(
         ManagerRegistry $doctrine,
@@ -111,7 +117,10 @@ class VideoExtController extends AbstractController
         EntityRepository $vsTagsWhitelistContextRepository,
         EntityRepository $vsTagsRepository,
         FFProbe $ffprobe,
-        EntityRepository $paidServicesRepository
+        EntityRepository $paidServicesRepository,
+        
+        FactoryInterface $videoTrailersFactory,
+        FileUploaderInterface $videoTrailersUploader
     ) {
         $this->doctrine                         = $doctrine;
         $this->taxonomyRepository               = $taxonomyRepository;
@@ -134,6 +143,9 @@ class VideoExtController extends AbstractController
         $this->vsTagsRepository                 = $vsTagsRepository;
         $this->ffprobe                          = $ffprobe;
         $this->paidServicesRepository           = $paidServicesRepository;
+        
+        $this->videoTrailersFactory             = $videoTrailersFactory;
+        $this->videoTrailersUploader            = $videoTrailersUploader;
     }
     
     public function getForm( $itemId, $locale, Request $request ): Response
@@ -190,6 +202,11 @@ class VideoExtController extends AbstractController
             $entity->setDescription( $formValues['description'] );
             
             $this->savePhotos( $entity, $formValues, $request );
+            
+            $formTrailerFile    = $request->files->get( 'videoTrailer' );
+            if ( $formTrailerFile ) {
+                $this->saveVideoTrailer( $entity, $formTrailerFile );
+            }
             
             $em->persist( $entity );
             $em->flush();
@@ -384,6 +401,26 @@ class VideoExtController extends AbstractController
         }
         
         return $formValues;
+    }
+    
+    private function saveVideoTrailer( &$entity, File $file )
+    {
+        $em             = $this->doctrine->getManager();
+        $videoTrailer   = $this->videoTrailersFactory->createNew();
+        
+        $videoTrailer->setOriginalName( $file->getClientOriginalName() );
+        $videoTrailer->setVideo( $entity );
+        
+        $uploadedFile   = new UploadedFile( $file->getRealPath(), $file->getBasename() );
+        $videoTrailer->setFile( $uploadedFile );
+        $this->videoTrailersUploader->upload( $videoTrailer );
+        $videoTrailer->setFile( null ); // reset File Because: Serialization of 'Symfony\Component\HttpFoundation\File\UploadedFile' is not allowed
+        
+        //$em->persist( $videoPhoto );
+        //$em->flush();
+        $entity->setVideoTrailer( $videoTrailer );
+        
+        return true;
     }
     
     private function savePhotos( &$entity, $formValues, $request )

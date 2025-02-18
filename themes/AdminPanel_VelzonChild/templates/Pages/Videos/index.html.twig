@@ -67,14 +67,14 @@
                                     <td>{{ item.name }}</td>
                                     
                                     <td>
-                                        {% if item.coconutJob %}
-                                            <span id="JobStatus-{{ item.coconutJob.jobId }}">{{ item.coconutJob.status }}</span>
+                                        {% if item.coconutVideoJob %}
+                                            <span id="JobStatus-{{ item.coconutVideoJob.jobId }}">{{ item.coconutVideoJob.status }}</span>
                                             
                                             <a class="btn btnUpdateStatus" style="position: relative; right: 0; padding-right: 0;"
                                                 href="javascript:void(0);"
                                                 title="{{ 'vs_vvp.template.job_status_preview' | trans( {},'VanzVideoPlayer' ) }}"   
                                                 data-url="{{ path( 'vvp_coconut_job_status', {'videoId': item.id} ) }}"
-                                                data-output="JobStatus-{{ item.coconutJob.jobId }}"
+                                                data-output="JobStatus-{{ item.coconutVideoJob.jobId }}"
                                             >
                                                 <i class="fas fa-eye"></i>
                                             </a>

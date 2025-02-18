@@ -56,6 +56,7 @@ vs_vvp:
             photo: Photo
             video_photos_note: 'Photo with code "Video Thumbnail" is Mandatory.'
             photo_description: Photo Dscription
+            video_trailer: Trailer
             
         video_update:
             title: Edit Video

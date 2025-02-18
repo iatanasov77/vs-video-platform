@@ -106,6 +106,10 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
     #[ORM\OneToOne(targetEntity: VideoClip::class, mappedBy: "owner", cascade: ["persist", "remove"], orphanRemoval: true)]
     private $videoClip;
     
+    /** @var VideoTrailer */
+    #[ORM\OneToOne(targetEntity: VideoTrailer::class, mappedBy: "owner", cascade: ["persist", "remove"], orphanRemoval: true)]
+    private $videoTrailer;
+    
     public function __construct()
     {
         parent::__construct();
@@ -371,6 +375,18 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
     public function setVideoClip($videoClip)
     {
         $this->videoClip = $videoClip;
+        
+        return $this;
+    }
+    
+    public function getVideoTrailer()
+    {
+        return $this->videoTrailer;
+    }
+    
+    public function setVideoTrailer($videoTrailer)
+    {
+        $this->videoTrailer = $videoTrailer;
         
         return $this;
     }

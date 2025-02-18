@@ -19,7 +19,7 @@ final class LocalFilePathGenerator implements FilePathGeneratorInterface
 
     private function expandPath( string $path ): string
     {
-        return sprintf( '%s/%s/%s', substr( $path, 0, 2 ), substr( $path, 2, 2 ), substr( $path, 4 ) );
+        return sprintf( '%s_%s_%s', substr( $path, 0, 2 ), substr( $path, 2, 2 ), substr( $path, 4 ) );
     }
     
     private function _newFileName( $originalFileName )
