@@ -1,3 +1,10 @@
+2.3.2	|	Release date: **18.02.2025**
+============================================
+* New Features:
+  - Some Improvements on AdminPanel Video Idex Page.
+  - Create a Video Trailer Resource.
+
+
 2.3.1	|	Release date: **17.02.2025**
 ============================================
 * Bug-Fixes:
