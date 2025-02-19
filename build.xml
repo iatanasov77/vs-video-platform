@@ -11,7 +11,7 @@
         </exec>
         <exec executable="/usr/bin/yarn" returnProperty="yarn_run_output">
             <arg value="run"/>
-            <arg value="build"/>
+            <arg value="dev"/>
         </exec>
     </target>
     
