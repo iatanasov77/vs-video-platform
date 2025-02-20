@@ -152,6 +152,9 @@ vs_vvp:
             coconut_clip_duration: Coconut Clip Duration
             coconut_clip_output_url: Coconut Clip Output Url
             
+            use_onhover_player: Use Onhover Player
+            use_onhover_player_help: Play Clips or Trailers in Listing Pages of Frontend Application when Mouse Over
+            
         video_platform_storage:
             title: Title
             storage_type: Storage Type

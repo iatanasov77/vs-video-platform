@@ -97,6 +97,13 @@ class VideoPlatformSettingsForm extends AbstractForm
                                             \array_key_first( VideoClipMaker::VIDEO_CLIP_MAKERS ) :
                                             $entity->getVideoClipMaker(),
             ])
+            
+            ->add( 'useOnhoverPlayer', CheckboxType::class, [
+                'required'              => false,
+                
+                'label'                 => 'vs_vvp.form.video_platform_settings.use_onhover_player',
+                'translation_domain'    => 'VanzVideoPlayer',
+            ])
         ;
     }
     

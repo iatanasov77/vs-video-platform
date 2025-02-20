@@ -3,8 +3,13 @@ require( '../../vendor/themeforest-flixgo-online-movies/js/main.js' );
 
 const routes  = require( '../../../../../public/shared_assets/js/fos_js_routes_application.json' );
 
+require( 'hover-video-player' );
+
 $( function()
 {
+    const player = document.querySelector( "hover-video-player" );
+    player.restartOnPause = true;
+    
     $( '#btnMoviesFilterApply' ).on( 'click', function ( e )
     {
         var categorySlug    = $( this ).attr( 'data-category-slug' );

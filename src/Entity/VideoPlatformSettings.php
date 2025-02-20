@@ -55,6 +55,10 @@ class VideoPlatformSettings implements ResourceInterface
     #[ORM\Column(name: "video_clip_maker", type: "string", columnDefinition: "ENUM('coconut', 'ffmpeg')", options: ["default" => "coconut"])]
     private $videoClipMaker;
     
+    /** @var bool */
+    #[ORM\Column(name: "use_onhover_player", type: "boolean", options: ["default" => 0])]
+    private $useOnhoverPlayer  = false;
+    
     public function getId()
     {
         return $this->id;
@@ -176,6 +180,18 @@ class VideoPlatformSettings implements ResourceInterface
     public function setVideoClipMaker( $videoClipMaker )
     {
         $this->videoClipMaker    = $videoClipMaker;
+        
+        return $this;
+    }
+    
+    public function getUseOnhoverPlayer()
+    {
+        return $this->useOnhoverPlayer;
+    }
+    
+    public function setUseOnhoverPlayer( $useOnhoverPlayer )
+    {
+        $this->useOnhoverPlayer    = $useOnhoverPlayer;
         
         return $this;
     }
