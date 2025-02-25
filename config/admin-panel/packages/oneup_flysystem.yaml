@@ -18,4 +18,3 @@ oneup_flysystem:
             adapter: vs_vvp.coconut_output_adapter
         vs_vvp.filesystems.videos_user_signatured:
             adapter: vs_vvp.videos_user_signatured_adapter
-
