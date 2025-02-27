@@ -143,6 +143,7 @@ vs_vvp:
             video_suggestions_strategy_placeholder: '-- Select Video Suggestions Strategy --'
             
             video_clip_makers_title: Video Clip Maker
+            video_clip_maker_none: None
             video_clip_maker_coconut: Coconut
             video_clip_maker_ffmpeg: FFMpeg
             

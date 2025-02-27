@@ -52,7 +52,7 @@ class VideoPlatformSettings implements ResourceInterface
     private $transcodedVideoUrlsType;
     
     /** @var string */
-    #[ORM\Column(name: "video_clip_maker", type: "string", columnDefinition: "ENUM('coconut', 'ffmpeg')", options: ["default" => "coconut"])]
+    #[ORM\Column(name: "video_clip_maker", type: "string", columnDefinition: "ENUM('none', 'coconut', 'ffmpeg')", options: ["default" => "none"])]
     private $videoClipMaker;
     
     /** @var bool */
