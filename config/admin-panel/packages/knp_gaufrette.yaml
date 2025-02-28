@@ -72,4 +72,3 @@ knp_gaufrette:
             adapter: "vs_vvp_videos_digitalocean_coconut_output"
         vs_vvp_youtube_photos:
             adapter: "vs_vvp_youtube_photos"
-            

@@ -21,5 +21,3 @@ vs_api_coconut_webhook_clip_job:
 vs_api_coconut_storage:
     path: /api/coconut/storage
     controller: App\Controller\Api\CoconutStorageController::index
-
-

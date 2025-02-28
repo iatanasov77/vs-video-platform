@@ -36,10 +36,14 @@ final class VideoResourceEventListener
     {
         $videoEntity    = $event->getSubject();
         $apiToken       = $this->coconutVideoJob->apiLogin();
+        $settings       = $this->videoPlatform->getVideoPlatformSettings();
         
         $this->coconutVideoJob->createJob( $videoEntity, $apiToken );
         
-        $settings   = $this->videoPlatform->getVideoPlatformSettings();
+        if ( $settings->getVideoClipMaker() == VideoClipMaker::CLIP_MAKER_NONE && ! $videoEntity->getVideoTrailer() ) {
+            return;
+        }
+        
         if ( $settings->getVideoClipMaker() == VideoClipMaker::CLIP_MAKER_COCONUT && ! $videoEntity->getVideoTrailer() ) {
             $this->coconutClipJob->createJob( $videoEntity, $apiToken );
             
@@ -54,7 +58,5 @@ final class VideoResourceEventListener
             );
             $this->clipMaker->createVideoClip( $videoEntity, $videoUri );
         }
-        
-        return;
     }
 }

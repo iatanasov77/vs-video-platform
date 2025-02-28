@@ -60,6 +60,9 @@ class MoviesController extends AbstractController
     /** @var ReviewFactory */
     private $reviewFactory;
     
+    /** @var string */
+    private $videoClipsDir;
+    
     public function __construct(
         LoggerInterface $logger,
         ManagerRegistry $doctrine,
@@ -69,7 +72,8 @@ class MoviesController extends AbstractController
         CoconutVideoJobBuilder $coconut,
         MoviesFilter $moviesFilter,
         VideoPlatform $videoPlatform,
-        ReviewFactory $reviewFactory
+        ReviewFactory $reviewFactory,
+        string $videoClipsDir
     ) {
         $this->logger                       = $logger;
         $this->doctrine                     = $doctrine;
@@ -83,6 +87,7 @@ class MoviesController extends AbstractController
         $this->videoPlatformSettings        = $this->videoPlatform->getVideoPlatformSettings();
         
         $this->reviewFactory                = $reviewFactory;
+        $this->videoClipsDir                = $videoClipsDir;
     }
     
     public function index( $categorySlug, Request $request, PaginatorInterface $paginator ): Response
@@ -102,6 +107,8 @@ class MoviesController extends AbstractController
             'mobileFilterForm'  => $mobileFilterForm->createView(),
             'movies'            => $movies,
             'categorySlug'      => $categorySlug,
+            'videoClipsDir'     => $this->videoClipsDir,
+            'useOnhoverPlayer'  => $this->videoPlatformSettings->getUseOnhoverPlayer(),
         ]);
     }
     

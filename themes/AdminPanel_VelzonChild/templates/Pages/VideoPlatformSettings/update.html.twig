@@ -132,6 +132,22 @@
                             </div>
                         </div>
                         
+                        <div class="form-group">
+                           <div class="form-check form-check-secondary mb-3">
+                                <input type="checkbox" id="video_platform_settings_form_useOnhoverPlayer"
+                                    name="video_platform_settings_form[useOnhoverPlayer]"
+                                    class="form-check-input"
+                                    {% if item.useOnhoverPlayer %}checked="checked"{% endif %}
+                                />
+                                <label class="form-check-label" for="video_platform_settings_form_useOnhoverPlayer">
+                                    {{ 'vs_vvp.form.video_platform_settings.use_onhover_player' | trans({}, 'VanzVideoPlayer') }}
+                                </label>
+                                <small class="text-muted ms-2">
+                                    ( {{ 'vs_vvp.form.video_platform_settings.use_onhover_player_help' | trans( {},'VanzVideoPlayer' ) }} )
+                                </small>
+                            </div>
+                        </div>
+                        
                         <fieldset class="border border-dark rounded p-3">
                             <legend class="w-auto float-none ps-2 pe-2">{{ 'vs_vvp.form.video_platform_settings.video_player_transcoded_urls' | trans( {},'VanzVideoPlayer' ) }}</legend>
                         

@@ -33,5 +33,3 @@ oneup_uploader:
 #             storage:
 #                 type: gaufrette
 #                 filesystem: gaufrette.vs_vvp_coconut_output_filesystem
-
-    

@@ -153,6 +153,7 @@ services:
             - '@app_movies_filter'
             - '@app_video_platform'
             - '@app_movie_review_factory'
+            - '%vs_vvp.video_clips_directory%'
             
     App\Controller\Application\VideosController:
         arguments:
