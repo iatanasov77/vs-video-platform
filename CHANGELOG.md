@@ -1,3 +1,16 @@
+2.3.4	|	Release date: **28.02.2025**
+============================================
+* New Features and Improvements:
+  - Remove Debug Frontend Assets.
+  - Add a Settings Flag Whether to Use OnHover Player or NOT.
+  - Update Some Translations
+  - Composer Package Version Constraint.
+  - Create a 'staging' ENV.
+  - Update Forms that used CkEditor4 Trait.
+  - Improve VideoPlatformSettings
+  - Add a Helper Field into RefreshToken Entity.
+
+
 2.3.3	|	Release date: **19.02.2025**
 ============================================
 * Bug-Fixes:
