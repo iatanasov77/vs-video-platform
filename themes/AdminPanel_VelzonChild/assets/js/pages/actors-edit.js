@@ -8,9 +8,14 @@ import { VsPath } from '@/js/includes/fos_js_routes.js';
 
 import { VsRemoveDuplicates } from '@/js/includes/vs_remove_duplicates.js';
 import { EasyuiCombobox } from 'jquery-easyui-extensions/EasyuiCombobox.js';
+import { GetCkEditorData } from '@/js/includes/ckeditor.js';
 
 $( function ()
 {
+    $( '#btnTestCkEditor' ).on( 'click', function ( e ) {
+        alert( GetCkEditorData( 'actor_form_description' ) );
+    });
+    
     $( '#PhotosContainer' ).duplicateFields({
         btnRemoveSelector: ".btnRemoveField",
         btnAddSelector:    ".btnAddField",

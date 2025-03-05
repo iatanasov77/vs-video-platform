@@ -43,6 +43,7 @@ class SliderItemExtController extends BaseSliderItemExtController
             'sliderId'                  => $sliderId,
             'item'                      => $sliderItem,
             'sliderPhotoDescription'    => $this->sliderPhotoDescription,
+            'isAjaxRequest'             => true,
         ]);
     }
 }
