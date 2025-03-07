@@ -1,35 +1,32 @@
 #####################################################################################################
 # Chunks Config: https://github.com/1up-lab/OneupUploaderBundle/blob/main/doc/chunked_uploads.md
 #####################################################################################################
+
+############################################################################################
+# Set The Storage You Want to Use
+#-------------------------------------
+# https://github.com/1up-lab/OneupUploaderBundle/blob/master/doc/gaufrette_storage.md
+# https://github.com/1up-lab/OneupUploaderBundle/blob/main/doc/flysystem_storage.md
+############################################################################################
+
 oneup_uploader:
     mappings:
         videos_local:
             frontend: blueimp
             
-            # Set The Storage You Want to Use
-            #-------------------------------------
-            # https://github.com/1up-lab/OneupUploaderBundle/blob/master/doc/gaufrette_storage.md
-            ############################################################################################
             storage:
-                type: gaufrette
-                filesystem: gaufrette.vs_vvp_videos_filesystem
+                type: flysystem
+                filesystem: oneup_flysystem.vs_vvp_videos_filesystem
         
         videos_digitalocean:
             frontend: blueimp
             
-            # Set The Storage You Want to Use
-            #-------------------------------------
-            # https://github.com/1up-lab/OneupUploaderBundle/blob/master/doc/gaufrette_storage.md
-            ############################################################################################
             storage:
-                type: gaufrette
-                filesystem: gaufrette.vs_vvp_videos_digitalocean_filesystem
+                type: flysystem
+                filesystem: oneup_flysystem.vs_vvp_videos_digitalocean_filesystem
                 
         coconut_output:
             frontend: custom
             custom_frontend:
                 class: App\Controller\Api\CoconutStorageController
                 name: coconut_output
-#             storage:
-#                 type: gaufrette
-#                 filesystem: gaufrette.vs_vvp_coconut_output_filesystem

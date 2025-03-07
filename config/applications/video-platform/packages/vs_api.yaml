@@ -5,5 +5,3 @@ vs_api:
         refresh_token:
             classes:
                 model: App\Entity\Api\RefreshToken
-
-

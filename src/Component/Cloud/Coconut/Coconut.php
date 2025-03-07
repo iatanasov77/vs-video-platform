@@ -18,4 +18,5 @@ final class Coconut
     
     const JOB_TYPE_VIDEO            = 'video';
     const JOB_TYPE_CLIP             = 'clip';
+    const JOB_TYPE_CLIP_STORE       = 'clip-store';
 }

@@ -15,8 +15,8 @@ class SliderItemExtController extends BaseSliderItemExtController
         $itemId         = intval( $itemId );
         $sliderItem     = $itemId ? $this->sliderItemRepository->find( $itemId ) : $this->sliderItemFactory->createNew();
         $formAction     = $itemId ?
-        $this->generateUrl( 'vs_cms_slider_item_update', ['sliderId' => $sliderId, 'id' => $itemId] ) :
-        $this->generateUrl( 'vs_cms_slider_item_create', ['sliderId' => $sliderId] );
+                            $this->generateUrl( 'vs_cms_slider_item_update', ['sliderId' => $sliderId, 'id' => $itemId] ) :
+                            $this->generateUrl( 'vs_cms_slider_item_create', ['sliderId' => $sliderId] );
         $formMethod     = $itemId ? 'PUT' : 'POST';
         
         if ( $locale != $request->getLocale() ) {
@@ -36,6 +36,8 @@ class SliderItemExtController extends BaseSliderItemExtController
             'ckeditor_removeButtons'        => $this->getParameter( 'vs_cms.form.decription_field.ckeditor_removeButtons' ),
             'ckeditor_allowedContent'       => $this->getParameter( 'vs_cms.form.decription_field.ckeditor_allowedContent' ),
             'ckeditor_extraAllowedContent'  => $this->getParameter( 'vs_cms.form.decription_field.ckeditor_extraAllowedContent' ),
+            
+            'sliderPhotoMaxSize'            => $this->getParameter( 'vs_cms.form.slider_item.photo.max_size' ),
         ]);
         
         return $this->render( '@VSCms/Pages/SlidersItems/slider_item_form.html.twig', [
@@ -43,6 +45,7 @@ class SliderItemExtController extends BaseSliderItemExtController
             'sliderId'                  => $sliderId,
             'item'                      => $sliderItem,
             'sliderPhotoDescription'    => $this->sliderPhotoDescription,
+            'isAjaxRequest'             => true,
         ]);
     }
 }

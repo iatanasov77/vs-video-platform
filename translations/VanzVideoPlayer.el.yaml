@@ -47,6 +47,7 @@ vs_vvp:
             thumbnail_placeholder: Upload a Thumbnail File
             video: Video
             video_placeholder: Upload a Video File
+            video_upload_help: Do Not Close Browser or Exit from this Page before the upload finished. After Upload Finished Successfuly the Page will be refreshed automaticaly.
             actors: Actors
             actors_placeholder: '-- Select Actors --'
             allowed_paid_services: Allowed Paid Services
@@ -155,6 +156,16 @@ vs_vvp:
             
             use_onhover_player: Use Onhover Player
             use_onhover_player_help: Play Clips or Trailers in Listing Pages of Frontend Application when Mouse Over
+            video_clip_maker: Video Clip Maker
+            
+            video_players_title: Video Player
+            video_player: Video Player
+            
+            signed_url_expires_at: Signed URL Expires At
+            video_signed_url_expire_24hours: 24 hours
+            video_signed_url_expire_duration_x1: Video Duration x 1
+            video_signed_url_expire_duration_x2: Video Duration x 2
+            video_signed_url_expire_duration_x3: Video Duration x 3
             
         video_platform_storage:
             title: Title

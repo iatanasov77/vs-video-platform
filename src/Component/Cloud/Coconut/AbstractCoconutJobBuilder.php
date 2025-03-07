@@ -1,6 +1,6 @@
 <?php namespace App\Component\Cloud\Coconut;
 
-use Coconut\Client;
+use Coconut\Client as CoconutClient;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,7 +19,7 @@ use App\Component\Cloud\Exception\VideoPlatformStorageException;
 
 abstract class AbstractCoconutJobBuilder implements CoconutJobBuilderInterface
 {
-    /** @var Client */
+    /** @var CoconutClient */
     protected $client;
     
     /** @var RouterInterface */
@@ -70,9 +70,11 @@ abstract class AbstractCoconutJobBuilder implements CoconutJobBuilderInterface
         $this->jobsFactory              = $jobsFactory;
         $this->httpClient               = $httpClient;
         $this->apiHost                  = $apiHost;
-        
-        $this->client                   = new Client( $this->videoPlatformSettings->getCoconutSettings()->getCoconutApiKey() );
         $this->jobOutputs               = [];
+        
+        $this->client                   = new CoconutClient(
+            $this->videoPlatformSettings->getCoconutSettings()->getCoconutApiKey()
+        );
     }
     
     public function getStatus( $jobId )
@@ -110,23 +112,17 @@ abstract class AbstractCoconutJobBuilder implements CoconutJobBuilderInterface
         return $decodedPayload['refresh_token'];
     }
     
-    protected function _createCoconutJob( Video $video ): ?\stdClass
+    protected function _createCoconutJob( Video $video ): \stdClass
     {
-        try {
-            /** @var \stdClass */
-            $job    = $this->client->job->create([
-                // 'input' => [ 'url' => 'https://mysite/path/file.mp4' ],
-                'input'     => [ 'url' => $this->_getCoconutJobInput( $video ) ],
-                'outputs'   => $this->jobOutputs
-            ]);
-            //echo '<pre>'; var_dump( $job ); die;
-            
-            return $job;
-            
-        } catch( \Exception $e ) {
-            echo $e->getMessage();
-            return null;
-        }
+        /** @var \stdClass */
+        $job    = $this->client->job->create([
+            // 'input' => [ 'url' => 'https://mysite/path/file.mp4' ],
+            'input'     => [ 'url' => $this->_getCoconutJobInput( $video ) ],
+            'outputs'   => $this->jobOutputs
+        ]);
+        //echo '<pre>'; var_dump( $job ); die;
+        
+        return $job;
     }
     
     protected function _getCoconutJobInput( Video $video ): string

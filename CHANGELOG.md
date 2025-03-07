@@ -1,3 +1,13 @@
+2.4.0	|	Release date: **07.03.2025**
+============================================
+* New Features and Improvements:
+  - Update All With New Version VankosoftApplicationLibrary.
+  - Improve Home Page Slider Template.
+  - Fix Slider Item Creation.
+  - Remove KNP Gaufrette Bundle and Change it with OneupFilesystem Bundle.
+  - Add More Settings into VideoPlatformSettings.
+
+
 2.3.4	|	Release date: **28.02.2025**
 ============================================
 * New Features and Improvements:

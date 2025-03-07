@@ -29,12 +29,18 @@
                                                 {{ item.title }} 
                                                 {% if item.video %}
                                                     <sub>{{ item.video.averageRating | number_format( 1, '.', ',' ) }}</sub>
+                                                {% elseif item.actor %}
+                                                    <sub>{{ item.actor.averageRating | number_format( 1, '.', ',' ) }}</sub>
                                                 {% endif %}
                                             </h2>
                                             {{ item.description | raw }}
                                             <p class="hero__category">
                                                 {% if item.video %}
                                                     {% for genre in item.video.genres %}
+                                                        <a href="#">{{ genre.name }}</a>
+                                                    {% endfor %}
+                                                {% elseif item.actor %}
+                                                    {% for genre in item.actor.genres %}
                                                         <a href="#">{{ genre.name }}</a>
                                                     {% endfor %}
                                                 {% endif %}

@@ -10,6 +10,15 @@ use App\Entity\Video;
 
 final class VideoPlatform
 {
+    /** Supported JavaScript Video Players */
+    const VIDEO_PLAYER_PLYR     = 'plyr';
+    const VIDEO_PLAYER_VIDEOJS  = 'videojs';
+    
+    const VIDEO_PLAYERS         = [
+        self::VIDEO_PLAYER_PLYR     => 'Plyr',
+        self::VIDEO_PLAYER_VIDEOJS  => 'Video Js',
+    ];
+    
     /** Coconut Storage Types */
     const STORAGE_TYPE_COCONUT  = 'coconut';
     const STORAGE_TYPE_LOCAL    = 'local';

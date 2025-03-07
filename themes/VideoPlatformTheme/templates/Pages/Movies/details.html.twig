@@ -89,25 +89,7 @@
     
                 <!-- player -->
                 <div class="col-12 col-xl-6">
-                    <video controls crossorigin
-                        {# playsinline poster="{{ videoThumbnail.path | imagine_filter( 'video_thumbnail_plyr' ) }}" #}
-                        playsinline poster="{{ videoThumbnail.path | imagine_filter( 'movies_listing_thumbnail' ) }}"
-                        id="player-plyr"
-                        data-watermarkText="{{ watermarkText }}"
-                        data-videoWatchingUrl="{{ path( 'vvp_movies_video_watching', {'videoId': movie.id} ) }}"
-                    >
-                    
-                    {% if not displayOnlyTranscoded %}
-                        <!-- Original Video -->
-                        <source src="{{ path( 'app_video_player_read', {'id': movie.id} ) }}" type="video/mp4">
-                    {% endif %}
-                    
-                    {% for format, videoUrl in formats  %}
-                        <!-- Transcoded Videos -->
-                        <source src="{{ videoUrl }}" type="video/mp4" size="{{ format | number_format }}">
-                    {% endfor %}
-                        
-                    </video>
+                    {% include 'Pages/Movies/Partial/VideoPlayer/' ~ videoPlayer ~ '.html.twig' %}
                     
                     {#
                     <div class="row" style="margin-top: 10px;">
@@ -142,6 +124,7 @@
     {{ parent() }}
     
     {{ encore_entry_link_tags( 'js/movies-details', null, 'VideoPlatformTheme' ) }}
+    {{ encore_entry_link_tags( 'js/player-' ~ videoPlayer, null, 'VideoPlatformTheme' ) }}
 {% endblock %}
 
 {% block javascripts %}
@@ -151,5 +134,6 @@
         var videoSlug = '{{ app.request.get( 'slug' ) }}';
     </script>
     {{ encore_entry_script_tags( 'js/movies-details', null, 'VideoPlatformTheme' ) }}
+    {{ encore_entry_script_tags( 'js/player-' ~ videoPlayer, null, 'VideoPlatformTheme' ) }}
 {% endblock %}
 

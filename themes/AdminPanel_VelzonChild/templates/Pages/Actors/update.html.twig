@@ -18,7 +18,18 @@
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card">
-            	<h5 class="card-header">{{ 'vs_vvp.template.page_title_actor_details'  | trans( {},'VanzVideoPlayer' ) }}</h5>
+            	<div class="card-header">
+            	   <div class="row">
+                	   <div class="col-8">
+                	       <h5>{{ 'vs_vvp.template.page_title_actor_details'  | trans( {},'VanzVideoPlayer' ) }}</h5>
+                	   </div>
+                	   <div class="col-4">
+                	       {% if app_environment == 'dev' %}
+                	           <button id="btnTestCkEditor" class="btn btn-primary float-end">Test CkEditor</button>
+                	       {% endif %}
+                	   </div>
+                    </div>
+            	</div>
             	<div class="card-body">
             	   {% if form_errors(form) is not empty %}
                         <div class="alert alert-block alert-danger fade in">
@@ -61,4 +72,5 @@
     
     {{ encore_entry_script_tags( 'js/actors-edit', null, 'VelzonTheme' ) }}
     {{ encore_entry_script_tags( 'ckeditor5', null, 'VelzonTheme' ) }}
+    
 {% endblock %}

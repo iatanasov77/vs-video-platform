@@ -1,0 +1,20 @@
+<video controls crossorigin
+    playsinline
+    poster="{{ videoThumbnail.path | imagine_filter( 'movies_listing_thumbnail' ) }}"
+    id="player-plyr"
+    class="video-js"
+    data-watermarkText="{{ watermarkText }}"
+    data-videoWatchingUrl="{{ path( 'vvp_movies_video_watching', {'videoId': movie.id} ) }}"
+>
+
+{% if not displayOnlyTranscoded %}
+    <!-- Original Video -->
+    <source src="{{ path( 'app_video_player_read', {'id': movie.id} ) }}" type="video/mp4">
+{% endif %}
+
+{% for format, videoUrl in formats  %}
+    <!-- Transcoded Videos -->
+    <source src="{{ videoUrl }}" type="video/mp4" size="{{ format | number_format }}">
+{% endfor %}
+    
+</video>

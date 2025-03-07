@@ -52,12 +52,20 @@ class VideoPlatformSettings implements ResourceInterface
     private $transcodedVideoUrlsType;
     
     /** @var string */
+    #[ORM\Column(name: "signed_url_expiration", type: "string", columnDefinition: "ENUM('24_hours', 'duration_x1', 'duration_x2', 'duration_x3')", options: ["default" => "24_hours"])]
+    private $signedUrlExpiration;
+    
+    /** @var string */
     #[ORM\Column(name: "video_clip_maker", type: "string", columnDefinition: "ENUM('none', 'coconut', 'ffmpeg')", options: ["default" => "none"])]
     private $videoClipMaker;
     
     /** @var bool */
     #[ORM\Column(name: "use_onhover_player", type: "boolean", options: ["default" => 0])]
     private $useOnhoverPlayer  = false;
+    
+    /** @var string */
+    #[ORM\Column(name: "video_player", type: "string", columnDefinition: "ENUM('plyr', 'videojs')", options: ["default" => "plyr"])]
+    private $videoPlayer;
     
     public function getId()
     {
@@ -172,6 +180,18 @@ class VideoPlatformSettings implements ResourceInterface
         return $this;
     }
     
+    public function getSignedUrlExpiration()
+    {
+        return $this->signedUrlExpiration;
+    }
+    
+    public function setSignedUrlExpiration( $signedUrlExpiration )
+    {
+        $this->signedUrlExpiration  = $signedUrlExpiration;
+        
+        return $this;
+    }
+    
     public function getVideoClipMaker()
     {
         return $this->videoClipMaker;
@@ -192,6 +212,18 @@ class VideoPlatformSettings implements ResourceInterface
     public function setUseOnhoverPlayer( $useOnhoverPlayer )
     {
         $this->useOnhoverPlayer    = $useOnhoverPlayer;
+        
+        return $this;
+    }
+    
+    public function getVideoPlayer()
+    {
+        return $this->videoPlayer;
+    }
+    
+    public function setVideoPlayer( $videoPlayer )
+    {
+        $this->videoPlayer    = $videoPlayer;
         
         return $this;
     }

@@ -7,11 +7,6 @@ import { VsPath } from '@/js/includes/fos_js_routes.js';
 import Scrollbar from 'smooth-scrollbar';
 window.Scrollbar = Scrollbar;
 
-// Plyr Video Player
-import Plyr from 'plyr';
-require( '../../css/plyr.scss' );
-window.Plyr = Plyr;
-
 // Photoswipe Gallery
 import PhotoSwipe from 'photoswipe';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
@@ -43,11 +38,6 @@ window.CommentDisliked  = false;
 
 $( function()
 {
-    const player        = new Plyr( '#player-plyr' );
-    
-    let watermarkText   = $( '#player-plyr' ).attr( 'data-watermarkText' );
-    $( '.plyr--video' ).prepend( '<div class="WatermarkText"> ' + watermarkText + ' </div>' );
-    
     /*
     var myRating        = $( '#basic-rater' ).attr( 'data-myRating' );
     var basicRating = raterJs({
@@ -94,22 +84,6 @@ $( function()
             error: function()
             {
                 alert( "Dislike Comment SYSTEM ERROR!!!" );
-            }
-        });
-    });
-    
-    player.on( 'play', function()
-    {
-        $.ajax({
-            type: "GET",
-            url: $( '#player-plyr' ).attr( 'data-videoWatchingUrl' ),
-            success: function( response )
-            {
-                return;
-            },
-            error: function()
-            {
-                alert( "Video Watching SYSTEM ERROR!!!" );
             }
         });
     });
