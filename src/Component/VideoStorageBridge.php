@@ -1,7 +1,7 @@
 <?php namespace App\Component;
 
 use Symfony\Component\Filesystem\Filesystem;
-use App\Component\VideoUploader\Adapter\GaufretteAwsS3\GaufretteAwsS3Adapter;
+use App\Component\VideoUploader\Adapter\AwsS3AdapterInterface;
 use App\Component\Cloud\Exception\VideoPlatformStorageException;
 use App\Entity\VideoPlatformSettings;
 use App\Entity\VideoFile;
@@ -11,10 +11,10 @@ class VideoStorageBridge
     /** @var VideoUrlsFactory */
     private $urlsFactory;
     
-    /** @var GaufretteAwsS3Adapter */
+    /** @var AwsS3AdapterInterface */
     private $s3OriginalVideosAdapter;
     
-    /** @var GaufretteAwsS3Adapter */
+    /** @var AwsS3AdapterInterface */
     private $s3CoconutOutputAdapter;
     
     /** @var string */
@@ -25,8 +25,8 @@ class VideoStorageBridge
     
     public function __construct(
         VideoUrlsFactory $urlsFactory,
-        GaufretteAwsS3Adapter $s3OriginalVideosAdapter,
-        GaufretteAwsS3Adapter $s3CoconutOutputAdapter,
+        AwsS3AdapterInterface $s3OriginalVideosAdapter,
+        AwsS3AdapterInterface $s3CoconutOutputAdapter,
         string $localVideosDirectory
     ) {
         $this->urlsFactory              = $urlsFactory;

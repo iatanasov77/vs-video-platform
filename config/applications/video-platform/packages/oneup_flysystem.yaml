@@ -13,15 +13,24 @@ oneup_flysystem:
             local:
                 location: "%vs_cms.filemanager_shared_media_gaufrette.slider%"
         
-        vs_vvp.videos_adapter:
+        vs_vvp_videos:
             local:
                 location: '%vs_vvp.videos_directory%'
-        vs_vvp.coconut_output_adapter:
+        vs_vvp_coconut_output:
             local:
                 location: '%vs_vvp.coconut_output_directory%'
-        vs_vvp.videos_user_signatured_adapter:
+        vs_vvp_video_user_signatured:
             local:
                 location: '%vs_vvp.videos_user_signatured_directory%'
+        vs_vvp_video_clips:
+            local:
+                location: "%vs_vvp.video_clips_directory%"
+        vs_vvp_actor_photos:
+            local:
+                location: "%vs_vvp.actor_photos_directory%"
+        vs_vvp_youtube_photos:
+            local:
+                location: "%vs_vvp.youtube_photos_directory%"
                 
     filesystems:
         vs_application_app_pictures:
@@ -33,10 +42,16 @@ oneup_flysystem:
         vs_application_slider:
             adapter: "%vs_cms.gaufrette.slider.filesystem%"
         
-        vs_vvp.filesystems.local:
-            adapter: vs_vvp.videos_adapter
+        vs_vvp_videos:
+            adapter: vs_vvp_videos
             alias: League\Flysystem\Filesystem
-        vs_vvp.filesystems.coconut_output:
-            adapter: vs_vvp.coconut_output_adapter
-        vs_vvp.filesystems.videos_user_signatured:
-            adapter: vs_vvp.videos_user_signatured_adapter
+        vs_vvp_coconut_output:
+            adapter: vs_vvp_coconut_output
+        vs_vvp_video_user_signatured:
+            adapter: vs_vvp_video_user_signatured
+        vs_vvp_video_clips:
+            adapter: vs_vvp_video_clips
+        vs_vvp_actor_photos:
+            adapter: vs_vvp_actor_photos
+        vs_vvp_youtube_photos:
+            adapter: vs_vvp_youtube_photos

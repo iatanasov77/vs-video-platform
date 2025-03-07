@@ -14,82 +14,62 @@ services:
         autowire: true
         autoconfigure: true
         public: true
-
+    
     # Create a Custom Uploader extending Vankosoft\CmsBundle\Component\Uploader\FilemanagerUploader
     # Add Needed Configurations in packages/knp_gaufrette.yaml
     ##################################################################################################
 #    vs_application.custom_uploader:
 #        class: App\Component\Uploader\GamePictureUploader
 #        arguments:
-#            - '@vs_application.app_pictures_uploader.filesystem'
+#            - '@oneup_flysystem.vs_application_app_pictures_filesystem'
 #            - '@vs_cms.file_path_generator'
 
 
-    vs_vvp.video_uploader.local_uploader_filesystem:
-        class: Gaufrette\Filesystem
-        arguments: ['vs_vvp_videos']
-        factory: ['@knp_gaufrette.filesystem_map', 'get']
-    
-    vs_vvp.video_uploader.video_clip_uploader_filesystem:
-        class: Gaufrette\Filesystem
-        arguments: ['vs_vvp_video_clips']
-        factory: ['@knp_gaufrette.filesystem_map', 'get']
-        
     vs_vvp.local_video_file_path_generator:
         class: App\Component\VideoUploader\LocalFilePathGenerator
-        
+    
+    vs_vvp.actor_photo_file_path_generator:
+        class: App\Component\ActorPhotoUploader\FilePathGenerator
+    
     vs_vvp.video_uploader.local_uploader:
         class: App\Component\VideoUploader\LocalUploader
         arguments:
-            - '@vs_vvp.video_uploader.local_uploader_filesystem'
+            - '@oneup_flysystem.vs_vvp_videos_filesystem'
             - '@vs_vvp.local_video_file_path_generator'
             - '@app_video_platform'
             
     vs_vvp.video_photo_uploader:
         class: App\Component\VideoUploader\VideoPhotoUploader
         arguments:
-            - '@vs_vvp.video_uploader.local_uploader_filesystem'
+            - '@oneup_flysystem.vs_vvp_videos_filesystem'
             - '@vs_vvp.local_video_file_path_generator'
     
     vs_vvp.video_uploader.video_clip_uploader:
         class: App\Component\VideoUploader\VideoClipUploader
         arguments:
-            - '@vs_vvp.video_uploader.video_clip_uploader_filesystem'
+            - '@oneup_flysystem.vs_vvp_video_clips_filesystem'
             - '@vs_vvp.local_video_file_path_generator'
-            
-    vs_vvp.actor_photo_uploader.filesystem:
-        class: Gaufrette\Filesystem
-        arguments: ['vs_vvp_actor_photos']
-        factory: ['@knp_gaufrette.filesystem_map', 'get']
-        
-    vs_vvp.actor_photo_file_path_generator:
-        class: App\Component\ActorPhotoUploader\FilePathGenerator
-        
+    
     vs_vvp.actor_photo_uploader:
         class: App\Component\ActorPhotoUploader\ActorPhotoUploader
         arguments:
-            - '@vs_vvp.actor_photo_uploader.filesystem'
+            - '@oneup_flysystem.vs_vvp_actor_photos_filesystem'
             - '@vs_vvp.actor_photo_file_path_generator'
-    
+            
     vs_vvp.digital_ocean_original_videos_adapter:
-        class: App\Component\VideoUploader\Adapter\GaufretteAwsS3VideosOriginal
+        class: App\Component\VideoUploader\Adapter\LeagueFlysystemAwsS3VideosOriginal
         lazy: true
         arguments:
             - '@app_video_storage_digitalocean_original_videos'
             
     vs_vvp.digital_ocean_coconut_output_adapter:
-        class: App\Component\VideoUploader\Adapter\GaufretteAwsS3CoconutOutput
+        class: App\Component\VideoUploader\Adapter\LeagueFlysystemAwsS3CoconutOutput
         lazy: true
         arguments:
             - '@app_video_storage_digitalocean_coconut_output'
             
-    vs_vvp.youtube_photo_uploader.filesystem:
-        class: Gaufrette\Filesystem
-        arguments: ['vs_vvp_youtube_photos']
-        factory: ['@knp_gaufrette.filesystem_map', 'get']
-        
     vs_vvp.youtube_photo_uploader:
         class: App\Component\YoutubePhotoUploader
         arguments:
-            - '@vs_vvp.youtube_photo_uploader.filesystem'
+            - '@oneup_flysystem.vs_vvp_youtube_photos_filesystem'
             - '@vs_cms.file_path_generator'

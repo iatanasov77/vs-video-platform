@@ -17,8 +17,8 @@ services:
         arguments:
             - '@vs_vvp.digital_ocean_original_videos_adapter'
             - '@vs_vvp.digital_ocean_coconut_output_adapter'
-            - '@oneup_flysystem.vs_vvp.filesystems.local_filesystem'
-            - '@oneup_flysystem.vs_vvp.filesystems.coconut_output_filesystem'
+            - '@oneup_flysystem.vs_vvp_videos_filesystem'
+            - '@oneup_flysystem.vs_vvp_coconut_output_filesystem'
             
     app_video_signatory:
         class: App\Component\VideoSignatory
@@ -26,7 +26,7 @@ services:
         arguments:
             - '@dubture_ffmpeg.ffmpeg'
             - '@security.token_storage'
-            - '@oneup_flysystem.vs_vvp.filesystems.videos_user_signatured_filesystem'
+            - '@oneup_flysystem.vs_vvp_video_user_signatured_filesystem'
             - '%vs_vvp.videos_user_signatured_directory%'
     
     app_video_storage_bridge:

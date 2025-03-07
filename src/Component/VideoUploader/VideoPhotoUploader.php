@@ -1,6 +1,6 @@
 <?php namespace App\Component\VideoUploader;
 
-use Gaufrette\Filesystem;
+use League\Flysystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use Webmozart\Assert\Assert;
 
@@ -58,9 +58,7 @@ class VideoPhotoUploader implements FileUploaderInterface
             file_get_contents( $videoFile->getFile()->getPathname() )
         );
         
-        if ( method_exists ( $this->filesystem->getAdapter(), 'mimeType' ) ) {
-            $videoFile->setType( $this->filesystem->getAdapter()->mimeType( $videoFile->getPath() ) );
-        }
+        $videoFile->setType( $this->filesystem->mimeType( $videoFile->getPath() ) );
     }
     
     public function remove( string $path ): bool

@@ -1,6 +1,6 @@
 <?php namespace App\Component\Cloud;
 
-use DigitalOceanV2\Client;
+use DigitalOceanV2\Client as DigitalOceanClient;
 use Aws\S3\S3Client;
 use Aws\S3\S3ClientInterface;
 use Aws\Credentials\Credentials;
@@ -17,7 +17,7 @@ class DigitalOceanOriginalVideos implements DigitalOceanInterface
     /** @var VideoPlatformStorage */
     private $videoPlatform;
     
-    /** @var Client */
+    /** @var DigitalOceanClient */
     private $client;
     
     /** @var S3Client */
@@ -55,7 +55,7 @@ class DigitalOceanOriginalVideos implements DigitalOceanInterface
         }
         
         // create a new DigitalOcean client
-        $this->client       = new Client();
+        $this->client       = new DigitalOceanClient();
         
         // authenticate the client with your access token which can be
         // generated at https://cloud.digitalocean.com/settings/applications

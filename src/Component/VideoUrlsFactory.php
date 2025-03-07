@@ -2,7 +2,7 @@
 
 use Symfony\Component\Routing\RouterInterface;
 use App\Component\Cloud\Exception\VideoPlatformSettingsException;
-use App\Component\VideoUploader\Adapter\GaufretteAwsS3\GaufretteAwsS3Adapter;
+use App\Component\VideoUploader\Adapter\AwsS3AdapterInterface;
 use App\Entity\VideoPlatformSettings;
 use App\Entity\VideoFile;
 use App\Entity\Video;
@@ -14,19 +14,31 @@ class VideoUrlsFactory
     const URL_CLOUD_PUBLIC  = 'cloud_public';
     const URL_CLOUD_SIGNED  = 'cloud_signed';
     
-    const VIDEO_URL_TYPES     = [
+    const VIDEO_URL_TYPES   = [
         self::URL_SYMFONY_ROUTE => 'vs_vvp.form.video_platform_settings.video_url_type_symfony_route',
         self::URL_CLOUD_PUBLIC  => 'vs_vvp.form.video_platform_settings.video_url_type_cloud_public_url',
         self::URL_CLOUD_SIGNED  => 'vs_vvp.form.video_platform_settings.video_url_type_cloud_signed_url',
     ];
     
+    const VIDEO_SIGNED_URL_EXPIRE_24HOURS       = '24_hours';
+    const VIDEO_SIGNED_URL_EXPIRE_DURATION_X1   = 'duration_x1';
+    const VIDEO_SIGNED_URL_EXPIRE_DURATION_X2   = 'duration_x2';
+    const VIDEO_SIGNED_URL_EXPIRE_DURATION_X3   = 'duration_x3';
+    
+    const VIDEO_SIGNED_URL_EXPIRATION           = [
+        self::VIDEO_SIGNED_URL_EXPIRE_24HOURS       => 'vs_vvp.form.video_platform_settings.video_signed_url_expire_24hours',
+        self::VIDEO_SIGNED_URL_EXPIRE_DURATION_X1   => 'vs_vvp.form.video_platform_settings.video_signed_url_expire_duration_x1',
+        self::VIDEO_SIGNED_URL_EXPIRE_DURATION_X2   => 'vs_vvp.form.video_platform_settings.video_signed_url_expire_duration_x2',
+        self::VIDEO_SIGNED_URL_EXPIRE_DURATION_X3   => 'vs_vvp.form.video_platform_settings.video_signed_url_expire_duration_x3',
+    ];
+    
     /** @var RouterInterface */
     private $router;
     
-    /** @var GaufretteAwsS3Adapter */
+    /** @var AwsS3AdapterInterface */
     private $s3OriginalVideosAdapter;
     
-    /** @var GaufretteAwsS3Adapter */
+    /** @var AwsS3AdapterInterface */
     private $s3CoconutOutputAdapter;
     
     /** @var VideoPlatformSettings */
@@ -34,8 +46,8 @@ class VideoUrlsFactory
     
     public function __construct(
         RouterInterface $router,
-        GaufretteAwsS3Adapter $s3OriginalVideosAdapter,
-        GaufretteAwsS3Adapter $s3CoconutOutputAdapter
+        AwsS3AdapterInterface $s3OriginalVideosAdapter,
+        AwsS3AdapterInterface $s3CoconutOutputAdapter
     ) {
         $this->router                   = $router;
         $this->s3OriginalVideosAdapter  = $s3OriginalVideosAdapter;
@@ -98,7 +110,8 @@ class VideoUrlsFactory
                         $formats[$output->key]  = $this->_getTranscodedS3ObjectUrl( $_videoId, $formatParts[1] );
                         break;
                     case self::URL_CLOUD_SIGNED:
-                        $formats[$output->key]  = $this->_getTranscodedS3ObjectUrl( $_videoId, $formatParts[1], true );
+                        $expireTime = $this->_getPresignedS3ObjectExpireTime( intval( $videoEntity->getVideoFile()->getDuration() ) );
+                        $formats[$output->key]  = $this->_getTranscodedS3ObjectUrl( $_videoId, $formatParts[1], true, $expireTime );
                         break;
                     default:
                         throw new VideoPlatformSettingsException( 'Video Platform Setting Transcoded Video Url Type Is Not Configured Properly !!!' );
@@ -148,8 +161,13 @@ class VideoUrlsFactory
         return $this->s3CoconutOutputAdapter->getS3Client()->getObjectUrl( $bucket, $key );
     }
     
-    private function _getTranscodedS3ObjectUrl( $id, $format, bool $presigned = false ): string
-    {
+    private function _getTranscodedS3ObjectUrl(
+        $id,
+        $format,
+        bool $presigned = false,
+        ?\DateTimeInterface $presignedExpireTime = null
+    ): string {
+        
         $bucket = $this->s3CoconutOutputAdapter->getBucket();
         $key    = \sprintf( 'video-%s-%s.mp4', $id, $format );
         
@@ -159,11 +177,31 @@ class VideoUrlsFactory
                 'Key'       => $key
             ]);
             
-            $request = $this->s3CoconutOutputAdapter->getS3Client()->createPresignedRequest( $cmd, '+1440 minutes' );
+            $request = $this->s3CoconutOutputAdapter->getS3Client()->createPresignedRequest( $cmd, $presignedExpireTime );
             return (string)$request->getUri();
         }
         
         
         return $this->s3CoconutOutputAdapter->getS3Client()->getObjectUrl( $bucket, $key );
+    }
+    
+    private function _getPresignedS3ObjectExpireTime( int $videoDuration ): \DateTimeInterface
+    {
+        $expireSeconds  = 86400; // 24 hours
+        
+        switch( $this->videoPlatformSettings->getSignedUrlExpiration() ) {
+            case self::VIDEO_SIGNED_URL_EXPIRE_DURATION_X1:
+                $expireSeconds  = $videoDuration;
+                break;
+            case self::VIDEO_SIGNED_URL_EXPIRE_DURATION_X2:
+                $expireSeconds  = $videoDuration * 2;
+                break;
+            case self::VIDEO_SIGNED_URL_EXPIRE_DURATION_X3:
+                $expireSeconds  = $videoDuration * 3;
+                break;
+        }
+        
+        return \DateTime::createFromImmutable( new \DateTimeImmutable() )
+                        ->add( \DateInterval::createFromDateString( \sprintf( '%d seconds', $expireSeconds ) ) );
     }
 }
