@@ -134,14 +134,12 @@ class MoviesController extends AbstractController
     
     public function details( $categorySlug, $slug, Request $request ): Response
     {
-        $settings       = $this->videoPlatform->getVideoPlatformSettings();
-        
         $movie          = $this->moviesRepository->findOneBy( ['slug' => $slug] );
         if ( ! $movie ) {
             throw new NotFoundHttpException( 'Sorry not existing !' );
         }
         
-        if ( $redirectResponse  = $this->hasPermissionOrRedirect( $settings, $movie ) ) {
+        if ( $redirectResponse  = $this->hasPermissionOrRedirect( $this->videoPlatformSettings, $movie ) ) {
             return $redirectResponse;
         }
         
@@ -155,10 +153,11 @@ class MoviesController extends AbstractController
             'movie'                 => $movie,
             'movieTags'             => \json_decode( $movie->getTags() ),
             'formats'               => $movieFormats,
-            'displayOnlyTranscoded' => $settings->getDisplayOnlyTranscoded(),
-            'watermarkText'         => $this->getWatermarkText( $settings ),
+            'displayOnlyTranscoded' => $this->videoPlatformSettings->getDisplayOnlyTranscoded(),
+            'watermarkText'         => $this->getWatermarkText( $this->videoPlatformSettings ),
             'reviewForm'            => $reviewForm ? $reviewForm->createView() : null,
             'commentForm'           => $commentForm->createView(),
+            'videoPlayer'           => $this->videoPlatformSettings->getVideoPlayer(),
         ]);
     }
     

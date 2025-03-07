@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
+use App\Component\VideoPlatform;
 use App\Component\VideoUrlsFactory;
 use App\Component\VideoClipMaker;
 use App\Entity\CoconutSettings;
@@ -87,6 +88,17 @@ class VideoPlatformSettingsForm extends AbstractForm
                                             $entity->getTranscodedVideoUrlsType(),
             ])
             
+            ->add( 'signedUrlExpiration', ChoiceType::class, [
+                'label'                 => 'vs_vvp.form.video_platform_settings.signed_url_expiration',
+                'translation_domain'    => 'VanzVideoPlayer',
+                
+                'choices'               => \array_flip( VideoUrlsFactory::VIDEO_SIGNED_URL_EXPIRATION ),
+                'expanded'              => true,
+                'data'                  => empty( $entity->getSignedUrlExpiration() ) ?
+                                            \array_key_first( VideoUrlsFactory::VIDEO_SIGNED_URL_EXPIRATION ) :
+                                            $entity->getSignedUrlExpiration(),
+            ])
+            
             ->add( 'videoClipMaker', ChoiceType::class, [
                 'label'                 => 'vs_vvp.form.video_platform_settings.video_clip_maker',
                 'translation_domain'    => 'VanzVideoPlayer',
@@ -103,6 +115,17 @@ class VideoPlatformSettingsForm extends AbstractForm
                 
                 'label'                 => 'vs_vvp.form.video_platform_settings.use_onhover_player',
                 'translation_domain'    => 'VanzVideoPlayer',
+            ])
+            
+            ->add( 'videoPlayer', ChoiceType::class, [
+                'label'                 => 'vs_vvp.form.video_platform_settings.video_player',
+                'translation_domain'    => 'VanzVideoPlayer',
+                
+                'choices'               => \array_flip( VideoPlatform::VIDEO_PLAYERS ),
+                'expanded'              => true,
+                'data'                  => empty( $entity->getVideoPlayer() ) ?
+                                            \array_key_first( VideoPlatform::VIDEO_PLAYERS ) :
+                                            $entity->getVideoPlayer(),
             ])
         ;
     }

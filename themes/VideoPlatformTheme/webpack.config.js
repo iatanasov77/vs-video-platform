@@ -57,6 +57,8 @@ Encore
     .addEntry( 'js/profile', './themes/VideoPlatformTheme/assets/js/pages/profile.js' )
     .addEntry( 'js/movies', './themes/VideoPlatformTheme/assets/js/pages/movies.js' )
     .addEntry( 'js/movies-details', './themes/VideoPlatformTheme/assets/js/pages/movies-details.js' )
+    .addEntry( 'js/player-plyr', './themes/VideoPlatformTheme/assets/js/pages/player-plyr.js' )
+    .addEntry( 'js/player-videojs', './themes/VideoPlatformTheme/assets/js/pages/player-videojs.js' )
     .addEntry( 'js/youtube_video', './themes/VideoPlatformTheme/assets/js/pages/youtube_video.js' )
 ;
 

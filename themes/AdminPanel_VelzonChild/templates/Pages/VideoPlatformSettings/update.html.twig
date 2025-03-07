@@ -154,7 +154,7 @@
                             <div class="form-group">
                                {% for child in form.transcodedVideoUrlsType %}
                                     <div class="custom-control custom-radio">
-                                        {{- form_widget(child, {'attr': {'class': 'form-check-input me-2 mb-2'}}) -}}
+                                        {{- form_widget(child, {'attr': {'class': 'form-check-input me-2 mb-2 transcodedVideoUrlsType'}}) -}}
                                         {{- form_label(child, null, {'label_attr': {'class': 'form-check-label'}}) -}}
                                         
                                         {% if child.vars.label == 'vs_vvp.form.video_platform_settings.video_url_type_symfony_route' %}
@@ -173,6 +173,17 @@
                                     </div>
                                 {% endfor %}
                             </div>
+                            
+                            <div class="form-group mt-4" id="SignedUrlExpirationFormGroup" style="display: none;">
+                                <h5>{{ 'vs_vvp.form.video_platform_settings.signed_url_expires_at'  | trans( {},'VanzVideoPlayer' ) }}</h5>
+                                
+                                {% for child in form.signedUrlExpiration %}
+                                    <div class="custom-control custom-radio">
+                                        {{- form_widget(child, {'attr': {'class': 'form-check-input me-2 mb-2'}}) -}}
+                                        {{- form_label(child, null, {'label_attr': {'class': 'form-check-label'}}) -}}
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </fieldset>
                         
                         <fieldset class="border border-dark rounded p-3 mt-3">
@@ -180,6 +191,19 @@
                         
                             <div class="form-group">
                                {% for child in form.videoClipMaker %}
+                                    <div class="custom-control custom-radio">
+                                        {{- form_widget(child, {'attr': {'class': 'form-check-input me-2 mb-2'}}) -}}
+                                        {{- form_label(child, null, {'label_attr': {'class': 'form-check-label'}}) -}}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                        
+                        <fieldset class="border border-dark rounded p-3 mt-3">
+                            <legend class="w-auto float-none ps-2 pe-2">{{ 'vs_vvp.form.video_platform_settings.video_players_title' | trans( {},'VanzVideoPlayer' ) }}</legend>
+                        
+                            <div class="form-group">
+                               {% for child in form.videoPlayer %}
                                     <div class="custom-control custom-radio">
                                         {{- form_widget(child, {'attr': {'class': 'form-check-input me-2 mb-2'}}) -}}
                                         {{- form_label(child, null, {'label_attr': {'class': 'form-check-label'}}) -}}
