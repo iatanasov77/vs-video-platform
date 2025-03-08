@@ -1,5 +1,7 @@
-import Splide from '@splidejs/splide';
-window.Splide   = Splide;
+import { Splide } from '@splidejs/splide';
+import { AutoScroll } from '@splidejs/splide-extension-auto-scroll';
+window.Splide       = Splide;
+window.AutoScroll   = AutoScroll;
 
 require( '../../vendor/themeforest-flixgo-online-movies/js/main.js' );
 
@@ -9,6 +11,8 @@ import { SubmitPayumCreditCardForm } from '@@/js/Payum/Payum.js';
 
 $( function()
 {
+    require( '../includes/slider.js' );
+    
     /*
     $( '.hero__btn' ).each( function( i, v )
     {
