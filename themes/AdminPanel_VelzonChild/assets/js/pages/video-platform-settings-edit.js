@@ -8,7 +8,7 @@ $( function ()
     });
     
     let transcodedVideoUrlsType = $( '.transcodedVideoUrlsType:checked' ).val();
-    alert( transcodedVideoUrlsType );
+    
     if( transcodedVideoUrlsType == 'cloud_signed' ) {
         $( '#SignedUrlExpirationFormGroup' ).show();
     }

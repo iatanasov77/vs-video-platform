@@ -25,6 +25,7 @@
                             <th>{{ 'vs_vvp.template.items_index_row_settings_key' | trans( {},'VanzVideoPlayer' ) }}</th>
                             <th>{{ 'vs_vvp.form.video_platform_settings.coconut_settings' | trans( {},'VanzVideoPlayer' ) }}</th>
                             <th>{{ 'vs_vvp.form.video_platform_settings.original_videos_storage' | trans( {},'VanzVideoPlayer' ) }}</th>
+                            <th>{{ 'vs_vvp.form.video_platform_settings.video_clip_maker' | trans( {},'VanzVideoPlayer' ) }}</th>
                             <th width="150">{{ 'vs_application.template.items_index_row_action' | trans( {},'VSApplicationBundle' ) }}</th>
                         </tr>
                     </thead>
@@ -36,6 +37,7 @@
                                 <td>{{ item.settingsKey }}</td>
                                 <td>{{ item.coconutSettings.title }}</td>
                                 <td>{{ item.originalVideosStorage.title }}</td>
+                                <td>{{ item.videoClipMaker }}</td>
                                 
                                 <td>
                                     <div class="btn-group">

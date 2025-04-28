@@ -64,11 +64,11 @@ class Actor implements ResourceInterface, ReviewableInterface, TranslatableInter
     private $height;
     
     /** @var \DateTime | null */
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(name: "date_of_birth", type: Types::DATETIME_MUTABLE, nullable: true)]
     private $dateOfBirth;
     
     /** @var string | null */
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[ORM\Column(name: "place_of_birth", type: "string", length: 255, nullable: true)]
     #[Gedmo\Translatable]
     private $placeOfBirth;
     

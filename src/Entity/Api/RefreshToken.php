@@ -16,19 +16,19 @@ class RefreshToken extends BaseRefreshToken
         $this->jobsFinished = [];
     }
     
-    public function getJobsFinished()
+    public function getJobsFinished(): array
     {
-        return $this->jobData;
+        return $this->jobsFinished;
     }
     
-    public function setJobsFinished($jobsFinished)
+    public function setJobsFinished($jobsFinished): self
     {
         $this->jobsFinished  = $jobsFinished;
         
         return $this;
     }
     
-    public function addJobFinished($jobFinished)
+    public function addJobFinished($jobFinished): self
     {
         $this->jobsFinished[]  = $jobFinished;
         

@@ -139,7 +139,7 @@ class MoviesController extends AbstractController
             throw new NotFoundHttpException( 'Sorry not existing !' );
         }
         
-        if ( $redirectResponse  = $this->hasPermissionOrRedirect( $this->videoPlatformSettings, $movie ) ) {
+        if ( $redirectResponse  = $this->hasPermissionOrRedirect( $movie ) ) {
             return $redirectResponse;
         }
         
@@ -298,12 +298,12 @@ class MoviesController extends AbstractController
         ]);
     }
     
-    protected function hasPermissionOrRedirect( $settings, $video ): ?Response
+    protected function hasPermissionOrRedirect( $video ): ?Response
     {
-        if ( ! $settings->getDisableVideosForNonAuthenticated() ) {
+        if ( ! $this->videoPlatformSettings->getDisableVideosForNonAuthenticated() ) {
             return null;
         }
-            
+        
         $user   = $this->getUser();
         if ( ! $user ) {
             $this->addFlash(
@@ -313,40 +313,57 @@ class MoviesController extends AbstractController
             return $this->redirectToRoute( 'vs_users_register_form' );
         }
         
-        if ( $user->hasRole( 'ROLE_SUPER_ADMIN' ) || $user->hasRole( 'ROLE_ADMIN' ) || $user->hasRole( 'ROLE_APPLICATION_ADMIN' ) ) {
+        if (
+            $user->hasRole( 'ROLE_SUPER_ADMIN' ) ||
+            $user->hasRole( 'ROLE_ADMIN' ) ||
+            $user->hasRole( 'ROLE_APPLICATION_ADMIN' ) ||
+            $user->hasRole( 'ROLE_VIDEO_PLATFORM_ADMIN' ) ||
+            $user->hasRole( 'ROLE_PRIVILEGED_USER' )
+        ) {
             return null;
         }
-        
-        $hasPermission = false;
-        foreach ( $video->getAllowedPaidServices() as $service ) {
-            $subscription   = $user->getActivePricingPlanSubscriptionByService( $service );
-            if ( $subscription ) {
-                $hasPermission  = true;
+            
+            $hasPermission = false;
+            foreach ( $user->getPricingPlanSubscriptions() as $subscription ) {
+                if (
+                    $video->getAllowedPaidServices()->contains(
+                        $subscription->getPricingPlan()->getPaidService()->getPayedService()
+                    ) &&
+                    $subscription->getExpiresAt() > new \DateTime()
+                ) {
+                    $hasPermission  = true;
+                }
             }
-        }
-        
-        if ( ! $hasPermission ) {
-            $this->addFlash(
-                'error',
-                $this->translator->trans( 'vs_vvp.template.alerts.missing_active_subscription', [], 'VanzVideoPlayer' )
-            );
-            return $this->redirectToRoute( 'vs_payment_pricing_plans' );
-        }
-        
-        return null;
+            
+            if ( ! $hasPermission ) {
+                $this->addFlash(
+                    'error',
+                    $this->translator->trans( 'vs_catalog.template.alerts.missing_active_subscription', [], 'VSCatalogBundle' )
+                );
+                return $this->redirectToRoute( 'vs_payment_pricing_plans' );
+            }
+            
+            return null;
     }
     
-    protected function getWatermarkText( $settings ): ?string
+    protected function getWatermarkText(): ?string
     {
-        if ( ! $settings->getDisableVideosForNonAuthenticated() ) {
-            //return null;
+        switch ( $this->videoPlatformSettings->getUserSignWith() ) {
+            case VideoPlatform::USER_SIGN_WITH_NONE:
+                return null;
+                break;
+            case VideoPlatform::USER_SIGN_WITH_USERNAME:
+                return $this->getUser()->getUsername();
+                break;
+            case VideoPlatform::USER_SIGN_WITH_EMAIL:
+                return $this->getUser()->getEmail();
+                break;
+            case VideoPlatform::USER_SIGN_WITH_FULLNAME:
+                return $this->getUser()->getInfo()->getFullName();
+                break;
+            default:
+                return null;
         }
-        
-        if ( $this->getUser() && $this->getUser()->getInfo() ) {
-            return $this->getUser()->getInfo()->getFullName();
-        }
-        
-        return null;
     }
     
     protected function createReviewForm( ReviewInterface $review )

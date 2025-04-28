@@ -61,25 +61,22 @@ class ProfileController extends BaseProfileController
         $profileEditForm        = $this->getProfileEditForm();
         $otherForms             = $this->getOtherForms();
         
-//         $activeSubscriptions    = $this->pricingPlanSubscriptionRepository
-//                                         ->getActiveSubscriptionsByUser( $this->getUser() );
-        
-        $activeSubscriptions    = $this->pricingPlanSubscriptionRepository
-                                        ->getSubscriptionsByUser( $this->getUser() );
-        
+        $subscriptions          = $this->getUser()->getPricingPlanSubscriptions();
         $subscriptionsRoutes    = [];
-        foreach ( $activeSubscriptions as $subscription ) {
-            $subscriptionsRoutes[$subscription->getId()]    = [
-                'createRecurring'   => $this->vsPayment->getPaymentCreateRecurringUrl( $subscription ),
-                'cancelRecurring'   => $this->vsPayment->getPaymentCancelRecurringUrl( $subscription ),
-            ];
+        foreach ( $subscriptions as $subscription ) {
+            if ( $subscription->getGateway() ) {
+                $subscriptionsRoutes[$subscription->getId()]    = [
+                    'createRecurring'   => $this->vsPayment->getPaymentCreateRecurringUrl( $subscription ),
+                    'cancelRecurring'   => $this->vsPayment->getPaymentCancelRecurringUrl( $subscription ),
+                ];
+            }
         }
         
         $params = [
             'profileEditForm'       => $profileEditForm->createView(),
             'changePasswordForm'    => $otherForms['changePasswordForm']->createView(),
             
-            'subscriptions'         => $activeSubscriptions,
+            'subscriptions'         => $subscriptions,
             'subscriptionsRoutes'   => $subscriptionsRoutes,
         ];
         

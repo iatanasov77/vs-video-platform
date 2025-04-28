@@ -3,7 +3,10 @@
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 
@@ -12,6 +15,7 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 use Vankosoft\UsersBundle\Security\SecurityBridge;
 use App\Component\VideoPlatform;
+use App\Entity\VideoFile;
 
 class VideosController extends AbstractController
 {
@@ -29,16 +33,21 @@ class VideosController extends AbstractController
     /** @var VideoPlatform */
     protected $videoPlatform;
     
+    /** @var HttpClientInterface */
+    protected $httpClient;
+    
     public function __construct(
         ManagerRegistry $doctrine,
         SecurityBridge $securityBridge,
         EntityRepository $videosRepository,
-        VideoPlatform $videoPlatform
+        VideoPlatform $videoPlatform,
+        HttpClientInterface $httpClient
     ) {
         $this->doctrine             = $doctrine;
         $this->securityBridge       = $securityBridge;
         $this->videosRepository     = $videosRepository;
         $this->videoPlatform        = $videoPlatform;
+        $this->httpClient           = $httpClient;
     }
     
     /**
@@ -85,10 +94,9 @@ class VideosController extends AbstractController
     public function readTranscoded( $id, $format, Request $request ): Response
     {
         $referer    = $request->headers->get( 'referer' );
-        //file_put_contents( '/opt/VankosoftProjects/Sugarbabes/production/var/DEBUG', $referer );
-        
         $oVideo     = $this->videosRepository->find( $request->attributes->get( 'id' ) );
         $detailsUrl = $this->generateUrl( 'vvp_movies_details', ['slug' => $oVideo->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL );
+        
         if ( ! \str_ends_with( $referer, $oVideo->getSlug() ) ) {
             return $this->redirect( $detailsUrl );
         }
@@ -97,26 +105,38 @@ class VideosController extends AbstractController
             return $this->redirectToRoute( 'app_video_player_access_denied' );
         }
         
-        $oFile          = $oVideo->getVideoFile();
-        //$fileStream = $this->videoPlatform->getCoconutOutputStream( $id, $format );
-        $response   = new StreamedResponse( function() use ( $id, $format )
+        $remoteResponse = $this->httpClient->request( 'GET', $this->videoPlatform->getTranscodedVideoUri( $oVideo->getId(), $format ) );
+        
+        $client     = $this->httpClient;
+        $response   = new StreamedResponse();
+        $response->setCallback( function() use ( $client, $remoteResponse )
         {
-            $outputStream   = \fopen( 'php://output', 'wb' );
-            $fileStream     = $this->videoPlatform->getCoconutOutputStream( $id, $format );
-            
-            while ( ! feof( $fileStream ) ) \fwrite( $outputStream, \fread( $fileStream, 1000000 ) );
+            foreach ( $client->stream( $remoteResponse ) as $chunk ) {
+                print $chunk->getContent();
+            }
         });
         
-        /* NOT ADD Content-Disposition
-        $disposition    = HeaderUtils::makeDisposition(
-            HeaderUtils::DISPOSITION_ATTACHMENT,
-            $oFile->getOriginalName()
-        );
-        $response->headers->set( 'Content-Disposition', $disposition );
-        */
-        
-        $response->headers->set( 'Content-Type', $oFile->getType() );
+        $response->headers->set( 'Content-Transfer-Encoding', 'binary' );
+        $response->headers->set( 'Content-Type', $oVideo->getVideoFile()->getType() );
+        $this->makeContentDisposition( $oVideo->getVideoFile(), $response );
         
         return $response;
+    }
+    
+    private function makeContentDisposition( VideoFile $oFile, Response &$response )
+    {
+        $transliterator = \Transliterator::create( 'Any-Latin' );
+        $transliteratorToASCII = \Transliterator::create( 'Latin-ASCII' );
+        $originalName   = $transliteratorToASCII->transliterate(
+            $transliterator->transliterate( $oFile->getOriginalName() )
+            );
+        //var_dump( $originalName ); die;
+        
+        $disposition    = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            $originalName
+            );
+        
+        $response->headers->set( 'Content-Disposition', $disposition );
     }
 }

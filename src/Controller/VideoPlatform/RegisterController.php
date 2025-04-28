@@ -3,7 +3,8 @@
 use Vankosoft\UsersBundle\Controller\RegisterController as BaseRegisterController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -14,8 +15,8 @@ use Sylius\Component\Resource\Factory\Factory;
 use Vankosoft\ApplicationBundle\Component\Context\ApplicationContextInterface;
 use Vankosoft\UsersBundle\Security\UserManager;
 use Vankosoft\UsersBundle\Security\AnotherLoginFormAuthenticator;
-use Symfony\Component\IntlSubdivision\IntlSubdivision;
 use Vankosoft\CatalogBundle\EventSubscriber\Event\CreateNewUserSubscriptionEvent;
+use App\Component\Exception\AdultBirthdayException;
 
 class RegisterController extends BaseRegisterController
 {
@@ -68,16 +69,28 @@ class RegisterController extends BaseRegisterController
             return $this->redirectToRoute( $this->params['defaultRedirect'] );
         }
         
-        if ( $request->isMethod( 'post' ) ) {
-            //return parent::index( $request, $mailer );
-            return $this->handleRegisterForm( $request, $mailer );
+        $birthdayError  = null;
+        $form   = $this->getForm();
+        $form->handleRequest( $request );
+        
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $redirectResponse   = null;
+            try {
+                $redirectResponse = $this->handleRegisterForm( $form, $mailer );
+            } catch ( AdultBirthdayException $e ) {
+                $birthdayError  = $e->getMessage();
+            }
+            
+            if ( $redirectResponse ) {
+                return $redirectResponse;
+            }
         }
         
-        $params = [
+        return $this->render( '@VSUsers/Register/register.html.twig', \array_merge([
             //'shoppingCart'  => $this->getShoppingCart( $request ),
-        ];
-
-        return $this->render( '@VSUsers/Register/register.html.twig', array_merge( $params, $this->templateParams( $this->getForm() ) ) );
+            'formErrors'    => $form->getErrors( true ),
+            'birthdayError' => $birthdayError,
+        ], $this->templateParams( $form ) ) );
     }
     
     /*
@@ -108,45 +121,41 @@ class RegisterController extends BaseRegisterController
     
     protected function handleRegisterForm( Request $request, MailerInterface $mailer )
     {
-        $form   = $this->getForm();
-        $form->handleRequest( $request );
-        if ( $form->isSubmitted() ) {
-            $em             = $this->doctrine->getManager();
-            $formUser       = $form->getData();
-            $plainPassword  = $form->get( "plain_password" )->getData();
-            $oUser          = $this->userManager->createUser(
-                \strstr( $formUser->getEmail(), '@', true ),
-                $formUser->getEmail(),
-                $plainPassword
+        $em             = $this->doctrine->getManager();
+        $formUser       = $form->getData();
+        $plainPassword  = $form->get( "plain_password" )->getData();
+        $oUser          = $this->userManager->createUser(
+            \strstr( $formUser->getEmail(), '@', true ),
+            $formUser->getEmail(),
+            $plainPassword
+        );
+        
+        /** Prepare User */
+        $this->prepareUser( $oUser, $form );
+        
+        /** Populate UserInfo Values */
+        $this->populateUserInfo( $oUser, $form );
+        
+        $em->persist( $oUser );
+        $em->flush();
+        
+        $pricingPlanId  = $form->get( "pricingPlan" )->getData();
+        if ( $pricingPlanId ) {
+            $pricingPlan    = $this->pricingPlanRepository->find( $pricingPlanId );
+            $this->eventDispatcher->dispatch(
+                new CreateNewUserSubscriptionEvent( $oUser, $pricingPlan ),
+                CreateNewUserSubscriptionEvent::NAME
             );
-            
-            /** Prepare User */
-            $this->prepareUser( $oUser, $form );
-            
-            /** Populate UserInfo Values */
-            $this->populateUserInfo( $oUser, $form );
-            
-            $em->persist( $oUser );
-            $em->flush();
-            
-            $pricingPlanId  = $form->get( "pricingPlan" )->getData();
-            if ( $pricingPlanId ) {
-                $pricingPlan    = $this->pricingPlanRepository->find( $pricingPlanId );
-                $this->eventDispatcher->dispatch(
-                    new CreateNewUserSubscriptionEvent( $oUser, $pricingPlan ),
-                    CreateNewUserSubscriptionEvent::NAME
-                );
-            }
-            
-            $this->sendConfirmationMail( $oUser, $mailer );
-            
-            $this->addFlash(
-                'success',
-                $this->translator->trans( 'vs_application.form.register.alert_success', [], 'VSApplicationBundle' )
-            );
-            
-            return $this->redirectToRoute( $this->params['defaultRedirect'] );
         }
+        
+        $this->sendConfirmationMail( $oUser, $mailer );
+        
+        $this->addFlash(
+            'success',
+            $this->translator->trans( 'vs_application.form.register.alert_success', [], 'VSApplicationBundle' )
+        );
+        
+        return $this->redirectToRoute( $this->params['defaultRedirect'] );
     }
     
     protected function prepareUser( &$oUser, $form )
@@ -165,6 +174,15 @@ class RegisterController extends BaseRegisterController
         $oUser->getInfo()->setTitle( $form->get( "title" )->getData() );
         $oUser->getInfo()->setFirstName( $form->get( "firstName" )->getData() );
         $oUser->getInfo()->setLastName( $form->get( "lastName" )->getData() );
-        $oUser->getInfo()->setBirthday( $form->get( "birthday" )->getData() );
+        
+        // Check for Adult
+        $birthday   = $form->get( "birthday" )->getData();
+        $adultDate  = clone $birthday;
+        $adultDate->add( new \DateInterval( 'P18Y' ) );
+        if ( $adultDate > new \DateTime() ) {
+            throw new AdultBirthdayException( 'You are very young to register to this site.' );
+        }
+        
+        $oUser->getInfo()->setBirthday( $birthday );
     }
 }

@@ -2,8 +2,7 @@ require( 'jquery-validation' );
 require( '../../css/videos-upload.css' );
 
 require( '@/js/includes/bootstrap-5/file-input.js' );
-//import { InitOneUpFileUpload, TestUploadProgressBar } from '@/js/includes/OneUpFileUpload/OneUpFileUpload_jQueryUiProgressbar.js';
-import { InitOneUpFileUpload, TestUploadProgressBar } from '@/js/includes/OneUpFileUpload/OneUpFileUpload_EasyUiProgressbar.js';
+import { InitOneUpFileUpload, TestUploadProgressBar } from '@/js/includes/OneUpFileUpload/EasyUiProgressbar.js';
 
 import { VsFormSubmit } from '@/js/includes/vs_form.js';
 import { VsPath } from '@/js/includes/fos_js_routes.js';

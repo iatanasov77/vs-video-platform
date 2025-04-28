@@ -3,6 +3,7 @@ vs_application_instalator:
         instalation_info:
             classes:
                 model: App\Entity\Application\InstalationInfo
+
 vs_application:
     project_type: extended_application
     
@@ -218,10 +219,10 @@ vs_application:
             # Uncomment this section If You need to Use VankoSoft Issue Tracker
             #########################################################################
             project_issues:
-                name: vs_application.menu.project_issues
+                name: vs_application.menu.issue_tracking
                 uri: "javascript:;"
                 attributes:
-                    iconClass: ri-rocket-line
+                    iconClass: fas fa-bug
                     breadcrumb_route: vs_application_project_issues_index
                 childs:
                     list_issues:
@@ -230,6 +231,15 @@ vs_application:
                     create_issues:
                         name: vs_application.menu.create_issue
                         route: vs_application_project_issues_create
+                    update_issues:
+                        name: vs_application.menu.update_issue
+                        route: vs_application_project_issues_update
+                        routeParameters:
+                          id: int
+                        display: false
+                    show_kanbanboard:
+                        name: vs_application.menu.kanbanboard_show
+                        route: vs_application_project_issues_kanbanboard_show
                         
         mainCmsMenu:
             cms:

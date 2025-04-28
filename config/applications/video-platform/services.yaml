@@ -2,7 +2,6 @@ imports:
     - { resource: services/security.yaml }
     - { resource: services/controller.yaml }
     - { resource: services/form.yaml }
-    - { resource: services/doctrine_extensions.yaml }
     - { resource: services/menu.yaml }
     - { resource: services/youtube.yaml }
     - { resource: services/video-player.yaml }

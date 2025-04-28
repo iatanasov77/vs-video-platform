@@ -42,8 +42,7 @@ Encore
     
     .addAliases({
         '@': path.resolve( __dirname, defaultThemePath ),
-        
-        '@@@': path.resolve( __dirname, baseThemePath )
+        '@@': path.resolve( __dirname, baseThemePath )
     })
     
     // Default Theme Images
@@ -107,6 +106,7 @@ Encore
     
     // VsApplicationBundle Pages
     .addEntry( 'js/profile-edit', './themes/AdminPanel_VelzonChild/assets/js/pages/profile-edit.js' )
+    .addEntry( 'js/velzon-profile', './themes/AdminPanel_VelzonChild/assets/js/pages/profile.js' )
     
     //////////////////////////////////////////////////////////////////
     // Standard Pages

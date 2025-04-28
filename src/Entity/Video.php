@@ -261,7 +261,7 @@ class Video extends ProductBase implements ResourceInterface, ReviewableInterfac
     /**
      * @return Collection|PayedService[]
      */
-    public function getAllowedPaidServices()
+    public function getAllowedPaidServices(): Collection
     {
         return $this->allowedPaidServices;
     }
