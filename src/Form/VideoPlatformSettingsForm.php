@@ -99,6 +99,17 @@ class VideoPlatformSettingsForm extends AbstractForm
                                             $entity->getSignedUrlExpiration(),
             ])
             
+            ->add( 'userSignWith', ChoiceType::class, [
+                'label'                 => 'vs_vvp.form.video_platform_settings.user_sign_with',
+                'translation_domain'    => 'VanzVideoPlayer',
+                
+                'choices'               => \array_flip( VideoPlatform::USER_SIGN_WITH ),
+                'expanded'              => true,
+                'data'                  => empty( $entity->getUserSignWith() ) ?
+                                            \array_key_first( VideoPlatform::USER_SIGN_WITH ) :
+                                            $entity->getUserSignWith(),
+            ])
+            
             ->add( 'videoClipMaker', ChoiceType::class, [
                 'label'                 => 'vs_vvp.form.video_platform_settings.video_clip_maker',
                 'translation_domain'    => 'VanzVideoPlayer',

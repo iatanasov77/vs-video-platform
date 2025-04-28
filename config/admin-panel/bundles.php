@@ -21,7 +21,6 @@ return [
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'staging' => true, 'test' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
     
-    FOS\RestBundle\FOSRestBundle::class => ['all' => true],
     FOS\CKEditorBundle\FOSCKEditorBundle::class => ['all' => true],
     daddl3\SymfonyCKEditor5WebpackViteBundle\SymfonyCKEditor5WebpackViteBundle::class => ['all' => true],
     
@@ -35,8 +34,6 @@ return [
     Sylius\Bundle\ThemeBundle\SyliusThemeBundle::class => ['all' => true],
     Sylius\Bundle\FixturesBundle\SyliusFixturesBundle::class => ['all' => true],
     SyliusLabs\DoctrineMigrationsExtraBundle\SyliusLabsDoctrineMigrationsExtraBundle::class => ['all' => true],
-    
-    JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     
     Vankosoft\AgentBundle\VSAgentBundle::class => ['all' => true],
     Vankosoft\ApplicationInstalatorBundle\VSApplicationInstalatorBundle::class => ['all' => true],

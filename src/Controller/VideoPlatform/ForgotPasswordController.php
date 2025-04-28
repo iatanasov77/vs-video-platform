@@ -32,18 +32,26 @@ class ForgotPasswordController extends BaseForgotPasswordController
     
     public function indexAction( Request $request, MailerInterface $mailer ) : Response
     {
+        $error  = null;
         $form   = $this->getForgotPasswordForm();
         $form->handleRequest( $request );
-        if (  $form->isSubmitted() ) {
-            return parent::indexAction( $request, $mailer );
+        if (  $form->isSubmitted() && $form->isValid() ) {
+            $email  = $form->get( 'email' )->getData();
+            $user   = $this->usersRepository->findOneBy( ['email' => $email] );
+            if ( $user ) {
+                return parent::indexAction( $request, $mailer );
+            } else {
+                $error  = 'vs_vvp.form.forgot_password.email_not_found';
+            }
         }
         
-        $params = [
+        return $this->render( '@VSUsers/Resetting/forgot_password.html.twig', [
             'form'          => $form->createView(),
+            'formError'     => $error,
+            'formErrors'    => $form->getErrors( true ),
             
             //'shoppingCart'  => $this->getShoppingCart( $request ),
-        ];
-        return $this->render( '@VSUsers/Resetting/forgot_password.html.twig', $params );
+        ]);
     }
     
     public function resetAction( string $token, Request $request ) : Response

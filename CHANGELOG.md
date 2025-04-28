@@ -1,3 +1,10 @@
+2.5.0	|	Release date: **28.04.2025**
+============================================
+* New Features and Improvements:
+  - Improve Home Page Sliders.
+  - Many Many Improvements.
+
+
 2.4.0	|	Release date: **07.03.2025**
 ============================================
 * New Features and Improvements:

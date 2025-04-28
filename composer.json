@@ -22,7 +22,8 @@
         "api",
         "api-platform",
         "video-hosting-platform",
-        "youtube-channels"
+        "youtube-channels",
+        "video-player"
     ],
     "require": {
         "php": "^8.1",
@@ -36,20 +37,20 @@
         "symfony/http-client": "6.4.*",
         
         "vankosoft/application": "1.12.*",
-        "vankosoft/application-themes": "^1.3",
-        "vankosoft/catalog-bundle": "^2.0",
+        "vankosoft/application-themes": "^1.4",
+        "vankosoft/catalog-bundle": "^2.2",
         "vankosoft/api-bundle": "^3.0",
         
         "trickeyone/intl-subdivision": "^4.0",
         
         "opencoconut/coconut": "^3.0",
-        "toin0u/digitalocean-v2": "^4.9",
+        "toin0u/digitalocean-v2": "^5.0",
         "google/apiclient": "^2.15",
         "gaufrette/aws-s3-adapter": "^0.4",
-        "league/flysystem-aws-s3-v3": "^2.5",
+        "league/flysystem-aws-s3-v3": "^3.29",
         
         "fmonts/ffmpeg-bundle": "^0.8",
-        "intervention/zodiac": "^4.1"
+        "intervention/zodiac": "^5.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

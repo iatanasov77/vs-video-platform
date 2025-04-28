@@ -22,7 +22,7 @@ class VideoPhotoType extends AbstractType
         $this->dataClass    = $dataClass;
     }
     
-    public function buildForm( FormBuilderInterface $builder, array $options )
+    public function buildForm( FormBuilderInterface $builder, array $options ): void
     {
         $entity = $builder->getData();
         //var_dump( $entity ); die;
@@ -69,7 +69,7 @@ class VideoPhotoType extends AbstractType
         ;
     }
     
-    public function configureOptions( OptionsResolver $resolver )
+    public function configureOptions( OptionsResolver $resolver ): void
     {
         $resolver->setDefaults([
             'data_class' => $this->dataClass

@@ -10,6 +10,7 @@ class SliderItemForm extends BaseSliderItemForm
 {
     public function buildForm( FormBuilderInterface $builder, array $options ): void
     {
+        $options['sliderPhotoMaxSize'] = '2048k';
         parent::buildForm( $builder, $options );
         
         $builder

@@ -19,9 +19,13 @@ use App\Component\VideoClipMaker;
 use App\Component\Cloud\Coconut\Coconut;
 use App\Entity\CoconutVideoJob;
 use App\Entity\CoconutClipJob;
+use App\Entity\Api\RefreshToken;
+use App\Controller\Traits\RefreshTokenTrait;
 
 class CoconutWebhookController extends AbstractController
 {
+    use RefreshTokenTrait;
+    
     /** @var ManagerRegistry */
     private $doctrine;
     
@@ -81,12 +85,12 @@ class CoconutWebhookController extends AbstractController
         // FUCKING WORKAROUND
         $apiToken					= \rtrim( $apiToken, '.' );
         
-        $refreshTokeknsRepository   = $this->doctrine->getRepository( \App\Entity\Api\RefreshToken::class );
+        $refreshTokeknsRepository   = $this->doctrine->getRepository( RefreshToken::class );
         $token                      = $refreshTokeknsRepository->findOneBy( ['refreshToken' => $apiToken] );
         //var_dump( $apiToken ); die;
         //var_dump( $token ); die;
         
-        if ( ! $token ) {
+        if ( ! $token || ! $token->isValid() ) {
             $response   = [
                 'status'    => Status::STATUS_ERROR,
                 'message'   => 'Invalid API Token !!!',
@@ -109,10 +113,7 @@ class CoconutWebhookController extends AbstractController
             //$this->sendEmail( $data, $contactEmail );
             
             if ( $coconutDataDecoded['event'] == Coconut::EVENT_JOB_COMPLETED ) {
-                /** Dont Remove Refresh Token. It's needed for more than one Job
-                $this->doctrine->getManager()->remove( $token );
-                $this->doctrine->getManager()->flush();
-                */
+                //$this->invalidateRefreshToken( $token, Coconut::JOB_TYPE_VIDEO );
                 
                 //$this->createVideoClip( $job );
             }
@@ -136,12 +137,12 @@ class CoconutWebhookController extends AbstractController
         // FUCKING WORKAROUND
         $apiToken					= \rtrim( $apiToken, '.' );
         
-        $refreshTokeknsRepository   = $this->doctrine->getRepository( \App\Entity\Api\RefreshToken::class );
+        $refreshTokeknsRepository   = $this->doctrine->getRepository( RefreshToken::class );
         $token                      = $refreshTokeknsRepository->findOneBy( ['refreshToken' => $apiToken] );
         //var_dump( $apiToken ); die;
         //var_dump( $token ); die;
         
-        if ( ! $token ) {
+        if ( ! $token || ! $token->isValid() ) {
             $response   = [
                 'status'    => Status::STATUS_ERROR,
                 'message'   => 'Invalid API Token !!!',
@@ -163,7 +164,7 @@ class CoconutWebhookController extends AbstractController
             $this->sendNotification( $coconutData );
             //$this->sendEmail( $data, $contactEmail );
             
-            if ( $coconutDataDecoded['event'] == Coconut::EVENT_JOB_COMPLETED ) {
+            if ( $job && $coconutDataDecoded['event'] == Coconut::EVENT_JOB_COMPLETED ) {
                 $video      = $job->getVideo();
                 $videoClip  = $this->videoClipFactory->createNew();
                 
@@ -238,7 +239,7 @@ class CoconutWebhookController extends AbstractController
         $this->mailer->send( $email );
     }
     
-    private function createVideoClip( CoconutVideoJob $job )
+    private function createVideoClip( CoconutVideoJob $job ): void
     {
         $jobData    = $job->getJobData();
         if ( ! is_array( $jobData ) ) {

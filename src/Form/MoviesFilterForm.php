@@ -42,7 +42,7 @@ class MoviesFilterForm extends AbstractType
         $this->moviesFilter             = $moviesFilter;
     }
     
-    public function buildForm( FormBuilderInterface $builder, array $options )
+    public function buildForm( FormBuilderInterface $builder, array $options ): void
     {
         $builder
             ->add( 'category', EntityType::class, [

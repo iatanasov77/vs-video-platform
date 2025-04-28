@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CoconutOutputFormatType extends AbstractType
 {
-    public function buildForm( FormBuilderInterface $builder, array $options )
+    public function buildForm( FormBuilderInterface $builder, array $options ): void
     {
         //echo '<pre>'; var_dump( $builder->getData() ); die;
         $builder
@@ -23,7 +23,7 @@ class CoconutOutputFormatType extends AbstractType
         ;
     }
     
-    public function configureOptions( OptionsResolver $resolver )
+    public function configureOptions( OptionsResolver $resolver ): void
     {
         $resolver->setDefaults([
             'csrf_protection'       => false,

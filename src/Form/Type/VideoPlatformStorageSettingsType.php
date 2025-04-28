@@ -7,7 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class VideoPlatformStorageSettingsType extends AbstractType
 {
-    public function buildForm( FormBuilderInterface $builder, array $options )
+    public function buildForm( FormBuilderInterface $builder, array $options ): void
     {
         //echo '<pre>'; var_dump( $builder->getData() ); die;
         $builder

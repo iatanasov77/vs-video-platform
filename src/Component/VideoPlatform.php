@@ -39,6 +39,12 @@ final class VideoPlatform
     const VIDEO_ACTOR_CAREER_ACTRESS    = 'vs_vvp.actor_career.video_actress';
     const VIDEO_ACTOR_CAREER_ACTOR      = 'vs_vvp.actor_career.video_actor';
     
+    /** User Sign With */
+    const USER_SIGN_WITH_NONE       = 'none';
+    const USER_SIGN_WITH_USERNAME   = 'username';
+    const USER_SIGN_WITH_EMAIL      = 'email';
+    const USER_SIGN_WITH_FULLNAME   = 'fullname';
+    
     const STORAGE_TYPES = [
         self::STORAGE_TYPE_COCONUT  => 'Coconut',
         self::STORAGE_TYPE_LOCAL    => 'Local Storage',
@@ -61,6 +67,13 @@ final class VideoPlatform
     const VIDEO_ACTOR_CAREERS = [
         self::VIDEO_ACTOR_CAREER_ACTOR      => 'Actor',
         self::VIDEO_ACTOR_CAREER_ACTRESS    => 'Actress',
+    ];
+    
+    const USER_SIGN_WITH = [
+        self::USER_SIGN_WITH_NONE       => 'None',
+        self::USER_SIGN_WITH_USERNAME   => 'Username',
+        self::USER_SIGN_WITH_EMAIL      => 'Email',
+        self::USER_SIGN_WITH_FULLNAME   => 'Full Name'
     ];
     
     /** @var VideoPlatformSettings */
@@ -127,6 +140,13 @@ final class VideoPlatform
     public function getVideoUri( VideoFile $videoFile, string $bucket, bool $signed = true ): string
     {
         return $this->urlsFactory->getVideoUri( $videoFile, $bucket, $signed );
+    }
+    
+    public function getTranscodedVideoUri( int $videoId, string $videoFormat, bool $signed = true ): string
+    {
+        $bucket = $this->getCoconutStorage()->getSettings()['bucket'];
+        
+        return $this->urlsFactory->getTranscodedVideoUri( $videoId, $videoFormat, $bucket, $signed );
     }
     
     public function getTranscodedLocalUrl( $id, $format ): string

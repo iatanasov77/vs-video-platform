@@ -25,3 +25,14 @@ services:
             - '@vs_vvp.factory.video_clip'
             - '@vs_api.api_manager'
             - '@app_video_clip_maker'
+    
+    App\Controller\Api\CoconutNormalUploaderController:
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@logger'
+            - '@doctrine'
+            - '@mailer'
+            - '@vs_vvp.repository.video'
+            #- '@vs_vvp.video_uploader.video_clip_uploader'
+            - '@oneup_flysystem.vs_vvp_video_clips_filesystem'
+            - '@vs_users.notifications'

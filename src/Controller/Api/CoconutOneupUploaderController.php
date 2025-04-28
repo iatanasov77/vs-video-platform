@@ -1,6 +1,5 @@
 <?php namespace App\Controller\Api;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Oneup\UploaderBundle\Controller\AbstractController as UploaderController;
 use Oneup\UploaderBundle\Uploader\Response\EmptyResponse;
 
@@ -12,8 +11,7 @@ use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 use Vankosoft\UsersBundle\Component\UserNotifications;
 use Vankosoft\ApplicationBundle\Component\Status;
 
-//class CoconutStorageController extends AbstractController
-class CoconutStorageController extends UploaderController
+class CoconutOneupUploaderController extends UploaderController
 {
     /** @var RequestStack */
     private $requestStack;
@@ -29,7 +27,7 @@ class CoconutStorageController extends UploaderController
         $this->notifications    = $notifications;
     }
     
-    public function index( Request $request ): JsonResponse
+    public function storeVideo( Request $request ): JsonResponse
     {
         $this->_sendNotification();
         

@@ -63,7 +63,7 @@ $( function()
             url: url,
             success: function( response )
             {
-                if ( response.status == 'success' ) {
+                if ( response.status == 'ok' ) {
                     $( '#' + output ).text( response.data.status );
                     $( '#modalBodyCoconutJob > div.card-body' ).html( '<pre>' + JSON.stringify( response.data, null, 2 ) + '</pre>' );
                 } else {
@@ -75,6 +75,10 @@ $( function()
                     keyboard: false
                 });
                 myModal.show( $( '#coconut-job-modal' ).get( 0 ) );
+                
+                $( '#coconut-job-modal' ).get( 0 ).addEventListener( 'hidden.bs.modal', function ( e ) {
+                    document.location = document.location;
+                });
             },
             error: function()
             {

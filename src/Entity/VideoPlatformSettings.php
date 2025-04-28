@@ -56,6 +56,10 @@ class VideoPlatformSettings implements ResourceInterface
     private $signedUrlExpiration;
     
     /** @var string */
+    #[ORM\Column(name: "user_sign_with", type: "string", columnDefinition: "ENUM('none', 'username', 'email', 'fullname')", options: ["default" => "none"])]
+    private $userSignWith;
+    
+    /** @var string */
     #[ORM\Column(name: "video_clip_maker", type: "string", columnDefinition: "ENUM('none', 'coconut', 'ffmpeg')", options: ["default" => "none"])]
     private $videoClipMaker;
     
@@ -188,6 +192,18 @@ class VideoPlatformSettings implements ResourceInterface
     public function setSignedUrlExpiration( $signedUrlExpiration )
     {
         $this->signedUrlExpiration  = $signedUrlExpiration;
+        
+        return $this;
+    }
+    
+    public function getUserSignWith()
+    {
+        return $this->userSignWith;
+    }
+    
+    public function setUserSignWith( $userSignWith )
+    {
+        $this->userSignWith  = $userSignWith;
         
         return $this;
     }

@@ -10,7 +10,7 @@ final class CoconutClipJobBuilder extends AbstractCoconutJobBuilder
         $videoClipSettings  = $this->getClipSettings();
         
         $this->client->storage = [
-            'url'   => $videoClipSettings['outputUrl'],
+            'url'   => \sprintf( "%s/%d", $videoClipSettings['outputUrl'], $video->getId() ),
         ];
         
         $this->_setupNotificationWebhook( $apiToken );

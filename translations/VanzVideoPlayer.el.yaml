@@ -167,6 +167,13 @@ vs_vvp:
             video_signed_url_expire_duration_x2: Video Duration x 2
             video_signed_url_expire_duration_x3: Video Duration x 3
             
+            user_sign: User sign on player
+            coconut_output_formats_help_title: Video Resolution Wiki ( Here you can refer for available formats )
+            coconut_output_formats_help_description: From the Video Resolution Wiki Page Use 'Designation' of the format after the colon of defined format.
+            coconut_output_url_help_title: If for the output you use a FTP Server and in the credentials has special characters you should add credentials as percent encoded strings.
+            coconut_output_url_help_reference: Reference for Percent-encoding
+            coconut_output_url_help_example: <strong>For Example</strong> a FTP Host 'example.com' with user 'user@example.com' and password 'pass!word' , <strong>the url shoud be</strong> 'ftp://user%40example.com:pass%21word@example.com/path/where/to/store/'
+            
         video_platform_storage:
             title: Title
             storage_type: Storage Type

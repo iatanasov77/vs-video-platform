@@ -32,7 +32,7 @@ class ActorsFilterForm extends AbstractType
         $this->actorsFilter             = $actorsFilter;
     }
     
-    public function buildForm( FormBuilderInterface $builder, array $options )
+    public function buildForm( FormBuilderInterface $builder, array $options ): void
     {
         $builder
             ->add( 'genre', EntityType::class, [

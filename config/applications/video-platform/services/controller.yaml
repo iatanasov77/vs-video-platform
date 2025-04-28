@@ -161,6 +161,7 @@ services:
             - '@vs_users.security_bridge'
             - '@vs_vvp.repository.video'
             - '@app_video_platform'
+            - '@http_client'
         tags: ['controller.service_arguments']
         
     App\Controller\Application\FiltersController:

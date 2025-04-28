@@ -6,3 +6,7 @@
     position: absolute;
     left: 325px;
 }
+
+.file-upload-help {
+    display: none;
+}

@@ -69,7 +69,7 @@ class VideoController extends AbstractCrudController
         $this->removeVideoPhotos( $resource );
         $this->removeVideoFile( $videoFile, $videoId );
         
-        if ( $resource->getVideoTrailer() ) { 
+        if ( $resource->getVideoTrailer() ) {
             $this->removeVideoTrailer( $resource->getVideoTrailer() );
         }
         

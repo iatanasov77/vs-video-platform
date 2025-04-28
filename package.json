@@ -69,7 +69,8 @@
         "@stripe/stripe-js": "^2.1",
 
         "video.js": "^8.21",
-        "@splidejs/splide": "^4.1.4",
+        "@splidejs/splide": "^4.1",
+        "@splidejs/splide-extension-auto-scroll": "^0.5",
         "smooth-scrollbar": "^8.8.4",
         "slim-select": "^2.6.0",
         "plyr": "^3.7",

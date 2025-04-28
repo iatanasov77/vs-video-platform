@@ -8,14 +8,12 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 
 use Vankosoft\UsersBundle\Form\UserFormType;
-use Vankosoft\UsersBundle\Model\UserInterface;
+use Vankosoft\UsersBundle\Model\Interfaces\UserInterface;
 use Vankosoft\UsersBundle\Form\Traits\UserInfoFormTrait;
-use Vankosoft\PaymentBundle\Model\Interfaces\PricingPlanInterface;
 
 /*
  * Form Inheritance:
@@ -36,12 +34,21 @@ class RegistrationForm extends UserFormType
         RepositoryInterface $localesRepository,
         RequestStack $requestStack,
         string $applicationClass,
+        string $userRolesClass,
         AuthorizationCheckerInterface $auth,
         array $requiredFields,
         string $pricingPlanClass,
         RepositoryInterface $pricingPlanRepository
     ) {
-        parent::__construct( $dataClass, $localesRepository, $requestStack, $applicationClass, $auth, $requiredFields );
+        parent::__construct(
+            $dataClass,
+            $localesRepository,
+            $requestStack,
+            $applicationClass,
+            $userRolesClass,
+            $auth,
+            $requiredFields
+        );
         
         $this->pricingPlanClass         = $pricingPlanClass;
         $this->pricingPlanRepository    = $pricingPlanRepository;
@@ -56,8 +63,10 @@ class RegistrationForm extends UserFormType
         $builder->remove( 'verified' );
         
         $builder->remove( 'roles_options' );
-        $builder->remove( 'applications' );
         $builder->remove( 'username' );
+        
+        $builder->remove( 'applications' );
+        $builder->remove( 'allowedRoles' );
         
         $builder->remove( 'btnSave' );
         
@@ -68,8 +77,10 @@ class RegistrationForm extends UserFormType
                 'label'                 => 'vs_vvp.form.register.pricing_plan_select',
                 'placeholder'           => 'vs_vvp.form.register.pricing_plan_select_placeholder',
                 'translation_domain'    => 'VanzVideoPlayer',
-                'choices'               => $this->pricingPlanRepository->findAllForForm(),
-                'required'              => false,
+                'choices'               => $this->pricingPlanRepository->findAllForForm([
+                    'test-plans',
+                ]),
+                'required'              => true,
                 'mapped'                => false,
             ])
             

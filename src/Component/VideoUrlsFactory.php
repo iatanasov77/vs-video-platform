@@ -76,6 +76,14 @@ class VideoUrlsFactory
         }
     }
     
+    public function getTranscodedVideoUri( int $videoId, string $format, string $bucket, bool $signed = true ): string
+    {
+        $expireTime = \DateTime::createFromImmutable( new \DateTimeImmutable() )
+                        ->add( \DateInterval::createFromDateString( \sprintf( '%d seconds', 86400 ) ) );
+        
+        return $this->_getTranscodedS3ObjectUrl( $videoId, $format, true, $expireTime );
+    }
+    
     public function getTranscodedLocalUrl( $id, $format ): string
     {
         return $this->router->generate( 'app_video_player_read_transcoded',
