@@ -38,16 +38,13 @@
         
         "vankosoft/application": "1.12.*",
         "vankosoft/application-themes": "^1.4",
-        "vankosoft/catalog-bundle": "^2.2",
+        "vankosoft/catalog-bundle": "^2.3",
         "vankosoft/api-bundle": "^3.0",
-        
-        "trickeyone/intl-subdivision": "^4.0",
         
         "opencoconut/coconut": "^3.0",
         "toin0u/digitalocean-v2": "^5.0",
-        "google/apiclient": "^2.15",
-        "gaufrette/aws-s3-adapter": "^0.4",
         "league/flysystem-aws-s3-v3": "^3.29",
+        "google/apiclient": "^2.15",
         
         "fmonts/ffmpeg-bundle": "^0.8",
         "intervention/zodiac": "^5.0"

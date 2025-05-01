@@ -39,19 +39,19 @@ services:
             - '@app_video_platform'
             
     vs_vvp.video_photo_uploader:
-        class: App\Component\VideoUploader\VideoPhotoUploader
+        class: Vankosoft\CmsBundle\Component\Uploader\AbstractFileUploader
         arguments:
             - '@oneup_flysystem.vs_vvp_videos_filesystem'
             - '@vs_vvp.local_video_file_path_generator'
     
     vs_vvp.video_uploader.video_clip_uploader:
-        class: App\Component\VideoUploader\VideoClipUploader
+        class: Vankosoft\CmsBundle\Component\Uploader\FileUploader
         arguments:
             - '@oneup_flysystem.vs_vvp_video_clips_filesystem'
             - '@vs_vvp.local_video_file_path_generator'
     
     vs_vvp.actor_photo_uploader:
-        class: App\Component\ActorPhotoUploader\ActorPhotoUploader
+        class: Vankosoft\CmsBundle\Component\Uploader\FileUploader
         arguments:
             - '@oneup_flysystem.vs_vvp_actor_photos_filesystem'
             - '@vs_vvp.actor_photo_file_path_generator'
@@ -69,7 +69,7 @@ services:
             - '@app_video_storage_digitalocean_coconut_output'
             
     vs_vvp.youtube_photo_uploader:
-        class: App\Component\YoutubePhotoUploader
+        class: Vankosoft\CmsBundle\Component\Uploader\FileUploader
         arguments:
             - '@oneup_flysystem.vs_vvp_youtube_photos_filesystem'
             - '@vs_cms.file_path_generator'
