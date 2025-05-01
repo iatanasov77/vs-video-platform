@@ -1,3 +1,11 @@
+2.5.1	|	Release date: **01.05.2025**
+============================================
+* New Features and Improvements:
+  - Remove '/payment' Prefix from All Routes.
+  - Update Composer Requirements.
+  - Update Admin Panel Uploafer Services.
+
+
 2.5.0	|	Release date: **28.04.2025**
 ============================================
 * New Features and Improvements:
