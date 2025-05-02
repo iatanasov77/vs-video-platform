@@ -1,3 +1,9 @@
+2.5.2	|	Release date: **02.05.2025**
+============================================
+* New Features:
+  - Configure OneUp Uploader Chunks Storage.
+
+
 2.5.1	|	Release date: **01.05.2025**
 ============================================
 * New Features and Improvements:
