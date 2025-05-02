@@ -39,7 +39,7 @@ services:
             - '@app_video_platform'
             
     vs_vvp.video_photo_uploader:
-        class: Vankosoft\CmsBundle\Component\Uploader\AbstractFileUploader
+        class: Vankosoft\CmsBundle\Component\Uploader\FileUploader
         arguments:
             - '@oneup_flysystem.vs_vvp_videos_filesystem'
             - '@vs_vvp.local_video_file_path_generator'
@@ -56,14 +56,20 @@ services:
             - '@oneup_flysystem.vs_vvp_actor_photos_filesystem'
             - '@vs_vvp.actor_photo_file_path_generator'
             
+    vs_vvp.digital_ocean_uploader_chunks_adapter:
+        class: App\Component\VideoUploader\Adapter\LeagueFlysystemAwsS3Adapter
+        lazy: true
+        arguments:
+            - '@app_video_storage_digitalocean_uploader_chunks'
+    
     vs_vvp.digital_ocean_original_videos_adapter:
-        class: App\Component\VideoUploader\Adapter\LeagueFlysystemAwsS3VideosOriginal
+        class: App\Component\VideoUploader\Adapter\LeagueFlysystemAwsS3Adapter
         lazy: true
         arguments:
             - '@app_video_storage_digitalocean_original_videos'
             
     vs_vvp.digital_ocean_coconut_output_adapter:
-        class: App\Component\VideoUploader\Adapter\LeagueFlysystemAwsS3CoconutOutput
+        class: App\Component\VideoUploader\Adapter\LeagueFlysystemAwsS3Adapter
         lazy: true
         arguments:
             - '@app_video_storage_digitalocean_coconut_output'

@@ -60,7 +60,7 @@ services:
             - 'https://api.%vankosoft_host%'
             
     app_video_storage_digitalocean_original_videos:
-        class: App\Component\Cloud\DigitalOceanOriginalVideos
+        class: App\Component\Cloud\DigitalOcean\OriginalVideos
         public: true
         arguments:
             - '@app_video_platform'

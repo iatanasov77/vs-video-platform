@@ -10,6 +10,16 @@
 ############################################################################################
 
 oneup_uploader:
+    chunks:
+        maxage: 86400
+        storage:
+            directory: '%kernel.project_dir%/var/uploader_chunks'
+#         storage:
+#             type: flysystem
+#             filesystem: oneup_flysystem.vs_vvp_videos_digitalocean_chunks_filesystem
+#             stream_wrapper: 's3://videoplatform-uploader-chunks'
+#             prefix: ''
+
     mappings:
         videos_local:
             frontend: blueimp

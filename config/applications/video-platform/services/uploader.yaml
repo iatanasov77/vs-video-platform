@@ -15,13 +15,13 @@ services:
         public: true
     
     vs_vvp.digital_ocean_original_videos_adapter:
-        class: App\Component\VideoUploader\Adapter\LeagueFlysystemAwsS3VideosOriginal
+        class: App\Component\VideoUploader\Adapter\LeagueFlysystemAwsS3Adapter
         lazy: true
         arguments:
             - '@app_video_storage_digitalocean_original_videos'
             
     vs_vvp.digital_ocean_coconut_output_adapter:
-        class: App\Component\VideoUploader\Adapter\LeagueFlysystemAwsS3CoconutOutput
+        class: App\Component\VideoUploader\Adapter\LeagueFlysystemAwsS3Adapter
         lazy: true
         arguments:
             - '@app_video_storage_digitalocean_coconut_output'

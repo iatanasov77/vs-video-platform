@@ -4,7 +4,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
 use Aws\S3\S3ClientInterface;
 use M2MTech\FlysystemStreamWrapper\FlysystemStreamWrapper;
-use App\Component\Cloud\DigitalOceanInterface;
+use App\Component\Cloud\DigitalOcean\DigitalOceanInterface;
 
 class LeagueFlysystemAwsS3Adapter extends AwsS3V3Adapter implements AwsS3AdapterInterface
 {

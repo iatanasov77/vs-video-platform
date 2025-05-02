@@ -106,6 +106,7 @@ abstract class AbstractCoconutJobBuilder implements CoconutJobBuilderInterface
             throw new ApiLoginException( 'JWTEncodeFailureException: ' . $e->getMessage() );
         }
         
+        //var_dump( $response ); die;
         $decodedPayload = $response->toArray( false );
         //echo '<pre>'; var_dump( $decodedPayload ); die;
         

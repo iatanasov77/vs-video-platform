@@ -97,6 +97,9 @@
         
         {{ vs_progressbar.easy_ui( "FileUploadProgressbarVideo" ) }}
         {{ vs_oneup_upload.jquery_fileupload( "OneUpFileUploadVideo", oneup_uploader_endpoint( oneupVideoUploader ) ) }}
+        <div class="form-text text-danger fs-6 file-upload-help" id="VsVvp_VideoFile_Help">
+            {{ 'vs_vvp.form.video.video_upload_help'  | trans( {},'VanzVideoPlayer' ) }}
+        </div>
     </div>
     
     <div class="form-group">

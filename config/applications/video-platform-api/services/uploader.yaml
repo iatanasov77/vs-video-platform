@@ -1,6 +1,9 @@
 parameters:
+    vs_application.filemanager_shared_media_gaufrette.app_pictures: "%kernel.project_dir%/public/shared_media/gaufrette/app_pictures"
+    vs_application.gaufrette.app_pictures.filesystem: vs_application_app_pictures
     
     vs_vvp.videos_directory: "%kernel.project_dir%/public/shared_media/gaufrette/videos"
+    vs_vvp.video_clips_directory: "%kernel.project_dir%/public/shared_media/gaufrette/video_clips"
 
 services:
     _defaults:
@@ -16,3 +19,12 @@ services:
 #        arguments:
 #            - '@vs_application.app_pictures_uploader.filesystem'
 #            - '@vs_cms.file_path_generator'
+
+    vs_vvp.local_video_file_path_generator:
+        class: App\Component\VideoUploader\LocalFilePathGenerator
+    
+    vs_vvp.video_uploader.video_clip_uploader:
+        class: Vankosoft\CmsBundle\Component\Uploader\FileUploader
+        arguments:
+            - '@oneup_flysystem.vs_vvp_video_clips_filesystem'
+            - '@vs_vvp.local_video_file_path_generator'

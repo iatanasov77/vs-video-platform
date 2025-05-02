@@ -82,14 +82,20 @@ services:
         tags:
            -  { name: kernel.event_listener, event: vs_vvp.video.post_create, method: onVideoCreate }
            
+    app_video_storage_digitalocean_uploader_chunks:
+        class: App\Component\Cloud\DigitalOcean\UploaderChunks
+        public: true
+        arguments:
+            - '@app_video_platform'
+    
     app_video_storage_digitalocean_original_videos:
-        class: App\Component\Cloud\DigitalOceanOriginalVideos
+        class: App\Component\Cloud\DigitalOcean\OriginalVideos
         public: true
         arguments:
             - '@app_video_platform'
             
     app_video_storage_digitalocean_coconut_output:
-        class: App\Component\Cloud\DigitalOceanCoconutOutput
+        class: App\Component\Cloud\DigitalOcean\CoconutOutput
         public: true
         arguments:
             - '@app_video_platform'

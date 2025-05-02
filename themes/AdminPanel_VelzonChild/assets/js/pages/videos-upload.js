@@ -161,6 +161,10 @@ $( function()
         maxChunkSize: 10000000
     }, preFormSubmit);
     
+    $( '#OneUpFileUploadVideo' ).on( 'fileuploadstart', function ( e, data )
+    {
+        $( '#VsVvp_VideoFile_Help' ).show();
+    });
     
     window.addEventListener( 'resourceUploaded', event => {
         
