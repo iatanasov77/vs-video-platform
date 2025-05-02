@@ -1,4 +1,4 @@
-<?php namespace App\Component\Cloud;
+<?php namespace App\Component\Cloud\DigitalOcean;
 
 use DigitalOceanV2\Client as DigitalOceanClient;
 use Aws\S3\S3Client;
@@ -12,7 +12,7 @@ use App\Component\VideoPlatform;
 /**
  * MANUAL: https://packagist.org/packages/toin0u/digitalocean-v2
  */
-class DigitalOceanCoconutOutput implements DigitalOceanInterface
+class UploaderChunks implements DigitalOceanInterface
 {
     /** @var VideoPlatformStorage */
     private $videoPlatform;
@@ -39,17 +39,17 @@ class DigitalOceanCoconutOutput implements DigitalOceanInterface
     
     public function getBucket(): string
     {
-        $storageSettings    = $this->videoPlatform->getCoconutStorage()->getSettings();
+        $storageSettings    = $this->videoPlatform->getOriginalVideosStorage()->getSettings();
         if ( ! isset( $storageSettings['bucket'] ) ) {
             throw new VideoPlatformStorageException( 'Video Platform Storage Not Configured Properly !!!' );
         }
         
-        return $storageSettings['bucket'];
+        return isset( $storageSettings['chunks_bucket'] ) ? $storageSettings['chunks_bucket'] : $storageSettings['bucket'];
     }
     
     private function _setupDigitalOceanClient()
     {
-        $storageSettings    = $this->videoPlatform->getCoconutStorage()->getSettings();
+        $storageSettings    = $this->videoPlatform->getOriginalVideosStorage()->getSettings();
         if ( ! isset( $storageSettings['access_token'] ) ) {
             throw new VideoPlatformStorageException( 'Video Platform Storage Not Configured Properly !!!' );
         }
@@ -64,7 +64,7 @@ class DigitalOceanCoconutOutput implements DigitalOceanInterface
     
     private function _setupS3Client()
     {
-        $storageSettings    = $this->videoPlatform->getCoconutStorage()->getSettings();
+        $storageSettings    = $this->videoPlatform->getOriginalVideosStorage()->getSettings();
         if (
             ! isset( $storageSettings['spaces_access_id'] ) ||
             ! isset( $storageSettings['spaces_secret_key'] ) ||

@@ -32,6 +32,9 @@ oneup_flysystem:
             local:
                 location: "%vs_vvp.youtube_photos_directory%"
         
+        vs_vvp_flysystem_chunks:
+            custom:
+                service: vs_vvp.digital_ocean_uploader_chunks_adapter
         vs_vvp_flysystem:
             custom:
                 service: vs_vvp.digital_ocean_original_videos_adapter
@@ -60,5 +63,7 @@ oneup_flysystem:
         vs_vvp_youtube_photos:
             adapter: vs_vvp_youtube_photos
         
+        vs_vvp_videos_digitalocean_chunks:
+            adapter: vs_vvp_flysystem_chunks
         vs_vvp_videos_digitalocean:
             adapter: vs_vvp_flysystem

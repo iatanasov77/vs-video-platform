@@ -1,6 +1,6 @@
 <?php namespace App\Component\VideoUploader\Adapter;
 
-use App\Component\Cloud\DigitalOceanInterface;
+use App\Component\Cloud\DigitalOcean\DigitalOceanInterface;
 use Aws\S3\S3ClientInterface;
 
 interface AwsS3AdapterInterface

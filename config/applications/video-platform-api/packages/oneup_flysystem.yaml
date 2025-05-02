@@ -13,6 +13,10 @@ oneup_flysystem:
             local:
                 location: "%vs_cms.filemanager_shared_media_gaufrette.slider%"
                 
+        vs_vvp_video_clips:
+            local:
+                location: "%vs_vvp.video_clips_directory%"
+                
     filesystems:
         vs_application_app_pictures:
             adapter: "%vs_cms.gaufrette.app_pictures.filesystem%"
@@ -22,3 +26,6 @@ oneup_flysystem:
             adapter: "%vs_cms.gaufrette.filemanager.filesystem%"
         vs_application_slider:
             adapter: "%vs_cms.gaufrette.slider.filesystem%"
+            
+        vs_vvp_video_clips:
+            adapter: vs_vvp_video_clips

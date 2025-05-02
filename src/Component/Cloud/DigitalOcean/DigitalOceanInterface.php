@@ -1,4 +1,4 @@
-<?php namespace App\Component\Cloud;
+<?php namespace App\Component\Cloud\DigitalOcean;
 
 use Aws\S3\S3ClientInterface;
 
