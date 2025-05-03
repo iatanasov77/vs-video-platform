@@ -201,14 +201,17 @@ $( function()
     });
     
     $( document ).on( 'change','#video_form_thumbnail' , function()
-    { 
+    {
         if ( ! RequiredResources.includes( "VsVvp_VideoThumbnail" ) ) {
             RequiredResources.push( "VsVvp_VideoThumbnail" );
         }
     });
     
     $( document ).on( 'change','#video_form_video' , function()
-    { 
+    {
+        var filename = $( this ).val().split('\\').pop();
+        $( '#fieldVideoLabel' ).text( filename );
+        
         if ( ! RequiredResources.includes( "VsVvp_VideoFile" ) ) {
             RequiredResources.push( "VsVvp_VideoFile" );
         }
