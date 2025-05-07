@@ -86,7 +86,7 @@
         }}
         <div class="form-field-file">
             {% if item.videoFile %}{% set originalName = item.videoFile.originalName %}{% else %}{% set originalName = 'Choose File' %}{% endif %}
-            {{ form_widget(form.video, {'attr': {'class': 'form-control fieldVideo' }}) }}
+            {{ form_widget(form.video, {'attr': {'class': 'form-control' }}) }}
             <label id="fieldVideoLabel" class="input-group-text" for="video_form_video">{{ originalName }}</label>
         </div>
         
