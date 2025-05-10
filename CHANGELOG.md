@@ -1,3 +1,10 @@
+2.6.0	|	Release date: **10.05.2025**
+============================================
+* New Features:
+  - Improve Video File Form Field.
+  - Remove Vankosoft Issue Tracking Configs.
+
+
 2.5.2	|	Release date: **02.05.2025**
 ============================================
 * New Features:
