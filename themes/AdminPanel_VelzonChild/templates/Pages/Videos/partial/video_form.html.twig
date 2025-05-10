@@ -84,15 +84,10 @@
             'label_attr': {'class': 'form-label'}
             }) 
         }}
-        <div class="input-group form-field-file">
-            {% if item.videoFile %}{% set originalName = item.videoFile.originalName %}{% else %}{% set originalName = '' %}{% endif %}
-            {{ form_widget(form.video, {
-                'attr': {
-                    'class': 'form-control',
-                    'placeholder': originalName
-                }
-            }) }}
-            <label class="input-group-text" for="video_form_video">{{ originalName }}</label>
+        <div class="form-field-file">
+            {% if item.videoFile %}{% set originalName = item.videoFile.originalName %}{% else %}{% set originalName = 'Choose File' %}{% endif %}
+            {{ form_widget(form.video, {'attr': {'class': 'form-control' }}) }}
+            <label id="fieldVideoLabel" class="input-group-text" for="video_form_video">{{ originalName }}</label>
         </div>
         
         {{ vs_progressbar.easy_ui( "FileUploadProgressbarVideo" ) }}
@@ -107,7 +102,7 @@
             'label_attr': {'class': 'form-label'}
             }) 
         }}
-        <div class="input-group form-field-file">
+        <div class="form-field-file">
             {% if item.videoTrailer %}{% set originalName = item.videoTrailer.originalName %}{% else %}{% set originalName = '' %}{% endif %}
             {{ form_widget(form.videoTrailer, {
                 'attr': {
