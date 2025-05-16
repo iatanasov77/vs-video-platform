@@ -1,3 +1,9 @@
+2.6.2	|	Release date: **16.05.2025**
+============================================
+* New Features:
+  - Improve Pricng pLans Listing Page.
+
+
 2.6.1	|	Release date: **16.05.2025**
 ============================================
 * Bug-Fixes:
