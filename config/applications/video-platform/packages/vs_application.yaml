@@ -81,7 +81,7 @@ vs_application:
                 display: false
             pricing_plans:
                 name: vs_application.menu.site_main.pricing_plans
-                route: vs_payment_pricing_plans
+                route: vs_catalog_pricing_plans
                 
         mainFooterMenu:
             contact_us:
@@ -92,7 +92,7 @@ vs_application:
                 route: vvp_help_center_questions
             pricing_plans:
                 name: vs_application.menu.site_footer.pricing_plans
-                route: vs_payment_pricing_plans
+                route: vs_catalog_pricing_plans
                 
         profileMenu:
             profile:

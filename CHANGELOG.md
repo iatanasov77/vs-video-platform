@@ -1,3 +1,10 @@
+2.6.1	|	Release date: **16.05.2025**
+============================================
+* Bug-Fixes:
+  - Fix DigitalOcean CoconutOutput Service Definition in Application Configs.
+  - Fix Changed Route IDs for CatalogBundle PricingPlans.
+
+
 2.6.0	|	Release date: **10.05.2025**
 ============================================
 * New Features:
