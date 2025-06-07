@@ -7,6 +7,10 @@ use Doctrine\Common\Collections\Collection;
 use Vankosoft\CatalogBundle\Model\CatalogComment;
 use App\Entity\UserManagement\User;
 
+/**
+ * @Doctrine\Common\Annotations\Annotation\IgnoreAnnotation( "ORM\MappedSuperclass" )
+ * @Doctrine\Common\Annotations\Annotation\IgnoreAnnotation("ORM\Column")
+ */
 #[ORM\Entity(repositoryClass: NestedTreeRepository::class)]
 #[ORM\Table(name: "VVP_VideoComments")]
 class VideoComment extends CatalogComment

@@ -41,6 +41,8 @@
         "vankosoft/catalog-bundle": "^2.3",
         "vankosoft/api-bundle": "^3.0",
         
+        "doctrine/dbal": "^3.0",
+        
         "opencoconut/coconut": "^3.0",
         "toin0u/digitalocean-v2": "^5.0",
         "league/flysystem-aws-s3-v3": "^3.29",

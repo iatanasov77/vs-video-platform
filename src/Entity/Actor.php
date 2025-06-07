@@ -16,6 +16,10 @@ use Vankosoft\CatalogBundle\Model\Traits\CommentableTrait;
 use App\Entity\Application\Translation;
 use App\Entity\Cms\SliderItem;
 
+/**
+ * @Doctrine\Common\Annotations\Annotation\IgnoreAnnotation( "ORM\MappedSuperclass" )
+ * @Doctrine\Common\Annotations\Annotation\IgnoreAnnotation("ORM\Column")
+ */
 #[ORM\Entity]
 #[ORM\Table(name: "VVP_Actors")]
 #[Gedmo\TranslationEntity(class: Translation::class)]

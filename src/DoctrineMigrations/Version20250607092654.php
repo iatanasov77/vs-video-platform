@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250428081653 extends AbstractMigration
+final class Version20250607092654 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -255,9 +255,6 @@ final class Version20250428081653 extends AbstractMigration
             CREATE INDEX IDX_4A491FD507FAB6A ON VSAPP_Settings (maintenance_page_id )
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE VSCAT_PricingPlanSubscriptions CHANGE pricing_plan_id pricing_plan_id INT NOT NULL
-        SQL);
-        $this->addSql(<<<'SQL'
             ALTER TABLE VSCMS_SlidersItems ADD actor_id INT DEFAULT NULL, ADD video_id INT DEFAULT NULL
         SQL);
         $this->addSql(<<<'SQL'
@@ -273,19 +270,7 @@ final class Version20250428081653 extends AbstractMigration
             CREATE INDEX IDX_15F6ED3129C1004E ON VSCMS_SlidersItems (video_id)
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE VSPAY_PromotionRules DROP FOREIGN KEY FK_9D727099139DF194
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE VSPAY_PromotionRules ADD CONSTRAINT FK_9D727099139DF194 FOREIGN KEY (promotion_id) REFERENCES VSPAY_Promotions (id) ON DELETE CASCADE
-        SQL);
-        $this->addSql(<<<'SQL'
             ALTER TABLE VSUM_UsersInfo CHANGE title title ENUM('mr', 'mrs', 'miss')
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE VSUS_PayedServiceSubscriptionPeriods CHANGE payed_service_id payed_service_id INT NOT NULL
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE VSUS_PayedServicesAttributes CHANGE payed_service_id payed_service_id INT NOT NULL
         SQL);
     }
 
@@ -533,9 +518,6 @@ final class Version20250428081653 extends AbstractMigration
             CREATE INDEX IDX_4A491FD507FAB6A ON VSAPP_Settings (maintenance_page_id)
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE VSCAT_PricingPlanSubscriptions CHANGE pricing_plan_id pricing_plan_id INT DEFAULT NULL
-        SQL);
-        $this->addSql(<<<'SQL'
             DROP INDEX IDX_15F6ED3110DAF24A ON VSCMS_SlidersItems
         SQL);
         $this->addSql(<<<'SQL'
@@ -545,19 +527,7 @@ final class Version20250428081653 extends AbstractMigration
             ALTER TABLE VSCMS_SlidersItems DROP actor_id, DROP video_id
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE VSPAY_PromotionRules DROP FOREIGN KEY FK_9D727099139DF194
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE VSPAY_PromotionRules ADD CONSTRAINT FK_9D727099139DF194 FOREIGN KEY (promotion_id) REFERENCES VSPAY_Promotions (id) ON UPDATE NO ACTION ON DELETE NO ACTION
-        SQL);
-        $this->addSql(<<<'SQL'
             ALTER TABLE VSUM_UsersInfo CHANGE title title VARCHAR(255) DEFAULT NULL
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE VSUS_PayedServiceSubscriptionPeriods CHANGE payed_service_id payed_service_id INT DEFAULT NULL
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE VSUS_PayedServicesAttributes CHANGE payed_service_id payed_service_id INT DEFAULT NULL
         SQL);
     }
 }

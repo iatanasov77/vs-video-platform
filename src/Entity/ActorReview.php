@@ -7,6 +7,10 @@ use Vankosoft\CatalogBundle\Model\Interfaces\ReviewerAwareInterface;
 use Vankosoft\CatalogBundle\Model\Review;
 use App\Entity\UserManagement\User;
 
+/**
+ * @Doctrine\Common\Annotations\Annotation\IgnoreAnnotation( "ORM\MappedSuperclass" )
+ * @Doctrine\Common\Annotations\Annotation\IgnoreAnnotation("ORM\Column")
+ */
 #[ORM\Entity]
 #[ORM\Table(name: "VVP_ActorReviews")]
 class ActorReview extends Review

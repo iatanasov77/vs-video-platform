@@ -5,6 +5,10 @@ use Vankosoft\CmsBundle\Model\SliderItem as BaseSliderItem;
 use App\Entity\Actor;
 use App\Entity\Video;
 
+/**
+ * @Doctrine\Common\Annotations\Annotation\IgnoreAnnotation( "ORM\MappedSuperclass" )
+ * @Doctrine\Common\Annotations\Annotation\IgnoreAnnotation("ORM\Column")
+ */
 #[ORM\Entity]
 #[ORM\Table(name: "VSCMS_SlidersItems")]
 class SliderItem extends BaseSliderItem
