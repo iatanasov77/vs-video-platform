@@ -8,7 +8,6 @@ var routes  = require( '../../../../../public/shared_assets/js/fos_js_routes_app
 import { VsPath } from '@/js/includes/fos_js_routes.js';
 
 import { VsSpinnerShow, VsSpinnerHide } from '@/js/includes/VsSpinner/vs_spinner.js';
-//import { VsSpinnerShow, VsSpinnerHide } from '@/js/includes/vs_spinner.js';
 
 window.PricingPlanFormSubmited      = false;
 window.PaymentMethodFormSubmited    = false;

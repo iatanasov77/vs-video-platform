@@ -7,6 +7,7 @@ const applicationAssetsPath         = './vendor/vankosoft/application/src/Vankos
 const usersSubscriptionsAssetsPath  = './vendor/vankosoft/users-subscriptions-bundle/lib/Resources/themes/default/assets';
 const paymentAssetsPath             = './vendor/vankosoft/payment-bundle/lib/Resources/themes/default/assets';
 const catalogAssetsPath             = './vendor/vankosoft/catalog-bundle/lib/Resources/themes/default/assets';
+const issueTrackingAssetsPath       = './vendor/vankosoft/issue-tracking-bundle/lib/Resources/themes/default/assets';
 
 const defaultThemePath 				= '../../vendor/vankosoft/application/src/Vankosoft/ApplicationBundle/Resources/themes/default/assets';
 const artgrisAssetsPath 			= '../../vendor/artgris/filemanager-bundle/Resources/public';

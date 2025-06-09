@@ -20,6 +20,10 @@ use Vankosoft\CatalogBundle\Model\Traits\CommentableTrait;
 use Vankosoft\CatalogBundle\Model\Interfaces\AssociationAwareInterface;
 use Vankosoft\CatalogBundle\Model\Traits\AssociationAwareTrait;
 
+/**
+ * @Doctrine\Common\Annotations\Annotation\IgnoreAnnotation( "ORM\MappedSuperclass" )
+ * @Doctrine\Common\Annotations\Annotation\IgnoreAnnotation("ORM\Column")
+ */
 #[ORM\Entity]
 #[ORM\Table(name: "VVP_Videos")]
 class Video extends ProductBase implements ResourceInterface, ReviewableInterface, AssociationAwareInterface
