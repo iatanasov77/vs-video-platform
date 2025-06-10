@@ -160,13 +160,6 @@ Encore
     .addEntry( 'js/sliders-items', applicationAssetsPath + '/js/pages/sliders-items.js' )
     .addEntry( 'js/sliders-items-edit', applicationAssetsPath + '/js/pages/sliders-items-edit.js' )
     
-    .addEntry( 'js/project-issues', applicationAssetsPath + '/js/pages/project-issues.js' )
-    .addEntry( 'js/project-issues-edit', applicationAssetsPath + '/js/pages/project-issues-edit.js' )
-    .addEntry( 'js/project-issue-comments-edit', applicationAssetsPath + '/js/pages/project-issue-comments-edit.js' )
-    .addEntry( 'js/project-issue-tasks-edit', applicationAssetsPath + '/js/pages/project-issue-tasks-edit.js' )
-    .addEntry( 'js/project-issues-board', applicationAssetsPath + '/js/pages/project-issues-board.js' )
-    .addEntry( 'js/project-issues-board-task', applicationAssetsPath + '/js/pages/project-issues-board-task.js' )
-    
     // Custom Pages
     .addEntry( 'js/videos-categories', './themes/AdminPanel_VelzonChild/assets/js/pages/videos-categories.js' )
     .addEntry( 'js/videos-categories-edit', './themes/AdminPanel_VelzonChild/assets/js/pages/videos-categories-edit.js' )
@@ -207,7 +200,6 @@ if ( pathExists.sync( paymentAssetsPath ) ) {
         .addEntry( 'js/exchange-rates', paymentAssetsPath + '/js/pages/exchange-rates.js' )
         .addEntry( 'js/recieved-payments', paymentAssetsPath + '/js/pages/recieved-payments.js' )
         .addEntry( 'js/orders', paymentAssetsPath + '/js/pages/orders.js' )
-        .addEntry( 'js/stripe-webhook-endpoint', paymentAssetsPath + '/js/pages/stripe-webhook-endpoint.js' )
         .addEntry( 'js/coupon-objects', paymentAssetsPath + '/js/pages/coupon-objects.js' )
         .addEntry( 'js/coupons-index', paymentAssetsPath + '/js/pages/coupons-index.js' )
         .addEntry( 'js/coupons-edit', paymentAssetsPath + '/js/pages/coupons-edit.js' )
@@ -218,6 +210,7 @@ if ( pathExists.sync( paymentAssetsPath ) ) {
         .addEntry( 'js/customer-groups', paymentAssetsPath + '/js/pages/customer-groups.js' )
         .addEntry( 'js/customer-groups-edit', paymentAssetsPath + '/js/pages/customer-groups-edit.js' )
         .addEntry( 'js/stripe-objects', paymentAssetsPath + '/js/pages/stripe-objects.js' )
+        .addEntry( 'js/stripe-object-form', paymentAssetsPath + '/js/pages/stripe-object-form.js' )
     ;
 }
     
