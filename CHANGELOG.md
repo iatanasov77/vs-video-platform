@@ -1,3 +1,9 @@
+2.7.1	|	Release date: **10.06.2025**
+============================================
+* Bug-Fixes:
+  - Fix AdminPanel Webpack Config.
+
+
 2.7.0	|	Release date: **09.06.2025**
 ============================================
 * New Features:
