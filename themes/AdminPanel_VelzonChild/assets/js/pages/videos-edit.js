@@ -3,7 +3,7 @@ require ( 'jquery-duplicate-fields/jquery.duplicateFields.js' );
 require( 'jquery-easyui/css/easyui.css' );
 require( 'jquery-easyui/js/jquery.easyui.min.js' );
 
-import { VsRemoveDuplicates } from '@/js/includes/vs_remove_duplicates.js';
+import { VsRemoveDuplicates } from '@@/js/includes/vs_remove_duplicates.js';
 
 import { EasyuiCombobox } from 'jquery-easyui-extensions/EasyuiCombobox.js';
 
@@ -13,7 +13,7 @@ import '@yaireo/tagify/dist/tagify.css';
 import DragSort from '@yaireo/dragsort';
 import '@yaireo/dragsort/dist/dragsort.css';
 
-import { VsPath } from '@/js/includes/fos_js_routes.js';
+import { VsPath } from '@@/js/includes/fos_js_routes.js';
 
 var tagsInput;
 var tagify;

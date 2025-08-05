@@ -45,7 +45,6 @@ return [
     Payum\Bundle\PayumBundle\PayumBundle::class => ['all' => true],
     Vankosoft\UsersSubscriptionsBundle\VSUsersSubscriptionsBundle::class => ['all' => true],
     Vankosoft\PaymentBundle\VSPaymentBundle::class => ['all' => true],
-    Vankosoft\BoricaBundle\VSBoricaBundle::class => ['all' => true],
     Vankosoft\CatalogBundle\VSCatalogBundle::class => ['all' => true],
     
     // This Needed Because: Uncaught Doctrine\\ORM\\Mapping\\MappingException: 
