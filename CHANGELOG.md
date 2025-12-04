@@ -1,3 +1,15 @@
+2.7.2	|	Release date: **04.12.2025**
+============================================
+* New Features:
+  - Update to New Versions of Vankosoft Libs.
+  - Change PHP Version in Jenkinsfile.
+* Bug-Fixes and Improvements:
+  - Restrict NPM Module Plyr to 3.7 branch.
+  - Fix Filter Forms in Movies and Actors Listing Pages in Frontend.
+  - Fix Apply Filter on Movies Filter Form.
+  - Dont Show Video Coconut Job Actions on Coconut Job Older than 2 weeks.
+
+
 2.7.1	|	Release date: **10.06.2025**
 ============================================
 * Bug-Fixes:
