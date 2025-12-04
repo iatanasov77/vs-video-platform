@@ -171,6 +171,8 @@ services:
             - '@twig'
             - '@app_movies_filter'
             - '@app_actors_filter'
+            - '@app_video_platform'
+            - '%vs_vvp.video_clips_directory%'
             
     App\Controller\VideoPlatform\YoutubeController:
         tags: ['controller.service_arguments']

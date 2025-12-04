@@ -53,6 +53,11 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script type="text/javascript">
+        const useOnhoverPlayer  = {{ useOnhoverPlayer ? 'true' : 'false' }};
+        window.useOnhoverPlayer = useOnhoverPlayer;
+    </script>
+    
     <!-- Dont Work As NPM Module -->
     <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
     

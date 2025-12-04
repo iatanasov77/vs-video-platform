@@ -13,6 +13,9 @@ use App\Component\MoviesFilter;
 use App\Form\ActorsFilterForm;
 use App\Component\ActorsFilter;
 
+use App\Entity\VideoPlatformSettings;
+use App\Component\VideoPlatform;
+
 class FiltersController extends AbstractController
 {
     /** @var Environment */
@@ -24,17 +27,33 @@ class FiltersController extends AbstractController
     /** @var ActorsFilter */
     private $actorsFilter;
     
+    /** @var VideoPlatformSettings */
+    private $videoPlatformSettings;
+    
+    /** @var VideoPlatform */
+    private $videoPlatform;
+    
+    /** @var string */
+    private $videoClipsDir;
+    
     /** @var int */
     private $moviesPerPage  = 12;
     
     public function __construct(
         Environment $templatingEngine,
         MoviesFilter $moviesFilter,
-        ActorsFilter $actorsFilter
+        ActorsFilter $actorsFilter,
+        VideoPlatform $videoPlatform,
+        string $videoClipsDir
     ) {
         $this->templatingEngine = $templatingEngine;
         $this->moviesFilter     = $moviesFilter;
         $this->actorsFilter     = $actorsFilter;
+        
+        $this->videoPlatform                = $videoPlatform;
+        $this->videoPlatformSettings        = $this->videoPlatform->getVideoPlatformSettings();
+        
+        $this->videoClipsDir                = $videoClipsDir;
     }
     
     public function handleMoviesFilter( $categorySlug, Request $request, PaginatorInterface $paginator ): Response
@@ -56,6 +75,8 @@ class FiltersController extends AbstractController
             $response   = $this->templatingEngine->render( 'Pages/Movies/Partial/movies-listing.html.twig', [
                 'movies'        => $movies,
                 'categorySlug'  => $categorySlug,
+                'videoClipsDir'     => $this->videoClipsDir,
+                'useOnhoverPlayer'  => $this->videoPlatformSettings->getUseOnhoverPlayer(),
             ]);
             
             return new JsonResponse([

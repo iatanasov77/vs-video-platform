@@ -1,13 +1,13 @@
-require( '@/vendor/vs_tablesortable/tablesortable.js' );
+require( '@@/vendor/vs_tablesortable/tablesortable.js' );
 require( 'jquery-easyui/css/easyui.css' );
 require( 'jquery-easyui/js/jquery.easyui.min.js' );
 
 import videojs from 'video.js';
 require( 'video.js/dist/video-js.css' );
 
-import { VsRemoveDuplicates } from '@/js/includes/vs_remove_duplicates.js';
-import { VsPath } from '@/js/includes/fos_js_routes.js';
-require( '@/js/includes/resource-delete.js' );
+import { VsRemoveDuplicates } from '@@/js/includes/vs_remove_duplicates.js';
+import { VsPath } from '@@/js/includes/fos_js_routes.js';
+require( '@@/js/includes/resource-delete.js' );
 
 window.RecreateCoconutJobClicked = false;
 

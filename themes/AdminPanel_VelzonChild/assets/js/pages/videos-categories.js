@@ -1,5 +1,5 @@
 require( '@kanety/jquery-simple-tree-table/dist/jquery-simple-tree-table.js' );
-require( '@/js/includes/resource-delete.js' );
+require( '@@/js/includes/resource-delete.js' );
 
 $( function()
 {
