@@ -1,3 +1,6 @@
+import SlimSelect from 'slim-select'
+window.SlimSelect   = SlimSelect;
+
 import { VsPath } from '@@/js/includes/fos_js_routes.js';
 require( '../../vendor/themeforest-flixgo-online-movies/js/main.js' );
 

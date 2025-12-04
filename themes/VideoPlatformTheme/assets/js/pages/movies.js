@@ -1,3 +1,6 @@
+import SlimSelect from 'slim-select'
+window.SlimSelect   = SlimSelect;
+
 import { VsPath } from '@@/js/includes/fos_js_routes.js';
 require( '../../vendor/themeforest-flixgo-online-movies/js/main.js' );
 
@@ -7,8 +10,10 @@ require( 'hover-video-player' );
 
 $( function()
 {
-    const player = document.querySelector( "hover-video-player" );
-    player.restartOnPause = true;
+    if ( window.useOnhoverPlayer === 'true' ) {
+        const player = document.querySelector( "hover-video-player" );
+        player.restartOnPause = true;
+    }
     
     $( '#btnMoviesFilterApply' ).on( 'click', function ( e )
     {

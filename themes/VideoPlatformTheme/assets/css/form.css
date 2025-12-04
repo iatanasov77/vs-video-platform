@@ -1,0 +1,85 @@
+.sign__form.registration_form {
+    max-width: 680px !important;
+}
+
+.sign__group--checkbox input:not(:checked) + label:before, .sign__group--checkbox input:checked + label:before {
+    border: 1px solid rgba(255,88,96,0.6);
+}
+
+.modal__form label.sign__label:after {
+    content: ":";
+}
+
+div.sign__radio {
+    padding-left: 2rem;
+}
+
+div.sign__radio label {
+    margin-bottom: 15px;
+}
+
+.sign__btn--text {
+    font-size: 14px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    position: relative;
+    z-index: 2;
+}
+
+.sign__btn--text::before {
+    background: none !important;
+}
+
+.sign__select_3 {
+    width: 30%;
+}
+
+.sign__input::placeholder {
+    color: #c7c7c7 !important;
+}
+
+.credit-card-page .sign__form {
+    width: 550px !important;
+    max-width: 550px !important;
+}
+
+.sign__errors {
+    background-color: #2b2b31;
+    border: 1px solid transparent;
+    position: relative;
+    color: #fff;
+    font-size: 16px;
+    width: 100%;
+    padding: 15px 20px;
+    resize: none;
+    font-family: 'Open Sans', sans-serif;
+    
+    border-radius: 8px;
+    border-color: #ff55a5;
+    
+    list-style: none;
+}
+
+.sign__errors li {
+    width: 100%;
+    font-size: 16px;
+    color: #c7c7c7;
+    position: relative;
+    padding-left: 15px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.sign__errors li:before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #ff55a5 0%, #ff5860 100%);
+    left: 0;
+    top: 50%;
+    margin-top: -2px;
+}
