@@ -70,22 +70,24 @@
                                         {% if item.coconutVideoJob %}
                                             <span id="JobStatus-{{ item.coconutVideoJob.jobId }}">{{ item.coconutVideoJob.status }}</span>
                                             
-                                            <a class="btn btnUpdateStatus" style="position: relative; right: 0; padding-right: 0;"
-                                                href="javascript:void(0);"
-                                                title="{{ 'vs_vvp.template.job_status_preview' | trans( {},'VanzVideoPlayer' ) }}"   
-                                                data-url="{{ path( 'vvp_coconut_job_status', {'videoId': item.id} ) }}"
-                                                data-output="JobStatus-{{ item.coconutVideoJob.jobId }}"
-                                            >
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            
-                                            <a class="btn btnRecreateCoconutJob" style="position: relative; right: 0; padding-left: 0;"
-                                                href="javascript:void(0);"
-                                                title="{{ 'vs_vvp.template.coconut_job_recreate' | trans( {},'VanzVideoPlayer' ) }}"   
-                                                data-video-id="{{ item.id }}"
-                                            >
-                                                <i class="fas fa-undo-alt"></i>
-                                            </a>
+                                            {% if date( item.coconutVideoJob.createdAt ) > date( '-2weeks' ) %}
+                                                <a class="btn btnUpdateStatus" style="position: relative; right: 0; padding-right: 0;"
+                                                    href="javascript:void(0);"
+                                                    title="{{ 'vs_vvp.template.job_status_preview' | trans( {},'VanzVideoPlayer' ) }}"   
+                                                    data-url="{{ path( 'vvp_coconut_job_status', {'videoId': item.id} ) }}"
+                                                    data-output="JobStatus-{{ item.coconutVideoJob.jobId }}"
+                                                >
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                
+                                                <a class="btn btnRecreateCoconutJob" style="position: relative; right: 0; padding-left: 0;"
+                                                    href="javascript:void(0);"
+                                                    title="{{ 'vs_vvp.template.coconut_job_recreate' | trans( {},'VanzVideoPlayer' ) }}"   
+                                                    data-video-id="{{ item.id }}"
+                                                >
+                                                    <i class="fas fa-undo-alt"></i>
+                                                </a>
+                                            {% endif %}
                                         {% endif %}
                                     </td>
                                     {#
