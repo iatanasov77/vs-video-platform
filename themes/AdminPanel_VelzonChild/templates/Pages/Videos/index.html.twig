@@ -70,7 +70,11 @@
                                         {% if item.coconutVideoJob %}
                                             <span id="JobStatus-{{ item.coconutVideoJob.jobId }}">{{ item.coconutVideoJob.status }}</span>
                                             
-                                            {% if date( item.coconutVideoJob.createdAt ) > date( '-2weeks' ) %}
+                                            {#
+                                             # You don't have any recent jobs into your account.
+                                             # Note that they're deleted within one week.
+                                             #}
+                                            {% if date( item.coconutVideoJob.createdAt ) > date( '-7days' ) %}
                                                 <a class="btn btnUpdateStatus" style="position: relative; right: 0; padding-right: 0;"
                                                     href="javascript:void(0);"
                                                     title="{{ 'vs_vvp.template.job_status_preview' | trans( {},'VanzVideoPlayer' ) }}"   
