@@ -1,30 +1,9 @@
 {% extends "base.html.twig" %}
 
-{% block content %}
-    <!-- page title -->
-    <section class="section section--first section--bg"
-        data-bg="{{ asset( 'build/video-platform-theme/img/bg/section__bg.jpg' ) }}"
-    >
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section__wrap">
-                        <!-- section title -->
-                        <h1 class="section__title section__title--head">{{ 'vs_vvp.template.movies.movies' | trans( {},'VanzVideoPlayer' ) }}</h1>
-                        <!-- end section title -->
+{% block title %}{{ parent() }} :: {{ 'vs_vvp.template.movies.movies' | trans( {},'VanzVideoPlayer' ) }}{% endblock %}
+{% block pageTitle %}{{ 'vs_vvp.template.movies.movies' | trans( {},'VanzVideoPlayer' ) }}{% endblock %}
 
-                        <!-- breadcrumbs -->
-                        <ul class="breadcrumbs">
-                            {{ knp_menu_render( 'breadcrumbs', {'template': 'Menu/breadcrumb.html.twig'} ) }}
-                        </ul>
-                        <!-- end breadcrumbs -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- end page title -->
-    
+{% block content %}
     {% if filterForm is defined %}
         {% include 'Pages/Movies/Partial/filter.html.twig' %}
     {% endif %}
