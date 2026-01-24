@@ -5,6 +5,7 @@ require( 'jquery-easyui/js/jquery.easyui.min.js' );
 
 import { VsRemoveDuplicates } from '@@/js/includes/vs_remove_duplicates.js';
 
+require( '@vankosoft/jquery-easyui-extensions/EasyuiCombobox.css' );
 import { EasyuiCombobox } from '@vankosoft/jquery-easyui-extensions/EasyuiCombobox.js';
 
 import Tagify from '@yaireo/tagify';
