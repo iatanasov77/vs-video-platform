@@ -123,7 +123,7 @@ class VideoController extends AbstractCrudController
         ];
     }
     
-    protected function prepareEntity( &$entity, &$form, Request $request )
+    protected function prepareEntity( &$entity, &$form, Request $request ): void
     {
         $formPost   = $request->request->all( 'video_form' );
         $formLocale = $formPost['locale'];
@@ -325,18 +325,6 @@ class VideoController extends AbstractCrudController
             
             $filesystem->remove( $photoFile );
         }
-    }
-    
-    private function getTranslations()
-    {
-        $translations   = [];
-        $transRepo      = $this->get( 'vs_application.repository.translation' );
-        
-        foreach ( $this->getRepository()->findAll() as $video ) {
-            $translations[$video->getId()] = array_keys( $transRepo->findTranslations( $video ) );
-        }
-        //echo "<pre>"; var_dump($translations); die;
-        return $translations;
     }
     
     private function _getVideoFormats( array $videos ): array

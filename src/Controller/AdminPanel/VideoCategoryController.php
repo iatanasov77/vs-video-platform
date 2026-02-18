@@ -29,7 +29,7 @@ class VideoCategoryController extends AbstractCrudController
         ];
     }
     
-    protected function prepareEntity( &$entity, &$form, Request $request )
+    protected function prepareEntity( &$entity, &$form, Request $request ): void
     {
         $translatableLocale     = $form['currentLocale']->getData();
         $categoryName           = $form['name']->getData();

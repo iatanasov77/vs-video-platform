@@ -17,7 +17,7 @@ class YoutubeChannelController extends AbstractCrudController
         ];
     }
     
-    protected function prepareEntity( &$entity, &$form, Request $request )
+    protected function prepareEntity( &$entity, &$form, Request $request ): void
     {
         $photo      = $form['photo']->getData();
         if ( $photo ) {

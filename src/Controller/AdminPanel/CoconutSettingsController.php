@@ -13,7 +13,7 @@ class CoconutSettingsController extends AbstractCrudController
         ];
     }
     
-    protected function prepareEntity( &$entity, &$form, Request $request )
+    protected function prepareEntity( &$entity, &$form, Request $request ): void
     {
         $formData    = $request->request->all( 'coconut_settings_form' );
         //echo '<pre>'; var_dump( $formData ); die;
