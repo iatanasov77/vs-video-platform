@@ -73,7 +73,10 @@
             "symfony/runtime": true,
             "php-http/discovery": true
         },
-        "process-timeout": 900
+        "process-timeout": 900,
+        "audit": {
+            "block-insecure": false
+        }
     },
     "autoload": {
         "psr-4": {
