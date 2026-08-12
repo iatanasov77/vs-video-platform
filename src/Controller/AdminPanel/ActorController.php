@@ -51,7 +51,7 @@ class ActorController extends AbstractCrudController
         ];
     }
     
-    protected function prepareEntity( &$entity, &$form, Request $request )
+    protected function prepareEntity( &$entity, &$form, Request $request ): void
     {
         $formPost   = $request->request->all( 'actor_form' );
         $formLocale = $formPost['locale'];
@@ -72,18 +72,6 @@ class ActorController extends AbstractCrudController
                 $this->createPhoto( $entity, $photos[$photoId], $photo['photo'] );
             }
         }
-    }
-    
-    private function getTranslations()
-    {
-        $translations   = [];
-        $transRepo      = $this->get( 'vs_application.repository.translation' );
-        
-        foreach ( $this->getRepository()->findAll() as $actor ) {
-            $translations[$actor->getId()] = \array_reverse( \array_keys( $transRepo->findTranslations( $actor ) ) );
-        }
-        
-        return $translations;
     }
     
     private function createPhoto( Actor &$actor, ActorPhoto &$actorPhoto, File $file ): void

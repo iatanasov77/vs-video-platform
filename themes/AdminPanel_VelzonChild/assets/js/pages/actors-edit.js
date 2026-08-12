@@ -5,10 +5,11 @@ require( 'jquery-easyui/js/jquery.easyui.min.js' );
 require( '@@/js/includes/bootstrap-5/file-input.js' );
 
 import { VsPath } from '@@/js/includes/fos_js_routes.js';
-
 import { VsRemoveDuplicates } from '@@/js/includes/vs_remove_duplicates.js';
-import { EasyuiCombobox } from '@vankosoft/jquery-easyui-extensions/EasyuiCombobox.js';
 import { GetCkEditorData } from '@@/js/includes/ckeditor.js';
+
+require( '@vankosoft/jquery-easyui-extensions/EasyuiCombobox.css' );
+import { EasyuiCombobox } from '@vankosoft/jquery-easyui-extensions/EasyuiCombobox.js';
 
 $( function ()
 {

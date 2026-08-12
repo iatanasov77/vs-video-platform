@@ -14,7 +14,7 @@ class VideoPlatformApplicationController extends AbstractCrudController
         ];
     }
     
-    protected function prepareEntity( &$entity, &$form, Request $request )
+    protected function prepareEntity( &$entity, &$form, Request $request ): void
     {
         $formData       = $request->request->all( 'video_platform_application_form' );
         $application    = $this->get( 'vs_application.repository.application' )

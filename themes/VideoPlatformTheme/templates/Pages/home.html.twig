@@ -1,13 +1,6 @@
-{% extends "base.html.twig" %}
-
-{# Import Macros #}
-{% import "@VSApplication/Macros/alerts.html.twig" as alerts %}
+{% extends "base-without-breadcrumbs.html.twig" %}
 
 {% block content %} 
-    
-    {% for alert in app.flashes( 'success' ) %}
-        {{ alerts.success( alert ) }}
-    {% endfor %}
     
     {% include 'Partial/HomePage/slider.html.twig' %}
     

@@ -9,6 +9,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use League\Flysystem\UnableToDeleteFile;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Resource\ResourceActions;
 use Vankosoft\ApplicationBundle\Component\Status;
@@ -67,7 +68,12 @@ class VideoController extends AbstractCrudController
         
         //$this->removeThumbnailFile( $videoThumbnail, $videoId );
         $this->removeVideoPhotos( $resource );
-        $this->removeVideoFile( $videoFile, $videoId );
+        
+        try {
+            $this->removeVideoFile( $videoFile, $videoId );
+        } catch ( UnableToDeleteFile $e ) {
+            $request->getSession()->getFlashBag()->add( 'error', 'Unable To Delete File From Storage !' );
+        }
         
         if ( $resource->getVideoTrailer() ) {
             $this->removeVideoTrailer( $resource->getVideoTrailer() );
@@ -117,7 +123,7 @@ class VideoController extends AbstractCrudController
         ];
     }
     
-    protected function prepareEntity( &$entity, &$form, Request $request )
+    protected function prepareEntity( &$entity, &$form, Request $request ): void
     {
         $formPost   = $request->request->all( 'video_form' );
         $formLocale = $formPost['locale'];
@@ -319,18 +325,6 @@ class VideoController extends AbstractCrudController
             
             $filesystem->remove( $photoFile );
         }
-    }
-    
-    private function getTranslations()
-    {
-        $translations   = [];
-        $transRepo      = $this->get( 'vs_application.repository.translation' );
-        
-        foreach ( $this->getRepository()->findAll() as $video ) {
-            $translations[$video->getId()] = array_keys( $transRepo->findTranslations( $video ) );
-        }
-        //echo "<pre>"; var_dump($translations); die;
-        return $translations;
     }
     
     private function _getVideoFormats( array $videos ): array
