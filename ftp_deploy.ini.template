@@ -60,6 +60,8 @@ ignore = "
     /config/preload.php
     /config/routes.yaml
     /config/services.yaml
+    
+    /vendor/google/apiclient-services
 "
 
 ; explicit list of files and directories to include (by default includes all files and directories)
@@ -87,6 +89,10 @@ include = "
     !docs/*
     !tests
     !tests/*
+    
+    /vendor/google/apiclient-services/autoload.php
+    /vendor/google/apiclient-services/composer.json
+    /vendor/google/apiclient-services/src/YouTube
 "
 
 ; is allowed to delete remote files? (defaults to yes)
