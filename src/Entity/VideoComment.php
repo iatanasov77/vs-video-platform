@@ -1,6 +1,7 @@
 <?php namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +12,20 @@ use App\Entity\UserManagement\User;
 #[ORM\Table(name: "VVP_VideoComments")]
 class VideoComment extends CatalogComment
 {
+    #[ORM\ManyToOne(targetEntity: self::class, cascade: ["persist"])]
+    #[ORM\JoinColumn(name: "tree_root", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
+    #[Gedmo\TreeRoot()]
+    protected $root;
+    
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: "children", cascade: ["persist"])]
+    #[ORM\JoinColumn(name: "parent_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
+    #[Gedmo\TreeParent()]
+    protected $parent;
+    
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: "parent", cascade: ["persist"])]
+    #[ORM\OrderBy(["left" => "ASC"])]
+    protected $children;
+    
     /** {@inheritDoc} */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "videoComments")]
     #[ORM\JoinColumn(name: "author_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
