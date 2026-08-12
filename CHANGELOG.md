@@ -1,3 +1,17 @@
+2.8.0	|	Release date: **12.08.2026**
+============================================
+* New Features:
+  - In Admin Panel Videos Listing Page Hide Actions of Video Jobs Older than 7 days.
+  - Improve Holeshunter Theme Layout.
+  - Enable Tooltips on Plyr Player Controls.
+  - Improve Admin Panel Delete Video Action.
+  - Improve Styling of EasyuiCombobox Fields.
+  - Update to Symfony 7 and Vankosoft Core 1.14
+  - Remove Annotations from All Entities. It is NOT Needed.
+  - Update Composer Requirements.
+  - Improve Ftp Deploy.
+
+
 2.7.2	|	Release date: **04.12.2025**
 ============================================
 * New Features:
