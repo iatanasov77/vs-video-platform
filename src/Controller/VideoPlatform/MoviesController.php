@@ -394,7 +394,7 @@ class MoviesController extends AbstractController
                     'movieSlug' => $video->getSlug()
                 ]),
                 'method'            => 'POST',
-                'video'             => $video->getId(),
+                'subject'           => $video->getId(),
                 'parent_comment'    => 0,
             ]
         );
