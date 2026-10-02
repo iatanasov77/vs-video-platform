@@ -1,3 +1,11 @@
+2.8.1	|	Release date: **02.10.2026**
+============================================
+* New Features:
+  - Deploy Only Youtube from Google API Services.
+  - Update Dev Database to Maria DB.
+  - Some Fix.
+
+
 2.8.0	|	Release date: **12.08.2026**
 ============================================
 * New Features:
