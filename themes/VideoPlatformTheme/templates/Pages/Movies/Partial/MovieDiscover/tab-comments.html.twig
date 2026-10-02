@@ -11,7 +11,7 @@
             </ul>
 
             {{ form_start( commentForm, { 'attr': {'class': 'sign__form sign__form--comments', 'id': 'MovieCommentForm'} } ) }}
-                {{ form_widget( commentForm.video, { 'value' : movie.id } ) }}
+                {{ form_widget( commentForm.subject, { 'value' : movie.id } ) }}
                 {{ form_widget( commentForm.parent, { 'value' : 0 } ) }}
             
                 <div class="sign__group">
